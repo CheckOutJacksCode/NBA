@@ -25,14 +25,24 @@ const getIndividualPlayer = async(id) => {
 
 let rowIndex = 1;
 const appendIndividualPlayer = async(player) => {
-    let ppg = await getPPG(2021, player.playerId);
+    let year = 2021;
+    let ppg = await getPPG(year, player.playerId);
+    let defReb = await getDefRebAverage(year, player.playerId);
+    let offReb = await getOffRebAverage(year, player.playerId);
+    let assists = await getAssistsAverage(year, player.playerId);
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
+    let cell4 = row.insertCell(3);
+    let cell5 = row.insertCell(4);
+    let cell6 = row.insertCell(5);
     cell1.innerHTML = `${player.firstName}`;
     cell2.innerHTML = `${player.lastName}`;
     cell3.innerHTML = `${ppg}`;
+    cell4.innerHTML = `${defReb}`;
+    cell5.innerHTML = `${offReb}`;
+    cell6.innerHTML = `${assists}`;
     rowIndex += 1;
 }
 
@@ -43,21 +53,22 @@ const appendIndividualPlayer = async(player) => {
 
 //get list of games in 2021 where the league is 'standard'
 const getGamesBySeason = async(year) => {
-    let gamesResponse = await fetch('https://api-nba-v1.p.rapidapi.com/games/seasonYear/' + year, {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+    try {    
+        let gamesResponse = await fetch('https://api-nba-v1.p.rapidapi.com/games/seasonYear/' + year, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
+                'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+            }
+        })
+        if (gamesResponse.ok) {
+            let jsonResponse = gamesResponse.json();
+            return jsonResponse;
         }
-    })
-    if (gamesResponse.ok) {
-        let jsonResponse = gamesResponse.json();
-        return jsonResponse;
+    } catch (error) {
+        console.log(error);
     }
-    throw Error('no ball that year');
 }
-
-//console.log(getGamesBySeason(2021));
 
 //make sure all games are in the standard league
 const getStandardGames = async(year) => {
@@ -71,11 +82,6 @@ const getStandardGames = async(year) => {
     return standardGamesArray
 }
 
-//loop through statistics/players/playerId's gameIds, and add up points 
-//divide total points by the number of games, ppg.
-
-//for each 
-
 const getSeasonGameIdList = async(year) => {
     let gamesArray = await getStandardGames(year);
     let gameIdList = [];
@@ -88,18 +94,21 @@ const getSeasonGameIdList = async(year) => {
 //get individual players' statistics
 
 const getIndividualPlayersStats = async(playerId) => {
-    let player = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
-        method: 'GET',
-        headers: {
-            'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+    try {
+        let player = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
+                'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+            }
+        })
+        if (player.ok) {
+            let jsonPlayer = player.json();
+            return jsonPlayer;
         }
-    })
-    if (player.ok) {
-        let jsonPlayer = player.json();
-        return jsonPlayer;
+    } catch (error) {
+        console.log(error);
     }
-    throw Error('garbage player');
 }
 
 const getPlayerStandardGameDetails = async(year, playerId) => {
@@ -141,21 +150,72 @@ const getPPG = async(year, playerId) => {
     let totalPoints = await getTotalPointsInSeason(gameDetailsArray);
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let ppg = totalPoints / gamesPlayed;
-    return ppg;
+    return "ppg: " + Number.parseFloat(ppg).toFixed(2);
 }
 
-//console.log(getPPG(2021, 20));
+const getTotalDefensiveRebounds = async(gameDetailsArray) => {
+    let totalDefensiveRebounds = 0;
+    for (let i = 0; i < gameDetailsArray.length; i++) {
+        if (gameDetailsArray[i].min) {
+            totalDefensiveRebounds += parseInt(gameDetailsArray[i].defReb);
+        }
+    }
+    return totalDefensiveRebounds;
+}
 
-/*const getGames = function () {
-    let gameNum = 9087;
-    let game = await fetch('https://api-nba-v1.p.rapidapi.com/gameDetails/' + gameNum, {
-        headers: {
-            'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
-          }
-    })
-} */ 
+const getDefRebAverage = async(year, playerId) => {
+    let gameDetailsArray = await getPlayerStandardGameDetails(year, playerId);
+    let totalDefReb = await getTotalDefensiveRebounds(gameDetailsArray);
+    let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    let defRebAvg = totalDefReb / gamesPlayed;
+    return "defensive rebounds: " + Number.parseFloat(defRebAvg).toFixed(2);
+}
 
+const getTotalOffensiveRebounds = async(gameDetailsArray) => {
+    let totalOffensiveRebounds = 0;
+    for (let i = 0; i < gameDetailsArray.length; i++) {
+        if (gameDetailsArray[i].min) {
+            totalOffensiveRebounds += parseInt(gameDetailsArray[i].offReb);
+        }
+    }
+    return totalOffensiveRebounds;
+}
 
+const getOffRebAverage = async(year, playerId) => {
+    let gameDetailsArray = await getPlayerStandardGameDetails(year, playerId);
+    let totalOffReb = await getTotalOffensiveRebounds(gameDetailsArray);
+    let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    let offRebAvg = totalOffReb / gamesPlayed;
+    return "offensive rebounds: " + Number.parseFloat(offRebAvg).toFixed(2);
+}
+
+const getTotalAssists = async(gameDetailsArray) => {
+    let totalAssists = 0;
+    for (let i = 0; i < gameDetailsArray.length; i++) {
+        if (gameDetailsArray[i].min) {
+            totalAssists += parseInt(gameDetailsArray[i].assists)
+        }
+    }
+    return totalAssists;
+}
+
+const getAssistsAverage = async(year, playerId) => {
+    let gameDetailsArray = await getPlayerStandardGameDetails(year, playerId);
+    let totalAssists = await getTotalAssists(gameDetailsArray);
+    let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    let assistsAvg = totalAssists / gamesPlayed;
+    return "assists: " + Number.parseFloat(assistsAvg).toFixed(2);
+}
+
+//NEXT STEPS:
+/*DISPLAY A LIST (STATIC) OF ALL THE AVAILABLE STATS YOU CAN GET.**************************************
+-HAVE AN INPUT TEXT FIELD FOR WHAT 'STAT' YOU WANT. (FROM THE STATIC LIST OF STATS);********************
+-HAVE AN INPUT FIELD FOR FIRST NAME;
+-HAVE AN INPUT FIELD FOR LAST NAME;
+-HAVE AN INPUT FIELD FOR PLAYER ID;
+-WHEN A USER SELECTS A DESIRED PLAYER AND STAT, DISPLAY THE PLAYER'S PICTURE AND STATISTIC ON THE PAGE;
+-COME UP WITH YOUR OWN FORMULA FOR WEIGHTING THE MOST SIGNIFICANT STAT;
+-MAKE A 'GNARLIEST DUDE' STAT, 'SLOWEST GUY IN THE NFL', 'BIGGEST COMPLAINER', etc.
+*/
 
 
