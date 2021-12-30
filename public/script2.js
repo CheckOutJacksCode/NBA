@@ -3,6 +3,7 @@ const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const statToGet = document.getElementById("statToGet");
 const seasonToGet = document.getElementById("season");
+const mvpSubmit = document.getElementById("submit-mvp");
 //const getIndividualPlayer = require("./script.js");
 
 
@@ -18,14 +19,14 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
 }
 
 rowIndex = 1;
-const appendPlayerAndStat = async(player, statAverage) => {
+const appendPlayerAndStat = async(player, stat, statAverage) => {
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
     cell1.innerHTML = `${player.firstName}`;
     cell2.innerHTML = `${player.lastName}`;
-    cell3.innerHTML = `${statAverage}`;
+    cell3.innerHTML = stat + ` ${statAverage}`;
     rowIndex += 1;
 }
 
@@ -49,7 +50,7 @@ const getSeasonStatAvg = async(stat, year, playerId) => {
     let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let statAverage = statTotal / gamesPlayed;
-    return stat + ': ' + Number.parseFloat(statAverage).toFixed(2);
+    return Number.parseFloat(statAverage).toFixed(2);
 }
 
 const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
@@ -65,15 +66,46 @@ const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
     return statTotal;
 }
 
-statSubmit.onclick = async() => {
-    let stat = statToGet.value;
-    let playerFirstName = firstName.value;
-    let playerLastName = lastName.value;
-    let season = seasonToGet.value;
-    let id = await getIdFromPlayersByName(playerLastName, playerFirstName);
-    let statAverage = await getSeasonStatAvg(stat, season, id);
-    let player = await getIndividualPlayer(id);
-    appendPlayerAndStat(player.api.players[0], statAverage);
-}
 /*NOW YOU HAVE THE PLAYER ID.
 CALL GETSTANDARDPLAYERDETAILS*/
+const getMvpPoints = async(year, playerId) => {
+    const gameDetailsArray = getPlayerStandardGameDetails(year, playerId);
+    let ppg = await getSeasonStatAvg('ppg', year, playerId);
+    let totReb = await getSeasonStatAvg('totReb', year, playerId);
+    let assists = await getSeasonStatAvg('assists', year, playerId);
+    let steals = await getSeasonStatAvg('steals', year, playerId);
+    let turnovers = await getSeasonStatAvg('turnovers', year, playerId);
+    let plusMinus = await getSeasonStatAvg('plusMinus', year, playerId);
+    let fgp = await getSeasonStatAvg('fgp', year, playerId);;
+    let mvpPoints = (.15 * parseInt(ppg)) + (.07 * parseInt(totReb)) + (.06 * parseInt(assists)) + (.125 * parseInt(steals)) - (.125 * parseInt(turnovers)) + (.3 * parseInt(plusMinus)) + (.02 * parseInt(fgp));
+    console.log(plusMinus);
+    return mvpPoints;
+}
+
+const getPlayer = async() => {
+    let playerFirstName = firstName.value;
+    let playerLastName = lastName.value;
+    let id = await getIdFromPlayersByName(playerLastName, playerFirstName);
+    let player = await getIndividualPlayer(id);
+    return player;
+}
+const onStartUp = function() {
+    mvpSubmit.onclick = async() => {
+        let id = await getIdFromPlayersByName(lastName.value, firstName.value);
+        let mvpPoints = await getMvpPoints(seasonToGet.value, id);
+        let player = await getIndividualPlayer(id);
+        appendPlayerAndStat(player.api.players[0], 'MVP Points: ', mvpPoints);
+    }
+
+    statSubmit.onclick = async() => {
+        let stat = statToGet.value;
+        let playerFirstName = firstName.value;
+        let playerLastName = lastName.value;
+        let season = seasonToGet.value;
+        let id = await getIdFromPlayersByName(playerLastName, playerFirstName);
+        let statAverage = await getSeasonStatAvg(stat, season, id);
+        let player = await getIndividualPlayer(id);
+        appendPlayerAndStat(player.api.players[0], stat, statAverage);
+    }
+}
+onStartUp();

@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+    </head>
     <header>
         <script src="./script.js" async></script>
         <script src="./script2.js" async></script>
     </header>
     <body>
-        <label for="playerId">Enter player ID to fetch: </label>
-        <input type="text" name="playerId" id="playerId">
-        <input type="submit" name="SUBMIT" id="playerId-submit">
+        <h5>
+            <label for="playerId">Enter player ID to fetch: </label>
+            <input type="text" name="playerId" id="playerId">
+            <input type="submit" name="SUBMIT" id="playerId-submit">
+        </h5>
         <br>
-        <label for="firstName">Enter player first name: </label>
-        <input type="text" name="firstName" id="firstName">
-        <input type="submit" name="SUBMIT" id="firstName-submit">
-        <br>
-        <label for="lastName">Enter player last name: </label>
-        <input type="text" name="lastName" id="lastName">
-        <input type="submit" name="SUBMIT" id="lastName-submit">
-        <br>
-        <label for="yearToGet">Choose season: </label>
-        <input type="text" name="season" id="season">
-        <br>
-        <label for="statToGet">Choose statistic: </label>
-        <select name="statToGet" id="statToGet">
-            <option value="ppg">ppg</option>
-            <option value="min">minutes</option>
-            <option value="fgm">fgm</option>
-            <option value="fga">fga</option>
-            <option value="fgp">fgp</option>
-            <option value="ftm">ftm</option>
-            <option value="fta">fta</option>
-            <option value="ftp">ftp</option>
-            <option value="tpm">tpm</option>
-            <option value="tpa">tpa</option>
-            <option value="tpp">tpp</option>
-            <option value="offReb">offReb</option>
-            <option value="defReb">defReb</option>
-            <option value="totReb">totReb</option>
-            <option value="assists">assists</option>
-            <option value="pFouls">pFouls</option>
-            <option value="steals">steals</option>
-            <option value="turnovers">turnovers</option>
-            <option value="blocks">blocks</option>
-            <option value="plusMinus">plusMinus</option>
-            <option value="playerId">playerId</option>
-        </select>
-        <input type="submit" name="SUBMIT" id="submit-stat">
-        <br>
+        <div>
+            <label for="firstName">Enter player first name: </label>
+            <input type="text" name="firstName" id="firstName">
+            <input type="submit" name="SUBMIT" id="firstName-submit">
+            <br>
+            <label for="lastName">Enter player last name: </label>
+            <input type="text" name="lastName" id="lastName">
+            <input type="submit" name="SUBMIT" id="lastName-submit">
+            <br>
+            <label for="yearToGet">Choose season: </label>
+            <input type="text" name="season" id="season">
+            <br>
+            <label for="submit-mvp">Get MVP Points: </label>
+            <input type="submit" name="MVP" id="submit-mvp">
+            <br>
+            <label for="statToGet">Choose statistic: </label>
+            <select name="statToGet" id="statToGet">
+                <option value="ppg">ppg</option>
+                <option value="min">minutes</option>
+                <option value="fgm">fgm</option>
+                <option value="fga">fga</option>
+                <option value="fgp">fgp</option>
+                <option value="ftm">ftm</option>
+                <option value="fta">fta</option>
+                <option value="ftp">ftp</option>
+                <option value="tpm">tpm</option>
+                <option value="tpa">tpa</option>
+                <option value="tpp">tpp</option>
+                <option value="offReb">offReb</option>
+                <option value="defReb">defReb</option>
+                <option value="totReb">totReb</option>
+                <option value="assists">assists</option>
+                <option value="pFouls">pFouls</option>
+                <option value="steals">steals</option>
+                <option value="turnovers">turnovers</option>
+                <option value="blocks">blocks</option>
+                <option value="plusMinus">plusMinus</option>
+                <option value="playerId">playerId</option>
+            </select>
+            <input type="submit" name="SUBMIT" id="submit-stat">
+            <br>
+        </div>
         <table class="table" id="player-info">
             <tr>
 

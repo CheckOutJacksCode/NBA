@@ -2,11 +2,6 @@ const playerId = document.getElementById("playerId");
 const playerIdSubmit = document.getElementById("playerId-submit");
 const playerInfoTable = document.getElementById("player-info");
 
-playerIdSubmit.onclick = async() => {
-    let id = playerId.value;
-    let response = await getIndividualPlayer(id);
-    appendIndividualPlayer(response.api.players[0]);
-}
 
 const getIndividualPlayer = async(id) => {
     let jsonResponse;
@@ -207,6 +202,11 @@ const getAssistsAverage = async(year, playerId) => {
     return "assists: " + Number.parseFloat(assistsAvg).toFixed(2);
 }
 
+playerIdSubmit.onclick = async() => {
+    let id = playerId.value;
+    let response = await getIndividualPlayer(id);
+    appendIndividualPlayer(response.api.players[0]);
+}
 //NEXT STEPS:
 /*DISPLAY A LIST (STATIC) OF ALL THE AVAILABLE STATS YOU CAN GET.**************************************
 -HAVE AN INPUT TEXT FIELD FOR WHAT 'STAT' YOU WANT. (FROM THE STATIC LIST OF STATS);********************
