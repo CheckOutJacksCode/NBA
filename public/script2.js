@@ -31,11 +31,11 @@ const appendPlayerAndStat = async(player, stat, statAverage) => {
     let cell2 = row.insertCell(1);
     let cell3 = row.insertCell(2);
     cell1.innerHTML = `${player.firstName}`;
-    cell2.innerHTML = `${player.lastName}` + ':';
+    cell2.innerHTML = `${player.lastName}` + ' - ';
     if (isNaN(statAverage)) {
         cell3.innerHTML = 'Statistics Unavailable'
     } else {
-        cell3.innerHTML = stat + ` ${statAverage}`;
+        cell3.innerHTML = stat + ":" + ` ${statAverage}`;
     }
     rowIndex += 1;
 }
@@ -96,7 +96,7 @@ const getMvpPoints = async(year, playerId) => {
     if (!mvpPoints) {
         return 'STATISTICS UNAVAILABLE'
     }
-    return mvpPoints;
+    return mvpPoints.toFixed(2);
 }
 
 /* Hustle Factor logic */
@@ -118,7 +118,7 @@ const getHustleFactor = async(year, playerId) => {
         hustleFactor = (.3 * parseFloat(offRebPg)) + (.3 * parseFloat(stl)) + (.3 * parseFloat(blk)) + (.1 * parseFloat(plusMinus))
     }
     console.log(hustleFactor)
-    return hustleFactor;
+    return hustleFactor.toFixed(2);
 }
 
 /* Carmelo logic. The higher your carmelo factor, the more effecient and gritty
@@ -128,7 +128,7 @@ const getCarmeloFactor = async(year, playerId) => {
     let fgp = await getSeasonStatAvg('fgp', year, playerId);
     let hustleFactor = await getHustleFactor(year, playerId);
     carmeloFactor = (.3 * parseFloat(fgp / 10)) + (.7 * hustleFactor);
-    return carmeloFactor;
+    return carmeloFactor.toFixed(2);
 }
 
 /* Retrieves player object */

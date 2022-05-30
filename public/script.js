@@ -207,11 +207,11 @@ const getAssistsAverage = async(year, playerId) => {
     return "assists: " + Number.parseFloat(assistsAvg).toFixed(2);
 }
 
-playerIdSubmit.onclick = async() => {
+/*playerIdSubmit.onclick = async() => {
     let id = playerId.value;
     let response = await getIndividualPlayer(id);
     appendIndividualPlayer(response.api.players[0]);
-}
+}*/
 //NEXT STEPS:
 /*DISPLAY A LIST (STATIC) OF ALL THE AVAILABLE STATS YOU CAN GET.**************************************
 -HAVE AN INPUT TEXT FIELD FOR WHAT 'STAT' YOU WANT. (FROM THE STATIC LIST OF STATS);********************
