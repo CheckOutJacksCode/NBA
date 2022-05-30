@@ -1,10 +1,9 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
 const db = require('./nbadb');
-const PORT = process.env.PORT || 3000;
+const port = 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
@@ -31,7 +30,7 @@ app.get('/', (req, res, next) => {
     res.sendFile(__dirname + "/public/script2.js")
 })
 
-app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}.`)
+app.listen(port, () => {
+    console.log(`App running on port ${port}.`)
 })
 module.exports = app;

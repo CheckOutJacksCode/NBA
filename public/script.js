@@ -41,6 +41,7 @@ const appendIndividualPlayer = async(player) => {
     rowIndex += 1;
 }
 
+/* This script basically makes sure I am only counting statistics from the regular NBA season. */
 //games/seasonYear/
 //2021 where league = 'standard'
 //compile a list of game Id's where the season is 2021 and the league is 'standard'
@@ -106,10 +107,13 @@ const getIndividualPlayersStats = async(playerId) => {
     }
 }
 
+/* This is the actual function that returns the array of all of the games' statistics
+from just the regular season. */
 const getPlayerStandardGameDetails = async(year, playerId) => {
     let playerStandardGameDetails = [];
     let gameIdList = await getSeasonGameIdList(year);
     let player = await getIndividualPlayersStats(playerId);
+    
     for (let i = 0; i < gameIdList.length; i++) {
         for (let j = 0; j < player.api.statistics.length; j++) {
             if (gameIdList[i] === player.api.statistics[j].gameId) {
@@ -117,6 +121,7 @@ const getPlayerStandardGameDetails = async(year, playerId) => {
             }
         }
     }
+    
     return playerStandardGameDetails;
 }
 

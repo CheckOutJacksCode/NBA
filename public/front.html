@@ -17,17 +17,23 @@
         <div>
             <label for="firstName">Enter player first name: </label>
             <input type="text" name="firstName" id="firstName">
-            <input type="submit" name="SUBMIT" id="firstName-submit">
+            <br>
             <br>
             <label for="lastName">Enter player last name: </label>
             <input type="text" name="lastName" id="lastName">
-            <input type="submit" name="SUBMIT" id="lastName-submit">
+            <br>
             <br>
             <label for="yearToGet">Choose season: </label>
             <input type="text" name="season" id="season">
             <br>
-            <label for="submit-mvp">Get MVP Points: </label>
+            <br>
+            <label for="submit-mvp" style="color:red">Get MVP Points: </label>
             <input type="submit" name="MVP" id="submit-mvp">
+            <br>
+            <br>
+            <label for="submit-hustle-factor" style="color:red">Get Hustle Factor: </label>
+            <input type="submit" name="hustle" id="submit-hustle-factor">
+            <br>
             <br>
             <label for="statToGet">Choose statistic: </label>
             <select name="statToGet" id="statToGet">
@@ -55,8 +61,17 @@
             </select>
             <input type="submit" name="SUBMIT" id="submit-stat">
             <br>
+            <label for="deepStatToGet">Choose deep stat: </label>
+            <select name="deepStatToGet" id="deepStatToGet">
+                <option value="Hustle Factor">Hustle Factor</option>
+                <option value="Quality Shot Percentage">Quality Shot Percentage</option>
+                <option value="Carmelo Factor">The Carmelo Factor</option>
+            </select>
+            <input type="submit" name="SUBMIT" id="submit-deep-stat">
+            <br>
         </div>
-        <table class="table" id="player-info">
+        <h1>QUERY RESULTS:</h1>
+        <table class="center" id="player-info">
             <tr>
 
             </tr>
