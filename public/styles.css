@@ -19,19 +19,21 @@ div {
   font-weight: bold;
   width: 100%;
   zoom: 1.0;
+  resize: both
 }
 table.center {
   margin-left: auto; 
   margin-right: auto;
   color: rgb(229, 254, 6);
   text-shadow: 3px 3px 6px #000000;
-  width: 100%
+  width: 100%;
+  resize: both
 }
 p {
   text-align: center;
   color: rgb(242, 255, 4);
   text-shadow: 3px 3px 6px #000000;
-  resize: vertical;
+  resize: both;
 }
 @viewport {
   width: device-width;
