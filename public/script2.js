@@ -4,9 +4,10 @@ const lastName = document.getElementById("lastName");
 const statToGet = document.getElementById("statToGet");
 const seasonToGet = document.getElementById("season");
 const mvpSubmit = document.getElementById("submit-mvp");
-const hustleFactorSubmit = document.getElementById("submit-hustle-factor")
+const hustleFactorSubmit = document.getElementById("submit-hustle-factor");
 const deepStatToGet = document.getElementById("deepStatToGet");
-const deepStatSubmit = document.getElementById("submit-deep-stat")
+const deepStatSubmit = document.getElementById("submit-deep-stat");
+const clearButton = document.getElementById("clearButton");
 //const getIndividualPlayer = require("./script.js");
 
 /* uses the players name to retrieve the player Id from the NBA api, to access the statistics
@@ -114,6 +115,8 @@ const getHustleFactor = async(year, playerId) => {
     console.log(height)
     if (height < 2.057) {
         hustleFactor = (.2 * parseFloat(offRebPg)) + (.4 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
+    } else if (height === null) {
+        hustleFactor = (.25 * parseFloat(offRebPg)) + (.35 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
     } else {
         hustleFactor = (.3 * parseFloat(offRebPg)) + (.3 * parseFloat(stl)) + (.3 * parseFloat(blk)) + (.1 * parseFloat(plusMinus))
     }
@@ -127,7 +130,7 @@ const getCarmeloFactor = async(year, playerId) => {
     let carmeloFactor;
     let fgp = await getSeasonStatAvg('fgp', year, playerId);
     let hustleFactor = await getHustleFactor(year, playerId);
-    carmeloFactor = (.3 * parseFloat(fgp / 10)) + (.7 * hustleFactor);
+    carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);
     return carmeloFactor.toFixed(2);
 }
 
@@ -184,6 +187,11 @@ const onStartUp = function() {
         }
         let player = await getIndividualPlayer(id)
         appendPlayerAndStat(player.api.players[0], stat, statPoints);
+    }
+
+    clearButton.onclick = async() => {
+        playerInfoTable.innerHTML = '';
+        rowIndex = 0;
     }
 }
 onStartUp();
