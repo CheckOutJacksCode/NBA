@@ -29,3 +29,7 @@ p {
   color: rgb(242, 255, 4);
   text-shadow: 3px 3px 6px #000000;
 }
+@viewport {
+  width: device-width ;
+  zoom: 1.0 ;
+}
