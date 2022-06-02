@@ -1,12 +1,11 @@
 body {
   text-align: center;
-  background-color: yellow;
-
 }
 h1 {
   text-align: center;
   font-family: Copperplate, fantasy;
   font-size: large;
+  width: 100%;
 }
 h5 {
   text-align: center;
@@ -15,12 +14,18 @@ h5 {
 }
 div {
   text-align: center;
-  color: rgb(58, 6, 6);
+  color: rgb(243, 135, 34);
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;
 }
 table.center {
   margin-left: auto; 
   margin-right: auto;
+  color: rgb(229, 254, 6);
+  text-shadow: 3px 3px 6px #000000;
 }
-
+p {
+  text-align: center;
+  color: rgb(242, 255, 4);
+  text-shadow: 3px 3px 6px #000000;
+}
