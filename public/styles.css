@@ -17,6 +17,8 @@ div {
   color: rgb(243, 135, 34);
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: bold;
+  width: device-width;
+  zoom: 1.0;
 }
 table.center {
   margin-left: auto; 
@@ -30,15 +32,6 @@ p {
   text-shadow: 3px 3px 6px #000000;
 }
 @viewport {
-  width: device-width ;
-  zoom: 1.0 ;
-}
-@media screen and (max-width: 1000px) {
-  /* comes into effect for screens less than or equal to 320 pixels */
-  div {
-    width: 500;
-  }
-  img {
-    width: 600;
-  }
+  width: device-width;
+  zoom: 1.0;
 }
