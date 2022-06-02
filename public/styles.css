@@ -31,7 +31,7 @@ p {
   text-align: center;
   color: rgb(242, 255, 4);
   text-shadow: 3px 3px 6px #000000;
-  height: 100%;
+  resize: vertical;
 }
 @viewport {
   width: device-width;
@@ -39,4 +39,5 @@ p {
 }
 img {
   max-width: 100%;
+  resize: both;
 }
