@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
 const db = require('./nbadb');
-const port = 3000;
+const port = process.env.PORT || 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
