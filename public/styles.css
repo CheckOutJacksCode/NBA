@@ -1,5 +1,7 @@
 body {
   text-align: center;
+  background-image: url('jokic2.jpg');
+  resize: both;
 }
 h1 {
   text-align: center;
