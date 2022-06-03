@@ -30,13 +30,11 @@ const appendPlayerAndStat = async(player, stat, statAverage) => {
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
-    let cell3 = row.insertCell(2);
-    cell1.innerHTML = `${player.firstName}`;
-    cell2.innerHTML = `${player.lastName}` + ' - ';
+    cell1.innerHTML = player.firstName + ' ' + player.lastName;
     if (isNaN(statAverage)) {
-        cell3.innerHTML = 'Statistics Unavailable'
+        cell2.innerHTML = 'Statistics Unavailable'
     } else {
-        cell3.innerHTML = stat + ":" + ` ${statAverage}`;
+        cell2.innerHTML = stat + ":" + ` ${statAverage}`;
     }
     rowIndex += 1;
 }
