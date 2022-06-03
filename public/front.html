@@ -2,7 +2,7 @@
 <html>
     <head>
     <link rel="stylesheet" href="styles.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
         * {
           box-sizing: border-box;
@@ -29,7 +29,7 @@
         <script src="./script.js" async></script>
         <script src="./script2.js" async></script>
     </header>
-<body>
+<body style="background-image: url('jokic2.jpg');">
     <div class="row">
         <div class="column">
         <img src="Logo-NBA.png" alt="NBA logo" width="400" height="auto">
@@ -68,8 +68,16 @@
         <input type="text" name="lastName" id="lastName">
         <br>
         <br>
-        <label for="yearToGet" style="background-color: black;border-radius: 25%">Choose season: </label>
-        <input type="text" name="season" id="season">
+        <label for="season" style="background-color: black;border-radius: 25%">Choose season: </label>
+        <select name="season" id="season">
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+        </select>
         <br>
         <br>
         <label for="submit-mvp" style="background-color: black;border-radius: 25%;color: red">Get MVP Points: </label>
