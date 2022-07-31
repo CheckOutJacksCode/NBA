@@ -122,4 +122,5 @@ module.exports = {
     createPlayer,
     createGame,
     createGameInfo,
+    deleteDatabase,
 }

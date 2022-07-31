@@ -491,7 +491,34 @@ const updateDatabase = async() => {
     await loadUpLocalFunction();
     await loadUpGamesLocalFunction();
     await loadUpGameInfoLocalFunction();
+    console.log('ENTIRE DATABASE REFRESHED');
 }
 
-await updateDatabase();
+// checks if one day has passed.
+let localStorage = {"yourapp_date": null}; 
+const hasOneDayPassed = () => {
+  // get today's date. eg: "7/37/2007"
+  var date = new Date().toLocaleDateString();
+
+  // if there's a date in localstorage and it's equal to the above: 
+  // inferring a day has yet to pass since both dates are equal.
+  if( localStorage.yourapp_date == date ) 
+      return false;
+
+  // this portion of logic occurs when a day has passed
+  localStorage.yourapp_date = date;
+  return true;
+}
+
+
+// some function which should run once a day
+function runOncePerDay(){
+  if( !hasOneDayPassed() ) return false;
+
+  // your code below
+  await updateDatabase();
+}
+
+//UNCOMMENT THIS CODE AND THE DATABASE WILL DELETE ITSELF AND REPLENISH EVERY TIME YOU START THE SERVER
+//runOncePerDay(); // run the code
 onStartUp();
