@@ -104,6 +104,26 @@ const postGameInfo = async(obj, year) => {
     } 
 }
 
+const deleteDatabase = async() => {
+    const url = '/database/delete';
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    }
+}
+
 /* uses the players name to retrieve the player Id from the NBA api, to access the statistics
 endpoints in the NBA api I had to first supply the id. */
 const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
@@ -429,11 +449,48 @@ const onStartUp = function() {
     }
 }
 
+const loadUpLocalFunction = async() => {
+    let conference = 'East';
+    let teamIds = await getTeamIdsFromConference(conference);
+    console.log(teamIds);
+    for (let j = 0; j < teamIds.length; j++) {
+        let players = await getPlayersByTeamId(teamIds[j]);
+        for (let i = 0; i < players.api.players.length; i++) {
+            console.log(players.api.players[i])
+            let player = await postPlayer(players.api.players[i]);
+        }
+    }
+}
+
+const loadUpGamesLocalFunction = async() => {
+    let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
+    console.log(playerIdArray);
+    console.log(playerIdArray.length);
+    let statsArray = await getStatsArray(playerIdArray);
+    console.log(statsArray);
+    for (let i = 0; i < statsArray.length; i ++) {
+        console.log('HELLLLOOOOO');
+        for (let j = 0; j < statsArray[i].api.statistics.length; j++) {
+            let game = await postGame(statsArray[i].api.statistics[j]);
+        }
+    }
+}
+
+const loadUpGameInfoLocalFunction = async() => {
+    let years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021'];
+    for (let i = 0; i < years.length; i++) {
+        let games = await getGameInfo(years[i]);
+        for (let j = 0; j < games.api.games.length; j++) {
+            let results = await postGameInfo(games.api.games[j]);
+        }
+    } 
+}
+
 const updateDatabase = async() => {
     let results = await deleteDatabase();
-    await loadUpLocal();
-    await loadUpGamesLocal();
-    await loadUpGameInfoLocal();
+    await loadUpLocalFunction();
+    await loadUpGamesLocalFunction();
+    await loadUpGameInfoLocalFunction();
 }
 
 await updateDatabase();

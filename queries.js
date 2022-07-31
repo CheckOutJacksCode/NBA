@@ -67,6 +67,26 @@ const createGameInfo = (request, response) => {
     });
 }
 
+const deleteDatabase = (request, response) => {
+    db.query('DELETE FROM players', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).send('deletion worked on players');
+    });
+    db.query('DELETE FROM games', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).send('deletion worked on games');
+    });
+    db.query('DELETE FROM gameinfo', (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).send('deletion worked on gameinfo');
+    });
+}
 
 /*
 const updateUser = (request, response) => {
