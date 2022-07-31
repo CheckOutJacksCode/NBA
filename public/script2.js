@@ -8,7 +8,101 @@ const hustleFactorSubmit = document.getElementById("submit-hustle-factor");
 const deepStatToGet = document.getElementById("deepStatToGet");
 const deepStatSubmit = document.getElementById("submit-deep-stat");
 const clearButton = document.getElementById("clearButton");
+const loadUpLocal = document.getElementById("loadButton");
+const loadUpGamesLocal = document.getElementById("loadGamesButton");
+const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
+
 //const getIndividualPlayer = require("./script.js");
+
+const getJsonResponse = async (url) => {
+    console.log(url);
+    const response = await fetch(url);
+    try{
+        if (response.ok){
+            const jsonResponse = await response.json();
+            console.log(jsonResponse);
+            return jsonResponse;
+        }
+    } catch(err){
+        console.log(err);
+    }
+}
+
+const getArrayOfPlayerIdsInEastandWestConferences = async() => {
+    let playerIdArray = [];
+    const players = await getJsonResponse('/players');
+    for (let i = 0; i < players.length; i++) {
+        playerIdArray.push(players[i].playerid);
+    }
+    return playerIdArray;
+}
+
+
+const postPlayer = async(obj) => {
+    console.log('wwwwwwwwwwwww');
+    const url = '/players';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postGame = async(obj) => {
+    console.log('tttttttttt');
+    const url = '/games';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postGameInfo = async(obj, year) => {
+    console.log('wwwwwwwwwww');
+    const url = '/games/seasonyear/' + year;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
 
 /* uses the players name to retrieve the player Id from the NBA api, to access the statistics
 endpoints in the NBA api I had to first supply the id. */
@@ -39,6 +133,87 @@ const appendPlayerAndStat = async(player, stat, statAverage) => {
     rowIndex += 1;
 }
 
+const getTeamsInConference = async(conference) => {
+    let teams = await fetch('https://api-nba-v1.p.rapidapi.com/teams/confName/' + conference, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+        }
+    })
+    if (teams.ok) {
+        let jsonTeamsInConference = teams.json();
+        return jsonTeamsInConference;
+    }
+}
+
+const getTeamIdsFromConference = async(conference) => {
+    let idArray = [];
+    let teams = await getTeamsInConference(conference);
+    for (let i = 0; i < teams.api.teams.length; i++) {
+        idArray.push(teams.api.teams[i].teamId);
+    }
+    return idArray;
+}
+
+const getPlayersByTeamId = async(teamId) => {
+    let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/teamId/' + teamId, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+        }
+    })
+    if (players.ok) {
+        let jsonPlayers = players.json();
+        return jsonPlayers;    
+    }
+}
+
+const getStatsFromPlayerId = async(playerId) => {
+    let stats = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+        }
+    })
+    if (stats.ok) {
+        let jsonStats = stats.json();
+        return jsonStats;    
+    }
+}
+
+const getTodaysStatsFromPlayerId = async(playerId) => {
+    let today = DateTime.now()
+    let stats = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+        }
+    })
+    if (stats.ok) {
+        let jsonStats = stats.json();
+        return jsonStats;    
+    }
+}
+
+const getPlayersInStandardLeague = async() => {
+    let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/league/standard/', {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+        }
+    })
+    if (players.ok) {
+        let jsonPlayers = players.json();
+        return jsonPlayers;
+    }
+}
+  
+
 /* Retrieves entire desired player object and returns to user. */
 const getPlayersByName = async(playerLastName) => {
     let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/lastName/' + playerLastName, {
@@ -53,6 +228,22 @@ const getPlayersByName = async(playerLastName) => {
         return jsonPlayers;
     }
 }
+
+const getGameInfo = async(year) => {
+    let games = await fetch('https://api-nba-v1.p.rapidapi.com/games/seasonYear/' + year, {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
+            'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+        }
+    })
+    if (games.ok) {
+        let jsonGames = games.json();
+        return jsonGames;
+    }
+}
+
+
 
 /* Get the season average for any player, for any stat, for any one of the years of data
 provided by the NBA api */
@@ -141,6 +332,16 @@ const getPlayer = async() => {
     return player;
 }
 
+const getStatsArray = async(playerIdArray) => {
+    let statsArray = [];
+    for (let i = 0; i < playerIdArray.length; i++) {
+        let stats = await getStatsFromPlayerId(playerIdArray[i]);
+        statsArray.push(stats);
+    }
+    return statsArray;
+}
+
+
 /* Start up function, provides functionality for submit buttons. */
 const onStartUp = function() {
     mvpSubmit.onclick = async() => {
@@ -191,5 +392,49 @@ const onStartUp = function() {
         playerInfoTable.innerHTML = '';
         rowIndex = 0;
     }
+
+    loadUpLocal.onclick = async() => {
+        let conference = 'East';
+        let teamIds = await getTeamIdsFromConference(conference);
+        console.log(teamIds);
+        for (let j = 0; j < teamIds.length; j++) {
+            let players = await getPlayersByTeamId(teamIds[j]);
+            for (let i = 0; i < players.api.players.length; i++) {
+                console.log(players.api.players[i])
+                let player = await postPlayer(players.api.players[i]);
+            }
+        }
+    }
+    loadUpGamesLocal.onclick = async() => {
+        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
+        console.log(playerIdArray);
+        console.log(playerIdArray.length);
+        let statsArray = await getStatsArray(playerIdArray);
+        console.log(statsArray);
+        for (let i = 0; i < statsArray.length; i ++) {
+            console.log('HELLLLOOOOO');
+            for (let j = 0; j < statsArray[i].api.statistics.length; j++) {
+                let game = await postGame(statsArray[i].api.statistics[j]);
+            }
+        }
+    }
+    loadUpGameInfoLocal.onclick = async() => {
+        let years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021'];
+        for (let i = 0; i < years.length; i++) {
+            let games = await getGameInfo(years[i]);
+            for (let j = 0; j < games.api.games.length; j++) {
+                let results = await postGameInfo(games.api.games[j]);
+            }
+        } 
+    }
 }
+
+const updateDatabase = async() => {
+    let results = await deleteDatabase();
+    await loadUpLocal();
+    await loadUpGamesLocal();
+    await loadUpGameInfoLocal();
+}
+
+await updateDatabase();
 onStartUp();

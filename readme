@@ -1,0 +1,44 @@
+# NBA MVP App
+
+Node/Express API and scripts with front end utiziling the NBA's public api. Users can access any stat for any player within the 
+5 years of available data provided by the NBA database. Users also can access the 'deep stats' for any player for any of the given years,
+which are custom, weighted, accumulative stats.
+
+## Running the app locally
+Clone the repoistory with git clone https://github.com/CheckOutJacksCode/NBA (if you don't have git, you can download the repository as a .zip). Then go into the folder (cd NBA) and type 'npm init'.
+Install project dependencies using `npm install`
+You can then run the project with `npm start`
+
+Once the app is running locally, you can access the API at `http://localhost:3000/`
+
+## Dependencies: 
+    "axios": "^0.24.0",
+    "chai": "^4.3.4",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "heroku": "^7.59.2",
+    "jsdom": "^19.0.0",
+    "minimist": "*",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
+    "pg": "^8.7.1",
+    "redis": "^4.0.3",
+    "swagger-node-express": "~2.0",
+    "swagger-ui-express": "^4.3.0"
+
+## devDependencies:
+    "supertest": "^6.1.6"
+
+## Testing with Swagger
+Swagger documentation and testing available at `http://localhost:3000/docs`
+
+## Resources
+- https://www.codecademy.com
+- https://swagger.io.docs
+- Third party api, https://rapidapi.com/api-sports/api/api-nba
+
+## Options for extension
+- Try to find a way to make the queries faster; maybe by starting to copy everything to my own database so I don't have to jump through so many hoops to get the correct data.

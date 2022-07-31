@@ -10,8 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "assert": "^2.0.0",
     "axios": "^0.24.0",
-    "chai": "^4.3.4",
+    "chai": "^4.3.6",
     "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -20,14 +21,15 @@
     "heroku": "^7.59.2",
     "jsdom": "^19.0.0",
     "minimist": "*",
+    "mocha": "^10.0.0",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "redis": "^4.0.3",
     "swagger-node-express": "~2.0",
     "swagger-ui-express": "^4.3.0"
   },
   "devDependencies": {
-    "supertest": "^6.1.6"
+    "supertest": "^6.2.4"
   }
 }

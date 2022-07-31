@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
-const db = require('./nbadb');
+const db = require('./queries');
 const port = process.env.PORT || 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
@@ -27,8 +27,15 @@ app.get('/', (req, res, next) => {
     res.sendFile(__dirname + "/public/styles.css");
 });
 app.get('/', (req, res, next) => {
-    res.sendFile(__dirname + "/public/script2.js")
+    res.sendFile(__dirname + "/public/script2.js");
 })
+app.post('/players', db.createPlayer);
+
+app.get('/players', db.getPlayers);
+
+app.post('/games', db.createGame);
+
+app.post('/games/seasonyear/:seasonyear', db.createGameInfo);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

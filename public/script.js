@@ -40,6 +40,9 @@ const appendIndividualPlayer = async(player) => {
     cell6.innerHTML = `${assists}`;
     rowIndex += 1;
 }
+//NEED TO 
+
+
 
 /* This script basically makes sure I am only counting statistics from the regular NBA season. */
 //games/seasonYear/
