@@ -137,6 +137,15 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
     return('garbage');
 }
 
+const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
+    let players = await getJsonResponse(`/players`);
+    console.log(players);
+    for (i = 0; i < players.length; i++) {
+        if (players[i].firstname.toLowerCase() == playerFirstName.toLowerCase() && players[i].lastname.toLowerCase() == playerLastName.toLowerCase()) {
+            return players[i].playerid;
+        }
+    }
+}
 
 /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
 rowIndex = 1;
@@ -233,6 +242,10 @@ const getPlayersInStandardLeague = async() => {
     }
 }
   
+const getPlayersByNameLocal = async(playerLastName) => {
+    let players = await getJsonResponse('/players/lastName/' + playerLastName);
+    return players;
+}
 
 /* Retrieves entire desired player object and returns to user. */
 const getPlayersByName = async(playerLastName) => {
@@ -269,6 +282,30 @@ const getGameInfo = async(year) => {
 provided by the NBA api */
 const getSeasonStatAvg = async(stat, year, playerId) => {
     let gameDetailsArray = await getPlayerStandardGameDetails(year, playerId);
+    let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
+    let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    let statAverage = statTotal / gamesPlayed;
+    return Number.parseFloat(statAverage).toFixed(2);
+}
+/*
+FOR EVERY STANDARD LEAGUE GAME FOR EVERY PLAYER
+GET SEASON TOTAL OF STAT USING STANDARD LEAGUE GAME ARRAY FROM PREVIOUS STEP
+GET GAMES PLAYED BY CHECKING IF 'MINS' ARE NOT NULL FOR PLAYER IN EACH GAME LINE
+STAT AVERAGE = STEP 2 / STEP 3
+
+GAME LINE ARRAY ===== FOR EVERY GAME IN GAMES DATABASE WHERE PLAYERID = THE PLAYERID, AND LEAGUE = STANDARD
+FOR EACH GAME IN ARRAY, ADD UP TOTAL OF STAT SELECTED
+FOR EACH GAME IN ARRAY, IF 'MIN' !== NULL, COUNT++, RETURN GAME COUNT
+STAT AVERAGE = STAT TOTAL / GAMESPLAYED ARRAY.
+
+*/
+
+
+
+const getSeasonStatAvgLocal = async(stat, year, playerId) => {
+    let league = 'standard';
+    let gameDetailsArray = await getJsonResponse(`/games/${playerId}/${league}/${year}`);
+    console.log(gameDetailsArray);
     let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let statAverage = statTotal / gamesPlayed;
@@ -377,11 +414,28 @@ const onStartUp = function() {
         let playerFirstName = firstName.value;
         let playerLastName = lastName.value;
         let season = seasonToGet.value;
+        let id = await getIdFromPlayersByNameLocal(playerLastName, playerFirstName);
+        console.log(id);
+        let statAverage = await getSeasonStatAvgLocal(stat, season, id);
+        console.log(statAverage);
+        let player = await getIndividualPlayer(id);
+        console.log(player);
+        appendPlayerAndStat(player.api.players[0], stat, statAverage);
+    }
+    /*THIRD-PART STAT-SUBMIT BUTTON DEACTIVATED FOR NOW
+    statSubmit.onclick = async() => {
+        let stat = statToGet.value;
+        console.log(stat)
+        let playerFirstName = firstName.value;
+        let playerLastName = lastName.value;
+        let season = seasonToGet.value;
         let id = await getIdFromPlayersByName(playerLastName, playerFirstName);
         let statAverage = await getSeasonStatAvg(stat, season, id);
         let player = await getIndividualPlayer(id);
         appendPlayerAndStat(player.api.players[0], stat, statAverage);
     }
+    */
+
     /*
     hustleFactorSubmit.onclick = async() => {
         let id = await getIdFromPlayersByName(lastName.value, firstName.value);
@@ -512,7 +566,7 @@ const hasOneDayPassed = () => {
 
 
 // some function which should run once a day
-function runOncePerDay(){
+const runOncePerDay = async() => {
   if( !hasOneDayPassed() ) return false;
 
   // your code below

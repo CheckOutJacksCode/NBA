@@ -11,6 +11,36 @@ const getPlayers = (request, response) => {
     })
 }
 
+const getPlayersWithFirstLast = (request, response) => {
+  let lastName = request.lastName;
+  let firstName = request.firstName;
+  db.query(`SELECT * FROM players WHERE firstname=${firstName} AND lastname=${lastName} ORDER BY id ASC`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPlayerStandardGamesLocal = async(request, response) => {
+  let playerId = request.playerId;
+  let league = request.league;
+  let year = request.year;
+  db.query(`SELECT * FROM games
+            INNER JOIN gameinfo 
+            ON games.gameid=gameinfo.gameid
+            WHERE playerid=${playerId} AND league=${league} AND seasonyear=${year};`, (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
 const getPlayerById = async(request, response) => {
     let id = request.params.id;
     console.log(typeof id);
@@ -123,4 +153,6 @@ module.exports = {
     createGame,
     createGameInfo,
     deleteDatabase,
+    getPlayersWithFirstLast,
+    getPlayerStandardGamesLocal,
 }

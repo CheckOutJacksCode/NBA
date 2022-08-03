@@ -33,11 +33,18 @@ app.post('/players', db.createPlayer);
 
 app.get('/players', db.getPlayers);
 
+app.get('/games/:playerid/:league/:seasonyear', (request, response) => {
+    let {playerid, league, seasonyear} = request.params;
+    response.send(db.getPlayerStandardGamesLocal(playerid, league, seasonyear));
+});
+
 app.post('/games', db.createGame);
 
 app.post('/games/seasonyear/:seasonyear', db.createGameInfo);
 
 app.delete('/database/delete', db.deleteDatabase);
+
+app.get('/players/:firstName&:lastName', db.getPlayersWithFirstLast);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
