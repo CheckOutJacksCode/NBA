@@ -11,10 +11,11 @@ const getPlayers = (request, response) => {
     })
 }
 
-const getPlayersWithFirstLast = (request, response) => {
-  let lastName = request.lastName;
-  let firstName = request.firstName;
-  db.query(`SELECT * FROM players WHERE firstname=${firstName} AND lastname=${lastName} ORDER BY id ASC`, (error, results) => {
+const getPlayerIdWithLastFirst = (request, response) => {
+  let {lastName, firstName} = request.params;
+  console.log(lastName)
+  console.log(firstName)
+  db.query(`SELECT playerid FROM players WHERE lastname = $1 AND firstname = $2`, [lastName, firstName], (error, results) => {
     if (error) {
       throw error
     }
@@ -24,14 +25,26 @@ const getPlayersWithFirstLast = (request, response) => {
   })
 }
 
-const getPlayerStandardGamesLocal = async(request, response) => {
-  let playerId = request.playerId;
-  let league = request.league;
-  let year = request.year;
+const getPlayersWithLastFirst = (request, response) => {
+  let {lastName, firstName} = request.params;
+  console.log(lastName)
+  console.log(firstName)
+  db.query(`SELECT * FROM players WHERE lastname = $1 AND firstname = $2`, [lastName, firstName], (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPlayerSeasonGameStats = async(request, response) => {
+  let {playerid, league, seasonyear} = request.params;
   db.query(`SELECT * FROM games
             INNER JOIN gameinfo 
             ON games.gameid=gameinfo.gameid
-            WHERE playerid=${playerId} AND league=${league} AND seasonyear=${year};`, (error, results) => {
+            WHERE playerid = $1 AND league = $2 AND seasonyear = $3`, [playerid, league, seasonyear], (error, results) => {
     if (error) {
       throw error
     }
@@ -153,6 +166,7 @@ module.exports = {
     createGame,
     createGameInfo,
     deleteDatabase,
-    getPlayersWithFirstLast,
-    getPlayerStandardGamesLocal,
+    getPlayersWithLastFirst,
+    getPlayerSeasonGameStats,
+    getPlayerIdWithLastFirst,
 }

@@ -46,9 +46,9 @@ MAKE A SEPARATE FUNCTION CALLED 'const getPlayer....'
 
 and then ...
 
-const getPlayer = async(notSure) => {
+const getPlayer = async() => {
     console.log('wwwwwwwwwwwww');
-    const url = '/players/:player';
+    const url = '/players/:id';
     try{
         const response = await fetch(url, {
             method: 'GET',
@@ -169,14 +169,12 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
     return('garbage');
 }
 
+
+
 const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
-    let players = await getJsonResponse(`/players`);
+    let players = await getJsonResponse(`/local/players/playerid/` + playerLastName + '/' + playerFirstName);
     console.log(players);
-    for (i = 0; i < players.length; i++) {
-        if (players[i].firstname.toLowerCase() == playerFirstName.toLowerCase() && players[i].lastname.toLowerCase() == playerLastName.toLowerCase()) {
-            return players[i].playerid;
-        }
-    }
+    return players[0].playerid;
 }
 
 /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
@@ -274,7 +272,7 @@ const getPlayersInStandardLeague = async() => {
     }
 }
   
-const getPlayersByNameLocal = async(playerLastName) => {
+const getPlayersByLastNameLocal = async(playerLastName) => {
     let players = await getJsonResponse('/players/lastName/' + playerLastName);
     return players;
 }
@@ -336,7 +334,9 @@ STAT AVERAGE = STAT TOTAL / GAMESPLAYED ARRAY.
 
 const getSeasonStatAvgLocal = async(stat, year, playerId) => {
     let league = 'standard';
-    let gameDetailsArray = await getJsonResponse(`/games/${playerId}/${league}/${year}`);
+    console.log(year)
+    console.log(playerId)
+    let gameDetailsArray = await getJsonResponse(`/games/` + playerId + '/' + league + '/' + year);
     console.log(gameDetailsArray);
     let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
@@ -446,6 +446,7 @@ const onStartUp = function() {
         let playerFirstName = firstName.value;
         let playerLastName = lastName.value;
         let season = seasonToGet.value;
+        console.log(season);
         let id = await getIdFromPlayersByNameLocal(playerLastName, playerFirstName);
         console.log(id);
         let statAverage = await getSeasonStatAvgLocal(stat, season, id);
