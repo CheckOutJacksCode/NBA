@@ -38,6 +38,38 @@ const getArrayOfPlayerIdsInEastandWestConferences = async() => {
 }
 
 
+
+
+/* YOU WOULD DO IT JUST LIKE A POST REQUEST, 
+DOOO NOOOOTTT USE THE GETJSONRESPONSE FUNCTION
+MAKE A SEPARATE FUNCTION CALLED 'const getPlayer....'
+
+and then ...
+
+const getPlayer = async(notSure) => {
+    console.log('wwwwwwwwwwwww');
+    const url = '/players/:player';
+    try{
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+            *****where: ****clause????????????????????????????????????????????????????????????????????????
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+*/
 const postPlayer = async(obj) => {
     console.log('wwwwwwwwwwwww');
     const url = '/players';
