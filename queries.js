@@ -55,15 +55,10 @@ const getPlayerSeasonGameStats = async(request, response) => {
 }
 
 const getPlayerById = async(request, response) => {
-    let id = request.params.id;
-    console.log(typeof id);
-    let idAsInt = parseInt(id);
-    console.log(typeof idAsInt);
-    if (isNaN(idAsInt)) {
-        response.status(404).send("user not found");
-        return;
-    }
-    db.query('SELECT * FROM users WHERE id = $1', [idAsInt], (error, results) => {
+    let {playerid} = request.params;
+    console.log('muffins')
+    console.log(playerid);
+    db.query('SELECT * FROM players WHERE playerid = $1', [playerid], (error, results) => {
         if (error) {
             throw error
         }

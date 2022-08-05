@@ -45,6 +45,8 @@ app.get('/local/players/:lastName/:firstName', db.getPlayersWithLastFirst);
 
 app.get('/local/players/playerid/:lastName/:firstName', db.getPlayerIdWithLastFirst);
 
+app.get('/local/players/:playerid', db.getPlayerById)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

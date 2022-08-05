@@ -20,7 +20,6 @@ const getJsonResponse = async (url) => {
     try{
         if (response.ok){
             const jsonResponse = await response.json();
-            console.log(jsonResponse);
             return jsonResponse;
         }
     } catch(err){
@@ -183,7 +182,7 @@ const appendPlayerAndStat = async(player, stat, statAverage) => {
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
-    cell1.innerHTML = player.firstName + ' ' + player.lastName;
+    cell1.innerHTML = player[0].firstname + ' ' + player[0].lastname;
     if (isNaN(statAverage)) {
         cell2.innerHTML = 'Statistics Unavailable'
     } else {
@@ -337,7 +336,6 @@ const getSeasonStatAvgLocal = async(stat, year, playerId) => {
     console.log(year)
     console.log(playerId)
     let gameDetailsArray = await getJsonResponse(`/games/` + playerId + '/' + league + '/' + year);
-    console.log(gameDetailsArray);
     let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let statAverage = statTotal / gamesPlayed;
@@ -356,6 +354,13 @@ const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
         }
     }
     return statTotal;
+}
+
+const getIndividualPlayerLocal = async(playerid) => {
+    console.log(playerid);
+    const player = await getJsonResponse(`/local/players/` + playerid);
+    console.log(player);
+    return player;
 }
 
 /* MVP points logic */
@@ -451,9 +456,9 @@ const onStartUp = function() {
         console.log(id);
         let statAverage = await getSeasonStatAvgLocal(stat, season, id);
         console.log(statAverage);
-        let player = await getIndividualPlayer(id);
+        let player = await getIndividualPlayerLocal(id);
         console.log(player);
-        appendPlayerAndStat(player.api.players[0], stat, statAverage);
+        appendPlayerAndStat(player, stat, statAverage);
     }
     /*THIRD-PART STAT-SUBMIT BUTTON DEACTIVATED FOR NOW
     statSubmit.onclick = async() => {
