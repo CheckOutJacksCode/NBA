@@ -171,9 +171,9 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
 
 
 const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
-    let players = await getJsonResponse(`/local/players/playerid/` + playerLastName + '/' + playerFirstName);
-    console.log(players);
-    return players[0].playerid;
+    let playerid = await getJsonResponse(`/local/players/playerid/` + playerLastName + '/' + playerFirstName);
+    console.log(playerid);
+    return playerid;
 }
 
 /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
@@ -333,10 +333,10 @@ STAT AVERAGE = STAT TOTAL / GAMESPLAYED ARRAY.
 
 const getSeasonStatAvgLocal = async(stat, year, playerId) => {
     let league = 'standard';
-    console.log(year)
-    console.log(playerId)
     let gameDetailsArray = await getJsonResponse(`/games/` + playerId + '/' + league + '/' + year);
+    console.log(gameDetailsArray);
     let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
+    console.log(statTotal)
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let statAverage = statTotal / gamesPlayed;
     return Number.parseFloat(statAverage).toFixed(2);
@@ -346,6 +346,7 @@ const getSeasonStatAvgLocal = async(stat, year, playerId) => {
 const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
     let statTotal = 0;
     if (stat === 'ppg') {
+        console.log('YOTOTOTOOOOTORORORORTOOREWEOE')
         stat = 'points';
     }
     for (let i = 0; i < gameDetailsArray.length; i++) {
@@ -367,14 +368,20 @@ const getIndividualPlayerLocal = async(playerid) => {
 /*NOW YOU HAVE THE PLAYER ID.
 CALL GETSTANDARDPLAYERDETAILS*/
 const getMvpPoints = async(year, playerId) => {
-    const gameDetailsArray = getPlayerStandardGameDetails(year, playerId);
-    let ppg = await getSeasonStatAvg('ppg', year, playerId);
-    let totReb = await getSeasonStatAvg('totReb', year, playerId);
-    let assists = await getSeasonStatAvg('assists', year, playerId);
-    let steals = await getSeasonStatAvg('steals', year, playerId);
-    let turnovers = await getSeasonStatAvg('turnovers', year, playerId);
-    let plusMinus = await getSeasonStatAvg('plusMinus', year, playerId);
-    let fgp = await getSeasonStatAvg('fgp', year, playerId);
+    let ppg = await getSeasonStatAvgLocal('ppg', year, playerId);
+    console.log(ppg)
+    let totReb = await getSeasonStatAvgLocal('totreb', year, playerId);
+    console.log(totReb);
+    let assists = await getSeasonStatAvgLocal('assists', year, playerId);
+    console.log(assists);
+    let steals = await getSeasonStatAvgLocal('steals', year, playerId);
+    console.log(steals);
+    let turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
+    console.log(turnovers);
+    let plusMinus = await getSeasonStatAvgLocal('plusminus', year, playerId);
+    console.log(plusMinus);
+    let fgp = await getSeasonStatAvgLocal('fgp', year, playerId);
+    console.log(fgp);
     let mvpPoints = (.15 * parseInt(ppg)) + (.07 * parseInt(totReb)) + (.06 * parseInt(assists)) + (.125 * parseInt(steals)) - (.125 * parseInt(turnovers)) + (.3 * parseInt(plusMinus)) + (.02 * parseInt(fgp));
     console.log(plusMinus);
     if (!mvpPoints) {
@@ -439,10 +446,14 @@ const getStatsArray = async(playerIdArray) => {
 /* Start up function, provides functionality for submit buttons. */
 const onStartUp = function() {
     mvpSubmit.onclick = async() => {
-        let id = await getIdFromPlayersByName(lastName.value, firstName.value);
-        let mvpPoints = await getMvpPoints(seasonToGet.value, id);
-        let player = await getIndividualPlayer(id);
-        appendPlayerAndStat(player.api.players[0], 'MVP Points: ', mvpPoints);
+        let playerIdArray = await getIdFromPlayersByNameLocal(lastName.value, firstName.value);
+        console.log(seasonToGet.value)
+        console.log(playerIdArray[0].playerid)
+        let mvpPoints = await getMvpPoints(seasonToGet.value, playerIdArray[0].playerid);
+        console.log(mvpPoints)
+        let player = await getIndividualPlayerLocal(playerIdArray[0].playerid);
+        console.log(player);
+        appendPlayerAndStat(player, 'MVP Points: ', mvpPoints);
     }
 
     statSubmit.onclick = async() => {
