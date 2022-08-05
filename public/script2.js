@@ -335,7 +335,8 @@ const getSeasonStatAvgLocal = async(stat, year, playerId) => {
     let league = 'standard';
     let gameDetailsArray = await getJsonResponse(`/games/` + playerId + '/' + league + '/' + year);
     console.log(gameDetailsArray);
-    let statTotal = await getSeasonTotalOfStat(stat, gameDetailsArray);
+    console.log(stat);
+    let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
     console.log(statTotal)
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let statAverage = statTotal / gamesPlayed;
@@ -393,15 +394,17 @@ const getMvpPoints = async(year, playerId) => {
 /* Hustle Factor logic */
 const getHustleFactor = async(year, playerId) => {
     let hustleFactor;
-    let offRebPg = await getSeasonStatAvg('offReb', year, playerId)
-    let stl = await getSeasonStatAvg('steals', year, playerId)
-    let blk = await getSeasonStatAvg('blocks', year, playerId)
-    let plusMinus = await getSeasonStatAvg('plusMinus', year, playerId);
+    console.log(playerId)
+    console.log(year)
+    let offRebPg = await getSeasonStatAvgLocal('offreb', year, playerId)
+    let stl = await getSeasonStatAvgLocal('steals', year, playerId)
+    let blk = await getSeasonStatAvgLocal('blocks', year, playerId)
+    let plusMinus = await getSeasonStatAvgLocal('plusminus', year, playerId);
     //let games = await getPlayerStandardGameDetails(playerId);
     //let gamesPlayed = games.length;
-    let player = await getIndividualPlayer(playerId)
+    let player = await getIndividualPlayerLocal(playerId)
     console.log(player)
-    let height = parseFloat(player.api.players[0].heightInMeters)
+    let height = parseFloat(player[0].heightinmeters)
     console.log(height)
     if (height < 2.057) {
         hustleFactor = (.2 * parseFloat(offRebPg)) + (.4 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
@@ -465,9 +468,10 @@ const onStartUp = function() {
         console.log(season);
         let id = await getIdFromPlayersByNameLocal(playerLastName, playerFirstName);
         console.log(id);
-        let statAverage = await getSeasonStatAvgLocal(stat, season, id);
+        let statAverage = await getSeasonStatAvgLocal(stat, season, id[0].playerid);
         console.log(statAverage);
-        let player = await getIndividualPlayerLocal(id);
+        console.log(id);
+        let player = await getIndividualPlayerLocal(id[0].playerid);
         console.log(player);
         appendPlayerAndStat(player, stat, statAverage);
     }
@@ -494,7 +498,7 @@ const onStartUp = function() {
         console.log(hustleFactor)
         appendPlayerAndStat(player.api.players[0], 'Hustle Factor: ', hustleFactor)
     }*/
-
+/*
     deepStatSubmit.onclick = async() => {
         let stat = deepStatToGet.value;
         let season = seasonToGet.value;
@@ -509,6 +513,23 @@ const onStartUp = function() {
         }
         let player = await getIndividualPlayer(id)
         appendPlayerAndStat(player.api.players[0], stat, statPoints);
+    }
+*/
+    deepStatSubmit.onclick = async() => {
+        let stat = deepStatToGet.value;
+        let season = seasonToGet.value;
+        let id = await getIdFromPlayersByNameLocal(lastName.value, firstName.value);
+        let statPoints;
+        if (stat === "Hustle Factor") {
+            statPoints = await getHustleFactor(season, id[0].playerid);
+        } else if (stat === "Carmelo Factor") {
+            statPoints = await getCarmeloFactor(season, id[0].playerid);
+        } else {
+            statPoints = await getQualityShotPercentage(season, id[0].playerid);
+        }
+        let player = await getIndividualPlayerLocal(id[0].playerid);
+        console.log(player);
+        appendPlayerAndStat(player, stat, statPoints);
     }
 
     clearButton.onclick = async() => {
