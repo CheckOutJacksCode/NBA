@@ -419,14 +419,23 @@ const getHustleFactor = async(year, playerId) => {
 
 /* Carmelo logic. The higher your carmelo factor, the more effecient and gritty
 of a player you are, adds fgp and hustlefactor */
+
 const getCarmeloFactor = async(year, playerId) => {
+    let carmeloFactor;
+    let fgp = await getSeasonStatAvgLocal('fgp', year, playerId);
+    let hustleFactor = await getHustleFactor(year, playerId);
+    carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);
+    return carmeloFactor.toFixed(2);
+}
+
+/*const getCarmeloFactor = async(year, playerId) => {
     let carmeloFactor;
     let fgp = await getSeasonStatAvg('fgp', year, playerId);
     let hustleFactor = await getHustleFactor(year, playerId);
     carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);
     return carmeloFactor.toFixed(2);
 }
-
+*/
 /* Retrieves player object */
 const getPlayer = async() => {
     let playerFirstName = firstName.value;
@@ -609,6 +618,20 @@ const loadUpGameInfoLocalFunction = async() => {
         }
     } 
 }
+
+const loadUpShotCharts = async() => {
+    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    for (let i = 0; i < years.length; i++) {
+        let games = await getGameInfo(years[i]);
+        for (let j = 0; j < games.api.games.length; j++) {
+            let results = await postGameInfo(games.api.games[j]);
+        }
+    } 
+}
+
+
+
+
 
 const updateDatabase = async() => {
     let results = await deleteDatabase();
