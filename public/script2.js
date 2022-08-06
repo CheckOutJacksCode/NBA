@@ -11,6 +11,7 @@ const clearButton = document.getElementById("clearButton");
 const loadUpLocal = document.getElementById("loadButton");
 const loadUpGamesLocal = document.getElementById("loadGamesButton");
 const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
+const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
 
 //const getIndividualPlayer = require("./script.js");
 
@@ -116,6 +117,28 @@ const postGame = async(obj) => {
 const postGameInfo = async(obj, year) => {
     console.log('wwwwwwwwwww');
     const url = '/games/seasonyear/' + year;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postShot = async(obj) => {
+    console.log('wwwwwwooooooooooooooooooooooooooooooooooooooooooowwwww');
+    const url = '/shot';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -436,7 +459,7 @@ const getCarmeloFactor = async(year, playerId) => {
     return carmeloFactor.toFixed(2);
 }
 */
-/* Retrieves player object */
+/* Retrieves player object 
 const getPlayer = async() => {
     let playerFirstName = firstName.value;
     let playerLastName = lastName.value;
@@ -444,7 +467,7 @@ const getPlayer = async() => {
     let player = await getIndividualPlayer(id);
     return player;
 }
-
+*/
 const getStatsArray = async(playerIdArray) => {
     let statsArray = [];
     for (let i = 0; i < playerIdArray.length; i++) {
@@ -580,6 +603,9 @@ const onStartUp = function() {
             }
         } 
     }
+    loadUpShotChartButton.onclick = async() => {
+        await loadUpShotCharts();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -622,9 +648,13 @@ const loadUpGameInfoLocalFunction = async() => {
 const loadUpShotCharts = async() => {
     let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
     for (let i = 0; i < years.length; i++) {
-        let games = await getGameInfo(years[i]);
-        for (let j = 0; j < games.api.games.length; j++) {
-            let results = await postGameInfo(games.api.games[j]);
+        let shotsArray = await getJsonResponse('/shots');
+        for (let k = 0; k < shotsArray.length; k++) {
+            for (let j = 0; j < shotsArray[k].resultSets.length; j++) {
+                for (let m = 0; m < shotsArray[k].resultSets[j].rowSet.length; m++) {
+                    let results = await postShot(shotsArray[k].resultSets[j].rowSet[m]);
+                }
+            }
         }
     } 
 }

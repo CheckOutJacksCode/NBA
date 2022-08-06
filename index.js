@@ -35,6 +35,10 @@ app.get('/players', db.getPlayers);
 
 app.get('/games/:playerid/:league/:seasonyear', db.getPlayerSeasonGameStats);
 
+app.get('/shots', db.getShots);
+
+app.post('/shot', db.createShot);
+
 app.post('/games', db.createGame);
 
 app.post('/games/seasonyear/:seasonyear', db.createGameInfo);
