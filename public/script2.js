@@ -12,6 +12,7 @@ const loadUpLocal = document.getElementById("loadButton");
 const loadUpGamesLocal = document.getElementById("loadGamesButton");
 const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
 const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
+const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
 
 //const getIndividualPlayer = require("./script.js");
 
@@ -73,6 +74,29 @@ const getPlayer = async() => {
 const postPlayer = async(obj) => {
     console.log('wwwwwwwwwwwww');
     const url = '/players';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postPlayersNBA = async(obj) => {
+    console.log('skittttttttlllllllllllleeeeeeeeeeeesssssssssssssssssssssssssssssssssssssssssssssssss');
+    console.log(obj);
+    const url = '/playersNBA';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -606,6 +630,9 @@ const onStartUp = function() {
     loadUpShotChartButton.onclick = async() => {
         await loadUpShotCharts();
     }
+    loadUpNBAPlayersButton.onclick = async() => {
+        await loadUpNBAPlayers();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -616,7 +643,8 @@ const loadUpLocalFunction = async() => {
         let players = await getPlayersByTeamId(teamIds[j]);
         for (let i = 0; i < players.api.players.length; i++) {
             console.log(players.api.players[i])
-            let player = await postPlayer(players.api.players[i]);
+            //ACTIVATE CODE IF YOU NEED TO LOAD UP PLAYERS INTO LOCAL DATABASE
+            //let player = await postPlayer(players.api.players[i]);
         }
     }
 }
@@ -630,7 +658,8 @@ const loadUpGamesLocalFunction = async() => {
     for (let i = 0; i < statsArray.length; i ++) {
         console.log('HELLLLOOOOO');
         for (let j = 0; j < statsArray[i].api.statistics.length; j++) {
-            let game = await postGame(statsArray[i].api.statistics[j]);
+            //ACTIVATE CODE IF YOU NEED TO LOAD GAMES DATA INTO LOCAL DATABASE
+            //let game = await postGame(statsArray[i].api.statistics[j]);
         }
     }
 }
@@ -640,7 +669,8 @@ const loadUpGameInfoLocalFunction = async() => {
     for (let i = 0; i < years.length; i++) {
         let games = await getGameInfo(years[i]);
         for (let j = 0; j < games.api.games.length; j++) {
-            let results = await postGameInfo(games.api.games[j]);
+            //ACTIVATE CODE IF YOU NEED TO LOAD GAMEINFO INTO YOUR LOCAL DATABASE
+            //let results = await postGameInfo(games.api.games[j]);
         }
     } 
 }
@@ -652,11 +682,20 @@ const loadUpShotCharts = async() => {
         for (let k = 0; k < shotsArray.length; k++) {
             for (let j = 0; j < shotsArray[k].resultSets.length; j++) {
                 for (let m = 0; m < shotsArray[k].resultSets[j].rowSet.length; m++) {
+                    console.log(shotsArray[k].resultSets[j].rowSet.length);
+                    
+                    //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
                     let results = await postShot(shotsArray[k].resultSets[j].rowSet[m]);
                 }
             }
         }
     } 
+}
+
+const loadUpNBAPlayers = async() => {
+    let players = await getJsonResponse('/playersNBA');
+    console.log(players.length);   
+    let results = await postPlayersNBA(players);
 }
 
 

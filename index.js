@@ -33,6 +33,10 @@ app.post('/players', db.createPlayer);
 
 app.get('/players', db.getPlayers);
 
+app.post('/playersNBA', db.createPlayersNBA);
+
+app.get('/playersNBA', db.getPlayersNBA);
+
 app.get('/games/:playerid/:league/:seasonyear', db.getPlayerSeasonGameStats);
 
 app.get('/shots', db.getShots);

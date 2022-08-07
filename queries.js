@@ -11,6 +11,27 @@ const getPlayers = (request, response) => {
     })
 }
 
+const getPlayersNBA = async(request, response) => {
+    let players = await require('./playersNBA.json');
+    response.status(200).send(players);
+}
+
+const createPlayersNBA = async(request, response) => {
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKKKKKKKKKKKKKK');
+    let players = request.body;
+    //let players = await require('./playersNBA.json');
+    console.log(players);
+    /* ADD THIS SHIT, BUT CHANGE EVERYTHING:
+    db.query('INSERT INTO players (firstName, lastName, teamId, yearsPro, collegeName, country, playerId, dateOfBirth, affiliation, startNba, heightInMeters, weightInKilograms, leagues) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', 
+    [body.firstName, body.lastName, body.teamId, body.yearsPro, body.collegeName, body.country, body.playerId, body.dateOfBirth, body.affiliation, body.startNba, body.heightInMeters, body.weightInKilograms, body.leagues], (error, results) => {
+      if (error) {
+        throw error
+      }
+      console.log(results);
+      response.status(201).send(body);
+    })*/
+}
+
 const getPlayerIdWithLastFirst = (request, response) => {
   let {lastName, firstName} = request.params;
   console.log(lastName)
@@ -93,9 +114,6 @@ const getShots = async(request, response) => {
 
 const createShot = (request, response) => {
   const body = request.body;
-
-  console.log(body);
-  console.log('HKHHHHHHHHHHHHHHHHHHHHKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKHHHHHHHHHHHHHHHHHHHHHHH')
   db.query('INSERT INTO shotchartdetail (grid_type, game_id, game_event_id, player_id, player_name, team_id, team_name, period, minutes_remaining, seconds_remaining, event_type, action_type, shot_type, shot_zone_basic, shot_zone_area, shot_zone_range, shot_distance, loc_x, loc_y, shot_attempted_flag, shot_made_flag, game_date, htm, vtm) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)', 
   [body[0], body[1], body[2].toString(), body[3].toString(), body[4], body[5].toString(), body[6], body[7].toString(), body[8].toString(), body[9].toString(), body[10], body[11], body[12], body[13], body[14], body[15], body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21], body[22], body[23]], (error, results) => {
     if (error) {
@@ -181,6 +199,8 @@ const deleteUser = (request, response) => {
 */
 module.exports = {
     getPlayers,
+    getPlayersNBA,
+    createPlayersNBA,
     getPlayerById,
     createPlayer,
     createGame,
