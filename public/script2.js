@@ -13,6 +13,7 @@ const loadUpGamesLocal = document.getElementById("loadGamesButton");
 const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
 const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
 const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
+const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
 
 //const getIndividualPlayer = require("./script.js");
 
@@ -163,6 +164,28 @@ const postGameInfo = async(obj, year) => {
 const postShot = async(obj) => {
     console.log('wwwwwwooooooooooooooooooooooooooooooooooooooooooowwwww');
     const url = '/shot';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postShotBySeason = async(obj, season) => {
+    console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+    const url = `/shot/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -630,6 +653,9 @@ const onStartUp = function() {
     loadUpShotChartButton.onclick = async() => {
         await loadUpShotCharts();
     }
+    loadUpShotChartsBySeasonButton.onclick = async() => {
+        await loadUpShotChartsBySeason();
+    }
     loadUpNBAPlayersButton.onclick = async() => {
         await loadUpNBAPlayers();
     }
@@ -690,6 +716,22 @@ const loadUpShotCharts = async() => {
             }
         }
     } 
+}
+
+const loadUpShotChartsBySeason = async() => {
+    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    for (let i = 0; i < years.length; i++) {
+        let shotsArray = await getJsonResponse(`/shots/${years[i]}`);
+        for (let j = 0; j < shotsArray.resultSets.length; j++) {
+            for (let m = 0; m < shotsArray.resultSets[j].rowSet.length; m++) {
+                console.log(shotsArray.resultSets[j].rowSet.length);
+                
+                //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
+                let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
+            }
+        }
+    }
+    console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
 }
 
 const loadUpNBAPlayers = async() => {
