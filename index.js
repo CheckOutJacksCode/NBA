@@ -17,6 +17,8 @@ app.use(
     })
 );
 
+
+
 app.get('/', (req, res, next) => {
     res.sendFile(__dirname + "/public/front.html");
 });
@@ -28,7 +30,12 @@ app.get('/', (req, res, next) => {
 });
 app.get('/', (req, res, next) => {
     res.sendFile(__dirname + "/public/script2.js");
-})
+});
+
+app.get('/deepStats', (req, res, next) => {
+    res.sendFile(__dirname + "/public/deepStats.html");
+});
+
 app.post('/players', db.createPlayer);
 
 app.get('/players', db.getPlayers);

@@ -15,6 +15,7 @@ const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
 const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
 const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
 
+
 //const getIndividualPlayer = require("./script.js");
 
 const getJsonResponse = async (url) => {
@@ -389,7 +390,7 @@ const getSeasonStatAvg = async(stat, year, playerId) => {
 /*
 FOR EVERY STANDARD LEAGUE GAME FOR EVERY PLAYER
 GET SEASON TOTAL OF STAT USING STANDARD LEAGUE GAME ARRAY FROM PREVIOUS STEP
-GET GAMES PLAYED BY CHECKING IF 'MINS' ARE NOT NULL FOR PLAYER IN EACH GAME LINE
+GET GAMES PLAYED BY CHECKING 8IF 'MINS' ARE NOT NULL FOR PLAYER IN EACH GAME LINE
 STAT AVERAGE = STEP 2 / STEP 3
 
 GAME LINE ARRAY ===== FOR EVERY GAME IN GAMES DATABASE WHERE PLAYERID = THE PLAYERID, AND LEAGUE = STANDARD
@@ -403,6 +404,7 @@ STAT AVERAGE = STAT TOTAL / GAMESPLAYED ARRAY.
 
 const getSeasonStatAvgLocal = async(stat, year, playerId) => {
     let league = 'standard';
+    console.log(playerId);
     let gameDetailsArray = await getJsonResponse(`/games/` + playerId + '/' + league + '/' + year);
     console.log(gameDetailsArray);
     console.log(stat);
@@ -526,7 +528,7 @@ const getStatsArray = async(playerIdArray) => {
 
 
 /* Start up function, provides functionality for submit buttons. */
-const onStartUp = function() {
+const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
         let playerIdArray = await getIdFromPlayersByNameLocal(lastName.value, firstName.value);
         console.log(seasonToGet.value)
@@ -594,6 +596,7 @@ const onStartUp = function() {
         appendPlayerAndStat(player.api.players[0], stat, statPoints);
     }
 */
+
     deepStatSubmit.onclick = async() => {
         let stat = deepStatToGet.value;
         let season = seasonToGet.value;
@@ -777,6 +780,15 @@ const runOncePerDay = async() => {
   await updateDatabase();
 }
 
+
+
+
+
+
 //UNCOMMENT THIS CODE AND THE DATABASE WILL DELETE ITSELF AND REPLENISH EVERY TIME YOU START THE SERVER
 //runOncePerDay(); // run the code
-onStartUp();
+const letsGo = async() => {
+    await onStartUp();
+}
+
+letsGo();

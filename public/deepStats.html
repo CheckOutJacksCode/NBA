@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    /* Create three equal columns that floats next to each other */
+    .column {
+      float: left;
+      width: 33.33%;
+      padding: 10px;
+      /*height: 300px; Should be removed. Only for demonstration */
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    </style>
+    </head>
+    <header>
+        <script src="./script.js" async></script>
+        <script src="./script2.js" async></script>
+        <script src="./script3.js" async></script>
+    </header>
+<body style="color:black; background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
+    <div class="row">
+        <div class="column">
+        <img src="Logo-NBA.png" alt="NBA logo" width="400" height="auto">
+        <br>
+        <br>
+        <br>
+        <p>JACK'S 2022 MVP POINTS RESULTS:
+            <br>
+            1. Giannis Antetokounmpo - 7.75
+            <br>
+            2. Nikola Jokic - 7.34
+            <br>
+            3. Joel Embiid - 7.23
+            <br> 
+        </p>
+        <p>
+            ACTUAL NBA KIA MVP VOTING:
+            <br>
+            Players received 10 points for each first-place vote, seven points for each second-place vote, 
+            five points for each third-place vote, three points for each fourth-place vote and one point for each fifth-place vote.
+            <br>
+            1. Nikola Jokic - 875 points
+            <br>
+            2. Joel Embiid - 706 points
+            <br>
+            3. Giannis Antetokounmpo - 595 points
+            <br>
+        </p>
+        <p>
+            <label for="seasonMvpPts" style="background-color: black;border-radius: 25%">Choose season: </label>
+            <select name="seasonMvpPts" id="seasonMvpPts" style="font-size: 2vw;">
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+            </select>
+            <br>
+            <div style="overflow-y:auto;"></div>
+                <table class="center" id="seasonMvpPointsTable" style="font-size: 2vw;">
+                <tr>
+                    <td style="text-align:center"></td>
+                </tr>
+                </table>
+            </div>
+        </p>
+        </div>
+    </div>
+</body>
+</html>

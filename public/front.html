@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
     <head>
     <link rel="stylesheet" href="styles.css">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
@@ -29,6 +29,9 @@
     <header>
         <script src="./script.js" async></script>
         <script src="./script2.js" async></script>
+        
+
+
         
     </header>
 <body style="background-image: url('jokic3.jpg'); background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
@@ -82,8 +85,7 @@
         </select>
         <br>
         <br>
-        <label for="submit-mvp" style="background-color: black;border-radius: 25%;color: red">Get MVP Points: </label>
-        <input type="submit" name="MVP" id="submit-mvp" style="font-size: 2vw;">
+        <button class="button" id="submit-mvp" name="submit-mvp" style="font-size: 2vw;">Get MVP Points</button>
         <br>
         <label for="statToGet" style="background-color: black;border-radius: 25%">Choose statistic: </label>
         <select name="statToGet" id="statToGet" style="font-size: 2vw;">
@@ -133,6 +135,13 @@
         <button class="button" id="loadUpNBAPlayersButton" name="loadUpNBAPlayersButton" style="font-size: 2vw;">Load NBA Players</button>
         <button class="button" id="loadUpShotChartsBySeasonButton" name="loadUpShotChartsBySeasonButton" style="font-size: 2vw;">Load Shot Charts By Season</button>
         <button class="button" id="clearButton" name="clearButton" style="font-size: 2vw;">Clear</button>
+        
+        <div>
+          <a href="deepStats">Deep Stats</a>
+          <a href="shotCharts">Shot Charts</a>
+          <a href="leagueLeaders">League Leaders</a>
+        </div>
+
     </div>
     <div class="column">
     <img src="Logo-NBA.png" alt="NBA Logo" width="400" height="auto">

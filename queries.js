@@ -36,7 +36,19 @@ const getPlayerIdWithLastFirst = (request, response) => {
   let {lastName, firstName} = request.params;
   console.log(lastName)
   console.log(firstName)
-  db.query(`SELECT playerid FROM players WHERE lastname = $1 AND firstname = $2`, [lastName, firstName], (error, results) => {
+  let lastNameEndString = '';
+  let firstNameEndString = '';
+  for (let i = 1; i < lastName.length; i++) {
+    lastNameEndString += lastName[i];
+  }
+  let last = lastName[0].toUpperCase() + lastNameEndString;
+  for (let i = 1; i < firstName.length; i++) {
+    firstNameEndString += firstName[i];
+  }
+  let first = firstName[0].toUpperCase() + firstNameEndString;
+  console.log(last);
+  console.log(first);
+  db.query(`SELECT playerid FROM players WHERE lastname = $1 AND firstname = $2`, [last, first], (error, results) => {
     if (error) {
       throw error
     }
@@ -48,8 +60,6 @@ const getPlayerIdWithLastFirst = (request, response) => {
 
 const getPlayersWithLastFirst = (request, response) => {
   let {lastName, firstName} = request.params;
-  console.log(lastName)
-  console.log(firstName)
   db.query(`SELECT * FROM players WHERE lastname = $1 AND firstname = $2`, [lastName, firstName], (error, results) => {
     if (error) {
       throw error
@@ -62,6 +72,9 @@ const getPlayersWithLastFirst = (request, response) => {
 
 const getPlayerSeasonGameStats = async(request, response) => {
   let {playerid, league, seasonyear} = request.params;
+  console.log(playerid);
+  console.log(league);
+  console.log(seasonyear);
   db.query(`SELECT * FROM games
             INNER JOIN gameinfo 
             ON games.gameid=gameinfo.gameid
