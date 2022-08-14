@@ -1,5 +1,16 @@
 const db = require("./pgPool");
 
+const getPlayerIds = (request, response) => {
+  db.query('SELECT playerid FROM players ORDER BY playerid ASC', (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
 const getPlayers = (request, response) => {
     db.query('SELECT * FROM players ORDER BY id ASC', (error, results) => {
       if (error) {
@@ -157,6 +168,19 @@ const createShotBySeason = (request, response) => {
   })
 }
 
+const createPlayerMvpPoints = (request, response) => {
+  const body = request.body;
+  console.log(body.player[0].playerid);
+  console.log(body.mvpPoints);
+  console.log(body);
+  db.query('INSERT INTO "mvpPoints" (playerid, firstname, lastname, mvppoints, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.mvpPoints, body.season], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
 const createGame = (request, response) => {
     const body = request.body;
     console.log(body);
@@ -236,6 +260,7 @@ module.exports = {
     getPlayersNBA,
     createPlayersNBA,
     getPlayerById,
+    getPlayerIds,
     createPlayer,
     createGame,
     createGameInfo,
@@ -243,6 +268,7 @@ module.exports = {
     getShotsBySeason,
     createShot,
     createShotBySeason,
+    createPlayerMvpPoints,
     deleteDatabase,
     getPlayersWithLastFirst,
     getPlayerSeasonGameStats,

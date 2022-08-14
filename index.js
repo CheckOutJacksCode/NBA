@@ -40,6 +40,8 @@ app.post('/players', db.createPlayer);
 
 app.get('/players', db.getPlayers);
 
+app.get('/playerIds', db.getPlayerIds);
+
 app.post('/playersNBA', db.createPlayersNBA);
 
 app.get('/playersNBA', db.getPlayersNBA);
@@ -53,6 +55,8 @@ app.get('/shots/:season', db.getShotsBySeason)
 app.post('/shot', db.createShot);
 
 app.post('/shot/:season', db.createShotBySeason);
+
+app.post('/mvpPoints', db.createPlayerMvpPoints);
 
 app.post('/games', db.createGame);
 

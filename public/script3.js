@@ -33,22 +33,53 @@ const swap = (arr, indexOne, indexTwo) => {
     arr[indexTwo] = arr[indexOne];
     arr[indexOne] = temp;
 }
-  
+
+const postMvpPointsLocal = async(obj) => {
+    console.log('wwwwwwowwwww');
+    console.log(obj);
+    console.log(JSON.stringify(obj))
+    const url = '/mvpPoints';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
 const mvpLoadUp = async() => {
     let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
+    console.log(playerIdArray)
     let mvpPlayersArray = [];
-    for (let i = 0; i < playerIdArray.length; i++) {
-        console.log(seasonMvpPts.value)
+
+    for (let i = 0; i < 10; i++) {
         let playerArray = [];
-        let mvpPoints = await getMvpPoints(seasonMvpPts.value, playerIdArray[i]);
-        let player = await getIndividualPlayerLocal(playerIdArray[i]);
+        let mvpPoints = await getMvpPoints(seasonMvpPts.value, playerIdArray[i].playerid);
+        /*if (isNaN(mvpPoints)) {
+            continue;
+        }*/
+        let player = await getIndividualPlayerLocal(playerIdArray[i].playerid);
+        let object = {"player":player, "mvpPoints":mvpPoints, "season":seasonMvpPts.value};
+        //let results = await postMvpPointsLocal(object);
         playerArray = [mvpPoints, player];
         mvpPlayersArray.push(playerArray);
     }
     let sortedArray = await quicksort(mvpPlayersArray)
     console.log(sortedArray);
-    for (let j = 0; j < sortedArray.length; j++) {
-        await appendPlayerAndStatMVPTable(sortedArray[i][1], 'MVP Points', sortedArray[i][0]);
+    for (let j = sortedArray.length - 1; j >= 0; j--) {
+        console.log(sortedArray[j]);
+        await appendPlayerAndStatMVPTable(sortedArray[j][1], 'MVP Points', sortedArray[j][0]);
     }
 }
   
@@ -56,6 +87,9 @@ const mvpLoadUp = async() => {
   /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
 rowIndex = 1;
 const appendPlayerAndStatMVPTable = async(player, stat, statAverage) => {
+    console.log(player);
+    console.log(stat);
+    console.log(statAverage);
     let row = seasonMvpPointsTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);

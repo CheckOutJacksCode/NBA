@@ -33,11 +33,9 @@ const getJsonResponse = async (url) => {
 
 const getArrayOfPlayerIdsInEastandWestConferences = async() => {
     let playerIdArray = [];
-    const players = await getJsonResponse('/players');
-    for (let i = 0; i < players.length; i++) {
-        playerIdArray.push(players[i].playerid);
-    }
-    return playerIdArray;
+    const players = await getJsonResponse('/playerIds');
+    console.log(players);
+    return players;
 }
 
 
