@@ -58,6 +58,8 @@ app.post('/shot/:season', db.createShotBySeason);
 
 app.post('/mvpPoints', db.createPlayerMvpPoints);
 
+app.get('/getLocalMvpPointsInSeason/:season', db.getAllFirstLastMvpPointsInSeason);
+
 app.post('/games', db.createGame);
 
 app.post('/games/seasonyear/:seasonyear', db.createGameInfo);

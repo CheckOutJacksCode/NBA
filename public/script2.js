@@ -785,8 +785,4 @@ const runOncePerDay = async() => {
 
 //UNCOMMENT THIS CODE AND THE DATABASE WILL DELETE ITSELF AND REPLENISH EVERY TIME YOU START THE SERVER
 //runOncePerDay(); // run the code
-const letsGo = async() => {
-    await onStartUp();
-}
-
-letsGo();
+onStartUp();

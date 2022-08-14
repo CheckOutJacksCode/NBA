@@ -181,6 +181,16 @@ const createPlayerMvpPoints = (request, response) => {
   })
 }
 
+const getAllFirstLastMvpPointsInSeason = (request, response) => {
+  const season = request.params;
+  db.query(`SELECT firstname, lastname, mvppoints FROM "mvpPoints" WHERE season = $1 ORDER BY mvppoints`, [season.season], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const createGame = (request, response) => {
     const body = request.body;
     console.log(body);
@@ -273,4 +283,5 @@ module.exports = {
     getPlayersWithLastFirst,
     getPlayerSeasonGameStats,
     getPlayerIdWithLastFirst,
+    getAllFirstLastMvpPointsInSeason,
 }
