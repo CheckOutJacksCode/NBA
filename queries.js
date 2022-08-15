@@ -23,24 +23,23 @@ const getPlayers = (request, response) => {
 }
 
 const getPlayersNBA = async(request, response) => {
-    let players = await require('./playersNBA.json');
+    let players = await require('./public/playersNBA.json');
     response.status(200).send(players);
 }
 
 const createPlayersNBA = async(request, response) => {
     console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKKKKKKKKKKKKKK');
-    let players = request.body;
-    //let players = await require('./playersNBA.json');
-    console.log(players);
-    /* ADD THIS SHIT, BUT CHANGE EVERYTHING:
-    db.query('INSERT INTO players (firstName, lastName, teamId, yearsPro, collegeName, country, playerId, dateOfBirth, affiliation, startNba, heightInMeters, weightInKilograms, leagues) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', 
-    [body.firstName, body.lastName, body.teamId, body.yearsPro, body.collegeName, body.country, body.playerId, body.dateOfBirth, body.affiliation, body.startNba, body.heightInMeters, body.weightInKilograms, body.leagues], (error, results) => {
+    let body = request.body;
+    // ADD THIS SHIT, BUT CHANGE EVERYTHING:
+    console.log(body);
+    db.query('INSERT INTO playersNBA (playerid, full_name, first_name, last_name, is_active) VALUES ($1, $2, $3, $4, $5)', 
+    [body.id, body.full_name, body.first_name, body.last_name, body.is_active], (error, results) => {
       if (error) {
         throw error
       }
       console.log(results);
       response.status(201).send(body);
-    })*/
+    })
 }
 
 const getPlayerIdWithLastFirst = (request, response) => {

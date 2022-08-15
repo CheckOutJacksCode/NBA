@@ -1,6 +1,7 @@
 const seasonMvpPts = document.getElementById("seasonMvpPts");
 const seasonMvpPointsTable = document.getElementById("seasonMvpPointsTable");
 const submitSeasonMvp = document.getElementById("submit-mvpSeason");
+const loadSeasonMvpLocal = document.getElementById("load-season-mvp-local");
 
 const quicksort = async(array, leftBound = 0, rightBound = array.length - 1) => {
     if (leftBound < rightBound) {
@@ -87,7 +88,7 @@ const postMvpPointsLocal = async(obj) => {
 }
 
 const mvpLoadUp = async() => {
-/*
+
     loadSeasonMvpLocal.onclick = async() => {
         let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
         let mvpPlayersArray = [];
@@ -97,25 +98,26 @@ const mvpLoadUp = async() => {
             let mvpPoints = await getMvpPoints(seasonMvpPts.value, playerIdArray[i].playerid);
             
             //COMMENT OUT THIS CONDITIONAL IF YOU WANT TO LOAD UP PLAYERS WHO DIDN'T PLAYER ('STATISTICS UNAVAILABLE')
-            if (isNaN(mvpPoints)) {
-                continue;
-            }
+            //if (isNaN(mvpPoints)) {
+              //  continue;
+            //}
 
             let player = await getIndividualPlayerLocal(playerIdArray[i].playerid);
             let object = {"player":player, "mvpPoints":mvpPoints, "season":seasonMvpPts.value};
 
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL MVP POINTS DATABASE
-            //let results = await postMvpPointsLocal(object);
-            playerArray = [mvpPoints, player];
-            mvpPlayersArray.push(playerArray);
-        }
+            let results = await postMvpPointsLocal(object);
+            //playerArray = [mvpPoints, player];
+            //mvpPlayersArray.push(playerArray);
+        /*}
         let sortedArray = await quicksort(mvpPlayersArray)
         for (let j = sortedArray.length - 1; j >= 0; j--) {
             console.log(sortedArray[j]);
             await appendPlayerAndStatMVPTable(sortedArray[j][1], 'MVP Points', sortedArray[j][0]);
+        }*/
         }
     }
-*/
+
     submitSeasonMvp.onclick = async() => {
         let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
         let mvpPlayersArray = [];
