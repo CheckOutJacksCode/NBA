@@ -23,29 +23,31 @@ const getPlayers = (request, response) => {
 }
 
 const getPlayersNBA = async(request, response) => {
-    let players = await require('./public/playersNBA.json');
+    let players = await require('./public/playersNBA7.json');
     response.status(200).send(players);
 }
 
 const createPlayersNBA = async(request, response) => {
     console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKKKKKKKKKKKKKK');
     let body = request.body;
-    // ADD THIS SHIT, BUT CHANGE EVERYTHING:
+
     console.log(body);
-    db.query('INSERT INTO playersNBA (playerid, full_name, first_name, last_name, is_active) VALUES ($1, $2, $3, $4, $5)', 
-    [body.id, body.full_name, body.first_name, body.last_name, body.is_active], (error, results) => {
-      if (error) {
-        throw error
-      }
-      console.log(results);
-      response.status(201).send(body);
-    })
+    console.log(body.length);
+    for (let j = 0; j < body.length; j++) {
+        console.log(body[j]);
+        let jsonBody = JSON.parse(body[j])
+        db.query('INSERT INTO "playersNBA" (full_name, first_name, last_name, is_active, playerid) VALUES ($1, $2, $3, $4, $5)', 
+            [jsonBody.full_name, jsonBody.first_name, jsonBody.last_name, jsonBody.is_active, jsonBody.id], (error, results) => {
+            if (error) {
+                throw error
+            }
+        })
+        response.status(201).send();
+    }
 }
 
 const getPlayerIdWithLastFirst = (request, response) => {
   let {lastName, firstName} = request.params;
-  console.log(lastName)
-  console.log(firstName)
   let lastNameEndString = '';
   let firstNameEndString = '';
   for (let i = 1; i < lastName.length; i++) {
@@ -56,13 +58,10 @@ const getPlayerIdWithLastFirst = (request, response) => {
     firstNameEndString += firstName[i];
   }
   let first = firstName[0].toUpperCase() + firstNameEndString;
-  console.log(last);
-  console.log(first);
   db.query(`SELECT playerid FROM players WHERE lastname = $1 AND firstname = $2`, [last, first], (error, results) => {
     if (error) {
       throw error
     }
-    console.log(results.rows)
 
     response.status(200).json(results.rows)
   })

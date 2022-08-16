@@ -96,6 +96,7 @@ const postPlayer = async(obj) => {
 const postPlayersNBA = async(obj) => {
     console.log('skittttttttlllllllllllleeeeeeeeeeeesssssssssssssssssssssssssssssssssssssssssssssssss');
     console.log(obj);
+    
     const url = '/playersNBA';
     try{
         const response = await fetch(url, {
@@ -104,7 +105,7 @@ const postPlayersNBA = async(obj) => {
                 'Content-Type': 'application/json'
             },
             mode: 'cors',
-            body: JSON.stringify(obj),
+            body: JSON.stringify(obj)
         })
         if (response.ok) {
             const jsonResponse = response.json();
@@ -113,7 +114,7 @@ const postPlayersNBA = async(obj) => {
     } catch (error) {
         console.log('someone fucked up');
         console.log(error);
-    } 
+    }
 }
 
 const postGame = async(obj) => {
