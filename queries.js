@@ -24,7 +24,6 @@ const getPlayers = (request, response) => {
 
 const getPlayersNBA = async(request, response) => {
     let players = await require('./public/playersNBA.json');
-    console.log(players.length);
     response.status(200).send(players);
 }
 
