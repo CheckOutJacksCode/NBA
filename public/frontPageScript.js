@@ -1,19 +1,11 @@
-const statSubmit = document.getElementById("submit-stat");
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const statToGet = document.getElementById("statToGet");
 const seasonToGet = document.getElementById("season");
-const mvpSubmit = document.getElementById("submit-mvp");
 const hustleFactorSubmit = document.getElementById("submit-hustle-factor");
 const deepStatToGet = document.getElementById("deepStatToGet");
-const deepStatSubmit = document.getElementById("submit-deep-stat");
 const clearButton = document.getElementById("clearButton");
-const loadUpLocal = document.getElementById("loadButton");
-const loadUpGamesLocal = document.getElementById("loadGamesButton");
-const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
-const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
-const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
-const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
+
 
 
 

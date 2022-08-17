@@ -1,3 +1,14 @@
+const mvpSubmit = document.getElementById("submit-mvp");
+const statSubmit = document.getElementById("submit-stat");
+const deepStatSubmit = document.getElementById("submit-deep-stat");
+const loadUpLocal = document.getElementById("loadButton");
+const loadUpGamesLocal = document.getElementById("loadGamesButton");
+const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
+const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
+const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
+const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
+
+
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
         let playerIdArray = await getIdFromPlayersByNameLocal(lastName.value, firstName.value);

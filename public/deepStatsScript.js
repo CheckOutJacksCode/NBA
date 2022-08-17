@@ -5,9 +5,11 @@ const loadSeasonMvpLocal = document.getElementById("load-season-mvp-local");
 const seasonCarmeloPts = document.getElementById("seasonCarmeloPts");
 const loadSeasonCarmeloPtsLocal = document.getElementById("load-season-carmelo-local");
 const submitSeasonCarmelo = document.getElementById("submit-carmeloSeason");
+const seasonCarmeloPointsTable = document.getElementById("seasonCarmeloPointsTable")
 const seasonHustlePts = document.getElementById("seasonHustlePts");
 const loadSeasonHustlePtsLocal = document.getElementById("load-season-hustle-local");
 const submitSeasonHustle = document.getElementById("submit-hustleSeason");
+const seasonHustlePointsTable = document.getElementById("seasonHustlePointsTable");
 
 const quicksort = async(array, leftBound = 0, rightBound = array.length - 1) => {
     if (leftBound < rightBound) {
@@ -253,7 +255,7 @@ const mvpLoadUp = async() => {
         console.log(results);
 
         for (let j = results.length - 1; j >= 0; j--) {
-            if (results[j].carmelopts === 'STATISTICS UNAVAILABLE') {
+            if (isNaN(results[j].carmelopts)) {
                 continue;
             }
             console.log(results[j]);
@@ -268,11 +270,11 @@ const mvpLoadUp = async() => {
         console.log(results);
 
         for (let j = results.length - 1; j >= 0; j--) {
-            if (results[j].hustlepts === 'STATISTICS UNAVAILABLE') {
+            if (isNaN(results[j].hustlepts)) {
                 continue;
             }
             console.log(results[j]);
-            await appendPlayerAndStatCarmeloTable(results[j].firstname + ' ' + results[j].lastname, 'Hustle Factor', results[j].hustlepts);
+            await appendPlayerAndStatHustleTable(results[j].firstname + ' ' + results[j].lastname, 'Hustle Factor', results[j].hustlepts);
         }
     }
 }
@@ -294,6 +296,40 @@ const appendPlayerAndStatMVPTable = async(player, stat, statAverage) => {
         cell2.innerHTML = stat + ":" + ` ${statAverage}`;
     }
     rowIndex += 1;
+}
+
+carmeloRowIndex = 1;
+const appendPlayerAndStatCarmeloTable = async(player, stat, statAverage) => {
+    console.log(player);
+    console.log(stat);
+    console.log(statAverage);
+    let row = seasonCarmeloPointsTable.insertRow(carmeloRowIndex);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    cell1.innerHTML = player;
+    if (isNaN(statAverage)) {
+        cell2.innerHTML = 'Statistics Unavailable'
+    } else {
+        cell2.innerHTML = stat + ":" + ` ${statAverage}`;
+    }
+    carmeloRowIndex += 1;
+}
+
+hustleRowIndex = 1;
+const appendPlayerAndStatHustleTable = async(player, stat, statAverage) => {
+    console.log(player);
+    console.log(stat);
+    console.log(statAverage);
+    let row = seasonHustlePointsTable.insertRow(hustleRowIndex);
+    let cell1 = row.insertCell(0);
+    let cell2 = row.insertCell(1);
+    cell1.innerHTML = player;
+    if (isNaN(statAverage)) {
+        cell2.innerHTML = 'Statistics Unavailable'
+    } else {
+        cell2.innerHTML = stat + ":" + ` ${statAverage}`;
+    }
+    hustleRowIndex += 1;
 }
 
 mvpLoadUp();
