@@ -179,9 +179,51 @@ const createPlayerMvpPoints = (request, response) => {
   })
 }
 
+const createPlayerCarmeloPoints = (request, response) => {
+  const body = request.body;
+
+  db.query('INSERT INTO "carmeloPts" (playerid, firstname, lastname, carmelopts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.carmeloPts, body.season], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const createPlayerHustlePoints = (request, response) => {
+  const body = request.body;
+
+  db.query('INSERT INTO "hustleFactor" (playerid, firstname, lastname, hustlepts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.hustlePts, body.season], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
 const getAllFirstLastMvpPointsInSeason = (request, response) => {
   const season = request.params;
   db.query(`SELECT firstname, lastname, mvppoints FROM "mvpPoints" WHERE season = $1 ORDER BY mvppoints`, [season.season], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getAllFirstLastCarmeloPointsInSeason = (request, response) => {
+  const season = request.params;
+  db.query(`SELECT firstname, lastname, carmelopts FROM "carmeloPts" WHERE season = $1 ORDER BY carmelopts`, [season.season], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getAllFirstLastHustlePointsInSeason = (request, response) => {
+  const season = request.params;
+  db.query(`SELECT firstname, lastname, hustlepts FROM "hustleFactor" WHERE season = $1 ORDER BY hustlepts`, [season.season], (error, results) => {
     if (error) {
       throw error
     }
@@ -277,9 +319,13 @@ module.exports = {
     createShot,
     createShotBySeason,
     createPlayerMvpPoints,
+    createPlayerCarmeloPoints,
+    createPlayerHustlePoints,
     deleteDatabase,
     getPlayersWithLastFirst,
     getPlayerSeasonGameStats,
     getPlayerIdWithLastFirst,
     getAllFirstLastMvpPointsInSeason,
+    getAllFirstLastCarmeloPointsInSeason,
+    getAllFirstLastHustlePointsInSeason,
 }

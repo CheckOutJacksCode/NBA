@@ -217,12 +217,6 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
 
 
 
-const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
-    let playerid = await getJsonResponse(`/local/players/playerid/` + playerLastName + '/' + playerFirstName);
-    console.log(playerid);
-    return playerid;
-}
-
 /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
 rowIndex = 1;
 const appendPlayerAndStat = async(player, stat, statAverage) => {
@@ -318,10 +312,7 @@ const getPlayersInStandardLeague = async() => {
     }
 }
   
-const getPlayersByLastNameLocal = async(playerLastName) => {
-    let players = await getJsonResponse('/players/lastName/' + playerLastName);
-    return players;
-}
+
 
 /* Retrieves entire desired player object and returns to user. */
 const getPlayersByName = async(playerLastName) => {
@@ -378,112 +369,9 @@ STAT AVERAGE = STAT TOTAL / GAMESPLAYED ARRAY.
 
 
 
-const getSeasonStatAvgLocal = async(stat, year, playerId) => {
-    let league = 'standard';
-    console.log(playerId);
-    let gameDetailsArray = await getJsonResponse(`/games/` + playerId + '/' + league + '/' + year);
-    console.log(gameDetailsArray);
-    console.log(stat);
-    let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
-    console.log(statTotal)
-    let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
-    let statAverage = statTotal / gamesPlayed;
-    return Number.parseFloat(statAverage).toFixed(2);
-}
 
-/* Returns the season total of any stat) */
-const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
-    let statTotal = 0;
-    if (stat === 'ppg') {
-        console.log('YOTOTOTOOOOTORORORORTOOREWEOE')
-        stat = 'points';
-    }
-    for (let i = 0; i < gameDetailsArray.length; i++) {
-        if (gameDetailsArray[i].min) {
-            statTotal += parseInt(gameDetailsArray[i][stat]);
-        }
-    }
-    return statTotal;
-}
 
-const getIndividualPlayerLocal = async(playerid) => {
-    console.log(playerid);
-    const player = await getJsonResponse(`/local/players/` + playerid);
-    console.log(player);
-    return player;
-}
 
-/* MVP points logic */
-/*NOW YOU HAVE THE PLAYER ID.
-CALL GETSTANDARDPLAYERDETAILS*/
-const getMvpPoints = async(year, playerId) => {
-    let ppg = await getSeasonStatAvgLocal('ppg', year, playerId);
-    console.log(ppg)
-    let totReb = await getSeasonStatAvgLocal('totreb', year, playerId);
-    console.log(totReb);
-    let assists = await getSeasonStatAvgLocal('assists', year, playerId);
-    console.log(assists);
-    let steals = await getSeasonStatAvgLocal('steals', year, playerId);
-    console.log(steals);
-    let turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
-    console.log(turnovers);
-    let plusMinus = await getSeasonStatAvgLocal('plusminus', year, playerId);
-    console.log(plusMinus);
-    let fgp = await getSeasonStatAvgLocal('fgp', year, playerId);
-    console.log(fgp);
-    let mvpPoints = (.15 * parseInt(ppg)) + (.07 * parseInt(totReb)) + (.06 * parseInt(assists)) + (.125 * parseInt(steals)) - (.125 * parseInt(turnovers)) + (.3 * parseInt(plusMinus)) + (.02 * parseInt(fgp));
-    console.log(plusMinus);
-    if (!mvpPoints) {
-        return 'STATISTICS UNAVAILABLE'
-    }
-    return mvpPoints.toFixed(2);
-}
-
-/* Hustle Factor logic */
-const getHustleFactor = async(year, playerId) => {
-    let hustleFactor;
-    console.log(playerId)
-    console.log(year)
-    let offRebPg = await getSeasonStatAvgLocal('offreb', year, playerId)
-    let stl = await getSeasonStatAvgLocal('steals', year, playerId)
-    let blk = await getSeasonStatAvgLocal('blocks', year, playerId)
-    let plusMinus = await getSeasonStatAvgLocal('plusminus', year, playerId);
-    //let games = await getPlayerStandardGameDetails(playerId);
-    //let gamesPlayed = games.length;
-    let player = await getIndividualPlayerLocal(playerId)
-    console.log(player)
-    let height = parseFloat(player[0].heightinmeters)
-    console.log(height)
-    if (height < 2.057) {
-        hustleFactor = (.2 * parseFloat(offRebPg)) + (.4 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
-    } else if (height === null) {
-        hustleFactor = (.25 * parseFloat(offRebPg)) + (.35 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
-    } else {
-        hustleFactor = (.3 * parseFloat(offRebPg)) + (.3 * parseFloat(stl)) + (.3 * parseFloat(blk)) + (.1 * parseFloat(plusMinus))
-    }
-    console.log(hustleFactor)
-    return hustleFactor.toFixed(2);
-}
-
-/* Carmelo logic. The higher your carmelo factor, the more effecient and gritty
-of a player you are, adds fgp and hustlefactor */
-
-const getCarmeloFactor = async(year, playerId) => {
-    let carmeloFactor;
-    let fgp = await getSeasonStatAvgLocal('fgp', year, playerId);
-    let hustleFactor = await getHustleFactor(year, playerId);
-    carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);
-    return carmeloFactor.toFixed(2);
-}
-
-/*const getCarmeloFactor = async(year, playerId) => {
-    let carmeloFactor;
-    let fgp = await getSeasonStatAvg('fgp', year, playerId);
-    let hustleFactor = await getHustleFactor(year, playerId);
-    carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);
-    return carmeloFactor.toFixed(2);
-}
-*/
 /* Retrieves player object 
 const getPlayer = async() => {
     let playerFirstName = firstName.value;

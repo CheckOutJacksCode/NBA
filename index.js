@@ -58,7 +58,15 @@ app.post('/shot/:season', db.createShotBySeason);
 
 app.post('/mvpPoints', db.createPlayerMvpPoints);
 
+app.post('/carmeloPoints', db.createPlayerCarmeloPoints);
+
+app.post('/hustlePoints', db.createPlayerHustlePoints);
+
 app.get('/getLocalMvpPointsInSeason/:season', db.getAllFirstLastMvpPointsInSeason);
+
+app.get('/getLocalCarmeloPointsInSeason/:season', db.getAllFirstLastCarmeloPointsInSeason);
+
+app.get('/getLocalHustlePointsInSeason/:season', db.getAllFirstLastHustlePointsInSeason)
 
 app.post('/games', db.createGame);
 
