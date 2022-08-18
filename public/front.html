@@ -34,14 +34,14 @@
 
         
     </header>
-<body style="background-image: url('jokic3.jpg'); background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
+<body style="background-color: rgb(4, 4, 30); background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
     <div class="row">
         <div class="column">
         <img src="Logo-NBA.png" alt="NBA logo" width="400" height="auto">
         <br>
         <br>
         <br>
-        <p>JACK'S 2022 MVP POINTS RESULTS:
+        <p class="p1">JACK'S 2022 MVP POINTS RESULTS:
             <br>
             1. Giannis Antetokounmpo - 7.75
             <br>
@@ -50,7 +50,7 @@
             3. Joel Embiid - 7.23
             <br> 
         </p>
-        <p>
+        <p class="p1">
             ACTUAL NBA KIA MVP VOTING:
             <br>
             Players received 10 points for each first-place vote, seven points for each second-place vote, 
@@ -62,18 +62,18 @@
             <br>
             3. Giannis Antetokounmpo - 595 points
             <br>
-        </p>
+        <p1>
         </div>
         <div class="column" style="font-size: 2vw;">
-        <label for="firstName" style="background-color: black;border-radius: 25%;">Enter player first name: </label>
+        <label for="firstName">Enter player first name: </label>
         <input type="text" name="firstName" id="firstName" style="font-size: 2vw;">
         <br>
         <br>
-        <label for="lastName" style="background-color: black;border-radius: 25%">Enter player last name: </label>
+        <label for="lastName">Enter player last name: </label>
         <input type="text" name="lastName" id="lastName" style="font-size: 2vw;">
         <br>
         <br>
-        <label for="season" style="background-color: black;border-radius: 25%">Choose season: </label>
+        <label for="season">Choose season: </label>
         <select name="season" id="season" style="font-size: 2vw;">
             <option value="2015">2015</option>
             <option value="2016">2016</option>
@@ -87,7 +87,7 @@
         <br>
         <button class="button" id="submit-mvp" name="submit-mvp" style="font-size: 2vw;">Get MVP Points</button>
         <br>
-        <label for="statToGet" style="background-color: black;border-radius: 25%">Choose statistic: </label>
+        <label for="statToGet">Choose statistic: </label>
         <select name="statToGet" id="statToGet" style="font-size: 2vw;">
             <option value="ppg">ppg</option>
             <option value="min">minutes</option>
@@ -113,14 +113,14 @@
         </select>
         <input type="submit" name="SUBMIT" id="submit-stat" style="font-size: 2vw;">
         <br>
-        <label for="deepStatToGet" style="background-color: black;border-radius: 25%">Choose deep stat: </label>
+        <label for="deepStatToGet">Choose deep stat: </label>
         <select name="deepStatToGet" id="deepStatToGet" style="font-size: 2vw;">
             <option value="Hustle Factor">Hustle Factor</option>
             <option value="Carmelo Factor">The Carmelo Factor</option>
         </select>
         <input type="submit" name="SUBMIT" id="submit-deep-stat" style="font-size: 2vw;">
         <br>
-        <h1><span style="background-color: black;padding: 2px;border-radius: 25%;font-size: 2vw;">QUERY RESULTS:</span></h1>
+        <h1><span style="font-size: 2vw;">QUERY RESULTS:</span></h1>
         <table class="center" id="player-info" style="font-size: 2vw;">
         <tr>
             <td style="text-align:center"></td>

@@ -296,7 +296,7 @@ const appendPlayerAndStatMVPTable = async(player, stat, statAverage) => {
     if (isNaN(statAverage)) {
         cell2.innerHTML = 'Statistics Unavailable'
     } else {
-        cell2.innerHTML = stat + ":" + ` ${statAverage}`;
+        cell2.innerHTML = `${statAverage}`;
     }
     rowIndex += 1;
 }
@@ -312,8 +312,8 @@ const appendPlayerAndStatCarmeloTable = async(player, stat, statAverage) => {
     cell1.innerHTML = player;
     if (isNaN(statAverage)) {
         cell2.innerHTML = 'Statistics Unavailable'
-    } else {
-        cell2.innerHTML = stat + ":" + ` ${statAverage}`;
+    } else {000
+        cell2.innerHTML = `${statAverage}`;
     }
     carmeloRowIndex += 1;
 }
@@ -330,7 +330,7 @@ const appendPlayerAndStatHustleTable = async(player, stat, statAverage) => {
     if (isNaN(statAverage)) {
         cell2.innerHTML = 'Statistics Unavailable'
     } else {
-        cell2.innerHTML = stat + ":" + ` ${statAverage}`;
+        cell2.innerHTML = `${statAverage}`;
     }
     hustleRowIndex += 1;
 }
