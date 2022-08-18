@@ -237,7 +237,8 @@ const mvpLoadUp = async() => {
 
         let results = await getJsonResponse('/getLocalMvpPointsInSeason/' + seasonMvpPts.value);
         console.log(results);
-
+        seasonMvpPointsTable.innerHTML = '';
+        rowIndex = 0;
         for (let j = results.length - 1; j >= 0; j--) {
             if (results[j].mvppoints === 'STATISTICS UNAVAILABLE') {
                 continue;
@@ -253,7 +254,8 @@ const mvpLoadUp = async() => {
 
         let results = await getJsonResponse('/getLocalCarmeloPointsInSeason/' + seasonCarmeloPts.value);
         console.log(results);
-
+        seasonCarmeloPointsTable.innerHTML = '';
+        carmeloRowIndex = 0;
         for (let j = results.length - 1; j >= 0; j--) {
             if (isNaN(results[j].carmelopts)) {
                 continue;
@@ -268,7 +270,8 @@ const mvpLoadUp = async() => {
 
         let results = await getJsonResponse('/getLocalHustlePointsInSeason/' + seasonHustlePts.value);
         console.log(results);
-
+        seasonHustlePointsTable.innerHTML = '';
+        hustleRowIndex = 0;
         for (let j = results.length - 1; j >= 0; j--) {
             if (isNaN(results[j].hustlepts)) {
                 continue;
@@ -281,7 +284,7 @@ const mvpLoadUp = async() => {
   
   
   /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
-rowIndex = 1;
+rowIndex = 0;
 const appendPlayerAndStatMVPTable = async(player, stat, statAverage) => {
     console.log(player);
     console.log(stat);
@@ -298,7 +301,7 @@ const appendPlayerAndStatMVPTable = async(player, stat, statAverage) => {
     rowIndex += 1;
 }
 
-carmeloRowIndex = 1;
+carmeloRowIndex = 0;
 const appendPlayerAndStatCarmeloTable = async(player, stat, statAverage) => {
     console.log(player);
     console.log(stat);
@@ -315,7 +318,7 @@ const appendPlayerAndStatCarmeloTable = async(player, stat, statAverage) => {
     carmeloRowIndex += 1;
 }
 
-hustleRowIndex = 1;
+hustleRowIndex = 0;
 const appendPlayerAndStatHustleTable = async(player, stat, statAverage) => {
     console.log(player);
     console.log(stat);

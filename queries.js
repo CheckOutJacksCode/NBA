@@ -203,7 +203,7 @@ const createPlayerHustlePoints = (request, response) => {
 
 const getAllFirstLastMvpPointsInSeason = (request, response) => {
   const season = request.params;
-  db.query(`SELECT firstname, lastname, mvppoints FROM "mvpPoints" WHERE season = $1 ORDER BY mvppoints`, [season.season], (error, results) => {
+  db.query(`SELECT firstname, lastname, mvppoints FROM "mvpPoints" WHERE season = $1 AND mvppoints!='STATISTICS UNAVAILABLE' ORDER BY CAST(mvppoints AS FLOAT) ASC`, [season.season], (error, results) => {
     if (error) {
       throw error
     }
@@ -213,7 +213,7 @@ const getAllFirstLastMvpPointsInSeason = (request, response) => {
 
 const getAllFirstLastCarmeloPointsInSeason = (request, response) => {
   const season = request.params;
-  db.query(`SELECT firstname, lastname, carmelopts FROM "carmeloPts" WHERE season = $1 ORDER BY carmelopts`, [season.season], (error, results) => {
+  db.query(`SELECT firstname, lastname, carmelopts FROM "carmeloPts" WHERE season = $1 AND carmelopts!='STATISTICS UNAVAILABLE' ORDER BY CAST(carmelopts AS FLOAT) ASC`, [season.season], (error, results) => {
     if (error) {
       throw error
     }
@@ -223,7 +223,7 @@ const getAllFirstLastCarmeloPointsInSeason = (request, response) => {
 
 const getAllFirstLastHustlePointsInSeason = (request, response) => {
   const season = request.params;
-  db.query(`SELECT firstname, lastname, hustlepts FROM "hustleFactor" WHERE season = $1 ORDER BY hustlepts`, [season.season], (error, results) => {
+  db.query(`SELECT firstname, lastname, hustlepts FROM "hustleFactor" WHERE season = $1 AND hustlepts!='STATISTICS UNAVAILABLE' ORDER BY CAST(hustlepts AS FLOAT) ASC`, [season.season], (error, results) => {
     if (error) {
       throw error
     }
