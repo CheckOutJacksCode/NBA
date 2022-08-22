@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
 const db = require('./queries');
+
 const port = process.env.PORT || 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
@@ -35,6 +36,14 @@ app.get('/', (req, res, next) => {
 app.get('/deepStats', (req, res, next) => {
     res.sendFile(__dirname + "/public/deepStats.html");
 });
+
+app.get('/shotCharts', (req, res, next) => {
+    res.sendFile(__dirname + "/public/shotCharts.html");
+});
+
+app.get('/leaguegames/:season', db.getGamesBySeason);
+
+app.post('/leaguegames/:season', db.createGamesBySeason);
 
 app.post('/players', db.createPlayer);
 

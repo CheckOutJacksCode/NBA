@@ -35,7 +35,12 @@ fs.createReadStream("./shots_data.csv")
     let twoPtMadeB = 0;
     let threePtMadeB = 0;
     let cornerMadeB = 0;
+    console.log(data.length);
+    let count = 0;
     for (let i = 0; i < data.length; i++) {
+        if (data[i].y < 0) {
+            count += 1;
+        }
         if (data[i].team === 'Team A') { 
             totalA += 1; 
             if (parseFloat(data[i].x) >= -22 && parseFloat(data[i].x) <= 22) {
@@ -111,5 +116,7 @@ fs.createReadStream("./shots_data.csv")
     console.log(twoPtMadeB)
     console.log(threePtMadeB)
     console.log(cornerMadeB)
+
+    console.log(count)
 
   });

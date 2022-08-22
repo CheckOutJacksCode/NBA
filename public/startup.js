@@ -143,6 +143,9 @@ const onStartUp = async() => {
     loadUpNBAPlayersButton.onclick = async() => {
         await loadUpNBAPlayers();
     }
+    loadUpLeagueGamesBySeasonButton.onclick = async() => {
+        await loadUpLeagueGamesBySeason();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -218,10 +221,33 @@ const loadUpShotChartsBySeason = async() => {
     console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
 }
 
+const loadUpAllTimeLeadersGrids = async() => {
+        
+}
+
 const loadUpNBAPlayers = async() => {
     let players = await getJsonResponse('/playersNBA');
     console.log(players.length);   
     let results = await postPlayersNBA(players);
 }
+
+const loadUpLeagueGamesBySeason = async() => {
+    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    for (let i = 0; i < years.length; i++) {
+        let gamesArray = await getJsonResponse(`/leaguegames/${years[i]}`);
+        console.log(gamesArray)
+        for (let j = 0; j < gamesArray.resultSets.length; j++) {
+            console.log(gamesArray.resultSets.length);
+            for (let m = 0; m < gamesArray.resultSets[j].rowSet.length; m++) {
+                //console.log(gamesArray.resultSets[j].rowSet);
+                
+                //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
+                //let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);
+            }
+        }
+    }
+    console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
+}
+
 
 onStartUp();

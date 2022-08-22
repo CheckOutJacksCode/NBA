@@ -174,6 +174,28 @@ const postShotBySeason = async(obj, season) => {
     } 
 }
 
+const postLeagueGamesBySeason = async(obj, season) => {
+    console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+    const url = `/leaguegames/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
 const deleteDatabase = async() => {
     const url = '/database/delete';
     try {
