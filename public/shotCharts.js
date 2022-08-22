@@ -1,39 +1,50 @@
 // Set Dimensions
-const xSize = 500; 
-const ySize = 470;
-const margin = 40;
-const xMax = xSize - margin*2;
-const yMax = ySize - margin*2;
+const xSize = 600; 
+const ySize = 570;
+const xHalf = -350;
+const xPosHalf = 350;
+const xMargin = 100;
+const yMargin = 100;
+const width = xSize - xMargin
+const height = ySize - yMargin
+const halfWidth = xHalf + xMargin;
+const halfPosWidth = xPosHalf - xMargin;
+
 
 const letsGo = async() => {
     const data = [];
     let season = {"season":"2015-2016"};
     let totalShotsArray = await getJsonResponse(`/shots/${season['season']}`);
-    for (let i = 0; i < totalShotsArray; i++) {
-      data.push(totalShotsArray[i]);
+    console.log(totalShotsArray.resultSets[0].rowSet);
+    console.log([totalShotsArray.resultSets[0].rowSet[0]])
+    console.log(totalShotsArray.resultSets.length)
+    //totalShotsArray.resultSets[0].rowSet[0].length
+    for (let i = 0; i < 1000; i++) {
+      data.push([totalShotsArray.resultSets[0].rowSet[i][17], totalShotsArray.resultSets[0].rowSet[i][18]]);
     }
 
     // Append SVG Object to the Page
     const svg = d3.select("#myPlot")
       .append("svg")
       .append("g")
-      .attr("transform","translate(" + margin + "," + margin + ")");
+      .attr("transform","translate(" + xPosHalf + ", " + yMargin + ")");
 
     // X Axis
     const x = d3.scaleLinear()
-      .domain([0, 500])
-      .range([0, xMax]);
+      .domain([-250, 250])
+      .range([0, width]);
 
     svg.append("g")
-      .attr("transform", "translate(0," + yMax + ")")
+      .attr("transform", "translate(-250, 0)")
       .call(d3.axisBottom(x));
 
     // Y Axis
     const y = d3.scaleLinear()
-      .domain([0, 470])
-      .range([ yMax, 0]);
+      .domain([0, height])
+      .range([ 0, height]);
 
     svg.append("g")
+      .attr("transform", "translate(250, 0)")
       .call(d3.axisLeft(y));
 
     // Dots
