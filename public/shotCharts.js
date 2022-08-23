@@ -4,7 +4,7 @@ const ySize = 570;
 const xHalf = -350;
 const xPosHalf = 350;
 const xMargin = 100;
-const yMargin = 100;
+const yMargin = 50;
 const width = xSize - xMargin
 const height = ySize - yMargin
 const halfWidth = xHalf + xMargin;
@@ -27,7 +27,7 @@ const letsGo = async() => {
     const svg = d3.select("#myPlot")
       .append("svg")
       .append("g")
-      .attr("transform","translate(" + xPosHalf + ", " + yMargin + ")");
+      .attr("transform","translate(" + halfPosWidth + ", " + yMargin + ")");
 
     // X Axis
     const x = d3.scaleLinear()

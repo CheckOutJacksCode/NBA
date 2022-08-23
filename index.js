@@ -59,7 +59,13 @@ app.get('/games/:playerid/:league/:seasonyear', db.getPlayerSeasonGameStats);
 
 app.get('/shots', db.getShots);
 
-app.get('/shots/:season', db.getShotsBySeason)
+app.get('/shots/:season', db.getShotsBySeason);
+
+app.get('/shots/:player', db.getShotsByPlayer);
+
+app.get('/shots/:player/:season', db.getShotsByPlayerBySeason);
+
+app.get('/shots/:player/:season/:game', db.getShotsByPlayerBySeasonByGame);
 
 app.post('/shot', db.createShot);
 

@@ -2,7 +2,31 @@
 <html>
 
     <head>
-    </head>
+        <link rel="stylesheet" href="styles.css">
+            <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+            <style>
+            * {
+              box-sizing: border-box;
+            }
+            body {
+              background-color: rgb(4, 4, 30);
+            }
+            /* Create three equal columns that floats next to each other */
+            .column {
+              float: left;
+              width: 50.00%;
+              padding: 10px;
+              /*height: 300px; Should be removed. Only for demonstration */
+            }
+            
+            /* Clear floats after the columns */
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            </style>
+        </head>
     <header>
 
         <script src="./mutualScript.js" async></script>
@@ -11,8 +35,13 @@
         <script src="http://d3js.org/d3.v7.min.js" charset="utf-8"></script>
 
     </header>
-    <body>
-        <svg id="myPlot" style="width: 600px;height:570px">
-        </svg>
+    <body style="color:black; background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
+        <div class="row">
+            <div class="column">
+                <p class="p1">SHOT CHARTS</p>
+                <svg id="myPlot" style="width: 600px; height:570px; display:block; margin:auto">
+                </svg>
+            </div>
+        </div>
     </body>
 </html>
