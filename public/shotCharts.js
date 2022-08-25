@@ -1,3 +1,8 @@
+const shotsPlayer = document.getElementById("shots_player");
+const shotsSeason = document.getElementById("shots_season");
+const shotsGameId = document.getElementById("shots_gameId");
+const submitShots = document.getElementById("submit_shots");
+
 // Set Dimensions
 const xSize = 600; 
 const ySize = 570;
@@ -11,15 +16,15 @@ const halfWidth = xHalf + xMargin;
 const halfPosWidth = xPosHalf - xMargin;
 
 
-const letsGo = async() => {
+const letsGo = async(url) => {
     const data = [];
     let season = {"season":"2015-2016"};
-    let totalShotsArray = await getJsonResponse(`/shots/${season['season']}`);
+    let totalShotsArray = await getJsonResponse(url);
     console.log(totalShotsArray.resultSets[0].rowSet);
     console.log([totalShotsArray.resultSets[0].rowSet[0]])
     console.log(totalShotsArray.resultSets.length)
-    //totalShotsArray.resultSets[0].rowSet[0].length
-    for (let i = 0; i < 1000; i++) {
+    let length = totalShotsArray.resultSets[0].rowSet[0].length
+    for (let i = 0; i < length; i++) {
       data.push([totalShotsArray.resultSets[0].rowSet[i][17], totalShotsArray.resultSets[0].rowSet[i][18]]);
     }
 
@@ -57,4 +62,9 @@ const letsGo = async() => {
       .attr("r", 3)
       .style("fill", "Red");
 }
-letsGo();
+
+let url = `/local/shots/${shotsPlayer}/${shotsSeason}/${shotsGameId}`
+submitShots.onclick = async() => {
+  letsGo(url);
+}
+

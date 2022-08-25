@@ -125,11 +125,19 @@ const createPlayer = (request, response) => {
 }
 
 const getShots = async(request, response) => {
-  console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB')
   let shotsArray = [];
   let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
   for (let i = 0; i < years.length; i++) {
       let shots = await require(`./${years[i]}.json`);
+      shotsArray.push(shots);
+  }
+  response.status(200).send(shotsArray);    
+}
+//CHANGE ALL AWAITS TO SQL QUERIES, IDIOT.
+const getShotsLocal = async(request, response) => {
+  let shotsArray = [];
+  for (let i = 0; i < years.length; i++) {
+      let shots = await getJsonResponse();
       shotsArray.push(shots);
   }
   response.status(200).send(shotsArray);    
@@ -145,6 +153,40 @@ const getShotsBySeason = async(request, response) => {
   let season = request.params;
   console.log(season['season']);
   let shots = await require(`./${season['season']}.json`);
+  response.status(200).send(shots);    
+}
+
+const getShotsBySeasonLocal = async(request, response) => {
+  let season = request.params;
+  console.log(season['season']);
+  let shots = await getJsonResponse(`/local/shots/:season`);
+  response.status(200).send(shots);    
+}
+
+const getShotsByPlayerBySeason = async(request, response) => {
+  let season = request.params;
+  console.log(season['season']);
+  let shots = await require(`./${season['season']}.json`);
+  response.status(200).send(shots);    
+}
+
+const getShotsByPlayerBySeasonLocal = async(request, response) => {
+  let { player, season } = request.params;
+  console.log(season['season']);
+  let shots = await getJsonResponse('/local/shots/:player/:season');
+  response.status(200).send(shots);    
+}
+
+const getShotsByPlayerBySeasonByGameLocal = async(request, response) => {
+  let { player, season, gameId } = request.params;
+  console.log(season['season']);
+  let shots = await getJsonResponse('/local/shots/:player/:season/:gameId');
+  response.status(200).send(shots);    
+}
+
+const getShotsByPlayerLocal = async(request, response) => {
+  let player = request.params;
+  let shots = await getJsonResponse('/local/shots/:player');
   response.status(200).send(shots);    
 }
 
@@ -337,6 +379,7 @@ module.exports = {
     createGameInfo,
     getShots,
     getShotsBySeason,
+    getShotsByPlayerBySeason,
     createShot,
     createShotBySeason,
     createPlayerMvpPoints,
@@ -350,6 +393,10 @@ module.exports = {
     getAllFirstLastCarmeloPointsInSeason,
     getAllFirstLastHustlePointsInSeason,
     getGamesBySeason,
+    getShotsBySeasonLocal,
+    getShotsByPlayerBySeasonLocal,
+    getShotsByPlayerBySeasonByGameLocal,
     createGamesBySeason,
+    getShotsByPlayerLocal,
 
 }
