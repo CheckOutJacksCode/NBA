@@ -135,12 +135,12 @@ const getShots = async(request, response) => {
 }
 //CHANGE ALL AWAITS TO SQL QUERIES, IDIOT.
 const getShotsLocal = async(request, response) => {
-  let shotsArray = [];
-  for (let i = 0; i < years.length; i++) {
-      let shots = await getJsonResponse();
-      shotsArray.push(shots);
-  }
-  response.status(200).send(shotsArray);    
+  db.query('SELECT * FROM "2015-2016"', (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
 }
 
 const getGamesBySeason = async(request, response) => {
@@ -158,9 +158,12 @@ const getShotsBySeason = async(request, response) => {
 
 const getShotsBySeasonLocal = async(request, response) => {
   let season = request.params;
-  console.log(season['season']);
-  let shots = await getJsonResponse(`/local/shots/:season`);
-  response.status(200).send(shots);    
+  db.query('SELECT * FROM "2015-2016" WHERE season = $1', [season['season']], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
 }
 
 const getShotsByPlayerBySeason = async(request, response) => {
@@ -172,16 +175,24 @@ const getShotsByPlayerBySeason = async(request, response) => {
 
 const getShotsByPlayerBySeasonLocal = async(request, response) => {
   let { player, season } = request.params;
-  console.log(season['season']);
-  let shots = await getJsonResponse('/local/shots/:player/:season');
-  response.status(200).send(shots);    
+  let playerid = player.playerid;
+  db.query('SELECT * FROM "2015-2016" WHERE playerid = $1 AND season = $2', [playerid, season['season']], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
 }
 
 const getShotsByPlayerBySeasonByGameLocal = async(request, response) => {
-  let { player, season, gameId } = request.params;
-  console.log(season['season']);
-  let shots = await getJsonResponse('/local/shots/:player/:season/:gameId');
-  response.status(200).send(shots);    
+  let { player, season, gameid } = request.params;
+  let playerid = player.playerid;
+  db.query('SELECT * FROM "2015-2016" WHERE playerid = $1 AND season = $2', [playerid, season['season'], gameid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
 }
 
 const getShotsByPlayerLocal = async(request, response) => {
