@@ -149,6 +149,27 @@ const getGamesBySeason = async(request, response) => {
   response.status(200).send(games);    
 }
 
+const getGamesBySeasonLocal = async(request, response) => {
+  let season = request.params;
+  db.query('SELECT * FROM "leagueGames2015-2016" WHERE season = $1', [season['season']], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
+const getGamesLocal = async(request, response) => {
+  for (let i = 0; i < 7; i++) { 
+    db.query('SELECT * FROM "leagueGames2015-2016"', [season['season']], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+  }
+}
+
 const getShotsBySeason = async(request, response) => {
   let season = request.params;
   console.log(season['season']);
@@ -197,8 +218,13 @@ const getShotsByPlayerBySeasonByGameLocal = async(request, response) => {
 
 const getShotsByPlayerLocal = async(request, response) => {
   let player = request.params;
-  let shots = await getJsonResponse('/local/shots/:player');
-  response.status(200).send(shots);    
+  let playerid = player.playerid;
+  db.query('SELECT * FROM "2015-2016" WHERE playerid = $1', [playerid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
 }
 
 const createShot = (request, response) => {
@@ -409,5 +435,7 @@ module.exports = {
     getShotsByPlayerBySeasonByGameLocal,
     createGamesBySeason,
     getShotsByPlayerLocal,
-
+    getShotsLocal,
+    getGamesBySeasonLocal,
+    getGamesLocal,
 }

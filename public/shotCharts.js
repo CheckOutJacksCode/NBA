@@ -15,6 +15,14 @@ const height = ySize - yMargin
 const halfWidth = xHalf + xMargin;
 const halfPosWidth = xPosHalf - xMargin;
 
+var item = "";
+var str = "";
+  for (var game of games) {
+    str += "<option>" + game + "</option>"
+  }
+  document.getElementById("pickone").innerHTML = str;
+}
+
 
 const letsGo = async(url) => {
     const data = [];

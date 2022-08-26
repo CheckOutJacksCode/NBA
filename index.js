@@ -43,6 +43,10 @@ app.get('/shotCharts', (req, res, next) => {
 
 app.get('/leaguegames/:season', db.getGamesBySeason);
 
+app.get('/local/leaguegames', db.getGamesLocal);
+
+app.get('/local/leaguegames/:season', db.getGamesBySeasonLocal);
+
 app.post('/leaguegames/:season', db.createGamesBySeason);
 
 app.post('/players', db.createPlayer);
