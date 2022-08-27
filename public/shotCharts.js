@@ -88,13 +88,14 @@ const gameDropDown = async() => {
       }
       document.getElementById("shots_gameId").innerHTML = str;
     } catch(error) {
-    console.log(error);
+      console.log(error);
     }
-  }
+}
 
 
 const submitShots = async() => {
   //FIND ONE IN NEW GAMEID ARRAY WHERE SHOTSGAMEID.VALUE === 
+  
   for (var game of gameIdArray) {
     console.log(game.game_date + ' ' + game.matchup);
     console.log(shotsGameId.value);
