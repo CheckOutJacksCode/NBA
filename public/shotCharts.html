@@ -45,12 +45,27 @@
             <div class="column">
               <label for="shots_player">Enter player name: </label>
               <input type="text" name="shots_player" id="shots_player" style="font-size: 2vw;">
+                
+              
               <label for="shots_season">Enter season: </label>
-              <input type="text" name="shots_season" id="shots_season" style="font-size: 2vw;">
-              <label for="shots_gameId">Select game: </label>
-              <select name="shots_gameId" id="shots_gameId" style="font-size: 2vw;">
+              <select name="shots_season" id="shots_season" style="font-size: 2vw;" onchange="showForm()">
+                <option value="2015-2016">2015-2016</option>
+                <option value="2016-2017">2016-2017</option>
+                <option value="2017-2018">2017-2018</option>
+                <option value="2018-2019">2018-2019</option>
+                <option value="2019-2020">2019-2020</option>
+                <option value="2020-2021">2020-2021</option>
+                <option value="2021-2022">2021-2022</option>
               </select>
-              <button class="button" id="submit_shots" name="submit_shots" style="font-size: 2vw;">Get Shot Chart</button>
+            
+              <div id="f1" style="display:none">
+                <form name="form1">
+                  <label for="shots_gameId">Select game: </label>
+                  <select name="shots_gameId" id="shots_gameId" style="font-size: 2vw;" onchange="submitShots()">
+                  </select>
+                
+                </form>
+              </div>
           </div>
         </div>
     </body>

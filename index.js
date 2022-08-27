@@ -71,7 +71,7 @@ app.get('/local/shots/:player', db.getShotsByPlayerLocal);
 
 app.get('/local/shots/:player/:season', db.getShotsByPlayerBySeasonLocal);
 
-app.get('/local/shots/:player/:season/:game', db.getShotsByPlayerBySeasonByGameLocal);
+app.get('/local/shots/:player/:season/:game_id', db.getShotsByPlayerBySeasonByGameLocal);
 
 app.post('/shot', db.createShot);
 
@@ -99,7 +99,9 @@ app.get('/local/players/:lastName/:firstName', db.getPlayersWithLastFirst);
 
 app.get('/local/players/playerid/:lastName/:firstName', db.getPlayerIdWithLastFirst);
 
-app.get('/local/players/:playerid', db.getPlayerById)
+app.get('/local/players/:playerid', db.getPlayerById);
+
+app.get('/local/gameidgamedatematchup/:player/:season', db.getGameIdGameDateMatchupBySeasonDropDownLocal);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

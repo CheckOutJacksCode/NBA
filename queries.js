@@ -151,7 +151,24 @@ const getGamesBySeason = async(request, response) => {
 
 const getGamesBySeasonLocal = async(request, response) => {
   let season = request.params;
-  db.query('SELECT * FROM "leagueGames2015-2016" WHERE season = $1', [season['season']], (error, results) => {
+  db.query(`SELECT * FROM "leagueGames${season["season"]}"`, (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
+const getGameIdGameDateMatchupBySeasonDropDownLocal = async(request, response) => {
+  let { player, season } = request.params;
+  console.log(player);
+  console.log(season);
+  
+  db.query(`SELECT DISTINCT "leagueGames${season}".game_id, "leagueGames${season}".game_date, matchup FROM "leagueGames${season}"
+            INNER JOIN "${season}"
+            ON "leagueGames${season}".game_id="${season}".game_id
+            WHERE "${season}".player_name = $1
+            ORDER BY "leagueGames${season}".game_date`, [`${player}`], (error, results) => {
       if (error) {
           throw error
       }
@@ -179,7 +196,7 @@ const getShotsBySeason = async(request, response) => {
 
 const getShotsBySeasonLocal = async(request, response) => {
   let season = request.params;
-  db.query('SELECT * FROM "2015-2016" WHERE season = $1', [season['season']], (error, results) => {
+  db.query(`SELECT * FROM "${season["season"]}"`, (error, results) => {
       if (error) {
           throw error
       }
@@ -197,7 +214,7 @@ const getShotsByPlayerBySeason = async(request, response) => {
 const getShotsByPlayerBySeasonLocal = async(request, response) => {
   let { player, season } = request.params;
   let playerid = player.playerid;
-  db.query('SELECT * FROM "2015-2016" WHERE playerid = $1 AND season = $2', [playerid, season['season']], (error, results) => {
+  db.query(`SELECT * FROM "${season["season"]}" WHERE playerid = $1`, [playerid], (error, results) => {
       if (error) {
           throw error
       }
@@ -206,9 +223,12 @@ const getShotsByPlayerBySeasonLocal = async(request, response) => {
 }
 
 const getShotsByPlayerBySeasonByGameLocal = async(request, response) => {
-  let { player, season, gameid } = request.params;
-  let playerid = player.playerid;
-  db.query('SELECT * FROM "2015-2016" WHERE playerid = $1 AND season = $2', [playerid, season['season'], gameid], (error, results) => {
+  let { player, season, game_id } = request.params;
+  let playerid = player.player_id;
+  console.log(season);
+  console.log(player);
+  console.log(game_id);
+  db.query(`SELECT * FROM "${season}" WHERE player_name = $1 AND game_id = $2`, [player, game_id], (error, results) => {
       if (error) {
           throw error
       }
@@ -438,4 +458,5 @@ module.exports = {
     getShotsLocal,
     getGamesBySeasonLocal,
     getGamesLocal,
+    getGameIdGameDateMatchupBySeasonDropDownLocal,
 }
