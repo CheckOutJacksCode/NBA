@@ -75,7 +75,7 @@ const getGameIdGameDateMatchupBySeason = async(player, season) => {
   return matchupArray;
 }
 
-let gameIdArray = [];
+let gameIdArray = [{ game_id: "dummyGame", game_date: "initializeArray", matchup: "dogs vs. cats" }];
 const gameDropDown = async() => {
 
   let games = await getGameIdGameDateMatchupBySeason(document.getElementById("shots_player").value, document.getElementById("shots_season").value)
@@ -113,6 +113,3 @@ const showForm = async() => {
   document.getElementById("f1").style.display = "block";
 }
 
-console.log(shotsGameId.value);
-console.log(shotsPlayer.value);
-console.log(shotsSeason).value;

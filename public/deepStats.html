@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
         <link rel="stylesheet" href="styles.css">
             <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
             <style>
@@ -41,6 +43,17 @@
         <script src="./deepStatsScript.js" async></script>
     </header>
 <body style="color:black; background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
+    <!--Navigation bar-->
+    <div id="nav-placeholder">
+    
+    </div>
+    
+    <script>
+    $(function(){
+      $("#nav-placeholder").load("nav.html");
+    });
+    </script>
+    <!--end of Navigation bar-->
     <div class="row">
         <div class="column">
         <img src="Logo-NBA.png" alt="NBA logo" width="auto" height="auto">

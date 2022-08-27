@@ -77,9 +77,9 @@ def assiststracker():
 	with open("assisttracker.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
-
+boxScoreArray = []
 def readLeagueGames():
-	f = open('leaguegames2015-2016.json')
+	f = open('leaguegames2016-2017.json')
 	# returns JSON object as 
 	# a dictionary
 	games = json.load(f)
@@ -93,7 +93,8 @@ def readLeagueGames():
 		if games["resultSets"][0]["rowSet"][i][4] in idList:
 			continue
 		idList.append(games["resultSets"][0]["rowSet"][i][4])
-		boxscoreadvanced(games["resultSets"][0]["rowSet"][i][4])
+		box = boxscoreadvanced(games["resultSets"][0]["rowSet"][i][4])
+		boxScoreArray.append(box)
 	# Closing file
 	f.close()
 
@@ -116,10 +117,11 @@ def boxscoreadvanced(gameId):
 	boxData = json.loads(jsonContent, object_hook=lambda d: SimpleNamespace(**d))
 	print(boxData.resultSets[0].headers)
 	header = boxData.resultSets[0].headers
-	with open('countries.csv', 'w', encoding='UTF8', newline='') as f:
+	with open('boxscores2016-2017.csv', 'a', encoding='UTF8', newline='') as f:
 		writer = csv.writer(f)
 		writer.writerow(header)
 		writer.writerows(boxData.resultSets[0].rowSet)
+		f.close()
 
 def alltimers():
 	response = alltimeleadersgrids.AllTimeLeadersGrids(

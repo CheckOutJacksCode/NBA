@@ -4,7 +4,6 @@ const statToGet = document.getElementById("statToGet");
 const seasonToGet = document.getElementById("season");
 const hustleFactorSubmit = document.getElementById("submit-hustle-factor");
 const deepStatToGet = document.getElementById("deepStatToGet");
-const clearButton = document.getElementById("clearButton");
 
 
 

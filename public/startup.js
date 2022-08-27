@@ -1,6 +1,7 @@
 const mvpSubmit = document.getElementById("submit-mvp");
 const statSubmit = document.getElementById("submit-stat");
 const deepStatSubmit = document.getElementById("submit-deep-stat");
+const clearButton = document.getElementById("clearButton");
 const loadUpLocal = document.getElementById("loadButton");
 const loadUpGamesLocal = document.getElementById("loadGamesButton");
 const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
