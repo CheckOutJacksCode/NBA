@@ -19,9 +19,11 @@ const halfPosWidth = xPosHalf - xMargin;
 
 const letsGo = async(url) => {
     const data = [];
+    const dataMadeShots = [];
+    const dataMissedShots = [];
 //    let season = {"season":"2015-2016"};
     console.log(url);
-
+    console.log(data);
     let totalShotsArray = await getJsonResponse(url);
     console.log(totalShotsArray);
     /*console.log(totalShotsArray.resultSets[0].rowSet);
@@ -30,16 +32,29 @@ const letsGo = async(url) => {
     let length = totalShotsArray.resultSets[0].rowSet[0].length*/
     for (let i = 0; i < totalShotsArray.length; i++) {
       //data.push([totalShotsArray.resultSets[0].rowSet[i][17], totalShotsArray.resultSets[0].rowSet[i][18]]);
-      data.push([totalShotsArray[i].loc_x, totalShotsArray[i].loc_y]);
+      if (totalShotsArray[i].shot_made_flag === "1") {
+        dataMadeShots.push([totalShotsArray[i].loc_x, totalShotsArray[i].loc_y])
+      } else {
+        dataMissedShots.push([totalShotsArray[i].loc_x, totalShotsArray[i].loc_y]);
+      }
     }
-
+    let myPlot;
+    //HERES WHERE YOU FIX THE 'KEVIN DURANT DIDNT PLAY THAT SEASON SO THE GAMES CHART APPEARS' BUG
+    if (totalShotsArray.length > 40) {
+      myPlot = "myPlot";
+      chartTitle = "SEASON SHOT CHART";
+    } else {
+      myPlot = "myPlot2";
+      chartTitle = "GAME SHOT CHART";
+    }
     // Append SVG Object to the Page
-    const svg = d3.select("#myPlot")
+    const svg = d3.select(`#${myPlot}`)
       .append("svg")
       .append("g")
       .attr("transform","translate(" + halfPosWidth + ", " + yMargin + ")");
-
-    // X Axis
+    
+    
+      // X Axis
     const x = d3.scaleLinear()
       .domain([-250, 250])
       .range([0, width]);
@@ -47,6 +62,70 @@ const letsGo = async(url) => {
     svg.append("g")
       .attr("transform", "translate(-250, 0)")
       .call(d3.axisBottom(x));
+
+    svg.append("text")
+      .attr("x", 0)
+      .attr("y", -15)
+      .text(`${chartTitle}`)
+      .style("text-anchor", "middle")
+      .style("font-size", "40px")
+      .style('fill', 'chartreuse')
+
+    svg.append("line")
+      .attr("x1", 60)
+      .attr("x2", 60)
+      .attr("y1", 0)
+      .attr("y2", 137.5)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
+      .attr("x1", -60)
+      .attr("x2", -60)
+      .attr("y1", 0)
+      .attr("y2", 137.5)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
+      .attr("x1", -80)
+      .attr("x2", 80)
+      .attr("y1", 137.5)
+      .attr("y2", 137.5)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
+      .attr("x1", -80)
+      .attr("x2", -80)
+      .attr("y1", 0)
+      .attr("y2", 137.5)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
+      .attr("x1", 80)
+      .attr("x2", 80)
+      .attr("y1", 0)
+      .attr("y2", 137.5)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
+      .attr("x1", -220)
+      .attr("x2", -220)
+      .attr("y1", 0)
+      .attr("y2", 78)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
+      .attr("x1", 220)
+      .attr("x2", 220)
+      .attr("y1", 0)
+      .attr("y2", 78)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
 
     // Y Axis
     const y = d3.scaleLinear()
@@ -58,15 +137,53 @@ const letsGo = async(url) => {
       .call(d3.axisLeft(y));
 
     // Dots
+    d3.select(`#${myPlot}`).selectAll("circle").remove()
+
+    svg.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 137.5)
+      .attr("r", 60)
+      .style("opacity", .2)
+      .attr("stroke", "white")
+      .style("fill", "#33FFEC");
+    
+    /*svg.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 235)
+      .attr("stroke", "white")
+      .style("fill", "none");
+*/
+    const arcGenerator = d3.arc()
+      .outerRadius(235)
+      .innerRadius(233)
+      .startAngle(Math.PI / 2 + 0.3407)
+      .endAngle(Math.PI*3/2 - 0.3407);
+    
+    const arc = svg.append("path")
+      .attr("transform", "translate(0, 0)")
+      .attr("fill","white")
+      .attr("d", arcGenerator());
+    
     svg.append('g')
       .selectAll("dot")
-      .data(data).enter()
+      .data(dataMissedShots).enter()
       .append("circle")
       .attr("cx", function (d) { return d[0] } )
       .attr("cy", function (d) { return d[1] } )
       .attr("r", 3)
-      .style("fill", "Red");
+      .style("fill", "seagreen");
+
+    svg.append('g')
+      .selectAll("dot")
+      .data(dataMadeShots).enter()
+      .append("circle")
+      .attr("cx", function (d) { return d[0] } )
+      .attr("cy", function (d) { return d[1] } )
+      .attr("r", 3)
+      .style("fill", "yellow");
 }
+
 
 const getGameIdGameDateMatchupBySeason = async(player, season) => {
   console.log(player);
@@ -108,8 +225,9 @@ const submitShots = async() => {
 }
 
 const showForm = async() => {
-  console.log('here');
   await gameDropDown();
+  let url = `/local/shots/${shotsPlayer.value}/${shotsSeason.value}`;
+  await letsGo(url);
   document.getElementById("f1").style.display = "block";
 }
 

@@ -213,8 +213,8 @@ const getShotsByPlayerBySeason = async(request, response) => {
 
 const getShotsByPlayerBySeasonLocal = async(request, response) => {
   let { player, season } = request.params;
-  let playerid = player.playerid;
-  db.query(`SELECT * FROM "${season["season"]}" WHERE playerid = $1`, [playerid], (error, results) => {
+  
+  db.query(`SELECT * FROM "${season}" WHERE player_name = $1`, [player], (error, results) => {
       if (error) {
           throw error
       }

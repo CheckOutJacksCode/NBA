@@ -79,7 +79,7 @@ def assiststracker():
 
 boxScoreArray = []
 def readLeagueGames():
-	f = open('leaguegames2016-2017.json')
+	f = open('leaguegames2021-2022.json')
 	# returns JSON object as 
 	# a dictionary
 	games = json.load(f)
@@ -112,16 +112,20 @@ def boxscoreadvanced(gameId):
 		timeout=30,
 		get_request=True
 	)
+	
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
 	boxData = json.loads(jsonContent, object_hook=lambda d: SimpleNamespace(**d))
 	print(boxData.resultSets[0].headers)
 	header = boxData.resultSets[0].headers
-	with open('boxscores2016-2017.csv', 'a', encoding='UTF8', newline='') as f:
-		writer = csv.writer(f)
-		writer.writerow(header)
-		writer.writerows(boxData.resultSets[0].rowSet)
-		f.close()
+	try:
+		with open('boxscores2021-2022.csv', 'a', encoding='UTF8', newline='') as f:
+			writer = csv.writer(f)
+			writer.writerow(header)
+			writer.writerows(boxData.resultSets[0].rowSet)
+			f.close()
+	except ValueError:
+		print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 
 def alltimers():
 	response = alltimeleadersgrids.AllTimeLeadersGrids(
