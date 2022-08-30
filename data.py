@@ -79,7 +79,7 @@ def assiststracker():
 
 boxScoreArray = []
 def readLeagueGames():
-	f = open('leaguegames2021-2022.json')
+	f = open('leaguegames2018-2019.json')
 	# returns JSON object as 
 	# a dictionary
 	games = json.load(f)
@@ -119,7 +119,7 @@ def boxscoreadvanced(gameId):
 	print(boxData.resultSets[0].headers)
 	header = boxData.resultSets[0].headers
 	try:
-		with open('boxscores2021-2022.csv', 'a', encoding='UTF8', newline='') as f:
+		with open('boxscores2018-2019.csv', 'a', encoding='UTF8', newline='') as f:
 			writer = csv.writer(f)
 			writer.writerow(header)
 			writer.writerows(boxData.resultSets[0].rowSet)

@@ -233,6 +233,7 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
 /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
 rowIndex = 1;
 const appendPlayerAndStat = async(player, stat, statAverage) => {
+    
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
