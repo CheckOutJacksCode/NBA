@@ -39,14 +39,95 @@ const letsGo = async(url) => {
       }
     }
     let myPlot;
+    let playerId
+    let year
+    let points
+    let min
+    let fga
+    let fgm
+    let fgp
+    let fta
+    let ftm
+    let ftp
+    let tpp
+    let tpa
+    let tpm
+    let totreb
+    let assists
+    let steals
+    let turnovers
+    let blocks
+    let plusminus
+    let league = "standard";
     //HERES WHERE YOU FIX THE 'KEVIN DURANT DIDNT PLAY THAT SEASON SO THE GAMES CHART APPEARS' BUG
     if (totalShotsArray.length > 40) {
       myPlot = "myPlot";
       chartTitle = "SEASON SHOT CHART";
+      player_name = totalShotsArray[0].player_name;
+      splitName = player_name.split(" ");
+      let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
+      console.log(playerId);
+      playerId = playerId[0].playerid;
+      year = shotsSeason.value;
+      points = await getSeasonStatAvgLocal('points', year, playerId)
+      min = await getSeasonStatAvgLocal('min', year, playerId)
+      fgp = await getSeasonStatAvgLocal('fgp', year, playerId)
+      ftp = await getSeasonStatAvgLocal('ftp', year, playerId);
+      tpp = await getSeasonStatAvgLocal('tpp', year, playerId)
+      totreb = await getSeasonStatAvgLocal('totreb', year, playerId)
+      assists = await getSeasonStatAvgLocal('assists', year, playerId)
+      steals = await getSeasonStatAvgLocal('steals', year, playerId);
+      turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
+      blocks = await getSeasonStatAvgLocal('blocks', year, playerId);
+      plusminus = await getSeasonStatAvgLocal('plusminus', year, playerId);
+      
     } else {
       myPlot = "myPlot2";
       chartTitle = "GAME SHOT CHART";
+      player_name = totalShotsArray[0].player_name;
+      splitName = player_name.split(" ");
+      let playerid = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playeridString = playerid[0].playerid;
+      let year = shotsSeason.value;
+      let league = "standard";
+      console.log(typeof shotsSeason.value);
+      let seasonyear = year.substring(0, 4);
+      let shotsgameid = shotsGameId.value.substring(0, 10);
+      //MAKE ENDPOINT TO GET ONE GAME
+      let gameid = await getJsonResponse(`/games/gameid/${playeridString}/${league}/${seasonyear}/${shotsgameid}`)
+      console.log(gameid);
+      gameid = gameid[0].gameid;
+      let boxScore = await getJsonResponse(`/games/${gameid}/${playeridString}`);
+      console.log(boxScore);
+      boxScore = boxScore[0];
+      points = boxScore.points;
+      min = boxScore.min;
+      fga = boxScore.fga;
+      fgm = boxScore.fgm;
+      fgp = boxScore.fgp;
+
+      tpa = boxScore.tpa;
+      tpm = boxScore.tpm;
+      tpp = boxScore.tpp;
+
+      fta = boxScore.fta;
+      ftm = boxScore.ftm;
+      ftp = boxScore.ftp;
+
+      totreb = boxScore.totreb;
+      assists = boxScore.assists;
+      steals = boxScore.steals;
+      turnovers = boxScore.turnovers;
+      blocks = boxScore.blocks;
+      plusminus = boxScore.plusminus;
+      pfouls = boxScore.pfouls;
     }
+
+    //GET THE STATS YOU WANT IN A TEXT CHUNK
+    //season fg% season 3pt% season eFG% ast, blk, stl, threes, 
+    //game box score; 4-12, ast, blk, stl, three pt. 2-3, 
+
+
     // Append SVG Object to the Page
     const svg = d3.select(`#${myPlot}`)
       .append("svg")
@@ -63,6 +144,159 @@ const letsGo = async(url) => {
       .attr("transform", "translate(-250, 0)")
       .call(d3.axisBottom(x));
 
+    svg.append("text")
+      .attr("x", 0)
+      .attr("y", -15)
+      .text(`${chartTitle}`)
+      .style("text-anchor", "middle")
+      .style("font-size", "40px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 0)
+      .attr("y", -15)
+      .text(`${chartTitle}`)
+      .style("text-anchor", "middle")
+      .style("font-size", "40px")
+      .style('fill', 'chartreuse')
+    
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 70)
+      .text(`PPG: ${parseFloat(points).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 90)
+      .text(`MIN: ${parseFloat(min).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 110)
+      .text(`FGA: ${parseFloat(fga).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 130)
+      .text(`FGM: ${parseFloat(fgm).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')  
+
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 150)
+      .text(`FGP: ${parseFloat(fgp).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+      
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 170)
+      .text(`FTA: ${parseFloat(fta).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 190)
+      .text(`FTM: ${parseFloat(ftm).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')    
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 210)
+      .text(`FTP: ${parseFloat(ftp).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 230)
+      .text(`TPA: ${parseFloat(tpp).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 250)
+      .text(`TPM: ${parseFloat(tpp).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 270)
+      .text(`TPP: ${parseFloat(tpp).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 290)
+      .text(`REB: ${parseFloat(totreb).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 310)
+      .text(`AST: ${parseFloat(assists).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 330)
+      .text(`STL: ${parseFloat(steals).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 350)
+      .text(`TO: ${parseFloat(turnovers).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 370)
+      .text(`BLK: ${parseFloat(blocks).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
+    svg.append("text")
+      .attr("x", 260)
+      .attr("y", 390)
+      .text(`P-M: ${parseFloat(plusminus).toFixed(1)}`)
+      .style("text-anchor", "left")
+      .style("font-size", "20px")
+      .style('fill', 'chartreuse')
+    
     svg.append("text")
       .attr("x", 0)
       .attr("y", -15)

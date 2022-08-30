@@ -103,6 +103,10 @@ app.get('/local/players/:playerid', db.getPlayerById);
 
 app.get('/local/gameidgamedatematchup/:player/:season', db.getGameIdGameDateMatchupBySeasonDropDownLocal);
 
+app.get('/games/:gameid/:playerid', db.getLocalGamesByGameByPlayerPublic)
+
+app.get('/games/gameid/:playerid/:league/:seasonyear/:shotsgameid', db.getGameIdPublic)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

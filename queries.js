@@ -85,10 +85,12 @@ const getPlayerSeasonGameStats = async(request, response) => {
   console.log(playerid);
   console.log(league);
   console.log(seasonyear);
+  let year = seasonyear.substring(0, 4);
+  console.log(year);
   db.query(`SELECT * FROM games
             INNER JOIN gameinfo 
             ON games.gameid=gameinfo.gameid
-            WHERE playerid = $1 AND league = $2 AND seasonyear = $3`, [playerid, league, seasonyear], (error, results) => {
+            WHERE playerid = $1 AND league = $2 AND gameinfo.seasonyear = $3`, [playerid, league, year], (error, results) => {
     if (error) {
       throw error
     }
@@ -193,7 +195,17 @@ const getShotsBySeason = async(request, response) => {
   let shots = await require(`./${season['season']}.json`);
   response.status(200).send(shots);    
 }
-
+/*
+const getBoxScoreByGameLocal = async(request, response) => {
+  let season = request.params;
+  db.query(`SELECT * FROM "${season["season"]}"`, (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+*/
 const getShotsBySeasonLocal = async(request, response) => {
   let season = request.params;
   db.query(`SELECT * FROM "${season["season"]}"`, (error, results) => {
@@ -376,6 +388,42 @@ const createGameInfo = (request, response) => {
     });
 }
 
+const getLocalGamesByGameByPlayerPublic = async(request, response) => {
+  let {playerid, gameid} = request.params;
+  //let playerid = player.playerid;
+  db.query('SELECT * FROM games WHERE playerid = $1 AND gameid = $2', [playerid, gameid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
+const getGameIdPublic = async(request, response) => {
+  let {playerid, league, seasonyear, shotsgameid} = request.params;
+  console.log(playerid);
+  console.log(league);
+  console.log(seasonyear);
+  let year = seasonyear.substring(0, 4);
+  console.log(year);
+  let startDate = shotsgameid.substring(0, 10);
+  startDate = startDate + '%';
+  console.log(startDate);
+  db.query(`SELECT DISTINCT games.gameid FROM games
+            INNER JOIN gameinfo 
+            ON games.gameid=gameinfo.gameid
+            WHERE gameinfo.starttimeutc LIKE $1
+            AND games.playerid = $2`, [startDate, playerid], (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
+
 const deleteDatabase = (request, response) => {
     db.query('DELETE FROM players', (error, results) => {
         if (error) {
@@ -459,4 +507,6 @@ module.exports = {
     getGamesBySeasonLocal,
     getGamesLocal,
     getGameIdGameDateMatchupBySeasonDropDownLocal,
+    getLocalGamesByGameByPlayerPublic,
+    getGameIdPublic,
 }
