@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const db = require('./queries');
 
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
