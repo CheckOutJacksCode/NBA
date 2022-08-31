@@ -74,8 +74,14 @@ const letsGo = async(url) => {
       points = await getSeasonStatAvgLocal('points', year, playerId)
       min = await getSeasonStatAvgLocal('min', year, playerId)
       fgp = await getSeasonStatAvgLocal('fgp', year, playerId)
-      ftp = await getSeasonStatAvgLocal('ftp', year, playerId);
+      fga = await getSeasonStatAvgLocal('fga', year, playerId)
+      fgm = await getSeasonStatAvgLocal('fgm', year, playerId)
+      ftp = await getSeasonStatAvgLocal('ftp', year, playerId)
+      fta = await getSeasonStatAvgLocal('fta', year, playerId);
+      ftm = await getSeasonStatAvgLocal('ftm', year, playerId);
       tpp = await getSeasonStatAvgLocal('tpp', year, playerId)
+      tpa = await getSeasonStatAvgLocal('tpa', year, playerId)
+      tpm = await getSeasonStatAvgLocal('tpm', year, playerId)
       totreb = await getSeasonStatAvgLocal('totreb', year, playerId)
       assists = await getSeasonStatAvgLocal('assists', year, playerId)
       steals = await getSeasonStatAvgLocal('steals', year, playerId);
