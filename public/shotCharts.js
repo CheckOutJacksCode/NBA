@@ -188,7 +188,7 @@ const letsGo = async(url) => {
       .append("g")
       .attr("transform","translate(" + halfPosWidth + ", " + yMargin + ")");
     
-    
+    d3.select(`#${myPlot}`).selectAll("text").remove()
       // X Axis
     const x = d3.scaleLinear()
       .domain([-250, 250])
@@ -368,6 +368,14 @@ const letsGo = async(url) => {
       .attr("stroke-width", "2")
 
     svg.append("line")
+      .attr("x1", -250)
+      .attr("x2", 250)
+      .attr("y1", 470)
+      .attr("y2", 470)
+      .attr("stroke", "white")
+      .attr("stroke-width", "2")
+
+    svg.append("line")
       .attr("x1", -60)
       .attr("x2", -60)
       .attr("y1", 0)
@@ -427,6 +435,7 @@ const letsGo = async(url) => {
     // Dots
     d3.select(`#${myPlot}`).selectAll("circle").remove()
 
+
     svg.append("circle")
       .attr("cx", 0)
       .attr("cy", 137.5)
@@ -434,6 +443,37 @@ const letsGo = async(url) => {
       .style("opacity", .2)
       .attr("stroke", "white")
       .style("fill", "#33FFEC");
+    
+    svg.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 470)
+      .attr("r", 60)
+      .style("opacity", .1)
+      .attr("stroke", "white")
+      .style("fill", "#33FFEC");
+
+    svg.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 470)
+      .attr("r", 20)
+      .attr("stroke", "white")
+      .style("fill", "none");
+
+    const arcGenerator2 = d3.arc()
+      .outerRadius(61)
+      .innerRadius(59)
+      .startAngle(0)
+      .endAngle(2*Math.PI);
+    
+    const halfCourtCircle = svg.append("path")
+      .attr("transform", "translate(0, 470)")
+      .attr("fill","white")
+      .attr("d", arcGenerator2());
+
+    const freeThrowCircle = svg.append("path")
+      .attr("transform", "translate(0, 137.5)")
+      .attr("fill","white")
+      .attr("d", arcGenerator2());
     
     /*svg.append("circle")
       .attr("cx", 0)
@@ -448,7 +488,7 @@ const letsGo = async(url) => {
       .startAngle(Math.PI / 2 + 0.3407)
       .endAngle(Math.PI*3/2 - 0.3407);
     
-    const arc = svg.append("path")
+    const threeLine = svg.append("path")
       .attr("transform", "translate(0, 0)")
       .attr("fill","white")
       .attr("d", arcGenerator());
