@@ -12,7 +12,7 @@ const ySize = 570;
 const xHalf = -350;
 const xPosHalf = 350;
 const xMargin = 100;
-const yMargin = 50;
+const yMargin = 100;
 const width = xSize - xMargin
 const height = ySize - yMargin
 const halfWidth = xHalf + xMargin;
@@ -195,12 +195,12 @@ const letsGo = async(url) => {
       .range([0, width]);
 
     svg.append("g")
-      .attr("transform", "translate(-250, 0)")
+      .attr("transform", "translate(-250, -52.5)")
       .call(d3.axisBottom(x));
 
     svg.append("text")
       .attr("x", 0)
-      .attr("y", -15)
+      .attr("y", -65)
       .text(`${chartTitle}`)
       .style("text-anchor", "middle")
       .style("font-size", "40px")
@@ -208,7 +208,7 @@ const letsGo = async(url) => {
     
     svg.append("text")
       .attr("x", 0)
-      .attr("y", -15)
+      .attr("y", -65)
       .text(`${chartTitle}`)
       .style("text-anchor", "middle")
       .style("font-size", "40px")
@@ -353,7 +353,7 @@ const letsGo = async(url) => {
     
     svg.append("text")
       .attr("x", 0)
-      .attr("y", -15)
+      .attr("y", -65)
       .text(`${chartTitle}`)
       .style("text-anchor", "middle")
       .style("font-size", "40px")
@@ -362,7 +362,7 @@ const letsGo = async(url) => {
     svg.append("line")
       .attr("x1", 60)
       .attr("x2", 60)
-      .attr("y1", 0)
+      .attr("y1", -52.5)
       .attr("y2", 137.5)
       .attr("stroke", "white")
       .attr("stroke-width", "2")
@@ -370,15 +370,15 @@ const letsGo = async(url) => {
     svg.append("line")
       .attr("x1", -250)
       .attr("x2", 250)
-      .attr("y1", 470)
-      .attr("y2", 470)
+      .attr("y1", 418)
+      .attr("y2", 418)
       .attr("stroke", "white")
       .attr("stroke-width", "2")
 
     svg.append("line")
       .attr("x1", -60)
       .attr("x2", -60)
-      .attr("y1", 0)
+      .attr("y1", -52.5)
       .attr("y2", 137.5)
       .attr("stroke", "white")
       .attr("stroke-width", "2")
@@ -394,7 +394,7 @@ const letsGo = async(url) => {
     svg.append("line")
       .attr("x1", -80)
       .attr("x2", -80)
-      .attr("y1", 0)
+      .attr("y1", -52.5)
       .attr("y2", 137.5)
       .attr("stroke", "white")
       .attr("stroke-width", "2")
@@ -402,7 +402,7 @@ const letsGo = async(url) => {
     svg.append("line")
       .attr("x1", 80)
       .attr("x2", 80)
-      .attr("y1", 0)
+      .attr("y1", -52.5)
       .attr("y2", 137.5)
       .attr("stroke", "white")
       .attr("stroke-width", "2")
@@ -410,23 +410,104 @@ const letsGo = async(url) => {
     svg.append("line")
       .attr("x1", -220)
       .attr("x2", -220)
-      .attr("y1", 0)
-      .attr("y2", 78)
+      .attr("y1", -52.5)
+      .attr("y2", 87.5)
       .attr("stroke", "white")
       .attr("stroke-width", "2")
 
     svg.append("line")
       .attr("x1", 220)
       .attr("x2", 220)
-      .attr("y1", 0)
-      .attr("y2", 78)
+      .attr("y1", -52.5)
+      .attr("y2", 87.5)
       .attr("stroke", "white")
+      .attr("stroke-width", "2")
+      
+    svg.append("line")
+      .attr("x1", -30)
+      .attr("x2", 30)
+      .attr("y1", -8.25)
+      .attr("y2", -8.25)
+      .attr("stroke", "orange")
+      .attr("stroke-width", "5")
+
+    svg.append("line")
+      .attr("x1", 80)
+      .attr("x2", 87)
+      .attr("y1", 100)
+      .attr("y2", 100)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+      
+    svg.append("line")
+      .attr("x1", -80)
+      .attr("x2", -87)
+      .attr("y1", 100)
+      .attr("y2", 100)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+
+    svg.append("line")
+      .attr("x1", 80)
+      .attr("x2", 87)
+      .attr("y1", 70)
+      .attr("y2", 70)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+    
+    svg.append("line")
+      .attr("x1", -80)
+      .attr("x2", -87)
+      .attr("y1", 70)
+      .attr("y2", 70)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+
+    svg.append("line")
+      .attr("x1", 80)
+      .attr("x2", 87)
+      .attr("y1", 40)
+      .attr("y2", 40)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+    
+    svg.append("line")
+      .attr("x1", -80)
+      .attr("x2", -87)
+      .attr("y1", 40)
+      .attr("y2", 40)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+
+
+    svg.append("line")
+      .attr("x1", 80)
+      .attr("x2", 87)
+      .attr("y1", 30)
+      .attr("y2", 30)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+    
+    svg.append("line")
+      .attr("x1", -80)
+      .attr("x2", -87)
+      .attr("y1", 30)
+      .attr("y2", 30)
+      .attr("stroke", "white")
+      .attr("stroke-width", "4")
+
+    svg.append("line")
+      .attr("x1", -250)
+      .attr("x2", -250)
+      .attr("y1", -52)
+      .attr("y2", 418)
+      .attr("stroke", "chartreuse")
       .attr("stroke-width", "2")
 
     // Y Axis
     const y = d3.scaleLinear()
-      .domain([0, height])
-      .range([ 0, height]);
+      .domain([-52.5, 418])
+      .range([ -52.5, 418]);
 
     svg.append("g")
       .attr("transform", "translate(250, 0)")
@@ -435,6 +516,13 @@ const letsGo = async(url) => {
     // Dots
     d3.select(`#${myPlot}`).selectAll("circle").remove()
 
+    svg.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 7.5)
+      .attr("stroke", "orange")
+      .style("stroke-width", 2)
+      .style("fill", "none");
 
     svg.append("circle")
       .attr("cx", 0)
@@ -446,7 +534,7 @@ const letsGo = async(url) => {
     
     svg.append("circle")
       .attr("cx", 0)
-      .attr("cy", 470)
+      .attr("cy", 418)
       .attr("r", 60)
       .style("opacity", .1)
       .attr("stroke", "white")
@@ -454,11 +542,12 @@ const letsGo = async(url) => {
 
     svg.append("circle")
       .attr("cx", 0)
-      .attr("cy", 470)
+      .attr("cy", 418)
       .attr("r", 20)
       .attr("stroke", "white")
       .style("fill", "none");
 
+    
     const arcGenerator2 = d3.arc()
       .outerRadius(61)
       .innerRadius(59)
@@ -466,7 +555,7 @@ const letsGo = async(url) => {
       .endAngle(2*Math.PI);
     
     const halfCourtCircle = svg.append("path")
-      .attr("transform", "translate(0, 470)")
+      .attr("transform", "translate(0, 418)")
       .attr("fill","white")
       .attr("d", arcGenerator2());
 
@@ -483,10 +572,10 @@ const letsGo = async(url) => {
       .style("fill", "none");
 */
     const arcGenerator = d3.arc()
-      .outerRadius(235)
-      .innerRadius(233)
-      .startAngle(Math.PI / 2 + 0.3407)
-      .endAngle(Math.PI*3/2 - 0.3407);
+      .outerRadius(236)
+      .innerRadius(234)
+      .startAngle(Math.PI / 2 + 0.37855)
+      .endAngle(Math.PI*3/2 - 0.37855);
     
     const threeLine = svg.append("path")
       .attr("transform", "translate(0, 0)")
@@ -499,7 +588,8 @@ const letsGo = async(url) => {
       .append("circle")
       .attr("cx", function (d) { return d[0] } )
       .attr("cy", function (d) { return d[1] } )
-      .attr("r", 3)
+      .attr("r", 2)
+      .style("opacity", .7)
       .style("fill", "seagreen");
 
     svg.append('g')
@@ -508,7 +598,8 @@ const letsGo = async(url) => {
       .append("circle")
       .attr("cx", function (d) { return d[0] } )
       .attr("cy", function (d) { return d[1] } )
-      .attr("r", 3)
+      .style("opacity", .8)
+      .attr("r", 2)
       .style("fill", "yellow");
 }
 
