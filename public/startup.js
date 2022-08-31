@@ -147,6 +147,9 @@ const onStartUp = async() => {
     loadUpLeagueGamesBySeasonButton.onclick = async() => {
         await loadUpLeagueGamesBySeason();
     }
+    loadUpBoxScoresLocalButton.onclick = async() => {
+        await loadUpBoxScoresLocalFunction();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -250,5 +253,13 @@ const loadUpLeagueGamesBySeason = async() => {
     console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
 }
 
+const loadUpBoxScoresLocalFunction = async() => {
+    let season = "2021-2022";
+    let data = await getJsonResponse(`/boxscores/read/${season}`);
+    for (let i = 0; i < data.length; i++) {
+        await postBoxScoresBySeason(data[i], season);
+    } 
+
+}
 
 onStartUp();

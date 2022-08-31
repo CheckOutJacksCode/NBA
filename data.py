@@ -72,10 +72,16 @@ def assiststracker():
         get_request=True
 	)
 
-	content = json.loads(response.get_json())
-	jsonContent = json.dumps(content)
-	with open("assisttracker.json", "w") as outfile:
-	    outfile.write(jsonContent)
+	try:
+		with open('assiststracker.csv', 'w', encoding='UTF8', newline='') as f:
+			writer = csv.writer(f)
+			f.write(str(response))
+			print(writer)
+			print(f)
+			f.close()
+	except ValueError:
+		print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
+
 
 boxScoreArray = []
 def readLeagueGames():
@@ -200,7 +206,7 @@ def leaguegames():
 	    outfile.write(jsonContent)
 ##shotchartdetailfunction()
 ##allassists()
-##assiststracker()
+assiststracker()
 ##playergamelogfunction('153', '0021700807')
 ##leaguegames()
-readLeagueGames()
+##readLeagueGames()

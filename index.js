@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require('body-parser')
 const db = require('./queries');
 
+
 const port = process.env.PORT || 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
@@ -103,9 +104,20 @@ app.get('/local/players/:playerid', db.getPlayerById);
 
 app.get('/local/gameidgamedatematchup/:player/:season', db.getGameIdGameDateMatchupBySeasonDropDownLocal);
 
-app.get('/games/:gameid/:playerid', db.getLocalGamesByGameByPlayerPublic)
+app.get('/games/:playerid', db.getGamesByPlayer);
 
-app.get('/games/gameid/:playerid/:league/:seasonyear/:shotsgameid', db.getGameIdPublic)
+app.get('/games/vteamhteam/:playerid', db.getVTeamHTeam);
+
+app.get('/games/:gameid/:playerid', db.getLocalGamesByGameByPlayerPublic);
+
+app.get('/games/gameid/:playerid/:league/:seasonyear/:shotsgameid', db.getGameIdPublic);
+
+app.post('/boxscores/:season', db.createBoxScores);
+
+app.get('/boxscores/read/:season', db.boxScoreLoad);
+
+app.get('/gameinfo/:gameid', db.getGameInfoByGameId);
+
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

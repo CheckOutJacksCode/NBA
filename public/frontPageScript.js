@@ -173,6 +173,27 @@ const postShotBySeason = async(obj, season) => {
     } 
 }
 
+const postBoxScoresBySeason = async(obj, season) => {
+    console.log(season);
+    const url = `/boxscores/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
 const postLeagueGamesBySeason = async(obj, season) => {
     console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
     const url = `/leaguegames/${season}`;
@@ -233,7 +254,7 @@ const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
 /* Appends any players' stat to the html table. Can take both regular stats and deep stats. */
 rowIndex = 1;
 const appendPlayerAndStat = async(player, stat, statAverage) => {
-    
+
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);

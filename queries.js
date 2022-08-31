@@ -1,4 +1,6 @@
 const db = require("./pgPool");
+const fs = require("fs");
+const { parse } = require("csv-parse");
 
 
 const getPlayerIds = (request, response) => {
@@ -6,7 +8,7 @@ const getPlayerIds = (request, response) => {
     if (error) {
       throw error
     }
-    console.log(results.rows)
+    //console.log(results.rows)
 
     response.status(200).json(results.rows)
   })
@@ -17,7 +19,7 @@ const getPlayers = (request, response) => {
       if (error) {
         throw error
       }
-      console.log(results.rows)
+      //console.log(results.rows)
 
       response.status(200).json(results.rows)
     })
@@ -29,13 +31,13 @@ const getPlayersNBA = async(request, response) => {
 }
 
 const createPlayersNBA = async(request, response) => {
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKKKKKKKKKKKKKK');
+    //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKKKKKKKKKKKKKK');
     let body = request.body;
 
-    console.log(body);
-    console.log(body.length);
+    //console.log(body);
+    //console.log(body.length);
     for (let j = 0; j < body.length; j++) {
-        console.log(body[j]);
+        //console.log(body[j]);
         let jsonBody = JSON.parse(body[j])
         db.query('INSERT INTO "playersNBA" (full_name, first_name, last_name, is_active, playerid) VALUES ($1, $2, $3, $4, $5)', 
             [jsonBody.full_name, jsonBody.first_name, jsonBody.last_name, jsonBody.is_active, jsonBody.id], (error, results) => {
@@ -74,7 +76,6 @@ const getPlayersWithLastFirst = (request, response) => {
     if (error) {
       throw error
     }
-    console.log(results.rows)
 
     response.status(200).json(results.rows)
   })
@@ -82,11 +83,9 @@ const getPlayersWithLastFirst = (request, response) => {
 
 const getPlayerSeasonGameStats = async(request, response) => {
   let {playerid, league, seasonyear} = request.params;
-  console.log(playerid);
-  console.log(league);
-  console.log(seasonyear);
+
   let year = seasonyear.substring(0, 4);
-  console.log(year);
+
   db.query(`SELECT * FROM games
             INNER JOIN gameinfo 
             ON games.gameid=gameinfo.gameid
@@ -94,7 +93,7 @@ const getPlayerSeasonGameStats = async(request, response) => {
     if (error) {
       throw error
     }
-    console.log(results.rows)
+    //console.log(results.rows)
 
     response.status(200).json(results.rows)
   })
@@ -102,8 +101,8 @@ const getPlayerSeasonGameStats = async(request, response) => {
 
 const getPlayerById = async(request, response) => {
     let {playerid} = request.params;
-    console.log('muffins')
-    console.log(playerid);
+    //console.log('muffins')
+    //console.log(playerid);
     db.query('SELECT * FROM players WHERE playerid = $1', [playerid], (error, results) => {
         if (error) {
             throw error
@@ -114,14 +113,14 @@ const getPlayerById = async(request, response) => {
 
 const createPlayer = (request, response) => {
     const body = request.body;
-    console.log(body.firstName);
-    console.log(body.lastName);
+    //console.log(body.firstName);
+    //console.log(body.lastName);
     db.query('INSERT INTO players (firstName, lastName, teamId, yearsPro, collegeName, country, playerId, dateOfBirth, affiliation, startNba, heightInMeters, weightInKilograms, leagues) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', 
     [body.firstName, body.lastName, body.teamId, body.yearsPro, body.collegeName, body.country, body.playerId, body.dateOfBirth, body.affiliation, body.startNba, body.heightInMeters, body.weightInKilograms, body.leagues], (error, results) => {
       if (error) {
         throw error
       }
-      console.log(results);
+      //console.log(results);
       response.status(201).send(body);
     })
 }
@@ -163,8 +162,8 @@ const getGamesBySeasonLocal = async(request, response) => {
 
 const getGameIdGameDateMatchupBySeasonDropDownLocal = async(request, response) => {
   let { player, season } = request.params;
-  console.log(player);
-  console.log(season);
+  //console.log(player);
+  //console.log(season);
   
   db.query(`SELECT DISTINCT "leagueGames${season}".game_id, "leagueGames${season}".game_date, matchup FROM "leagueGames${season}"
             INNER JOIN "${season}"
@@ -191,7 +190,7 @@ const getGamesLocal = async(request, response) => {
 
 const getShotsBySeason = async(request, response) => {
   let season = request.params;
-  console.log(season['season']);
+  //console.log(season['season']);
   let shots = await require(`./${season['season']}.json`);
   response.status(200).send(shots);    
 }
@@ -218,7 +217,7 @@ const getShotsBySeasonLocal = async(request, response) => {
 
 const getShotsByPlayerBySeason = async(request, response) => {
   let season = request.params;
-  console.log(season['season']);
+  //console.log(season['season']);
   let shots = await require(`./${season['season']}.json`);
   response.status(200).send(shots);    
 }
@@ -272,9 +271,9 @@ const createShot = (request, response) => {
 
 const createGamesBySeason = (request, response) => {
   let season = request.params;
-  console.log(season);
+  //console.log(season);
   const body = request.body;
-  console.log(body);
+  //console.log(body);
   db.query(`INSERT INTO "leagueGames${season['season']}" (season_id, team_id, team_abbreviation, team_name, game_id, game_date, matchup, wl, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, stl, blk, tov, pf, pts, plus_minus, video_available) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`, 
   [body[0], body[1].toString(), body[2], body[3], body[4], body[5], body[6], body[7], body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21].toString(), body[22].toString(), body[23].toString(), body[24].toString(), body[25].toString(), body[26].toString(), body[27].toString(), body[28].toString()], (error, results) => {
     if (error) {
@@ -286,9 +285,9 @@ const createGamesBySeason = (request, response) => {
 
 const createShotBySeason = (request, response) => {
   let season = request.params;
-  console.log(season);
+  //console.log(season);
   const body = request.body;
-  console.log(body);
+  //console.log(body);
   db.query(`INSERT INTO "${season['season']}" (grid_type, game_id, game_event_id, player_id, player_name, team_id, team_name, period, minutes_remaining, seconds_remaining, event_type, action_type, shot_type, shot_zone_basic, shot_zone_area, shot_zone_range, shot_distance, loc_x, loc_y, shot_attempted_flag, shot_made_flag, game_date, htm, vtm) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)`, 
   [body[0], body[1], body[2].toString(), body[3].toString(), body[4], body[5].toString(), body[6], body[7].toString(), body[8].toString(), body[9].toString(), body[10], body[11], body[12], body[13], body[14], body[15], body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21], body[22], body[23]], (error, results) => {
     if (error) {
@@ -300,9 +299,9 @@ const createShotBySeason = (request, response) => {
 
 const createPlayerMvpPoints = (request, response) => {
   const body = request.body;
-  console.log(body.player[0].playerid);
-  console.log(body.mvpPoints);
-  console.log(body);
+  //console.log(body.player[0].playerid);
+  //console.log(body.mvpPoints);
+  //console.log(body);
   db.query('INSERT INTO "mvpPoints" (playerid, firstname, lastname, mvppoints, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.mvpPoints, body.season], (error, results) => {
     if (error) {
       throw error
@@ -365,20 +364,20 @@ const getAllFirstLastHustlePointsInSeason = (request, response) => {
 
 const createGame = (request, response) => {
     const body = request.body;
-    console.log(body);
+    //console.log(body);
     db.query('INSERT INTO games (gameId, teamId, points, position, min, fgm, fga, fgp, ftm, fta, ftp, tpm, tpa, tpp, offReb, defReb, totReb, assists, pFouls, steals, turnovers, blocks, plusMinus, playerId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)', 
     [body.gameId, body.teamId, body.points, body.position, body.min, body.fgm, body.fga, body.fgp, body.ftm, body.fta, body.ftp, body.tpm, body.tpa, body.tpp, body.offReb, body.defReb, body.totReb, body.assists, body.pFouls, body.steals, body.turnovers, body.blocks, body.plusMinus, body.playerId], (error, results) => {
       if (error) {
         throw error;
       }
-      console.log(results);
+      //console.log(results);
       response.status(201).send(body);
     });
 }
 
 const createGameInfo = (request, response) => {
     const body = request.body;
-    console.log(body);
+    //console.log(body);
     db.query('INSERT INTO gameinfo (seasonYear, league, gameId, startTimeUTC, endTimeUTC, arena, city, country, clock, gameDuration, currentPeriod, halftime, endOfPeriod, seasonStage, statusShortGame, vTeam, hTeam) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
     [body.seasonYear, body.league, body.gameId, body.startTimeUTC, body.endTimeUTC, body.arena, body.city, body.country, body.clock, body.gameDuration, body.currentPeriod, body.halftime, body.endOfPeriod, body.seasonStage, body.statusShortGame, body.vTeam, body.hTeam], (error, results) => {
         if (error) {
@@ -386,6 +385,19 @@ const createGameInfo = (request, response) => {
         }
         response.status(201).send(body);
     });
+}
+
+const createBoxScores = (request, response) => {
+  const body = request.body;
+  let season = request.params;
+  console.log(season.season)
+  db.query(`INSERT INTO "boxscores${season.season}" (game_id, team_id, team_abbreviation, team_city, player_id, player_name, nickname, start_position, comment, min, e_off_rating, off_rating, e_def_rating, def_rating, e_net_rating, net_rating, ast_pct, ast_tov, ast_ratio, oreb_pct, dreb_pct, reb_pct, tm_tov_pct, efg_pct, ts_pct, usg_pct, e_usg_pct, e_pace, pace, pace_per40, poss, pie) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32)`,
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.PLAYER_ID, body.PLAYER_NAME, body.NICKNAME, body.START_POSITION, body.COMMENT, body.MIN, body.E_OFF_RATING, body.OFF_RATING, body.E_DEF_RATING, body.DEF_RATING, body.E_NET_RATING, body.NET_RATING, body.AST_PCT, body.AST_TOV, body.AST_RATIO, body.OREB_PCT, body.DREB_PCT, body.REB_PCT, body.TM_TOV_PCT, body.EFG_PCT, body.TS_PCT, body.USG_PCT, body.E_USG_PCT, body.E_PACE, body.PACE, body.PACE_PER40, body.POSS, body.PIE], (error, results) => {
+      if (error) {
+          throw error;
+      }
+      response.status(201).send(body);
+  });
 }
 
 const getLocalGamesByGameByPlayerPublic = async(request, response) => {
@@ -401,27 +413,63 @@ const getLocalGamesByGameByPlayerPublic = async(request, response) => {
 
 const getGameIdPublic = async(request, response) => {
   let {playerid, league, seasonyear, shotsgameid} = request.params;
-  console.log(playerid);
-  console.log(league);
-  console.log(seasonyear);
+  
   let year = seasonyear.substring(0, 4);
-  console.log(year);
-  let startDate = shotsgameid.substring(0, 10);
-  startDate = startDate + '%';
-  console.log(startDate);
-  db.query(`SELECT DISTINCT games.gameid FROM games
-            INNER JOIN gameinfo 
-            ON games.gameid=gameinfo.gameid
-            WHERE gameinfo.starttimeutc LIKE $1
-            AND games.playerid = $2`, [startDate, playerid], (error, results) => {
+
+  db.query(`SELECT games.gameid FROM games
+            INNER JOIN gameinfo
+            ON games.gameid = gameinfo.gameid
+            WHERE games.playerid = $1`, [playerid], (error, results) => {
     if (error) {
       throw error
     }
-    console.log(results.rows)
+    //console.log(results.rows)
 
     response.status(200).json(results.rows)
   })
 }
+
+const getGamesByPlayer = async(request, response) => {
+  let playerid = request.params;
+  console.log(playerid);
+  db.query(`SELECT * FROM games
+            WHERE games.playerid = $1`, [playerid.playerid], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getGameInfoByGameId = async(request, response) => {
+  let gameid = request.params;
+  db.query(`SELECT * FROM gameinfo
+            WHERE gameinfo.gameid = $1`, [gameid.gameid], (error, results) => {
+    if (error) {
+      throw error
+  }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getVTeamHTeam = async(request, response) => {
+  console.log(request.params);
+  let playerid = request.params;
+  console.log('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
+  console.log(playerid)
+  db.query(`SELECT vteam, hteam FROM gameinfo
+            INNER JOIN games 
+            ON gameinfo.gameid = games.gameid
+            WHERE games.playerid = $1`, [playerid.playerid], (error, results) => {
+    if (error) {
+      throw error
+    }
+//    console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
 
 
 const deleteDatabase = (request, response) => {
@@ -473,6 +521,34 @@ const deleteUser = (request, response) => {
 }
 
 */
+const boxScoreLoad = (request, response) => {
+
+    let season = request.params;
+    console.log(season);
+    const data = [];
+    fs.createReadStream(`./boxscores${season.season}.csv`)
+        .pipe(
+          parse({
+            delimiter: ",",
+            columns: true,
+            ltrim: true,
+          })
+        )
+        .on("data", function async(row) {
+          // 👇 push the object row into the array
+            data.push(row);
+        })
+        .on("error", function async(error) {
+            console.log(error.message);
+        })
+        .on("end", function async() {
+        // 👇 log the result array
+        console.log("parsed csv data:");
+        //console.log(data); 
+        response.status(201).send(data);
+    })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -509,4 +585,9 @@ module.exports = {
     getGameIdGameDateMatchupBySeasonDropDownLocal,
     getLocalGamesByGameByPlayerPublic,
     getGameIdPublic,
+    createBoxScores,
+    boxScoreLoad,
+    getVTeamHTeam,
+    getGamesByPlayer,
+    getGameInfoByGameId
 }

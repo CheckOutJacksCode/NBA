@@ -327,15 +327,11 @@ const getCarmeloFactor = async(year, playerId) => {
 
 const getSeasonStatAvgLocal = async(stat, year, playerId) => {
     let league = 'standard';
-    console.log(playerId);
-    console.log(playerId);
     let url = `/games/` + playerId + '/' + league + '/' + year;
-    console.log(url);
     let gameDetailsArray = await getJsonResponse(url);
-    console.log(gameDetailsArray);
-    console.log(stat);
+
     let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
-    console.log(statTotal)
+
     let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let statAverage = statTotal / gamesPlayed;
     return Number.parseFloat(statAverage).toFixed(2);

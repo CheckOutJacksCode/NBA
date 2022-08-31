@@ -1,3 +1,5 @@
+
+
 const shotsPlayer = document.getElementById("shots_player");
 const shotsSeason = document.getElementById("shots_season");
 const shotsGameId = document.getElementById("shots_gameId");
@@ -86,18 +88,62 @@ const letsGo = async(url) => {
       chartTitle = "GAME SHOT CHART";
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
-      let playerid = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
-      let playeridString = playerid[0].playerid;
+      let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playerid = playerId[0].playerid.toString();
       let year = shotsSeason.value;
       let league = "standard";
-      console.log(typeof shotsSeason.value);
-      let seasonyear = year.substring(0, 4);
+     
+      //let seasonyear = year.substring(0, 4);
       let shotsgameid = shotsGameId.value.substring(0, 10);
       //MAKE ENDPOINT TO GET ONE GAME
-      let gameid = await getJsonResponse(`/games/gameid/${playeridString}/${league}/${seasonyear}/${shotsgameid}`)
+ 
+      let games = await getJsonResponse(`/games/${playerid}`)
+      console.log(games);
+
+      let gameid;
+      let gameidArray = [];
+      for (let i = 0; i < games.length; i++) {
+        gameid = games[i].gameid;
+        
+        let gameinfo = await getJsonResponse(`/gameinfo/${gameid}`)
+       
+        if (gameinfo[0].vteam.shortName + ' vs. ' + gameinfo[0].hteam.shortName === shotsGameId.value.substring(11, 20) || gameinfo[0].vteam.shortName + ' @ ' + gameinfo[0].hteam.shortName === shotsGameId.value.substring(11, 20)) {
+          let game_date = shotsGameId.value.substring(0, 10);
+          console.log(gameinfo[0].starttimeutc.substring(0, 7))
+          console.log(game_date.substring(0, 7))
+          console.log(gameinfo[0].starttimeutc.substring(0, 7).length)
+          console.log(game_date.substring(0, 7).length)
+          //GET GAMEID WHERE VTEAM SHORTNAME HTEAM SHORTNAME === 
+          if (gameinfo[0].starttimeutc.substring(0, 7) === game_date.substring(0, 7)) {
+            console.log('kdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
+            gameid = gameinfo[0].gameid;
+            break;
+            console.log(gameid);
+          }
+        
+          gameidArray.push(gameid);
+        }
+      }
+      console.log(gameidArray);
+      
+      
+
+      //GET GAME
+      /*let vteamhteam = await getJsonResponse(`/games/vteamhteam/${playerid}`);
+      console.log(`/games/vteamhteam/${playerid}`);
+      console.log(vteamhteam);
+      for (let j = 0; j < vteamhteam.length; j++) {
+        if (vteamhteam[j].vteam.shortName + ' vs. ' + vteamhteam[j].hteam.shortName === shotsGameId.value.substring(11, -1) || vteamhteam[j].vteam.shortName + ' @ ' + vteamhteam[j].hteam.shortName === shotsGameId.value.substring(11, -1)) {
+          let game_date = shotsGameId.value.substring(0, 10);
+          //GET GAMEID WHERE VTEAM SHORTNAME HTEAM SHORTNAME === 
+          let gameid = await getJsonResponse(`/games/gameid/${playerid}/${league}/${year}/${shotsgameid}`);
+        }
+      }*/
+      //await getJsonResponse(`/gameid/vshortname/hshortname`)
+      console.log('KDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
       console.log(gameid);
-      gameid = gameid[0].gameid;
-      let boxScore = await getJsonResponse(`/games/${gameid}/${playeridString}`);
+      //CATCH THE ERROR HERE IF THE PLAYER DIDNT PLAY IN THE GAME
+      let boxScore = await getJsonResponse(`/games/${gameid}/${playerid}`);
       console.log(boxScore);
       boxScore = boxScore[0];
       points = boxScore.points;
@@ -121,8 +167,10 @@ const letsGo = async(url) => {
       blocks = boxScore.blocks;
       plusminus = boxScore.plusminus;
       pfouls = boxScore.pfouls;
-    }
 
+
+
+    }
     //GET THE STATS YOU WANT IN A TEXT CHUNK
     //season fg% season 3pt% season eFG% ast, blk, stl, threes, 
     //game box score; 4-12, ast, blk, stl, three pt. 2-3, 
@@ -228,7 +276,7 @@ const letsGo = async(url) => {
     svg.append("text")
       .attr("x", 260)
       .attr("y", 230)
-      .text(`TPA: ${parseFloat(tpp).toFixed(1)}`)
+      .text(`TPA: ${parseFloat(tpa).toFixed(1)}`)
       .style("text-anchor", "left")
       .style("font-size", "20px")
       .style('fill', 'chartreuse')
@@ -236,7 +284,7 @@ const letsGo = async(url) => {
     svg.append("text")
       .attr("x", 260)
       .attr("y", 250)
-      .text(`TPM: ${parseFloat(tpp).toFixed(1)}`)
+      .text(`TPM: ${parseFloat(tpm).toFixed(1)}`)
       .style("text-anchor", "left")
       .style("font-size", "20px")
       .style('fill', 'chartreuse')
@@ -450,7 +498,8 @@ const submitShots = async() => {
   for (var game of gameIdArray) {
     console.log(game.game_date + ' ' + game.matchup);
     console.log(shotsGameId.value);
-    if (game.game_date + ' ' + game.matchup === shotsGameId.value) {
+    let shotsgameid = shotsGameId.value;
+    if (game.game_date + ' ' + game.matchup === shotsgameid) {
       let url = `/local/shots/${shotsPlayer.value}/${shotsSeason.value}/${game.game_id}`
       await letsGo(url);
       break;
