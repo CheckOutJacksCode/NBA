@@ -1,0 +1,2109 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.2
+-- Dumped by pg_dump version 14.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: NBAstatistics; Type: DATABASE; Schema: -; Owner: petejackerson
+--
+
+CREATE DATABASE "NBAstatistics" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
+
+
+ALTER DATABASE "bxkh0cfee6cemj2x04k4" OWNER TO petejackerson;
+
+\connect "bxkh0cfee6cemj2x04k4"
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: 2015-2016; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2015-2016" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2015-2016" OWNER TO petejackerson;
+
+--
+-- Name: 2015-2016_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2015-2016_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2015-2016_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2015-2016_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2015-2016_id_seq" OWNED BY public."2015-2016".id;
+
+
+--
+-- Name: 2016-2017; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2016-2017" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2016-2017" OWNER TO petejackerson;
+
+--
+-- Name: 2016-2017_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2016-2017_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2016-2017_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2016-2017_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2016-2017_id_seq" OWNED BY public."2016-2017".id;
+
+
+--
+-- Name: 2017-2018; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2017-2018" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2017-2018" OWNER TO petejackerson;
+
+--
+-- Name: 2017-2018_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2017-2018_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2017-2018_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2017-2018_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2017-2018_id_seq" OWNED BY public."2017-2018".id;
+
+
+--
+-- Name: 2018-2019; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2018-2019" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2018-2019" OWNER TO petejackerson;
+
+--
+-- Name: 2018-2019_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2018-2019_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2018-2019_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2018-2019_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2018-2019_id_seq" OWNED BY public."2018-2019".id;
+
+
+--
+-- Name: 2019-2020; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2019-2020" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2019-2020" OWNER TO petejackerson;
+
+--
+-- Name: 2019-2020_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2019-2020_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2019-2020_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2019-2020_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2019-2020_id_seq" OWNED BY public."2019-2020".id;
+
+
+--
+-- Name: 2020-2021; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2020-2021" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2020-2021" OWNER TO petejackerson;
+
+--
+-- Name: 2020-2021_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2020-2021_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2020-2021_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2020-2021_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2020-2021_id_seq" OWNED BY public."2020-2021".id;
+
+
+--
+-- Name: 2021-2022; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."2021-2022" (
+    id integer NOT NULL,
+    grid_type character varying(100),
+    game_id character varying(100),
+    game_event_id character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    team_id character varying(100),
+    team_name character varying(100),
+    period character varying(100),
+    minutes_remaining character varying(100),
+    seconds_remaining character varying(100),
+    event_type character varying(100),
+    action_type character varying(100),
+    shot_type character varying(100),
+    shot_zone_basic character varying(100),
+    shot_zone_area character varying(100),
+    shot_zone_range character varying(100),
+    shot_distance character varying(100),
+    loc_x character varying(100),
+    loc_y character varying(100),
+    shot_attempted_flag character varying(100),
+    shot_made_flag character varying(100),
+    game_date character varying(100),
+    htm character varying(100),
+    vtm character varying(100)
+);
+
+
+ALTER TABLE public."2021-2022" OWNER TO petejackerson;
+
+--
+-- Name: 2021-2022_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."2021-2022_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."2021-2022_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: 2021-2022_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."2021-2022_id_seq" OWNED BY public."2021-2022".id;
+
+
+--
+-- Name: boxscores2015-2016; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2015-2016" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2015-2016" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2015-2016_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2015-2016_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2015-2016_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2015-2016_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2015-2016_id_seq" OWNED BY public."boxscores2015-2016".id;
+
+
+--
+-- Name: boxscores2016-2017; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2016-2017" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2016-2017" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2016-2017_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2016-2017_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2016-2017_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2016-2017_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2016-2017_id_seq" OWNED BY public."boxscores2016-2017".id;
+
+
+--
+-- Name: boxscores2017-2018; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2017-2018" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2017-2018" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2017-2018_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2017-2018_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2017-2018_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2017-2018_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2017-2018_id_seq" OWNED BY public."boxscores2017-2018".id;
+
+
+--
+-- Name: boxscores2018-2019; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2018-2019" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2018-2019" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2018-2019_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2018-2019_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2018-2019_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2018-2019_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2018-2019_id_seq" OWNED BY public."boxscores2018-2019".id;
+
+
+--
+-- Name: boxscores2019-2020; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2019-2020" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2019-2020" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2019-2020_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2019-2020_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2019-2020_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2019-2020_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2019-2020_id_seq" OWNED BY public."boxscores2019-2020".id;
+
+
+--
+-- Name: boxscores2020-2021; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2020-2021" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2020-2021" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2020-2021_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2020-2021_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2020-2021_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2020-2021_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2020-2021_id_seq" OWNED BY public."boxscores2020-2021".id;
+
+
+--
+-- Name: boxscores2021-2022; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."boxscores2021-2022" (
+    id integer NOT NULL,
+    game_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_city character varying(100),
+    player_id character varying(100),
+    player_name character varying(100),
+    nickname character varying(100),
+    start_position character varying(100),
+    comment character varying(100),
+    min character varying(100),
+    e_off_rating character varying(100),
+    off_rating character varying(100),
+    e_def_rating character varying(100),
+    def_rating character varying(100),
+    e_net_rating character varying(100),
+    net_rating character varying(100),
+    ast_pct character varying(100),
+    ast_tov character varying(100),
+    ast_ratio character varying(100),
+    oreb_pct character varying(100),
+    dreb_pct character varying(100),
+    reb_pct character varying(100),
+    tm_tov_pct character varying(100),
+    efg_pct character varying(100),
+    ts_pct character varying(100),
+    usg_pct character varying(100),
+    e_usg_pct character varying(100),
+    e_pace character varying(100),
+    pace character varying(100),
+    pace_per40 character varying(100),
+    poss character varying(100),
+    pie character varying(100)
+);
+
+
+ALTER TABLE public."boxscores2021-2022" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2021-2022_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."boxscores2021-2022_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."boxscores2021-2022_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: boxscores2021-2022_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."boxscores2021-2022_id_seq" OWNED BY public."boxscores2021-2022".id;
+
+
+--
+-- Name: carmeloPts; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."carmeloPts" (
+    id integer NOT NULL,
+    playerid character varying(100),
+    firstname character varying(100),
+    lastname character varying(100),
+    season character varying(100),
+    carmelopts character varying(100)
+);
+
+
+ALTER TABLE public."carmeloPts" OWNER TO petejackerson;
+
+--
+-- Name: carmeloPts_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."carmeloPts_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."carmeloPts_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: carmeloPts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."carmeloPts_id_seq" OWNED BY public."carmeloPts".id;
+
+
+--
+-- Name: gameinfo; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public.gameinfo (
+    id integer NOT NULL,
+    seasonyear character varying(100),
+    league character varying(100),
+    gameid character varying(100),
+    starttimeutc character varying(100),
+    endtimeutc character varying(100),
+    arena character varying(100),
+    city character varying(100),
+    country character varying(100),
+    clock character varying(100),
+    gameduration character varying(100),
+    currentperiod character varying(100),
+    halftime character varying(100),
+    endofperiod character varying(100),
+    seasonstage character varying(100),
+    statusshortgame character varying(100),
+    vteam json,
+    hteam json
+);
+
+
+ALTER TABLE public.gameinfo OWNER TO petejackerson;
+
+--
+-- Name: gameinfo_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public.gameinfo_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.gameinfo_id_seq OWNER TO petejackerson;
+
+--
+-- Name: gameinfo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public.gameinfo_id_seq OWNED BY public.gameinfo.id;
+
+
+--
+-- Name: games; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public.games (
+    id integer NOT NULL,
+    gameid character varying(32) NOT NULL,
+    team_id character varying(32) NOT NULL,
+    points character varying(32) NOT NULL,
+    "position" character varying(100) DEFAULT 'None'::character varying,
+    min character varying(100) NOT NULL,
+    fgm character varying(32) NOT NULL,
+    fga character varying(32) NOT NULL,
+    fgp character varying(53) NOT NULL,
+    ftm character varying(32) NOT NULL,
+    fta character varying(32) NOT NULL,
+    ftp character varying(53) NOT NULL,
+    tpm character varying(32) NOT NULL,
+    tpa character varying(32) NOT NULL,
+    tpp character varying(53) NOT NULL,
+    offreb character varying(32) NOT NULL,
+    defreb character varying(32) NOT NULL,
+    totreb character varying(32) NOT NULL,
+    assists character varying(32) NOT NULL,
+    pfouls character varying(32) NOT NULL,
+    steals character varying(32) NOT NULL,
+    turnovers character varying(32) NOT NULL,
+    blocks character varying(32) NOT NULL,
+    plusminus character varying(53) NOT NULL,
+    playerid character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.games OWNER TO petejackerson;
+
+--
+-- Name: hustleFactor; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."hustleFactor" (
+    id integer NOT NULL,
+    playerid character varying(100),
+    firstname character varying(100),
+    lastname character varying(100),
+    hustlepts character varying(100),
+    season character varying(100)
+);
+
+
+ALTER TABLE public."hustleFactor" OWNER TO petejackerson;
+
+--
+-- Name: hustleFactor_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."hustleFactor_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."hustleFactor_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: hustleFactor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."hustleFactor_id_seq" OWNED BY public."hustleFactor".id;
+
+
+--
+-- Name: leagueGames2015-2016; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2015-2016" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2015-2016" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2015-2016_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2015-2016_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2015-2016_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2015-2016_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2015-2016_id_seq" OWNED BY public."leagueGames2015-2016".id;
+
+
+--
+-- Name: leagueGames2016-2017; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2016-2017" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2016-2017" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2016-2017_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2016-2017_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2016-2017_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2016-2017_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2016-2017_id_seq" OWNED BY public."leagueGames2016-2017".id;
+
+
+--
+-- Name: leagueGames2017-2018; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2017-2018" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2017-2018" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2017-2018_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2017-2018_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2017-2018_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2017-2018_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2017-2018_id_seq" OWNED BY public."leagueGames2017-2018".id;
+
+
+--
+-- Name: leagueGames2018-2019; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2018-2019" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2018-2019" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2018-2019_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2018-2019_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2018-2019_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2018-2019_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2018-2019_id_seq" OWNED BY public."leagueGames2018-2019".id;
+
+
+--
+-- Name: leagueGames2019-2020; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2019-2020" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2019-2020" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2019-2020_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2019-2020_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2019-2020_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2019-2020_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2019-2020_id_seq" OWNED BY public."leagueGames2019-2020".id;
+
+
+--
+-- Name: leagueGames2020-2021; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2020-2021" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2020-2021" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2020-2021_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2020-2021_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2020-2021_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2020-2021_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2020-2021_id_seq" OWNED BY public."leagueGames2020-2021".id;
+
+
+--
+-- Name: leagueGames2021-2022; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."leagueGames2021-2022" (
+    id integer NOT NULL,
+    season_id character varying(100),
+    team_id character varying(100),
+    team_abbreviation character varying(100),
+    team_name character varying(100),
+    game_id character varying(100),
+    game_date character varying(100),
+    matchup character varying(100),
+    wl character varying(100),
+    min character varying(100),
+    fgm character varying(100),
+    fga character varying(100),
+    fg_pct character varying(100),
+    fg3m character varying(100),
+    fg3a character varying(100),
+    fg3_pct character varying(100),
+    ftm character varying(100),
+    fta character varying(100),
+    ft_pct character varying(100),
+    oreb character varying(100),
+    dreb character varying(100),
+    reb character varying(100),
+    ast character varying(100),
+    stl character varying(100),
+    blk character varying(100),
+    tov character varying(100),
+    pf character varying(100),
+    pts character varying(100),
+    plus_minus character varying(100),
+    video_available character varying(100)
+);
+
+
+ALTER TABLE public."leagueGames2021-2022" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2021-2022_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."leagueGames2021-2022_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."leagueGames2021-2022_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: leagueGames2021-2022_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."leagueGames2021-2022_id_seq" OWNED BY public."leagueGames2021-2022".id;
+
+
+--
+-- Name: mvpPoints; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."mvpPoints" (
+    id integer NOT NULL,
+    playerid character varying(100),
+    mvppoints character varying(100),
+    firstname character varying(100),
+    lastname character varying(100),
+    season character varying(100)
+);
+
+
+ALTER TABLE public."mvpPoints" OWNER TO petejackerson;
+
+--
+-- Name: mvpPoints_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."mvpPoints_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."mvpPoints_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: mvpPoints_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."mvpPoints_id_seq" OWNED BY public."mvpPoints".id;
+
+
+--
+-- Name: players; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public.players (
+    id integer NOT NULL,
+    firstname character varying(100) NOT NULL,
+    lastname character varying(100) NOT NULL,
+    affiliation character varying(100) NOT NULL,
+    collegename character varying(100) NOT NULL,
+    country character varying(100) NOT NULL,
+    dateofbirth character varying(100) NOT NULL,
+    heightinmeters character varying(100) NOT NULL,
+    weightinkilograms character varying(100) NOT NULL,
+    yearspro integer NOT NULL,
+    leagues json NOT NULL,
+    teamid integer NOT NULL,
+    playerid integer NOT NULL,
+    startnba character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.players OWNER TO petejackerson;
+
+--
+-- Name: playersNBA; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public."playersNBA" (
+    id integer NOT NULL,
+    full_name character varying(100),
+    first_name character varying(100),
+    last_name character varying(100),
+    is_active character varying(100),
+    playerid character varying(100)
+);
+
+
+ALTER TABLE public."playersNBA" OWNER TO petejackerson;
+
+--
+-- Name: playersNBA_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public."playersNBA_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."playersNBA_id_seq" OWNER TO petejackerson;
+
+--
+-- Name: playersNBA_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public."playersNBA_id_seq" OWNED BY public."playersNBA".id;
+
+
+--
+-- Name: players_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public.players_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.players_id_seq OWNER TO petejackerson;
+
+--
+-- Name: players_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public.players_id_seq OWNED BY public.players.id;
+
+
+--
+-- Name: statistics_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public.statistics_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.statistics_id_seq OWNER TO petejackerson;
+
+--
+-- Name: statistics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public.statistics_id_seq OWNED BY public.games.id;
+
+
+--
+-- Name: test; Type: TABLE; Schema: public; Owner: petejackerson
+--
+
+CREATE TABLE public.test (
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.test OWNER TO petejackerson;
+
+--
+-- Name: test_id_seq; Type: SEQUENCE; Schema: public; Owner: petejackerson
+--
+
+CREATE SEQUENCE public.test_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.test_id_seq OWNER TO petejackerson;
+
+--
+-- Name: test_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: petejackerson
+--
+
+ALTER SEQUENCE public.test_id_seq OWNED BY public.test.id;
+
+
+--
+-- Name: 2015-2016 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2015-2016" ALTER COLUMN id SET DEFAULT nextval('public."2015-2016_id_seq"'::regclass);
+
+
+--
+-- Name: 2016-2017 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2016-2017" ALTER COLUMN id SET DEFAULT nextval('public."2016-2017_id_seq"'::regclass);
+
+
+--
+-- Name: 2017-2018 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2017-2018" ALTER COLUMN id SET DEFAULT nextval('public."2017-2018_id_seq"'::regclass);
+
+
+--
+-- Name: 2018-2019 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2018-2019" ALTER COLUMN id SET DEFAULT nextval('public."2018-2019_id_seq"'::regclass);
+
+
+--
+-- Name: 2019-2020 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2019-2020" ALTER COLUMN id SET DEFAULT nextval('public."2019-2020_id_seq"'::regclass);
+
+
+--
+-- Name: 2020-2021 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2020-2021" ALTER COLUMN id SET DEFAULT nextval('public."2020-2021_id_seq"'::regclass);
+
+
+--
+-- Name: 2021-2022 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2021-2022" ALTER COLUMN id SET DEFAULT nextval('public."2021-2022_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2015-2016 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2015-2016" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2015-2016_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2016-2017 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2016-2017" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2016-2017_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2017-2018 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2017-2018" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2017-2018_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2018-2019 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2018-2019" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2018-2019_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2019-2020 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2019-2020" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2019-2020_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2020-2021 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2020-2021" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2020-2021_id_seq"'::regclass);
+
+
+--
+-- Name: boxscores2021-2022 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2021-2022" ALTER COLUMN id SET DEFAULT nextval('public."boxscores2021-2022_id_seq"'::regclass);
+
+
+--
+-- Name: carmeloPts id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."carmeloPts" ALTER COLUMN id SET DEFAULT nextval('public."carmeloPts_id_seq"'::regclass);
+
+
+--
+-- Name: gameinfo id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.gameinfo ALTER COLUMN id SET DEFAULT nextval('public.gameinfo_id_seq'::regclass);
+
+
+--
+-- Name: games id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.games ALTER COLUMN id SET DEFAULT nextval('public.statistics_id_seq'::regclass);
+
+
+--
+-- Name: hustleFactor id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."hustleFactor" ALTER COLUMN id SET DEFAULT nextval('public."hustleFactor_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2015-2016 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2015-2016" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2015-2016_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2016-2017 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2016-2017" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2016-2017_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2017-2018 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2017-2018" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2017-2018_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2018-2019 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2018-2019" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2018-2019_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2019-2020 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2019-2020" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2019-2020_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2020-2021 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2020-2021" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2020-2021_id_seq"'::regclass);
+
+
+--
+-- Name: leagueGames2021-2022 id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2021-2022" ALTER COLUMN id SET DEFAULT nextval('public."leagueGames2021-2022_id_seq"'::regclass);
+
+
+--
+-- Name: mvpPoints id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."mvpPoints" ALTER COLUMN id SET DEFAULT nextval('public."mvpPoints_id_seq"'::regclass);
+
+
+--
+-- Name: players id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.players ALTER COLUMN id SET DEFAULT nextval('public.players_id_seq'::regclass);
+
+
+--
+-- Name: playersNBA id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."playersNBA" ALTER COLUMN id SET DEFAULT nextval('public."playersNBA_id_seq"'::regclass);
+
+
+--
+-- Name: test id; Type: DEFAULT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.test ALTER COLUMN id SET DEFAULT nextval('public.test_id_seq'::regclass);
+
+
+--
+-- Name: 2015-2016 2015-2016_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2015-2016"
+    ADD CONSTRAINT "2015-2016_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: 2016-2017 2016-2017_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2016-2017"
+    ADD CONSTRAINT "2016-2017_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: 2017-2018 2017-2018_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2017-2018"
+    ADD CONSTRAINT "2017-2018_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: 2018-2019 2018-2019_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2018-2019"
+    ADD CONSTRAINT "2018-2019_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: 2019-2020 2019-2020_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2019-2020"
+    ADD CONSTRAINT "2019-2020_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: 2020-2021 2020-2021_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2020-2021"
+    ADD CONSTRAINT "2020-2021_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: 2021-2022 2021-2022_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."2021-2022"
+    ADD CONSTRAINT "2021-2022_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2015-2016 boxscores2015-2016_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2015-2016"
+    ADD CONSTRAINT "boxscores2015-2016_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2016-2017 boxscores2016-2017_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2016-2017"
+    ADD CONSTRAINT "boxscores2016-2017_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2017-2018 boxscores2017-2018_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2017-2018"
+    ADD CONSTRAINT "boxscores2017-2018_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2018-2019 boxscores2018-2019_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2018-2019"
+    ADD CONSTRAINT "boxscores2018-2019_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2019-2020 boxscores2019-2020_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2019-2020"
+    ADD CONSTRAINT "boxscores2019-2020_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2020-2021 boxscores2020-2021_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2020-2021"
+    ADD CONSTRAINT "boxscores2020-2021_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: boxscores2021-2022 boxscores2021-2022_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."boxscores2021-2022"
+    ADD CONSTRAINT "boxscores2021-2022_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: carmeloPts carmeloPts_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."carmeloPts"
+    ADD CONSTRAINT "carmeloPts_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: gameinfo gameinfo_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.gameinfo
+    ADD CONSTRAINT gameinfo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hustleFactor hustleFactor_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."hustleFactor"
+    ADD CONSTRAINT "hustleFactor_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2015-2016 leagueGames2015-2016_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2015-2016"
+    ADD CONSTRAINT "leagueGames2015-2016_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2016-2017 leagueGames2016-2017_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2016-2017"
+    ADD CONSTRAINT "leagueGames2016-2017_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2017-2018 leagueGames2017-2018_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2017-2018"
+    ADD CONSTRAINT "leagueGames2017-2018_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2018-2019 leagueGames2018-2019_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2018-2019"
+    ADD CONSTRAINT "leagueGames2018-2019_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2019-2020 leagueGames2019-2020_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2019-2020"
+    ADD CONSTRAINT "leagueGames2019-2020_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2020-2021 leagueGames2020-2021_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2020-2021"
+    ADD CONSTRAINT "leagueGames2020-2021_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: leagueGames2021-2022 leagueGames2021-2022_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."leagueGames2021-2022"
+    ADD CONSTRAINT "leagueGames2021-2022_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: mvpPoints mvpPoints_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."mvpPoints"
+    ADD CONSTRAINT "mvpPoints_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: playersNBA playersNBA_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public."playersNBA"
+    ADD CONSTRAINT "playersNBA_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: players players_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT players_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: games statistics_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.games
+    ADD CONSTRAINT statistics_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: test test_pkey; Type: CONSTRAINT; Schema: public; Owner: petejackerson
+--
+
+ALTER TABLE ONLY public.test
+    ADD CONSTRAINT test_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
