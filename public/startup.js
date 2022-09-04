@@ -2,13 +2,17 @@ const mvpSubmit = document.getElementById("submit-mvp");
 const statSubmit = document.getElementById("submit-stat");
 const deepStatSubmit = document.getElementById("submit-deep-stat");
 const clearButton = document.getElementById("clearButton");
+
 const loadUpLocal = document.getElementById("loadButton");
+
+const loadUpLocalPlayers = document.getElementById("loadPlayersButton");
+
 const loadUpGamesLocal = document.getElementById("loadGamesButton");
 const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
 const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
 const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
 const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
-
+const loadUpGamesCloud = document.getElementById("loadUpGamesCloud");
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -107,12 +111,24 @@ const onStartUp = async() => {
         console.log(teamIds);
         for (let j = 0; j < teamIds.length; j++) {
             let players = await getPlayersByTeamId(teamIds[j]);
+
             for (let i = 0; i < players.api.players.length; i++) {
                 console.log(players.api.players[i])
                 let player = await postPlayer(players.api.players[i]);
+                console.log(player);
             }
         }
     }
+
+    loadUpLocalPlayers.onclick = async() => {
+        let players = await getJsonResponse('/playersJson');
+        for (let i = 0; i < players.length; i++) {
+            let playersdoc = await postWriteJsonPlayers(players[i]);
+            console.log(playersdoc);
+        }   
+    }
+        
+        
     loadUpGamesLocal.onclick = async() => {
         let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
         console.log(playerIdArray);
@@ -126,6 +142,17 @@ const onStartUp = async() => {
             }
         }
     }
+
+    loadUpGamesCloud.onclick = async() => {
+        let games = await getJsonResponse('/gamescloud');
+        console.log(games.length)
+        for (let i = 208645; i < games.length; i++) {
+            console.log(games[i]);
+            await postGameCloud(games[i]);
+        }
+        console.log('FIIIIINNNNNNIIIIIIIISSSSSSSSHHHHHHHHEEEEEEDDDDDD');
+    }
+
     loadUpGameInfoLocal.onclick = async() => {
         let years = ['2015', '2016', '2017', '2018', '2019', '2020', '2021'];
         for (let i = 0; i < years.length; i++) {
@@ -149,6 +176,9 @@ const onStartUp = async() => {
     }
     loadUpBoxScoresLocalButton.onclick = async() => {
         await loadUpBoxScoresLocalFunction();
+    }
+    loadUpLeagueHustleStatsButton.onclick = async() => {
+        await loadUpLeagueHustleStatsPlayerFunction();
     }
 }
 
@@ -260,6 +290,26 @@ const loadUpBoxScoresLocalFunction = async() => {
         await postBoxScoresBySeason(data[i], season);
     } 
 
+}
+
+const loadUpLeagueHustleStatsPlayerFunction = async() => {
+    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    for (let i = 0; i < years.length; i++) {
+        console.log(years[i])
+        console.log(`/leaguehustlestats/${years[i]}`);
+        let hustleArray = await getJsonResponse(`/leaguehustlestats/${years[i]}`);
+        console.log(hustleArray)
+        for (let j = 0; j < hustleArray.resultSets.length; j++) {
+            console.log(hustleArray.resultSets.length);
+            for (let m = 0; m < hustleArray.resultSets[j].rowSet.length; m++) {
+                console.log(hustleArray.resultSets[j].rowSet[m]);
+                
+                //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
+                let results = await postLeagueHustleStatsBySeason(hustleArray.resultSets[j].rowSet[m], years[i]);
+            }
+        }
+    }
+    console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
 }
 
 onStartUp();

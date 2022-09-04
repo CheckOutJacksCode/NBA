@@ -42,6 +42,31 @@ const getPlayer = async() => {
 const postPlayer = async(obj) => {
     console.log('wwwwwwwwwwwww');
     const url = '/players';
+    console.log(obj);
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postWriteJsonPlayers = async(obj) => {
+    console.log('wwwwwwwwwwwww');
+    console.log(obj);
+    console.log(obj.length);
+    const url = '/playerscloud';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -88,6 +113,29 @@ const postPlayersNBA = async(obj) => {
 const postGame = async(obj) => {
     console.log('tttttttttt');
     const url = '/games';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
+const postGameCloud = async(obj) => {
+    console.log('tttttttttt');
+    const url = '/gamescloud';
+    console.log(obj);
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -215,6 +263,30 @@ const postLeagueGamesBySeason = async(obj, season) => {
         console.log(error);
     } 
 }
+
+const postLeagueHustleStatsBySeason = async(obj, season) => {
+    console.log('ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccrap');
+    console.log(season);
+    const url = `/leaguehustlestats/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
 
 const deleteDatabase = async() => {
     const url = '/database/delete';

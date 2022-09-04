@@ -1,6 +1,7 @@
 const db = require("./pgPool");
 const fs = require("fs");
 const { parse } = require("csv-parse");
+const createCsvWriter = require('csv-writer');
 
 
 const getPlayerIds = (request, response) => {
@@ -25,6 +26,10 @@ const getPlayers = (request, response) => {
     })
 }
 
+const getPlayersJson = async(request, response) => {
+    let players = await require('./playersJson.json');
+    response.status(200).send(players);
+}
 const getPlayersNBA = async(request, response) => {
     let players = await require('./public/playersNBA.json');
     response.status(200).send(players);
@@ -147,6 +152,14 @@ const getShotsLocal = async(request, response) => {
 const getGamesBySeason = async(request, response) => {
   let season = request.params;
   let games = await require(`./leaguegames${season['season']}.json`);
+  response.status(200).send(games);    
+}
+
+const getLeagueHustleStatsBySeason = async(request, response) => {
+  let season = request.params;
+  console.log(season);
+  console.log(season.season);
+  let games = await require(`./leaguehustlestatsplayer${season.season}.json`);
   response.status(200).send(games);    
 }
 
@@ -362,9 +375,15 @@ const getAllFirstLastHustlePointsInSeason = (request, response) => {
   })
 }
 
+const getGamesFromJson = async(request, response) => {
+  let games = await require(`./gamesJson.json`);
+  console.log(games);
+  response.status(200).send(games);
+}
+
 const createGame = (request, response) => {
     const body = request.body;
-    //console.log(body);
+    console.log('boom')
     db.query('INSERT INTO games (gameId, teamId, points, position, min, fgm, fga, fgp, ftm, fta, ftp, tpm, tpa, tpp, offReb, defReb, totReb, assists, pFouls, steals, turnovers, blocks, plusMinus, playerId) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)', 
     [body.gameId, body.teamId, body.points, body.position, body.min, body.fgm, body.fga, body.fgp, body.ftm, body.fta, body.ftp, body.tpm, body.tpa, body.tpp, body.offReb, body.defReb, body.totReb, body.assists, body.pFouls, body.steals, body.turnovers, body.blocks, body.plusMinus, body.playerId], (error, results) => {
       if (error) {
@@ -373,6 +392,48 @@ const createGame = (request, response) => {
       //console.log(results);
       response.status(201).send(body);
     });
+}
+
+const createGameCloud = (request, response) => {
+  let body = request.body;
+  console.log('boomshakalaka');
+  console.log(body);
+  body = {
+    gameid: `${body[1]}`,
+    teamid: `${body[2]}`,
+    points: `${body[3]}`,
+    position: `${body[4]}`,
+    min: `${body[5]}`,
+    fgm: `${body[6]}`,
+    fga: `${body[7]}`,
+    fgp: `${body[8]}`,
+    ftm: `${body[9]}`,
+    fta: body[10],
+    ftp: `${body[11]}`,
+    tpm: `${body[12]}`,
+    tpa: `${body[13]}`,
+    tpp: `${body[14]}`,
+    offreb: `${body[15]}`,
+    defreb: `${body[16]}`,
+    totreb: body[17],
+    assists: `${body[18]}`,
+    pfouls: `${body[19]}`,
+    steals: `${body[20]}`,
+    turnovers: `${body[21]}`,
+    blocks: `${body[22]}`,
+    plusminus: `${body[23]}`,
+    playerid: `${body[24]}`, 
+  }
+  console.log(body)
+  console.log(body.gameid);
+  db.query('INSERT INTO games (gameid, teamid, points, position, min, fgm, fga, fgp, ftm, fta, ftp, tpm, tpa, tpp, offreb, defreb, totreb, assists, pfouls, steals, turnovers, blocks, plusminus, playerid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)', 
+  [body.gameid, body.teamid, body.points, body.position, body.min, body.fgm, body.fga, body.fgp, body.ftm, body.fta, body.ftp, body.tpm, body.tpa, body.tpp, body.offreb, body.defreb, body.totreb, body.assists, body.pfouls, body.steals, body.turnovers, body.blocks, body.plusminus, body.playerid], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    //console.log(results);
+    response.status(201).send(body);
+  });
 }
 
 const createGameInfo = (request, response) => {
@@ -549,6 +610,63 @@ const boxScoreLoad = (request, response) => {
     })
 }
 
+const createLeagueHustleStatsBySeason = (request, response) => {
+  let season = request.params;
+  console.log(season);
+  const body = request.body;
+  console.log(body);
+  db.query(`INSERT INTO "leagueHustleStatsPlayer${season['season']}" (player_id, player_name, team_id, team_abbreviation, age, g, min, contested_shots, contested_shots_2pt, contested_shots_3pt, deflections, charges_drawn, screen_assists, screen_ast_pts, off_loose_balls_recovered, def_loose_balls_recovered, loose_balls_recovered, pct_loose_balls_recovered_off, pct_loose_balls_recovered_def, off_boxouts, def_boxouts, box_out_player_team_rebs, box_out_player_rebs, box_outs, pct_box_outs_off, pct_box_outs_def, pct_box_outs_team_reb, pct_box_outs_reb) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28)`, 
+  [body[0], body[1].toString(), body[2], body[3], body[4], body[5], body[6], body[7], body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21].toString(), body[22].toString(), body[23].toString(), body[24].toString(), body[25].toString(), body[26].toString(), body[27].toString()], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+/*
+const writePlayersCSV = (request, response) => {
+  let players = request.body;
+  const jsonString = JSON.stringify(players);
+  fs.writeFile('./playersJson.json', jsonString, err => {
+    if (err) {
+        console.log('Error writing file', err)
+    } else {
+        console.log('Successfully wrote file')
+    }
+  })
+}
+*/
+        
+const createPlayerCloud = (request, response) => {
+  let body = request.body;
+  //console.log(body.firstName);
+  //console.log(body.lastName);
+  body = {
+    firstname: `${body[1]}`,
+    lastname: `${body[2]}`,
+    affiliation: `${body[3]}`,
+    collegename: `${body[4]}`,
+    country: `${body[5]}`,
+    dateofbirth: `${body[6]}`,
+    heightinmeters: `${body[7]}`,
+    weightinkilograms: `${body[8]}`,
+    yearspro: `${body[9]}`,
+    leagues: body[10],
+    teamid: `${body[11]}`,
+    playerid: `${body[12]}`,
+    startnba: `${body[13]}`,
+  }
+  console.log(body)
+
+  db.query('INSERT INTO players (firstname, lastname, teamid, yearspro, collegename, country, playerid, dateofbirth, affiliation, startnba, heightinmeters, weightinkilograms, leagues) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', 
+  [body.firstname, body.lastname, body.teamid, body.yearspro, body.collegename, body.country, body.playerid, body.dateofbirth, body.affiliation, body.startnba, body.heightinmeters, body.weightinkilograms, body.leagues], (error, results) => {
+    if (error) {
+      throw error
+    }
+    //console.log(results);
+    response.status(201).send(body);
+  })
+}
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -589,5 +707,11 @@ module.exports = {
     boxScoreLoad,
     getVTeamHTeam,
     getGamesByPlayer,
-    getGameInfoByGameId
+    getGameInfoByGameId,
+    createLeagueHustleStatsBySeason,
+    getLeagueHustleStatsBySeason,
+    createPlayerCloud,
+    getPlayersJson,
+    createGameCloud,
+    getGamesFromJson,
 }

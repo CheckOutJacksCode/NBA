@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const db = require('./queries');
 
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
@@ -44,6 +44,8 @@ app.get('/shotCharts', (req, res, next) => {
 
 app.get('/leaguegames/:season', db.getGamesBySeason);
 
+app.get('/leaguehustlestats/:season', db.getLeagueHustleStatsBySeason);
+
 app.get('/local/leaguegames', db.getGamesLocal);
 
 app.get('/local/leaguegames/:season', db.getGamesBySeasonLocal);
@@ -52,9 +54,13 @@ app.post('/leaguegames/:season', db.createGamesBySeason);
 
 app.post('/players', db.createPlayer);
 
+app.post('/playerscloud', db.createPlayerCloud);
+
 app.get('/players', db.getPlayers);
 
 app.get('/playerIds', db.getPlayerIds);
+
+app.get('/playersJson', db.getPlayersJson);
 
 app.post('/playersNBA', db.createPlayersNBA);
 
@@ -118,6 +124,11 @@ app.get('/boxscores/read/:season', db.boxScoreLoad);
 
 app.get('/gameinfo/:gameid', db.getGameInfoByGameId);
 
+app.post('/leaguehustlestats/:season', db.createLeagueHustleStatsBySeason)
+
+app.get('/gamescloud', db.getGamesFromJson);
+
+app.post('/gamescloud', db.createGameCloud);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

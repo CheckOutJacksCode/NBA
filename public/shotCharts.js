@@ -1,5 +1,3 @@
-
-
 const shotsPlayer = document.getElementById("shots_player");
 const shotsSeason = document.getElementById("shots_season");
 const shotsGameId = document.getElementById("shots_gameId");
