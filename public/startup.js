@@ -249,7 +249,7 @@ const loadUpShotChartsBySeason = async() => {
     for (let i = 0; i < years.length; i++) {
         let shotsArray = await getJsonResponse(`/shots/${years[i]}`);
         for (let j = 0; j < shotsArray.resultSets.length; j++) {
-            for (let m = 0; m < shotsArray.resultSets[j].rowSet.length; m++) {
+            for (let m = 8796; m < shotsArray.resultSets[j].rowSet.length; m++) {
                 console.log(shotsArray.resultSets[j].rowSet.length);
                 
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
