@@ -13,6 +13,8 @@ const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
 const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton");
 const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
 const loadUpGamesCloud = document.getElementById("loadUpGamesCloud");
+const loadUpGameInfoCloudButton = document.getElementById("loadUpGameInfoCloud");
+
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -180,6 +182,9 @@ const onStartUp = async() => {
     loadUpLeagueHustleStatsButton.onclick = async() => {
         await loadUpLeagueHustleStatsPlayerFunction();
     }
+    loadUpGameInfoCloudButton.onclick = async() => {
+        await loadUpGameInfoCloud();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -311,5 +316,14 @@ const loadUpLeagueHustleStatsPlayerFunction = async() => {
     }
     console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
 }
+
+const loadUpGameInfoCloud = async() => {
+    let gameinfo = await getJsonResponse(`/gameinfocloud`);
+    for (let i = 0; i < gameinfo.length; i++) {
+        let info = await postGameInfoCloud(gameinfo[i]);
+        console.log(info);
+    }
+}
+
 
 onStartUp();

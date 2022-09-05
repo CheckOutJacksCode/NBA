@@ -155,6 +155,28 @@ const postGameCloud = async(obj) => {
     } 
 }
 
+const postGameInfoCloud = async(obj) => {
+    console.log('wwwwwwwwwww');
+    const url = '/gameinfocloud';
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
 const postGameInfo = async(obj, year) => {
     console.log('wwwwwwwwwww');
     const url = '/games/seasonyear/' + year;

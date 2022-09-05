@@ -130,6 +130,12 @@ app.get('/gamescloud', db.getGamesFromJson);
 
 app.post('/gamescloud', db.createGameCloud);
 
+app.get('/gameinfocloud', db.getGameInfoFromJson);
+
+
+app.post('/gameinfocloud', db.createGameInfoCloud);
+
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

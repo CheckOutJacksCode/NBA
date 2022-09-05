@@ -341,6 +341,7 @@ const getSeasonStatAvgLocal = async(stat, year, playerId) => {
 /* Returns the season total of any stat) */
 const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
     let statTotal = 0;
+    console.log(gameDetailsArray);
     if (stat === 'ppg') {
         console.log('YOTOTOTOOOOTORORORORTOOREWEOE')
         stat = 'points';

@@ -448,6 +448,40 @@ const createGameInfo = (request, response) => {
     });
 }
 
+const createGameInfoCloud = (request, response) => {
+  let body = request.body;
+  console.log('woo-aa');
+  console.log(body);
+  body = {
+    seasonyear: `${body[1]}`,
+    league: `${body[2]}`,
+    gameid: `${body[3]}`,
+    starttimeutc: `${body[4]}`,
+    endtimeutc: `${body[5]}`,
+    arena: `${body[6]}`,
+    city: `${body[7]}`,
+    country: `${body[8]}`,
+    clock: `${body[9]}`,
+    gameduration: body[10],
+    currentperiod: `${body[11]}`,
+    halftime: `${body[12]}`,
+    endofperiod: `${body[13]}`,
+    seasonstage: `${body[14]}`,
+    statusshortgame: `${body[15]}`,
+    vteam: body[16],
+    hteam: body[17],
+  }
+  console.log(body)
+  console.log(body.gameid);
+  db.query('INSERT INTO gameinfo (seasonyear, league, gameid, starttimeutc, endtimeutc, arena, city, country, clock, gameduration, currentperiod, halftime, endofperiod, seasonstage, statusshortgame, vteam, hteam) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
+    [body.seasonyear, body.league, body.gameid, body.starttimeutc, body.endtimeutc, body.arena, body.city, body.country, body.clock, body.gameduration, body.currentperiod, body.halftime, body.endofperiod, body.seasonstage, body.statusshortgame, body.vteam, body.hteam], (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).send(body);
+    });
+}
+
 const createBoxScores = (request, response) => {
   const body = request.body;
   let season = request.params;
@@ -667,6 +701,15 @@ const createPlayerCloud = (request, response) => {
     response.status(201).send(body);
   })
 }
+
+const getGameInfoFromJson = async(request, response) => {
+  let gameinfo = await require(`./gameinfo.json`);
+  console.log(gameinfo);
+  response.status(200).send(gameinfo);
+}
+
+
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -714,4 +757,6 @@ module.exports = {
     getPlayersJson,
     createGameCloud,
     getGamesFromJson,
+    createGameInfoCloud,
+    getGameInfoFromJson,
 }
