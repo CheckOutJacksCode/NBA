@@ -102,7 +102,6 @@ const letsGo = async(url) => {
       //MAKE ENDPOINT TO GET ONE GAME
  
       let games = await getJsonResponse(`/games/${playerid}`)
-      console.log(games);
 
       let gameid;
       let gameidArray = [];
@@ -113,22 +112,17 @@ const letsGo = async(url) => {
        
         if (gameinfo[0].vteam.shortName + ' vs. ' + gameinfo[0].hteam.shortName === shotsGameId.value.substring(11, 20) || gameinfo[0].vteam.shortName + ' @ ' + gameinfo[0].hteam.shortName === shotsGameId.value.substring(11, 20)) {
           let game_date = shotsGameId.value.substring(0, 10);
-          console.log(gameinfo[0].starttimeutc.substring(0, 7))
-          console.log(game_date.substring(0, 7))
-          console.log(gameinfo[0].starttimeutc.substring(0, 7).length)
-          console.log(game_date.substring(0, 7).length)
+
           //GET GAMEID WHERE VTEAM SHORTNAME HTEAM SHORTNAME === 
           if (gameinfo[0].starttimeutc.substring(0, 7) === game_date.substring(0, 7)) {
             console.log('kdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd')
             gameid = gameinfo[0].gameid;
             break;
-            console.log(gameid);
           }
         
           gameidArray.push(gameid);
         }
       }
-      console.log(gameidArray);
       
       
 
@@ -145,10 +139,8 @@ const letsGo = async(url) => {
       }*/
       //await getJsonResponse(`/gameid/vshortname/hshortname`)
       console.log('KDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
-      console.log(gameid);
       //CATCH THE ERROR HERE IF THE PLAYER DIDNT PLAY IN THE GAME
       let boxScore = await getJsonResponse(`/games/${gameid}/${playerid}`);
-      console.log(boxScore);
       boxScore = boxScore[0];
       points = boxScore.points;
       min = boxScore.min;
