@@ -271,17 +271,17 @@ const loadUpNBAPlayers = async() => {
 }
 
 const loadUpLeagueGamesBySeason = async() => {
-    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    let years = ['2021-2022'];
     for (let i = 0; i < years.length; i++) {
         let gamesArray = await getJsonResponse(`/leaguegames/${years[i]}`);
         console.log(gamesArray)
         for (let j = 0; j < gamesArray.resultSets.length; j++) {
-            console.log(gamesArray.resultSets.length);
             for (let m = 0; m < gamesArray.resultSets[j].rowSet.length; m++) {
-                //console.log(gamesArray.resultSets[j].rowSet);
+                console.log(m);
                 
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
-                //let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);
+                let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);
             }
         }
     }
