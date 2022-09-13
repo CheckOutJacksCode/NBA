@@ -269,8 +269,20 @@ const loadUpAllTimeLeadersGrids = async() => {
 
 const loadUpNBAPlayers = async() => {
     let players = await getJsonResponse('/playersNBA');
-    console.log(players.length);   
-    let results = await postPlayersNBA(players);
+    console.log(players.length); 
+    for (i = 0; i < players.length; i++) {
+        let player = {
+            id: players[i][0],
+            full_name: players[i][1],
+            first_name: players[i][2],
+            last_name: players[i][3],
+            is_active: players[i][4],
+            player_id: players[i][5]
+        }
+        console.log(player);
+        let results = await postPlayersNBA(player);
+    }  
+    console.log('FINISHED!');
 }
 
 const loadUpLeagueGamesBySeason = async() => {
