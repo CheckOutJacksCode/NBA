@@ -17,7 +17,7 @@ const halfWidth = xHalf + xMargin;
 const halfPosWidth = xPosHalf - xMargin;
 
 
-const letsGo = async(url) => {
+const letsGo = async(url, game_id) => {
     const data = [];
     const dataMadeShots = [];
     const dataMissedShots = [];
@@ -92,15 +92,17 @@ const letsGo = async(url) => {
       chartTitle = "GAME SHOT CHART";
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
-      let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
+
+      let playerId = await getJsonResponse(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+      console.log(playerId);
       let playerid = playerId[0].playerid.toString();
-      let year = shotsSeason.value;
+      let season = shotsSeason.value;
       let league = "standard";
      
       //let seasonyear = year.substring(0, 4);
       let shotsgameid = shotsGameId.value.substring(0, 10);
       //MAKE ENDPOINT TO GET ONE GAME
- 
+ /*
       let games = await getJsonResponse(`/games/${playerid}`)
 
       let gameid;
@@ -123,7 +125,7 @@ const letsGo = async(url) => {
           gameidArray.push(gameid);
         }
       }
-      
+   */   
       
 
       //GET GAME
@@ -140,29 +142,31 @@ const letsGo = async(url) => {
       //await getJsonResponse(`/gameid/vshortname/hshortname`)
       console.log('KDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
       //CATCH THE ERROR HERE IF THE PLAYER DIDNT PLAY IN THE GAME
-      let boxScore = await getJsonResponse(`/games/${gameid}/${playerid}`);
+      //let boxScore = await getJsonResponse(`/games/${gameid}/${playerid}`);
+      let boxScore = await getJsonResponse(`/boxscorestraditional/${season}/${game_id}/${playerid}`);
+      console.log(boxScore);
       boxScore = boxScore[0];
-      points = boxScore.points;
+      points = boxScore.pts;
       min = boxScore.min;
       fga = boxScore.fga;
       fgm = boxScore.fgm;
-      fgp = boxScore.fgp;
+      fgp = boxScore.fg_pct;
 
-      tpa = boxScore.tpa;
-      tpm = boxScore.tpm;
-      tpp = boxScore.tpp;
+      tpa = boxScore.fg3a;
+      tpm = boxScore.fg3m;
+      tpp = boxScore.fg3_pct;
 
       fta = boxScore.fta;
       ftm = boxScore.ftm;
-      ftp = boxScore.ftp;
+      ftp = boxScore.ft_pct;
 
-      totreb = boxScore.totreb;
-      assists = boxScore.assists;
-      steals = boxScore.steals;
+      totreb = boxScore.reb;
+      assists = boxScore.ast;
+      steals = boxScore.stl;
       turnovers = boxScore.turnovers;
-      blocks = boxScore.blocks;
-      plusminus = boxScore.plusminus;
-      pfouls = boxScore.pfouls;
+      blocks = boxScore.blk;
+      plusminus = boxScore.plus_minus;
+      pfouls = boxScore.pf;
 
 
 
@@ -628,7 +632,7 @@ const submitShots = async() => {
     let shotsgameid = shotsGameId.value;
     if (game.game_date + ' ' + game.matchup === shotsgameid) {
       let url = `/local/shots/${shotsPlayer.value}/${shotsSeason.value}/${game.game_id}`
-      await letsGo(url);
+      await letsGo(url, game.game_id);
       break;
     }
   }
@@ -637,7 +641,7 @@ const submitShots = async() => {
 const showForm = async() => {
   await gameDropDown();
   let url = `/local/shots/${shotsPlayer.value}/${shotsSeason.value}`;
-  await letsGo(url);
+  await letsGo(url, 'season chart');
   document.getElementById("f1").style.display = "block";
 }
 

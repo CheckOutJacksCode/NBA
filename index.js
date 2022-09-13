@@ -6,7 +6,7 @@ const db = require('./queries');
 require('dotenv').config();
 
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 var swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
@@ -107,6 +107,8 @@ app.get('/local/players/:lastName/:firstName', db.getPlayersWithLastFirst);
 
 app.get('/local/players/playerid/:lastName/:firstName', db.getPlayerIdWithLastFirst);
 
+app.get('/official/players/playerid/:lastName/:firstName', db.getOfficialPlayerIdWithLastFirst);
+
 app.get('/local/players/:playerid', db.getPlayerById);
 
 app.get('/local/gameidgamedatematchup/:player/:season', db.getGameIdGameDateMatchupBySeasonDropDownLocal);
@@ -123,6 +125,10 @@ app.post('/boxscores/:season', db.createBoxScores);
 
 app.get('/boxscores/read/:season', db.boxScoreLoad);
 
+app.post('/boxscorestraditional/:season', db.createBoxScoresTraditional);
+
+app.get('/boxscorestraditional/read/:season', db.boxScoreTraditionalLoad);
+
 app.get('/gameinfo/:gameid', db.getGameInfoByGameId);
 
 app.post('/leaguehustlestats/:season', db.createLeagueHustleStatsBySeason)
@@ -133,8 +139,9 @@ app.post('/gamescloud', db.createGameCloud);
 
 app.get('/gameinfocloud', db.getGameInfoFromJson);
 
-
 app.post('/gameinfocloud', db.createGameInfoCloud);
+
+app.get('/boxscorestraditional/:season/:gameid/:playerid', db.getBoxScoresTraditional);
 
 
 app.listen(port, () => {

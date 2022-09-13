@@ -14,7 +14,7 @@ const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton")
 const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
 const loadUpGamesCloud = document.getElementById("loadUpGamesCloud");
 const loadUpGameInfoCloudButton = document.getElementById("loadUpGameInfoCloud");
-
+const loadUpBoxScoresTraditionalLocalButton = document.getElementById("loadUpBoxScoresTraditionalLocal")
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -185,6 +185,9 @@ const onStartUp = async() => {
     loadUpGameInfoCloudButton.onclick = async() => {
         await loadUpGameInfoCloud();
     }
+    loadUpBoxScoresTraditionalLocalButton.onclick = async() => {
+        await loadUpBoxScoresTraditionalLocalFunction();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -289,12 +292,20 @@ const loadUpLeagueGamesBySeason = async() => {
 }
 
 const loadUpBoxScoresLocalFunction = async() => {
-    let season = "2021-2022";
+    let season = "2015-2016";
     let data = await getJsonResponse(`/boxscores/read/${season}`);
     for (let i = 0; i < data.length; i++) {
         await postBoxScoresBySeason(data[i], season);
     } 
 
+}
+
+const loadUpBoxScoresTraditionalLocalFunction = async() => {
+    let season = "2021-2022";
+    let data = await getJsonResponse(`/boxscorestraditional/read/${season}`);
+    for (let i = 9047; i < data.length; i++) {
+        await postBoxScoresTraditionalBySeason(data[i], season);
+    } 
 }
 
 const loadUpLeagueHustleStatsPlayerFunction = async() => {

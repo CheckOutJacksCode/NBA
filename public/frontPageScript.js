@@ -264,6 +264,29 @@ const postBoxScoresBySeason = async(obj, season) => {
         console.log(error);
     } 
 }
+
+const postBoxScoresTraditionalBySeason = async(obj, season) => {
+    console.log(season);
+    const url = `/boxscorestraditional/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('someone fucked up');
+        console.log(error);
+    } 
+}
+
 const postLeagueGamesBySeason = async(obj, season) => {
     console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
     const url = `/leaguegames/${season}`;
