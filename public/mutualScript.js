@@ -326,14 +326,22 @@ const getCarmeloFactor = async(year, playerId) => {
 */
 
 const getSeasonStatAvgLocal = async(stat, year, playerId) => {
-    let league = 'standard';
-    let url = `/games/` + playerId + '/' + league + '/' + year;
+    //let league = 'standard';
+    //let url = `/games/` + playerId + '/' + league + '/' + year;
+    let url = '/officialboxscores/' + playerId + '/' + year; 
     let gameDetailsArray = await getJsonResponse(url);
-
+    console.log(gameDetailsArray);
     let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
-
-    let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    console.log(statTotal);
+    //let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    let gamesPlayed = gameDetailsArray.length;
     let statAverage = statTotal / gamesPlayed;
+    if (stat === 'fg_pct') {
+        console.log(statTotal);
+        console.log(gamesPlayed);
+        console.log(statAverage);
+    }
+    console.log(statAverage);
     return Number.parseFloat(statAverage).toFixed(2);
 }
 
@@ -341,14 +349,16 @@ const getSeasonStatAvgLocal = async(stat, year, playerId) => {
 /* Returns the season total of any stat) */
 const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
     let statTotal = 0;
-    console.log(gameDetailsArray);
+    //console.log(gameDetailsArray);
     if (stat === 'ppg') {
         console.log('YOTOTOTOOOOTORORORORTOOREWEOE')
-        stat = 'points';
+        //stat = 'points';
+        stat = 'pts';
     }
     for (let i = 0; i < gameDetailsArray.length; i++) {
         if (gameDetailsArray[i].min) {
-            statTotal += parseInt(gameDetailsArray[i][stat]);
+            statTotal += parseFloat(gameDetailsArray[i][stat]);
+            console.log(parseFloat(gameDetailsArray[i][stat]));
         }
     }
     return statTotal;

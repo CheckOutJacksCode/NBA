@@ -69,6 +69,8 @@ app.get('/playersNBA', db.getPlayersNBA);
 
 app.get('/games/:playerid/:league/:seasonyear', db.getPlayerSeasonGameStats);
 
+app.get('/officialboxscores/:playerid/:seasonyear', db.getPlayerSeasonGameStatsOfficial);
+
 app.get('/shots', db.getShots);
 
 app.get('/shots/:season', db.getShotsBySeason);

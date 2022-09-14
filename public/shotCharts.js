@@ -65,27 +65,28 @@ const letsGo = async(url, game_id) => {
       chartTitle = "SEASON SHOT CHART";
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
-      let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
-      console.log(playerId);
-      playerId = playerId[0].playerid;
+      //let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playerId = await getJsonResponse(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+      playerId = playerId[0].playerid.toString();
+
       year = shotsSeason.value;
-      points = await getSeasonStatAvgLocal('points', year, playerId)
+      points = await getSeasonStatAvgLocal('pts', year, playerId)
       min = await getSeasonStatAvgLocal('min', year, playerId)
-      fgp = await getSeasonStatAvgLocal('fgp', year, playerId)
+      fgp = await getSeasonStatAvgLocal('fg_pct', year, playerId)
       fga = await getSeasonStatAvgLocal('fga', year, playerId)
       fgm = await getSeasonStatAvgLocal('fgm', year, playerId)
-      ftp = await getSeasonStatAvgLocal('ftp', year, playerId)
+      ftp = await getSeasonStatAvgLocal('ft_pct', year, playerId)
       fta = await getSeasonStatAvgLocal('fta', year, playerId);
       ftm = await getSeasonStatAvgLocal('ftm', year, playerId);
-      tpp = await getSeasonStatAvgLocal('tpp', year, playerId)
-      tpa = await getSeasonStatAvgLocal('tpa', year, playerId)
-      tpm = await getSeasonStatAvgLocal('tpm', year, playerId)
-      totreb = await getSeasonStatAvgLocal('totreb', year, playerId)
-      assists = await getSeasonStatAvgLocal('assists', year, playerId)
-      steals = await getSeasonStatAvgLocal('steals', year, playerId);
+      tpp = await getSeasonStatAvgLocal('fg3_pct', year, playerId)
+      tpa = await getSeasonStatAvgLocal('fg3a', year, playerId)
+      tpm = await getSeasonStatAvgLocal('fg3m', year, playerId)
+      totreb = await getSeasonStatAvgLocal('reb', year, playerId)
+      assists = await getSeasonStatAvgLocal('ast', year, playerId)
+      steals = await getSeasonStatAvgLocal('stl', year, playerId);
       turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
-      blocks = await getSeasonStatAvgLocal('blocks', year, playerId);
-      plusminus = await getSeasonStatAvgLocal('plusminus', year, playerId);
+      blocks = await getSeasonStatAvgLocal('blk', year, playerId);
+      plusminus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
       
     } else {
       myPlot = "myPlot2";

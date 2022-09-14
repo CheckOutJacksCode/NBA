@@ -98,6 +98,21 @@ const getPlayerSeasonGameStats = async(request, response) => {
   })
 }
 
+const getPlayerSeasonGameStatsOfficial = async(request, response) => {
+  let {playerid, seasonyear} = request.params;
+
+  db.query(`SELECT * FROM "boxscorestraditional${seasonyear}"
+            WHERE player_id = $1`, [playerid], (error, results) => {
+    if (error) {
+      throw error
+    }
+    //console.log(results.rows)
+
+    response.status(200).json(results.rows)
+  })
+}
+
+
 const getPlayerById = async(request, response) => {
     let {playerid} = request.params;
     //console.log('muffins')
@@ -827,4 +842,5 @@ module.exports = {
     createBoxScoresTraditional,
     getBoxScoresTraditional,
     getOfficialPlayerIdWithLastFirst,
+    getPlayerSeasonGameStatsOfficial,
 }
