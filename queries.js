@@ -320,10 +320,10 @@ const createShotBySeason = (request, response) => {
 
 const createPlayerMvpPoints = (request, response) => {
   const body = request.body;
-  //console.log(body.player[0].playerid);
-  //console.log(body.mvpPoints);
-  //console.log(body);
-  db.query('INSERT INTO "mvpPoints" (playerid, firstname, lastname, mvppoints, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.mvpPoints, body.season], (error, results) => {
+  console.log(body.player[0].playerid);
+  console.log(body.mvpPoints);
+  console.log(body);
+  db.query('INSERT INTO "mvpPoints" (playerid, firstname, lastname, mvppoints, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].first_name, body.player[0].last_name, body.mvpPoints, body.season], (error, results) => {
     if (error) {
       throw error
     }
@@ -334,7 +334,7 @@ const createPlayerMvpPoints = (request, response) => {
 const createPlayerCarmeloPoints = (request, response) => {
   const body = request.body;
 
-  db.query('INSERT INTO "carmeloPts" (playerid, firstname, lastname, carmelopts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.carmeloPts, body.season], (error, results) => {
+  db.query('INSERT INTO "carmeloPts" (playerid, firstname, lastname, carmelopts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].first_name, body.player[0].last_name, body.carmeloPts, body.season], (error, results) => {
     if (error) {
       throw error
     }
@@ -345,7 +345,7 @@ const createPlayerCarmeloPoints = (request, response) => {
 const createPlayerHustlePoints = (request, response) => {
   const body = request.body;
 
-  db.query('INSERT INTO "hustleFactor" (playerid, firstname, lastname, hustlepts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].firstname, body.player[0].lastname, body.hustlePts, body.season], (error, results) => {
+  db.query('INSERT INTO "hustleFactor" (playerid, firstname, lastname, hustlepts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].first_name, body.player[0].last_name, body.hustlePts, body.season], (error, results) => {
     if (error) {
       throw error
     }
@@ -789,6 +789,30 @@ const getOfficialPlayerIdWithLastFirst = (request, response) => {
   })
 }
 
+const getOfficialPlayerIdList = (request, response) => {
+  
+  let {season} = request.params;
+  db.query(`SELECT distinct player_id FROM "boxscorestraditional${season}"`, (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPlayerByIdOfficial = async(request, response) => {
+  let {playerid} = request.params;
+  console.log('muffins')
+  //console.log(playerid);
+  db.query('SELECT * FROM "playersNBA" WHERE playerid = $1', [playerid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -843,4 +867,6 @@ module.exports = {
     getBoxScoresTraditional,
     getOfficialPlayerIdWithLastFirst,
     getPlayerSeasonGameStatsOfficial,
+    getOfficialPlayerIdList,
+    getPlayerByIdOfficial,
 }

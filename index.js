@@ -145,6 +145,9 @@ app.post('/gameinfocloud', db.createGameInfoCloud);
 
 app.get('/boxscorestraditional/:season/:gameid/:playerid', db.getBoxScoresTraditional);
 
+app.get('/playeridlist/:season', db.getOfficialPlayerIdList);
+
+app.get('/playerNBA/:playerid', db.getPlayerByIdOfficial);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

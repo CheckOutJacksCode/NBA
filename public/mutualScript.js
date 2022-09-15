@@ -251,21 +251,21 @@ const getAssistsAverage = async(year, playerId) => {
 /*NOW YOU HAVE THE PLAYER ID.
 CALL GETSTANDARDPLAYERDETAILS*/
 const getMvpPoints = async(year, playerId) => {
-    let ppg = await getSeasonStatAvgLocal('ppg', year, playerId);
+    let ppg = await getSeasonStatAvgLocal('pts', year, playerId);
     console.log(ppg)
-    let totReb = await getSeasonStatAvgLocal('totreb', year, playerId);
+    let totReb = await getSeasonStatAvgLocal('reb', year, playerId);
     console.log(totReb);
-    let assists = await getSeasonStatAvgLocal('assists', year, playerId);
+    let assists = await getSeasonStatAvgLocal('ast', year, playerId);
     console.log(assists);
-    let steals = await getSeasonStatAvgLocal('steals', year, playerId);
+    let steals = await getSeasonStatAvgLocal('stl', year, playerId);
     console.log(steals);
     let turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
     console.log(turnovers);
-    let plusMinus = await getSeasonStatAvgLocal('plusminus', year, playerId);
+    let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
     console.log(plusMinus);
-    let fgp = await getSeasonStatAvgLocal('fgp', year, playerId);
+    let fgp = await getSeasonStatAvgLocal('fg_pct', year, playerId);
     console.log(fgp);
-    let mvpPoints = (.15 * parseInt(ppg)) + (.07 * parseInt(totReb)) + (.06 * parseInt(assists)) + (.125 * parseInt(steals)) - (.125 * parseInt(turnovers)) + (.3 * parseInt(plusMinus)) + (.02 * parseInt(fgp));
+    let mvpPoints = (.15 * parseFloat(ppg)) + (.07 * parseFloat(totReb)) + (.06 * parseFloat(assists)) + (.125 * parseFloat(steals)) - (.125 * parseFloat(turnovers)) + (.3 * parseFloat(plusMinus)) + (.02 * parseFloat(fgp));
     console.log(plusMinus);
     if (!mvpPoints) {
         return 'STATISTICS UNAVAILABLE'
@@ -278,23 +278,20 @@ const getHustleFactor = async(year, playerId) => {
     let hustleFactor;
     console.log(playerId)
     console.log(year)
-    let offRebPg = await getSeasonStatAvgLocal('offreb', year, playerId)
-    let stl = await getSeasonStatAvgLocal('steals', year, playerId)
-    let blk = await getSeasonStatAvgLocal('blocks', year, playerId)
-    let plusMinus = await getSeasonStatAvgLocal('plusminus', year, playerId);
+    let offRebPg = await getSeasonStatAvgLocal('oreb', year, playerId)
+    let stl = await getSeasonStatAvgLocal('stl', year, playerId)
+    let blk = await getSeasonStatAvgLocal('blk', year, playerId)
+    let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
     //let games = await getPlayerStandardGameDetails(playerId);
     //let gamesPlayed = games.length;
-    let player = await getIndividualPlayerLocal(playerId)
-    console.log(player)
-    let height = parseFloat(player[0].heightinmeters)
-    console.log(height)
-    if (height < 2.057) {
-        hustleFactor = (.2 * parseFloat(offRebPg)) + (.4 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
-    } else if (height === null) {
-        hustleFactor = (.25 * parseFloat(offRebPg)) + (.35 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
-    } else {
-        hustleFactor = (.3 * parseFloat(offRebPg)) + (.3 * parseFloat(stl)) + (.3 * parseFloat(blk)) + (.1 * parseFloat(plusMinus))
-    }
+    let player = await getJsonResponse(`/playerNBA/${playerId}`)
+    console.log(player);
+    console.log(offRebPg);
+    console.log(stl);
+    console.log(blk);
+    console.log(plusMinus);
+    hustleFactor = (.25 * parseFloat(offRebPg)) + (.35 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))
+
     if (!hustleFactor) {
         return 'STATISTICS UNAVAILABLE'
     }
@@ -307,8 +304,11 @@ of a player you are, adds fgp and hustlefactor */
 
 const getCarmeloFactor = async(year, playerId) => {
     let carmeloFactor;
-    let fgp = await getSeasonStatAvgLocal('fgp', year, playerId);
+    console.log(playerId);
+    console.log(year);
+    let fgp = await getSeasonStatAvgLocal('fg_pct', year, playerId);
     let hustleFactor = await getHustleFactor(year, playerId);
+    console.log(hustleFactor);
     carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);
     if (!carmeloFactor) {
         return 'STATISTICS UNAVAILABLE'

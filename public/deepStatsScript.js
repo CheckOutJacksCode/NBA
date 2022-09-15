@@ -147,23 +147,22 @@ const postHustlePointsLocal = async(obj) => {
 const mvpLoadUp = async() => {
 
     loadSeasonMvpLocal.onclick = async() => {
-        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
-        let mvpPlayersArray = [];
+        let playerIdArray = await getJsonResponse(`/playeridlist/${seasonMvpPts.value}`);
+
         //CHANGE 'i < 10 ; to 'i < playerIdArray.length'
         for (let i = 0; i < playerIdArray.length; i++) {
-            let playerArray = [];
-            let mvpPoints = await getMvpPoints(seasonMvpPts.value, playerIdArray[i].playerid);
+            let mvpPoints = await getMvpPoints(seasonMvpPts.value, playerIdArray[i].player_id);
             
             //COMMENT OUT THIS CONDITIONAL IF YOU WANT TO LOAD UP PLAYERS WHO DIDN'T PLAYER ('STATISTICS UNAVAILABLE')
             //if (isNaN(mvpPoints)) {
-              //  continue;
+                //  continue;
             //}
 
-            let player = await getIndividualPlayerLocal(playerIdArray[i].playerid);
+            let player = await getJsonResponse(`/playerNBA/${playerIdArray[i].player_id}`);
             let object = {"player":player, "mvpPoints":mvpPoints, "season":seasonMvpPts.value};
 
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL MVP POINTS DATABASE
-            //let results = await postMvpPointsLocal(object);
+            let results = await postMvpPointsLocal(object);
             //playerArray = [mvpPoints, player];
             //mvpPlayersArray.push(playerArray);
         /*}
@@ -176,58 +175,59 @@ const mvpLoadUp = async() => {
     }
 
     loadSeasonCarmeloPtsLocal.onclick = async() => {
-        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
-        let carmeloPlayersArray = [];
+    
+        let playerIdArray = await getJsonResponse(`/playeridlist/${seasonCarmeloPts.value}`);
+    
         //CHANGE 'i < 10 ; to 'i < playerIdArray.length'
         for (let i = 0; i < playerIdArray.length; i++) {
-            let playerArray = [];
-            let carmeloPts = await getCarmeloFactor(seasonCarmeloPts.value, playerIdArray[i].playerid);
+            let carmeloPts = await getCarmeloFactor(seasonCarmeloPts.value, playerIdArray[i].player_id);
             
             //COMMENT OUT THIS CONDITIONAL IF YOU WANT TO LOAD UP PLAYERS WHO DIDN'T PLAY ('STATISTICS UNAVAILABLE')
             //if (isNaN(mvpPoints)) {
               //  continue;
             //}
-
-            let player = await getIndividualPlayerLocal(playerIdArray[i].playerid);
+        
+            let player = await getJsonResponse(`/playerNBA/${playerIdArray[i].player_id}`);
             let object = {"player":player, "carmeloPts":carmeloPts, "season":seasonCarmeloPts.value};
-
+        
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL CARMELO POINTS DATABASE
             let results = await postCarmeloPointsLocal(object);
-            playerArray = [carmeloPts, player];
+            /*playerArray = [carmeloPts, player];
             carmeloPlayersArray.push(playerArray);
         }
         let sortedArray = await quicksort(carmeloPlayersArray)
         for (let j = sortedArray.length - 1; j >= 0; j--) {
             console.log(sortedArray[j]);
             await appendPlayerAndStatCarmeloTable(sortedArray[j][1], 'Carmelo Factor', sortedArray[j][0]);
+        */
         }
     }
 
     loadSeasonHustlePtsLocal.onclick = async() => {
-        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
-        let hustlePlayersArray = [];
+        let playerIdArray = await getJsonResponse(`/playeridlist/${seasonHustlePts.value}`);
+
         //CHANGE 'i < 10 ; to 'i < playerIdArray.length'
         for (let i = 0; i < playerIdArray.length; i++) {
-            let playerArray = [];
-            let hustlePts = await getHustleFactor(seasonHustlePts.value, playerIdArray[i].playerid);
+            let hustlePts = await getHustleFactor(seasonHustlePts.value, playerIdArray[i].player_id);
             
             //COMMENT OUT THIS CONDITIONAL IF YOU WANT TO LOAD UP PLAYERS WHO DIDN'T PLAY ('STATISTICS UNAVAILABLE')
             //if (isNaN(mvpPoints)) {
               //  continue;
             //}
 
-            let player = await getIndividualPlayerLocal(playerIdArray[i].playerid);
+            let player = await getJsonResponse(`/playerNBA/${playerIdArray[i].player_id}`);
             let object = {"player":player, "hustlePts":hustlePts, "season":seasonHustlePts.value};
 
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL CARMELO POINTS DATABASE
             let results = await postHustlePointsLocal(object);
-            playerArray = [hustlePts, player];
+            /*playerArray = [hustlePts, player];
             hustlePlayersArray.push(playerArray);
         }
         let sortedArray = await quicksort(hustlePlayersArray)
         for (let j = sortedArray.length - 1; j >= 0; j--) {
             console.log(sortedArray[j]);
             await appendPlayerAndStatHustleTable(sortedArray[j][1], 'Hustle Factor', sortedArray[j][0]);
+        */
         }
     }
 
