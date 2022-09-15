@@ -232,8 +232,6 @@ const mvpLoadUp = async() => {
     }
 
     submitSeasonMvp.onclick = async() => {
-        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
-        let mvpPlayersArray = [];
 
         let results = await getJsonResponse('/getLocalMvpPointsInSeason/' + seasonMvpPts.value);
         console.log(results);
@@ -249,8 +247,6 @@ const mvpLoadUp = async() => {
     }
 
     submitSeasonCarmelo.onclick = async() => {
-        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
-        let carmeloPlayersArray = [];
 
         let results = await getJsonResponse('/getLocalCarmeloPointsInSeason/' + seasonCarmeloPts.value);
         console.log(results);
@@ -265,8 +261,6 @@ const mvpLoadUp = async() => {
         }
     }
     submitSeasonHustle.onclick = async() => {
-        let playerIdArray = await getArrayOfPlayerIdsInEastandWestConferences();
-        let hustlePlayersArray = [];
 
         let results = await getJsonResponse('/getLocalHustlePointsInSeason/' + seasonHustlePts.value);
         console.log(results);
