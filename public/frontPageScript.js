@@ -4,9 +4,9 @@ const statToGet = document.getElementById("statToGet");
 const seasonToGet = document.getElementById("season");
 const hustleFactorSubmit = document.getElementById("submit-hustle-factor");
 const deepStatToGet = document.getElementById("deepStatToGet");
-
-
-
+const teamChosen = document.getElementById("teams")
+const teamPlayerChosen = document.getElementById("teamplayers");
+const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAveragesRegularSeasonsTable")
 
 
 /* YOU WOULD DO IT JUST LIKE A POST REQUEST, 
@@ -348,11 +348,32 @@ const deleteDatabase = async() => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
+        console.log('error!');
         console.log(error);
     }
 }
 
+const postSeasonRegularPlayerStatsTotals = async(obj) => {
+    console.log(obj);
+    const url = `/seasonregularplayerstats`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
 /* uses the players name to retrieve the player Id from the NBA api, to access the statistics
 endpoints in the NBA api I had to first supply the id. */
 const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
@@ -542,10 +563,84 @@ const getStatsArray = async(playerIdArray) => {
     return statsArray;
 }
 
+let teamArray = [];
+const teamsDropDown = async() => {
 
+  let teams = await getJsonResponse('/teamnames');
+  var str = ""
+    try {
+      for (var team of teams) {
+        console.log(team);
+        str += "<option>" + team.team_name + "</option>";
+        teamArray.push(team.team_name);
+      }
+      document.getElementById("teams").innerHTML = str;
+    } catch(error) {
+      console.log(error);
+    }
+}
 /* Start up function, provides functionality for submit buttons. */
+let teamPlayersArray = [];
+const teamPlayersDropDown = async() => {
+
+    let teamId = await getJsonResponse(`/teamid/${teamChosen.value}`)
+    console.log(teamId);
+    let teamPlayers = await getJsonResponse(`/teamplayers/${teamId[0].team_id}`);
+    console.log(teamPlayers);
+    var str = ""
+    try {
+        for (var player of teamPlayers) {
+            console.log(player);
+            str += "<option>" + player.player_name + "</option>";
+            teamPlayersArray.push(player.player_name);
+        }
+        document.getElementById("teamplayers").innerHTML = str;
+    } catch(error) {
+        console.log(error);
+    }
+    
+}
+
+const displayPlayerCareerStats = async() => {
+    let player = teamPlayerChosen.value;
+    let playerFirstLast = player.split(' ');
+    console.log(player);
+    console.log(playerFirstLast);
+    let playerid = await getJsonResponse(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
+    console.log(playerid);
+    console.log(playerid[0]);
+    let statLines = await getJsonResponse(`/getregularseasonstatlines/${playerid[0].playerid}`);
+    console.log(statLines);
+    appendPlayerRegularSeasonStatLines(statLines);
+}
 
 
+const appendPlayerRegularSeasonStatLines = async(statlines) => {
+    seasonAveragesRegularSeasonsTable.innerHTML = '';
+    console.log(statlines);
+    let row0 = seasonAveragesRegularSeasonsTable.insertRow(0);
+    let headers = Object.keys(statlines[0]);
+    console.log(headers);
+    for (let i = 0; i < 27; i++) {
+        let cell = row0.insertCell(i);
+        cell.innerHTML = headers[i];
+    }
+    let rowIndex = 1;
+    for (let j = 0; j < statlines.length; j++) {
+        let row = seasonAveragesRegularSeasonsTable.insertRow(rowIndex);
+        for (let k = 0; k < 27; k++) {
+            let cell = row.insertCell(k);
+            let values = Object.values(statlines[j]);
+            cell.innerHTML = values[k];
+        }
+    }
+    /*
+    if (isNaN(statAverage)) {
+        cell2.innerHTML = 'Statistics Unavailable'
+    } else {
+        cell2.innerHTML = `${statAverage}`;
+    }*/
+}
 
 const updateDatabase = async() => {
     let results = await deleteDatabase();
@@ -580,7 +675,7 @@ const runOncePerDay = async() => {
   await updateDatabase();
 }
 
-
+teamsDropDown();
 
 
 

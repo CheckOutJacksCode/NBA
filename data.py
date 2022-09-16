@@ -6,7 +6,7 @@ from types import SimpleNamespace
 from unittest import result
 from urllib import response
 from xml.etree.ElementTree import tostring
-from nba_api.stats.endpoints import boxscoretraditionalv2, leaguedashplayershotlocations, leaguedashplayerptshot, leaguedashplayerclutch, assistleaders, assisttracker, leaguegamelog, leaguehustlestatsplayer, leaguehustlestatsplayerleaders, leaguedashlineups, leaguedashoppptshot, shotchartdetail, alltimeleadersgrids, boxscoreadvancedv2, playergamelog
+from nba_api.stats.endpoints import playercareerstats, leaguedashplayerstats, boxscoretraditionalv2, leaguedashplayershotlocations, leaguedashplayerptshot, leaguedashplayerclutch, assistleaders, assisttracker, leaguegamelog, leaguehustlestatsplayer, leaguehustlestatsplayerleaders, leaguedashlineups, leaguedashoppptshot, shotchartdetail, alltimeleadersgrids, boxscoreadvancedv2, playergamelog
 from nba_api.stats.library.parameters import LeagueID, PerModeSimple, PlayerOrTeam, Season, SeasonType
 from nba_api.stats.library.parameters import ConferenceNullable, DivisionSimpleNullable, GameScopeSimpleNullable, LastNGamesNullable, LeagueIDNullable, LocationNullable, MonthNullable, OutcomeNullable, PerModeSimpleNullable, PlayerExperienceNullable, PlayerPositionAbbreviationNullable, SeasonNullable, SeasonSegmentNullable, SeasonTypeAllStarNullable, StarterBenchNullable, DivisionNullable
 from nba_api.stats.library.parameters import EndPeriod, EndRange, RangeType, StartPeriod, StartRange
@@ -42,6 +42,12 @@ from nba_api.stats.library.parameters import DistanceRange, LastNGames, MeasureT
 from nba_api.stats.endpoints._base import Endpoint
 from nba_api.stats.library.http import NBAStatsHTTP
 from nba_api.stats.library.parameters import EndPeriod, EndRange, RangeType, StartPeriod, StartRange
+from nba_api.stats.endpoints._base import Endpoint
+from nba_api.stats.library.http import NBAStatsHTTP
+from nba_api.stats.library.parameters import LastNGames, MeasureTypeDetailedDefense, Month, PaceAdjust, PerModeDetailed, Period, PlusMinus, Rank, Season, SeasonTypeAllStar, ConferenceNullable, DivisionSimpleNullable, GameScopeSimpleNullable, GameSegmentNullable, LeagueIDNullable, LocationNullable, OutcomeNullable, PlayerExperienceNullable, PlayerPositionAbbreviationNullable, SeasonSegmentNullable, ShotClockRangeNullable, StarterBenchNullable, DivisionNullable
+from nba_api.stats.endpoints._base import Endpoint
+from nba_api.stats.library.http import NBAStatsHTTP
+from nba_api.stats.library.parameters import PerMode36, LeagueIDNullable
 
 
 
@@ -607,6 +613,93 @@ def boxScoreTraditional(gameId):
     except ValueError:
         print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 
+def leagueDashPlayerStatsFunction():
+    response = leaguedashplayerstats.LeagueDashPlayerStats(
+        last_n_games=LastNGames.default,
+        measure_type_detailed_defense=MeasureTypeDetailedDefense.default,
+        month=Month.default,
+        opponent_team_id=0,
+        pace_adjust=PaceAdjust.default,
+        per_mode_detailed=PerModeDetailed.default,
+        period=Period.default,
+        plus_minus=PlusMinus.default,
+        rank=Rank.default,
+        season='2021-22',
+        season_type_all_star=SeasonTypeAllStar.default,
+        college_nullable='',
+        conference_nullable=ConferenceNullable.default,
+        country_nullable='',
+        date_from_nullable='',
+        date_to_nullable='',
+        division_simple_nullable=DivisionSimpleNullable.default,
+        draft_pick_nullable='',
+        draft_year_nullable='',
+        game_scope_simple_nullable=GameScopeSimpleNullable.default,
+        game_segment_nullable=GameSegmentNullable.default,
+        height_nullable='',
+        league_id_nullable=LeagueIDNullable.default,
+        location_nullable=LocationNullable.default,
+        outcome_nullable=OutcomeNullable.default,
+        po_round_nullable='',
+        player_experience_nullable=PlayerExperienceNullable.default,
+        player_position_abbreviation_nullable=PlayerPositionAbbreviationNullable.default,
+        season_segment_nullable=SeasonSegmentNullable.default,
+        shot_clock_range_nullable=ShotClockRangeNullable.default,
+        starter_bench_nullable=StarterBenchNullable.default,
+        team_id_nullable='',
+        two_way_nullable='',
+        vs_conference_nullable=ConferenceNullable.default,
+        vs_division_nullable=DivisionNullable.default,
+        weight_nullable='',
+        proxy=None,
+        headers=None,
+        timeout=30,
+        get_request=True
+    )
+    print(response)
+    
+    content = json.loads(response.get_json())
+    jsonContent = json.dumps(content)
+    print(jsonContent)
+    with open("leaguedashplayerstats2021-2022.json", "w") as outfile:
+	    outfile.write(jsonContent)
+
+def getPlayerIds():
+    f = open('playersNBA.json')
+    players = json.load(f)
+
+    for i in range(0, len(players)):
+        playerid = str(players[i][5])
+        playerCareerStatsFunction(playerid)
+
+    f.close()
+
+def playerCareerStatsFunction(playerid):
+    print(playerid)
+    response = playercareerstats.PlayerCareerStats(
+        player_id = playerid,
+        per_mode36=PerMode36.default,
+        league_id_nullable=LeagueIDNullable.default,
+        proxy=None,
+        headers=None,
+        timeout=30,
+        get_request=True
+    )
+    content = json.loads(response.get_json())
+    jsonContent = json.dumps(content)
+    careerData = json.loads(jsonContent, object_hook=lambda d: SimpleNamespace(**d))
+    print('BREAKKKKKKKKKKKKKKKKKK')
+
+    header = careerData.resultSets[0].headers
+    try:
+        with open('seasonregularplayerstats.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            writer.writerows(careerData.resultSets[0].rowSet)
+            f.close()
+    except ValueError:
+        print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
+
 ##shotchartdetailfunction()
 ##allassists()
 ##assiststracker()
@@ -621,4 +714,7 @@ def boxScoreTraditional(gameId):
 ##leaguedashplayerclutchfunction()
 ##leaguedashplayerptshotfunction()
 ##leaguedashplayershotlocationsfunction()
-readLeagueGamesTraditional()
+##readLeagueGamesTraditional()
+##leagueDashPlayerStatsFunction()
+##playerCareerStatsFunction()
+getPlayerIds()

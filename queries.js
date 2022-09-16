@@ -665,7 +665,6 @@ const boxScoreLoad = (request, response) => {
         response.status(201).send(data);
     })
 }
-
 const boxScoreTraditionalLoad = (request, response) => {
 
   let season = request.params;
@@ -689,10 +688,36 @@ const boxScoreTraditionalLoad = (request, response) => {
       .on("end", function async() {
       // 👇 log the result array
       console.log("parsed csv data:");
-      //console.log(data); 
+      console.log(data); 
       response.status(201).send(data);
   })
 }
+const seasonRegularPlayerStatsLoad = (request, response) => {
+
+  const data = [];
+  fs.createReadStream(`./seasonregularplayerstats.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      console.log("parsed csv data:");
+      console.log(data); 
+      response.status(201).send(data);
+  })
+}
+
 
 const createLeagueHustleStatsBySeason = (request, response) => {
   let season = request.params;
@@ -813,6 +838,60 @@ const getPlayerByIdOfficial = async(request, response) => {
   })
 }
 
+const getTeamNames = async(request, response) => {
+  
+  db.query('SELECT DISTINCT team_name FROM "leagueGames2021-2022"', (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
+const getTeamPlayersFromTeamId = async(request, response) => {
+  let teamid = request.params;
+  db.query('SELECT DISTINCT player_name FROM "boxscorestraditional2021-2022" WHERE team_id = $1', [teamid.teamid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
+const getTeamIdFromName = async(request, response) => {
+  let teamname = request.params;
+  console.log(teamname);
+  db.query('SELECT DISTINCT team_id FROM "leagueGames2021-2022" WHERE team_name = $1', [teamname.teamname], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
+const createSeasonRegularPlayerStatsTotals = (request, response) => {
+  const body = request.body;
+  console.log(body);
+  db.query(`INSERT INTO "seasonTotalsRegularSeason" (player_id, season_id, league_id, team_id, team_abbreviation, player_age, gp, gs, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, stl, blk, tov, pf, pts) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27)`, 
+  [body.PLAYER_ID, body.SEASON_ID, body.LEAGUE_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.PLAYER_AGE, body.GP, body.GS, body.MIN, body.FGM, body.FGA, body.FG_PCT, body.FG3M, body.FG3A, body.FG3_PCT, body.FTM, body.FTA, body.FT_PCT, body.OREB, body.DREB, body.REB, body.AST, body.STL, body.BLK, body.TOV, body.PF, body.PTS], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getRegularSeasonStatLines = async(request, response) => {
+  let { playerid } = request.params;
+  console.log(playerid);
+  db.query('SELECT * FROM "seasonTotalsRegularSeason" WHERE player_id = $1', [playerid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -869,4 +948,10 @@ module.exports = {
     getPlayerSeasonGameStatsOfficial,
     getOfficialPlayerIdList,
     getPlayerByIdOfficial,
+    getTeamNames,
+    getTeamPlayersFromTeamId,
+    getTeamIdFromName,
+    seasonRegularPlayerStatsLoad,
+    createSeasonRegularPlayerStatsTotals,
+    getRegularSeasonStatLines,
 }

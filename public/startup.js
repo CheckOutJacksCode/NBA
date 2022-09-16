@@ -15,6 +15,7 @@ const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotCharts
 const loadUpGamesCloud = document.getElementById("loadUpGamesCloud");
 const loadUpGameInfoCloudButton = document.getElementById("loadUpGameInfoCloud");
 const loadUpBoxScoresTraditionalLocalButton = document.getElementById("loadUpBoxScoresTraditionalLocal")
+const loadUpPlayerCareerStatsButton = document.getElementById("loadUpPlayerCareerStats")
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -188,6 +189,9 @@ const onStartUp = async() => {
     loadUpBoxScoresTraditionalLocalButton.onclick = async() => {
         await loadUpBoxScoresTraditionalLocalFunction();
     }
+    loadUpPlayerCareerStatsButton.onclick = async() => {
+        await loadUpPlayerCareerStatsFunction();
+    }
 }
 
 const loadUpLocalFunction = async() => {
@@ -345,6 +349,16 @@ const loadUpGameInfoCloud = async() => {
     for (let i = 0; i < gameinfo.length; i++) {
         let info = await postGameInfoCloud(gameinfo[i]);
         console.log(info);
+    }
+}
+
+const loadUpPlayerCareerStatsFunction = async() => {
+    //WRITE SEASON REGULAR PLAYER STATS
+    let results = await getJsonResponse('/seasonregularplayerstats');
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let postedResults = await postSeasonRegularPlayerStatsTotals(results[i]);
+        console.log(postedResults);
     }
 }
 

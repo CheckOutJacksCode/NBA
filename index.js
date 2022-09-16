@@ -149,6 +149,18 @@ app.get('/playeridlist/:season', db.getOfficialPlayerIdList);
 
 app.get('/playerNBA/:playerid', db.getPlayerByIdOfficial);
 
+app.get('/teamnames', db.getTeamNames);
+
+app.get('/teamid/:teamname', db.getTeamIdFromName);
+
+app.get('/teamplayers/:teamid', db.getTeamPlayersFromTeamId);
+
+app.get('/seasonregularplayerstats', db.seasonRegularPlayerStatsLoad);
+
+app.post(`/seasonregularplayerstats`, db.createSeasonRegularPlayerStatsTotals);
+
+app.get('/getregularseasonstatlines/:playerid', db.getRegularSeasonStatLines);
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })
