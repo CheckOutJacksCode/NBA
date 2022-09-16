@@ -609,11 +609,19 @@ const displayPlayerCareerStats = async() => {
     let playerid = await getJsonResponse(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
     console.log(playerid);
     console.log(playerid[0]);
+    if (!playerid[0]) {
+        appendStatsUnavailable();
+        return;
+    }
     let statLines = await getJsonResponse(`/getregularseasonstatlines/${playerid[0].playerid}`);
     console.log(statLines);
     appendPlayerRegularSeasonStatLines(statLines);
 }
 
+const appendStatsUnavailable = async() => {
+    seasonAveragesRegularSeasonsTable.innerHTML = '';
+    seasonAveragesRegularSeasonsTable.innerHTML = 'STATISTICS UNAVAILABLE'
+}
 
 const appendPlayerRegularSeasonStatLines = async(statlines) => {
     seasonAveragesRegularSeasonsTable.innerHTML = '';
@@ -621,17 +629,24 @@ const appendPlayerRegularSeasonStatLines = async(statlines) => {
     let row0 = seasonAveragesRegularSeasonsTable.insertRow(0);
     let headers = Object.keys(statlines[0]);
     console.log(headers);
-    for (let i = 0; i < 27; i++) {
+    for (let i = 0; i < 28; i++) {
         let cell = row0.insertCell(i);
         cell.innerHTML = headers[i];
     }
     let rowIndex = 1;
     for (let j = 0; j < statlines.length; j++) {
         let row = seasonAveragesRegularSeasonsTable.insertRow(rowIndex);
-        for (let k = 0; k < 27; k++) {
+        for (let k = 0; k < 28; k++) {
             let cell = row.insertCell(k);
+
             let values = Object.values(statlines[j]);
-            cell.innerHTML = values[k];
+            let totals = [9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+            if (totals.includes(k)) {
+                let average = values[k] / values[7];
+                cell.innerHTML = average.toFixed(2);
+            } else {
+                cell.innerHTML = values[k];
+            }
         }
     }
     /*
