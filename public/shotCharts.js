@@ -68,8 +68,48 @@ const letsGo = async(url, game_id) => {
       //let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
       let playerId = await getJsonResponse(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
       playerId = playerId[0].playerid.toString();
-
+      
       year = shotsSeason.value;
+      console.log(year);
+      let splitYear = year.split('-');
+      let realYear = splitYear[0] + '-' + splitYear[1].substring(2, 4);
+      let statlines = await getJsonResponse(`/getregularseasonstatlines/${realYear}/${playerId}`);
+      console.log(statlines);
+
+      /*for (let j = 0; j < statlines.length; j++) {
+        for (let k = 0; k < 28; k++) {
+            let values = Object.values(statlines[j]);
+            let totals = [9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+            if (totals.includes(k)) {
+                let average = values[k] / values[7];
+                values[k] = average;
+            }
+        }
+      }*/
+
+
+      points = statlines[0].pts / statlines[0].gp;
+      min = statlines[0].min / statlines[0].gp;
+      fga = statlines[0].fga / statlines[0].gp;
+      fgm = statlines[0].fgm / statlines[0].gp;
+      fgp = statlines[0].fg_pct;
+
+      tpa = statlines[0].fg3a / statlines[0].gp;
+      tpm = statlines[0].fg3m / statlines[0].gp;
+      tpp = statlines[0].fg3_pct;
+
+      fta = statlines[0].fta / statlines[0].gp;
+      ftm = statlines[0].ftm / statlines[0].gp;
+      ftp = statlines[0].ft_pct;
+
+      totreb = statlines[0].reb / statlines[0].gp;
+      assists = statlines[0].ast / statlines[0].gp;
+      steals = statlines[0].stl / statlines[0].gp;
+      turnovers = statlines[0].tov / statlines[0].gp;
+      blocks = statlines[0].blk / statlines[0].gp;
+      plusminus = 'currently unavailable';
+      pfouls = statlines[0].pf / statlines[0].gp;
+/*
       points = await getSeasonStatAvgLocal('pts', year, playerId)
       min = await getSeasonStatAvgLocal('min', year, playerId)
       fgp = await getSeasonStatAvgLocal('fg_pct', year, playerId)
@@ -87,7 +127,7 @@ const letsGo = async(url, game_id) => {
       turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
       blocks = await getSeasonStatAvgLocal('blk', year, playerId);
       plusminus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
-      
+*/      
     } else {
       myPlot = "myPlot2";
       chartTitle = "GAME SHOT CHART";

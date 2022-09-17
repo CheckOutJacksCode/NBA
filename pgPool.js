@@ -1,10 +1,10 @@
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: process.env.POSTGRESQL_ADDON_USER,
-  host: process.env.POSTGRESQL_ADDON_HOST,
-  database: process.env.POSTGRESQL_ADDON_DB,
-  password: process.env.POSTGRESQL_ADDON_PASSWORD,
-  port: process.env.POSTGRESQL_ADDON_PORT,
+  user: 'u1uwoj4vkzaibcrbkar2',
+  host: 'bxkh0cfee6cemj2x04k4-postgresql.services.clever-cloud.com',
+  database: 'bxkh0cfee6cemj2x04k4',
+  password: 'xjDsN2jWd6E7dsNrShyX',
+  port: 5318,
 })
 
 module.exports = {

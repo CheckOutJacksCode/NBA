@@ -161,6 +161,8 @@ app.post(`/seasonregularplayerstats`, db.createSeasonRegularPlayerStatsTotals);
 
 app.get('/getregularseasonstatlines/:playerid', db.getRegularSeasonStatLines);
 
+app.get('/getregularseasonstatlines/:season/:playerid', db.getRegularSeasonStatLinesBySeason);
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

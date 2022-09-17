@@ -892,6 +892,18 @@ const getRegularSeasonStatLines = async(request, response) => {
   })
 }
 
+const getRegularSeasonStatLinesBySeason = async(request, response) => {
+  let { playerid, season } = request.params;
+  console.log(playerid);
+  console.log(season);
+  db.query('SELECT * FROM "seasonTotalsRegularSeason" WHERE player_id = $1 and season_id = $2', [playerid, season], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -954,4 +966,5 @@ module.exports = {
     seasonRegularPlayerStatsLoad,
     createSeasonRegularPlayerStatsTotals,
     getRegularSeasonStatLines,
+    getRegularSeasonStatLinesBySeason,
 }
