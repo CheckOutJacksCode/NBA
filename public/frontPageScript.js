@@ -629,15 +629,15 @@ const appendPlayerRegularSeasonStatLines = async(statlines) => {
     let row0 = seasonAveragesRegularSeasonsTable.insertRow(0);
     let headers = Object.keys(statlines[0]);
     console.log(headers);
-    for (let i = 0; i < 28; i++) {
-        let cell = row0.insertCell(i);
+    for (let i = 2; i < 28; i++) {
+        let cell = row0.insertCell(i - 2);
         cell.innerHTML = headers[i];
     }
     let rowIndex = 1;
     for (let j = 0; j < statlines.length; j++) {
         let row = seasonAveragesRegularSeasonsTable.insertRow(rowIndex);
-        for (let k = 0; k < 28; k++) {
-            let cell = row.insertCell(k);
+        for (let k = 2; k < 28; k++) {
+            let cell = row.insertCell(k - 2);
 
             let values = Object.values(statlines[j]);
             let totals = [9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
