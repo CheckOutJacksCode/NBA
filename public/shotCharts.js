@@ -2,6 +2,8 @@ const shotsPlayer = document.getElementById("shots_player");
 const shotsSeason = document.getElementById("shots_season");
 const shotsGameId = document.getElementById("shots_gameId");
 //const submitShots = document.getElementById("submit_shots");
+const teamChosenShots = document.getElementById("teamsshots");
+
 
 
 // Set Dimensions
@@ -649,7 +651,7 @@ const getGameIdGameDateMatchupBySeason = async(player, season) => {
 let gameIdArray = [{ game_id: "dummyGame", game_date: "initializeArray", matchup: "dogs vs. cats" }];
 const gameDropDown = async() => {
 
-  let games = await getGameIdGameDateMatchupBySeason(document.getElementById("shots_player").value, document.getElementById("shots_season").value)
+  let games = await getGameIdGameDateMatchupBySeason(shotsPlayer.value, shotsSeason.value);
   var str = ""
     try {
       for (var game of games) {
@@ -686,3 +688,67 @@ const showForm = async() => {
   document.getElementById("f1").style.display = "block";
 }
 
+let teamArray = [];
+const teamsShotsDropDown = async() => {
+
+  let teams = await getJsonResponse('/teamnames');
+  var str = ""
+    try {
+      for (var team of teams) {
+        str += "<option>" + team.team_name + "</option>";
+        teamArray.push(team.team_name);
+      }
+      document.getElementById("teamsshots").innerHTML = str;
+    } catch(error) {
+      console.log(error);
+    }
+}
+/* Start up function, provides functionality for submit buttons. */
+let teamPlayersArray = [];
+const teamPlayersShotsDropDown = async() => {
+
+    let teamId = await getJsonResponse(`/teamid/${teamChosenShots.value}`)
+    let teamPlayers = await getJsonResponse(`/teamplayers/${teamId[0].team_id}`);
+    var str = ""
+    try {
+        for (var player of teamPlayers) {
+            str += "<option>" + player.player_name + "</option>";
+            teamPlayersArray.push(player.player_name);
+        }
+        document.getElementById("shots_player").innerHTML = str;
+    } catch(error) {
+        console.log(error);
+    }
+    
+}
+
+let playerShotsSeasonArray = [];
+const getShotSeasons = async() => {
+    let player = shotsPlayer.value;
+    let playerFirstLast = player.split(' ');
+
+    let playerid = await getJsonResponse(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
+
+    let results = await getJsonResponse(`/shotseasons/${playerid[0].playerid}`);
+    var str = ""
+    let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    realSeasonArray = [];
+    for (var result of results) {
+      let splitSeason = result.season_id.split('-');
+      realSeason = splitSeason[0] + '-20' + splitSeason[1];
+      if (seasonsArr.includes(realSeason)) {
+        realSeasonArray.push(realSeason);
+      }
+    }
+    try {
+        for (var season of realSeasonArray) {
+            str += "<option>" + season + "</option>";
+            playerShotsSeasonArray.push(season);
+        }
+        document.getElementById("shots_season").innerHTML = str;
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+teamsShotsDropDown();

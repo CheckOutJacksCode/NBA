@@ -63,3 +63,14 @@ img {
   max-height: 100%;
   resize: both;
 }
+a {
+  text-align: center;
+  color: rgb(117, 255, 4);
+  text-shadow: 3px 3px 6px #000000;
+  font-family: "Garamond", serif;
+  font-weight: bold;
+  font-size: larger;
+  width: 100%;
+  zoom: 1.0;
+  resize: both
+}

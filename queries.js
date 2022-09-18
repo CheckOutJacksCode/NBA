@@ -246,7 +246,8 @@ const getShotsByPlayerBySeason = async(request, response) => {
 
 const getShotsByPlayerBySeasonLocal = async(request, response) => {
   let { player, season } = request.params;
-  
+  console.log(player);
+  console.log(season);
   db.query(`SELECT * FROM "${season}" WHERE player_name = $1`, [player], (error, results) => {
       if (error) {
           throw error
@@ -904,6 +905,17 @@ const getRegularSeasonStatLinesBySeason = async(request, response) => {
   })
 }
 
+const getShotSeasonsFromPlayerId= async(request, response) => {
+  let { playerid } = request.params;
+  console.log(playerid);
+  db.query('SELECT DISTINCT season_id FROM "seasonTotalsRegularSeason" WHERE player_id = $1', [playerid], (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -967,4 +979,5 @@ module.exports = {
     createSeasonRegularPlayerStatsTotals,
     getRegularSeasonStatLines,
     getRegularSeasonStatLinesBySeason,
+    getShotSeasonsFromPlayerId,
 }

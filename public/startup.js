@@ -14,8 +14,10 @@ const loadUpNBAPlayersButton = document.getElementById("loadUpNBAPlayersButton")
 const loadUpShotChartsBySeasonButton = document.getElementById("loadUpShotChartsBySeasonButton");
 const loadUpGamesCloud = document.getElementById("loadUpGamesCloud");
 const loadUpGameInfoCloudButton = document.getElementById("loadUpGameInfoCloud");
-const loadUpBoxScoresTraditionalLocalButton = document.getElementById("loadUpBoxScoresTraditionalLocal")
-const loadUpPlayerCareerStatsButton = document.getElementById("loadUpPlayerCareerStats")
+const loadUpBoxScoresTraditionalLocalButton = document.getElementById("loadUpBoxScoresTraditionalLocal");
+const loadUpPlayerCareerStatsButton = document.getElementById("loadUpPlayerCareerStats");
+const submitPlayerStats = document.getElementById("submit-player-stats");
+const fullName = document.getElementById("fullName");
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -165,6 +167,15 @@ const onStartUp = async() => {
             }
         } 
     }
+    submitPlayerStats.onclick = async() => {
+        let splitName = fullName.value.split(' ');
+        console.log(splitName);
+        let results = await getJsonResponse(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+        console.log(results);
+        let statlines = await getJsonResponse(`/getregularseasonstatlines/${results[0].playerid}`);
+        await appendPlayerRegularSeasonStatLines(statlines);
+    }
+
     loadUpShotChartButton.onclick = async() => {
         await loadUpShotCharts();
     }
@@ -193,6 +204,8 @@ const onStartUp = async() => {
         await loadUpPlayerCareerStatsFunction();
     }
 }
+
+
 
 const loadUpLocalFunction = async() => {
     let conference = 'East';

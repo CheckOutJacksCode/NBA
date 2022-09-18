@@ -4,9 +4,9 @@ const statToGet = document.getElementById("statToGet");
 const seasonToGet = document.getElementById("season");
 const hustleFactorSubmit = document.getElementById("submit-hustle-factor");
 const deepStatToGet = document.getElementById("deepStatToGet");
-const teamChosen = document.getElementById("teams")
+const teamChosen = document.getElementById("teams");
 const teamPlayerChosen = document.getElementById("teamplayers");
-const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAveragesRegularSeasonsTable")
+const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAveragesRegularSeasonsTable");
 
 
 /* YOU WOULD DO IT JUST LIKE A POST REQUEST, 
@@ -610,12 +610,12 @@ const displayPlayerCareerStats = async() => {
     console.log(playerid);
     console.log(playerid[0]);
     if (!playerid[0]) {
-        appendStatsUnavailable();
+        await appendStatsUnavailable();
         return;
     }
     let statLines = await getJsonResponse(`/getregularseasonstatlines/${playerid[0].playerid}`);
     console.log(statLines);
-    appendPlayerRegularSeasonStatLines(statLines);
+    await appendPlayerRegularSeasonStatLines(statLines);
 }
 
 const appendStatsUnavailable = async() => {

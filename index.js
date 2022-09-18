@@ -75,11 +75,11 @@ app.get('/shots', db.getShots);
 
 app.get('/shots/:season', db.getShotsBySeason);
 
+app.get('/local/shots/:player/:season', db.getShotsByPlayerBySeasonLocal);
+
 app.get('/local/shots/:season', db.getShotsBySeasonLocal);
 
 app.get('/local/shots/:player', db.getShotsByPlayerLocal);
-
-app.get('/local/shots/:player/:season', db.getShotsByPlayerBySeasonLocal);
 
 app.get('/local/shots/:player/:season/:game_id', db.getShotsByPlayerBySeasonByGameLocal);
 
@@ -162,6 +162,8 @@ app.post(`/seasonregularplayerstats`, db.createSeasonRegularPlayerStatsTotals);
 app.get('/getregularseasonstatlines/:playerid', db.getRegularSeasonStatLines);
 
 app.get('/getregularseasonstatlines/:season/:playerid', db.getRegularSeasonStatLinesBySeason);
+
+app.get('/shotseasons/:playerid', db.getShotSeasonsFromPlayerId);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
