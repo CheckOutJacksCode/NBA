@@ -1,6 +1,6 @@
 *.json
 *.csv
-.node_modules
+.node_modules/
 *.py~
 *.txt
 .data.py
