@@ -30,7 +30,7 @@ const getIndividualPlayer = async(id) => {
         method: 'GET',
         headers: {
           'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-          'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+          'x-rapidapi-key': PUBLICAPIKEY
         }
     });
     if (response.ok) {
@@ -78,7 +78,7 @@ const getGamesBySeason = async(year) => {
             method: 'GET',
             headers: {
                 'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-                'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+                'x-rapidapi-key': PUBLICAPIKEY
             }
         })
         if (gamesResponse.ok) {
@@ -119,7 +119,7 @@ const getIndividualPlayersStats = async(playerId) => {
             method: 'GET',
             headers: {
                 'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-                'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+                'x-rapidapi-key': PUBLICAPIKEY
             }
         })
         if (player.ok) {

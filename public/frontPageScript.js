@@ -57,7 +57,6 @@ const postPlayer = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -81,7 +80,6 @@ const postWriteJsonPlayers = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -105,7 +103,6 @@ const postPlayersNBA = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     }
 }
@@ -127,7 +124,6 @@ const postGame = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -150,7 +146,6 @@ const postGameCloud = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -172,7 +167,6 @@ const postGameInfoCloud = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -194,7 +188,6 @@ const postGameInfo = async(obj, year) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -216,7 +209,6 @@ const postShot = async(obj) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -238,7 +230,6 @@ const postShotBySeason = async(obj, season) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -260,7 +251,6 @@ const postBoxScoresBySeason = async(obj, season) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -282,7 +272,6 @@ const postBoxScoresTraditionalBySeason = async(obj, season) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -304,7 +293,6 @@ const postLeagueGamesBySeason = async(obj, season) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -327,7 +315,6 @@ const postLeagueHustleStatsBySeason = async(obj, season) => {
             return jsonResponse;
         }
     } catch (error) {
-        console.log('someone fucked up');
         console.log(error);
     } 
 }
@@ -409,7 +396,7 @@ const getTeamsInConference = async(conference) => {
     let teams = await fetch('https://api-nba-v1.p.rapidapi.com/teams/confName/' + conference, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Key': PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -432,7 +419,7 @@ const getPlayersByTeamId = async(teamId) => {
     let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/teamId/' + teamId, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Key': PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -446,7 +433,7 @@ const getStatsFromPlayerId = async(playerId) => {
     let stats = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Key': PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -461,7 +448,7 @@ const getTodaysStatsFromPlayerId = async(playerId) => {
     let stats = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Key': PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -475,7 +462,7 @@ const getPlayersInStandardLeague = async() => {
     let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/league/standard/', {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769',
+            'X-RapidAPI-Key': PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -493,7 +480,7 @@ const getPlayersByName = async(playerLastName) => {
         method: 'GET',
         headers: {
             'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+            'x-rapidapi-key': PUBLICAPIKEY
         }
     })
     if (players.ok) {
@@ -507,7 +494,7 @@ const getGameInfo = async(year) => {
         method: 'GET',
         headers: {
             'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': '8f81231b96mshfe26030fc9f1ac5p1954edjsnfaacfd979769'
+            'x-rapidapi-key': PUBLICAPIKEY
         }
     })
     if (games.ok) {
