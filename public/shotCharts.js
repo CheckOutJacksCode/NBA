@@ -24,10 +24,8 @@ const letsGo = async(url, game_id) => {
     const dataMadeShots = [];
     const dataMissedShots = [];
 //    let season = {"season":"2015-2016"};
-    console.log(url);
-    console.log(data);
+
     let totalShotsArray = await getJsonResponse(url);
-    console.log(totalShotsArray);
     /*console.log(totalShotsArray.resultSets[0].rowSet);
     console.log([totalShotsArray.resultSets[0].rowSet[0]])
     console.log(totalShotsArray.resultSets.length)
@@ -655,7 +653,6 @@ const gameDropDown = async() => {
   var str = ""
     try {
       for (var game of games) {
-        console.log(game);
         str += "<option>" + game.game_date + " " + game.matchup + "</option>";
         gameIdArray.push({ game_id: game.game_id, game_date: game.game_date, matchup: game.matchup })
       }
@@ -670,8 +667,6 @@ const submitShots = async() => {
   //FIND ONE IN NEW GAMEID ARRAY WHERE SHOTSGAMEID.VALUE === 
   
   for (var game of gameIdArray) {
-    console.log(game.game_date + ' ' + game.matchup);
-    console.log(shotsGameId.value);
     let shotsgameid = shotsGameId.value;
     if (game.game_date + ' ' + game.matchup === shotsgameid) {
       let url = `/local/shots/${shotsPlayer.value}/${shotsSeason.value}/${game.game_id}`

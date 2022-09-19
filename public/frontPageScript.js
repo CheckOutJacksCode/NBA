@@ -570,7 +570,6 @@ const teamsDropDown = async() => {
   var str = ""
     try {
       for (var team of teams) {
-        console.log(team);
         str += "<option>" + team.team_name + "</option>";
         teamArray.push(team.team_name);
       }
