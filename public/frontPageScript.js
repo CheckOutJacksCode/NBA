@@ -553,8 +553,9 @@ const getStatsArray = async(playerIdArray) => {
 let teamArray = [];
 const teamsDropDown = async() => {
 
-  let teams = await getJsonResponse('/teamnames');
-  var str = ""
+    let teams = await getJsonResponse('/teamnames');
+    var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+    document.getElementById("teams").innerHTML = str;
     try {
       for (var team of teams) {
         str += "<option>" + team.team_name + "</option>";
@@ -573,7 +574,8 @@ const teamPlayersDropDown = async() => {
     console.log(teamId);
     let teamPlayers = await getJsonResponse(`/teamplayers/${teamId[0].team_id}`);
     console.log(teamPlayers);
-    var str = ""
+    var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+    document.getElementById("teamplayers").innerHTML = str;
     try {
         for (var player of teamPlayers) {
             console.log(player);

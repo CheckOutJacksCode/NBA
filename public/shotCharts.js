@@ -650,7 +650,8 @@ let gameIdArray = [{ game_id: "dummyGame", game_date: "initializeArray", matchup
 const gameDropDown = async() => {
 
   let games = await getGameIdGameDateMatchupBySeason(shotsPlayer.value, shotsSeason.value);
-  var str = ""
+  var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+  document.getElementById("shots_gameId").innerHTML = str;
     try {
       for (var game of games) {
         str += "<option>" + game.game_date + " " + game.matchup + "</option>";
@@ -687,7 +688,9 @@ let teamArray = [];
 const teamsShotsDropDown = async() => {
 
   let teams = await getJsonResponse('/teamnames');
-  var str = ""
+  var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+  document.getElementById("teamsshots").innerHTML = str;
+
     try {
       for (var team of teams) {
         str += "<option>" + team.team_name + "</option>";
@@ -704,7 +707,8 @@ const teamPlayersShotsDropDown = async() => {
 
     let teamId = await getJsonResponse(`/teamid/${teamChosenShots.value}`)
     let teamPlayers = await getJsonResponse(`/teamplayers/${teamId[0].team_id}`);
-    var str = ""
+    var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+    document.getElementById("shots_player").innerHTML = str;
     try {
         for (var player of teamPlayers) {
             str += "<option>" + player.player_name + "</option>";
@@ -725,7 +729,8 @@ const getShotSeasons = async() => {
     let playerid = await getJsonResponse(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
 
     let results = await getJsonResponse(`/shotseasons/${playerid[0].playerid}`);
-    var str = ""
+    var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+    document.getElementById("shots_season").innerHTML = str;
     let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
     realSeasonArray = [];
     for (var result of results) {
