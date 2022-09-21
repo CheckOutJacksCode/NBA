@@ -607,8 +607,8 @@ const letsGo = async(url, game_id) => {
       .style("fill", "none");
 */
     const arcGenerator = d3.arc()
-      .outerRadius(236)
-      .innerRadius(234)
+      .outerRadius(238)
+      .innerRadius(237)
       .startAngle(Math.PI / 2 + 0.37855)
       .endAngle(Math.PI*3/2 - 0.37855);
     
