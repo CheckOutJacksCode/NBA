@@ -1,8 +1,20 @@
 # NBA MVP App
 
-Node/Express API and scripts with front end utiziling the NBA's public api. Users can access any stat for any player within the 
-5 years of available data provided by the NBA database. Users also can access the 'deep stats' for any player for any of the given years,
-which are custom, weighted, accumulative stats.
+Node/Express API and scripts with front end initially just utiziling the NBA's public api, but now have accumulated a massive Postgres database and developed my own API. Users can access any stat for any player within the years of available data provided by the database. Users also can access shot chart visualizations equipped with box scores for any player in any season/game. The 'deep stats are custom, weighted, accumulative stats for any player for any of the given years.
+
+MVP Points - Custom weights of most major stat categories added together to create an accumulative statistic.  
+
+Hustle Factor - Custom weights of offensive rebounds, steals, blocks, and plus-minus to create an accumulative statistic.  
+
+Carmelo Factor - Subtracts the players' field goal percentage from 100, add the Hustle Factor, divide by 10. Most players will be in the negatives, the lower you go, the more Carmelo-y of a player you are.   
+
+let mvpPoints = (.15 * parseFloat(ppg)) + (.07 * parseFloat(totReb)) + (.06 * parseFloat(assists)) + (.125 * parseFloat(steals)) - (.125 * parseFloat(turnovers)) + (.3 * parseFloat(plusMinus)) + (.02 * parseFloat(fgp));  
+let hustleFactor = (.25 * parseFloat(offRebPg)) + (.35 * parseFloat(stl)) + (.2 * parseFloat(blk)) + (.2 * parseFloat(plusMinus))  
+let carmeloFactor = -1 * (.3 * (100 - parseFloat(fgp))/10) + (.7 * hustleFactor);  
+
+The ‘Shot Charts’ page is the most recent addition to the cloud deployment, I used the D3.js module to make visualizations for every shot every player has taken in the last 7 seasons; you can view player season shot charts and player game shot charts on the same page simultaneously.  
+
+I am perpetually accumulating more data and adding to/honing in my metrics. Initially, I thought the shot charts page was out of reach for me, but it turned out better and, in less time, than I ever imagined. My current goal is to create a model/programmatic, data-driven way to predict outcomes of games/seasons and apply that model to the world of NBA gambling odds. As I am only one dude, with the immediate possibility of discovering a way to make millions by modeling nba data to predict outcomes, hopefully you can understand why some of my project may not be well documented, not that I am incapable of doing so. This app is growing so fast every day, and I am trying to finish my prediction model before the beginning of the 2022 season. I am very interested in becoming an NBA data analyst. I will either develop a fool-proof NBA gambling model, or I will get an NBA data analyst/software job, whichever comes first.
 
 ## Running the app locally
 Clone the repoistory with git clone https://github.com/CheckOutJacksCode/NBA (if you don't have git, you can download the repository as a .zip). Then go into the folder (cd NBA) and type 'npm init'.
