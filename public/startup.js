@@ -18,6 +18,11 @@ const loadUpBoxScoresTraditionalLocalButton = document.getElementById("loadUpBox
 const loadUpPlayerCareerStatsButton = document.getElementById("loadUpPlayerCareerStats");
 const submitPlayerStats = document.getElementById("submit-player-stats");
 const fullName = document.getElementById("fullName");
+const loadUpBoxScoreFourFactorsButton = document.getElementById("loadUpBoxScoreFourFactors");
+const loadUpBoxScoreFourFactorsTeamsButton = document.getElementById("loadUpBoxScoreFourFactorsTeams");
+const loadUpBoxScoreMiscButton = document.getElementById("loadUpBoxScoreMisc");
+const loadUpBoxScoreMiscTeamsButton = document.getElementById("loadUpBoxScoreMiscTeams");
+const loadUpBoxScorePlayerTrackerButton = document.getElementById("loadUpBoxScorePlayerTracker");
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -203,6 +208,21 @@ const onStartUp = async() => {
     loadUpPlayerCareerStatsButton.onclick = async() => {
         await loadUpPlayerCareerStatsFunction();
     }
+    loadUpBoxScoreFourFactorsButton.onclick = async() => {
+        await loadUpBoxScoreFourFactorsFunction();
+    }
+    loadUpBoxScoreFourFactorsTeamsButton.onclick = async() => {
+        await loadUpBoxScoreFourFactorsTeamsFunction();
+    }
+    loadUpBoxScoreMiscButton.onclick = async() => {
+        await loadUpBoxScoreMiscFunction();
+    }
+    loadUpBoxScoreMiscTeamsButton.onclick = async() => {
+        await loadUpBoxScoreMiscTeamsFunction();
+    }
+    loadUpBoxScorePlayerTrackerButton.onclick = async() => {
+        await loadUpBoxScorePlayerTrackerFunction();
+    }
 }
 
 
@@ -332,7 +352,7 @@ const loadUpBoxScoresLocalFunction = async() => {
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
     let season = "2021-2022";
     let data = await getJsonResponse(`/boxscorestraditional/read/${season}`);
-    for (let i = 9047; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         await postBoxScoresTraditionalBySeason(data[i], season);
     } 
 }
@@ -375,5 +395,53 @@ const loadUpPlayerCareerStatsFunction = async() => {
     }
 }
 
+const loadUpBoxScoreFourFactorsFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscorefourfactors/${season}`);
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let postedResults = await postBoxScoreFourFactors(results[i], season);
+        console.log(postedResults);
+    }
+}
 
+const loadUpBoxScoreFourFactorsTeamsFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscorefourfactorsteams/${season}`);
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let postedResults = await postBoxScoreFourFactorsTeams(results[i], season);
+        console.log(postedResults);
+    }
+}
+
+const loadUpBoxScoreMiscFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscoremisc/${season}`);
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let postedResults = await postBoxScoreMisc(results[i], season);
+        console.log(postedResults);
+    }
+}
+
+const loadUpBoxScoreMiscTeamsFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscoremiscteams/${season}`);
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let postedResults = await postBoxScoreMiscTeams(results[i], season);
+        console.log(postedResults);
+    }
+}
+
+const loadUpBoxScorePlayerTrackerFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscoreplayertracker/${season}`);
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let postedResults = await postBoxScorePlayerTracker(results[i], season);
+        console.log(postedResults);
+    }
+}
 onStartUp();

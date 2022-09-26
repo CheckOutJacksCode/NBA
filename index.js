@@ -165,6 +165,26 @@ app.get('/getregularseasonstatlines/:season/:playerid', db.getRegularSeasonStatL
 
 app.get('/shotseasons/:playerid', db.getShotSeasonsFromPlayerId);
 
+app.get('/read/boxscorefourfactors/:season', db.getBoxScoreFourFactorsFromCSV);
+
+app.post(`/boxscorefourfactors/:season`, db.createBoxScoreFourFactors);
+
+app.get('/read/boxscorefourfactorsteams/:season', db.getBoxScoreFourFactorsTeamsFromCSV);
+
+app.post(`/boxscorefourfactorsteams/:season`, db.createBoxScoreFourFactorsTeams);
+
+app.get('/read/boxscoremisc/:season', db.getBoxScoreMiscFromCSV);
+
+app.post(`/boxscoremisc/:season`, db.createBoxScoreMisc);
+
+app.get('/read/boxscoremiscteams/:season', db.getBoxScoreMiscTeamsFromCSV);
+
+app.post(`/boxscoremiscteams/:season`, db.createBoxScoreMiscTeams);
+
+app.get('/read/boxscoreplayertracker/:season', db.getBoxScorePlayerTrackerFromCSV);
+
+app.post(`/boxscoreplayertracker/:season`, db.createBoxScorePlayerTracker);
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

@@ -905,7 +905,7 @@ const getRegularSeasonStatLinesBySeason = async(request, response) => {
   })
 }
 
-const getShotSeasonsFromPlayerId= async(request, response) => {
+const getShotSeasonsFromPlayerId = async(request, response) => {
   let { playerid } = request.params;
   console.log(playerid);
   db.query('SELECT DISTINCT season_id FROM "seasonTotalsRegularSeason" WHERE player_id = $1', [playerid], (error, results) => {
@@ -913,6 +913,201 @@ const getShotSeasonsFromPlayerId= async(request, response) => {
           throw error
       }
       response.status(200).json(results.rows)
+  })
+}
+
+const getBoxScoreFourFactorsFromCSV = (request, response) => {
+  let {season} = request.params;
+  console.log(season);
+  const data = [];
+  fs.createReadStream(`./juicystats/boxscorefourfactors${season}.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      console.log("parsed csv data:"); 
+      response.status(201).send(data);
+  })
+}
+
+const createBoxScoreFourFactors = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "boxscorefourfactors${season.season}" (game_id, team_id, team_abbreviation, team_city, player_id, player_name, nickname, start_position, comment, min, efg_pct, fta_rate, tm_tov_pct, oreb_pct, opp_efg_pct, opp_fta_rate, opp_tov_pct, opp_oreb_pct) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`, 
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.PLAYER_ID, body.PLAYER_NAME, body.NICKNAME, body.START_POSITION, body.COMMENT, body.MIN, body.EFG_PCT, body.FTA_RATE, body.TM_TOV_PCT, body.OREB_PCT, body.OPP_EFG_PCT, body.OPP_FTA_RATE, body.OPP_TOV_PCT, body.OPP_OREB_PCT], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getBoxScoreFourFactorsTeamsFromCSV = (request, response) => {
+  let {season} = request.params;
+  console.log(season);
+  const data = [];
+  fs.createReadStream(`./juicystats/boxscorefourfactorsteams${season}.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      //console.log("parsed csv data:"); 
+      response.status(201).send(data);
+  })
+}
+
+const createBoxScoreFourFactorsTeams = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "boxscorefourfactorsteams${season.season}" (game_id, team_id, team_name, team_abbreviation, team_city, min, efg_pct, fta_rate, tm_tov_pct, oreb_pct, opp_efg_pct, opp_fta_rate, opp_tov_pct, opp_oreb_pct) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`, 
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_NAME, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.MIN, body.EFG_PCT, body.FTA_RATE, body.TM_TOV_PCT, body.OREB_PCT, body.OPP_EFG_PCT, body.OPP_FTA_RATE, body.OPP_TOV_PCT, body.OPP_OREB_PCT], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getBoxScoreMiscFromCSV = (request, response) => {
+  let {season} = request.params;
+  console.log(season);
+  const data = [];
+  fs.createReadStream(`./juicystats/boxscoremisc${season}.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      //console.log("parsed csv data:"); 
+      response.status(201).send(data);
+  })
+}
+
+const createBoxScoreMisc = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "boxscoremisc${season.season}" (game_id, team_id, team_abbreviation, team_city, player_id, player_name, nickname, start_position, comment, min, pts_off_tov, pts_2nd_chance, pts_fb, pts_paint, opp_pts_off_tov, opp_pts_2nd_chance, opp_pts_fb, opp_pts_paint, blk, blka, pf, pfd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)`, 
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.PLAYER_ID, body.PLAYER_NAME, body.NICKNAME, body.START_POSITION, body.COMMENT, body.MIN, body.PTS_OFF_TOV, body.PTS_2ND_CHANCE, body.PTS_FB, body.PTS_PAINT, body.OPP_PTS_OFF_TOV, body.OPP_PTS_2ND_CHANCE, body.OPP_PTS_FB, body.OPP_PTS_PAINT, body.BLK, body.BLKA, body.PF, body.PFD], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getBoxScoreMiscTeamsFromCSV = (request, response) => {
+  let {season} = request.params;
+  console.log(season);
+  const data = [];
+  fs.createReadStream(`./juicystats/boxscoremiscteams${season}.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      //console.log("parsed csv data:"); 
+      response.status(201).send(data);
+  })
+}
+
+const createBoxScoreMiscTeams = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "boxscoremiscteams${season.season}" (game_id, team_id, team_name, team_abbreviation, team_city, min, pts_off_tov, pts_2nd_chance, pts_fb, pts_paint, opp_pts_off_tov, opp_pts_2nd_chance, opp_pts_fb, opp_pts_paint, blk, blka, pf, pfd) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`, 
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_NAME, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.MIN, body.PTS_OFF_TOV, body.PTS_2ND_CHANCE, body.PTS_FB, body.PTS_PAINT, body.OPP_PTS_OFF_TOV, body.OPP_PTS_2ND_CHANCE, body.OPP_PTS_FB, body.OPP_PTS_PAINT, body.BLK, body.BLKA, body.PF, body.PFD], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getBoxScorePlayerTrackerFromCSV = (request, response) => {
+  let {season} = request.params;
+  console.log(season);
+  const data = [];
+  fs.createReadStream(`./juicystats/boxscoreplayertracker${season}.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      //console.log("parsed csv data:"); 
+      response.status(201).send(data);
+  })
+}
+
+const createBoxScorePlayerTracker = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "boxscoreplayertracker${season.season}" (game_id, team_id, team_abbreviation, team_city, player_id, player_name, start_position, comment, min, spd, dist, orbc, drbc, rbc, tchs, sast, ftast, pass, ast, cfgm, cfga, cfg_pct, ufgm, ufga, ufg_pct, fg_pct, dfgm, dfga, dfg_pct) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`, 
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.PLAYER_ID, body.PLAYER_NAME, body.START_POSITION, body.COMMENT, body.MIN, body.SPD, body.DIST, body.ORBC, body.DRBC, body.RBC, body.TCHS, body.SAST, body.FTAST, body.PASS, body.AST, body.CFGM, body.CFGA, body.CFG_PCT, body.UFGM, body.UFGA, body.UFG_PCT, body.FG_PCT, body.DFGM, body.DFGA, body.DFG_PCT], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
   })
 }
 
@@ -980,4 +1175,14 @@ module.exports = {
     getRegularSeasonStatLines,
     getRegularSeasonStatLinesBySeason,
     getShotSeasonsFromPlayerId,
+    getBoxScoreFourFactorsFromCSV,
+    createBoxScoreFourFactors,
+    getBoxScoreFourFactorsTeamsFromCSV,
+    createBoxScoreFourFactorsTeams,
+    getBoxScoreMiscFromCSV,
+    createBoxScoreMisc,
+    getBoxScoreMiscTeamsFromCSV,
+    createBoxScoreMiscTeams,
+    getBoxScorePlayerTrackerFromCSV,
+    createBoxScorePlayerTracker,
 }
