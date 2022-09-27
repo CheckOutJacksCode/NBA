@@ -185,6 +185,23 @@ app.get('/read/boxscoreplayertracker/:season', db.getBoxScorePlayerTrackerFromCS
 
 app.post(`/boxscoreplayertracker/:season`, db.createBoxScorePlayerTracker);
 
+app.get('/read/boxscoreplayertrackerteams/:season', db.getBoxScorePlayerTrackerTeamsFromCSV);
+
+app.post(`/boxscoreplayertrackerteams/:season`, db.createBoxScorePlayerTrackerTeams);
+
+app.get('/read/leaguedashlineups/:season', db.getLeagueDashLineupsFromJson);
+
+app.post(`/leaguedashlineups/:season`, db.createLeagueDashLineups);
+
+app.get('/read/leaguedashoppptshot/:season', db.getLeagueDashOppPtShotFromJson);
+
+app.post(`/leaguedashoppptshot/:season`, db.createLeagueDashOppPtShot);
+
+app.get('/read/leaguedashplayerclutch/:season', db.getLeagueDashPlayerClutchFromJson);
+
+app.post(`/leaguedashplayerclutch/:season`, db.createLeagueDashPlayerClutch);
+
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

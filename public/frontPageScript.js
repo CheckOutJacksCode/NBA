@@ -471,6 +471,94 @@ const postBoxScorePlayerTracker = async(obj, season) => {
         console.log(error);
     } 
 }
+
+const postBoxScorePlayerTrackerTeams = async(obj, season) => {
+    console.log(obj);
+    const url = `/boxscoreplayertrackerteams/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
+
+const postLeagueDashLineups = async(obj, season) => {
+    console.log(obj);
+    const url = `/leaguedashlineups/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
+
+const postLeagueDashOppPtShot = async(obj, season) => {
+    console.log(obj);
+    const url = `/leaguedashoppptshot/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
+
+const postLeagueDashPlayerClutch = async(obj, season) => {
+    console.log(obj);
+    const url = `/leaguedashplayerclutch/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
 /* uses the players name to retrieve the player Id from the NBA api, to access the statistics
 endpoints in the NBA api I had to first supply the id. */
 const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {

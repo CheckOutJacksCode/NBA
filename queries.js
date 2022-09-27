@@ -1111,6 +1111,102 @@ const createBoxScorePlayerTracker = (request, response) => {
   })
 }
 
+const getBoxScorePlayerTrackerTeamsFromCSV = (request, response) => {
+  let {season} = request.params;
+  console.log(season);
+  const data = [];
+  fs.createReadStream(`./juicystats/boxscoreplayertrackerteams${season}.csv`)
+      .pipe(
+        parse({
+          delimiter: ",",
+          columns: true,
+          ltrim: true,
+        })
+      )
+      .on("data", function async(row) {
+        // 👇 push the object row into the array
+          data.push(row);
+      })
+      .on("error", function async(error) {
+          console.log(error.message);
+      })
+      .on("end", function async() {
+      // 👇 log the result array
+      //console.log("parsed csv data:"); 
+      response.status(201).send(data);
+  })
+}
+
+const createBoxScorePlayerTrackerTeams = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "boxscoreplayertrackerteams${season.season}" (game_id, team_id, team_name, team_abbreviation, team_city, min, dist, orbc, drbc, rbc, tchs, sast, ftast, pass, ast, cfgm, cfga, cfg_pct, ufgm, ufga, ufg_pct, fg_pct, dfgm, dfga, dfg_pct) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25)`, 
+  [body.GAME_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.TEAM_NAME, body.TEAM_CITY, body.MIN, body.DIST, body.ORBC, body.DRBC, body.RBC, body.TCHS, body.SAST, body.FTAST, body.PASS, body.AST, body.CFGM, body.CFGA, body.CFG_PCT, body.UFGM, body.UFGA, body.UFG_PCT, body.FG_PCT, body.DFGM, body.DFGA, body.DFG_PCT], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getLeagueDashLineupsFromJson = async(request, response) => {
+    let stats = await require(`./juicystats/leaguedashlineups2015-2016.json`);
+    console.log(stats);
+    response.status(200).send(stats);
+}
+
+const createLeagueDashLineups = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "leaguedashlineups${season.season}" (group_set, group_id, group_name, team_id, team_abbreviation, gp, w, l, w_pct, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, tov, stl, blk, blka, pf, pfd, pts, plus_minus, gp_rank, w_rank, l_rank, w_pct_rank, min_rank, fgm_rank, fga_rank, fg_pct_rank, fg3m_rank, fg3a_rank, fg3_pct_rank, ftm_rank, fta_rank, ft_pct_rank, oreb_rank, dreb_rank, reb_rank, ast_rank, tov_rank, stl_rank, blk_rank, blka_rank, pf_rank, pfd_rank, pts_rank, plus_minus_rank) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52, $53, $54, $55, $56, $57)`, 
+  [body[0], body[1], body[2], body[3].toString(), body[4], body[5].toString(), body[6].toString(), body[7].toString(), body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21].toString(), body[22].toString(), body[23].toString(), body[24].toString(), body[25].toString(), body[26].toString(), body[27].toString(), body[28].toString(), body[29].toString(), body[30].toString(), body[31].toString(), body[32].toString(), body[33].toString(), body[34].toString(), body[35].toString(), body[36].toString(), body[37].toString(), body[38].toString(), body[39].toString(), body[40].toString(), body[41].toString(), body[42].toString(), body[43].toString(), body[44].toString(), body[45].toString(), body[46].toString(), body[47].toString(), body[48].toString(), body[49].toString(), body[50].toString(), body[51].toString(), body[52].toString(), body[53].toString(), body[54].toString(), body[55].toString(), body[56].toString()], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getLeagueDashOppPtShotFromJson = async(request, response) => {
+  let stats = await require(`./juicystats/leaguedashoppptshot2015-2016.json`);
+  console.log(stats);
+  response.status(200).send(stats);
+}
+
+const createLeagueDashOppPtShot = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "leaguedashoppptshot${season.season}" (team_id, team_name, team_abbreviation, gp, g, fga_frequency, fgm, fga, fg_pct, efg_pct, fg2a_frequency, fg2m, fg2a, fg2_pct, fg3_frequency, fg3m, fg3a, fg3_pct) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`, 
+  [body[0], body[1], body[2], body[3].toString(), body[4], body[5].toString(), body[6].toString(), body[7].toString(), body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString()], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
+const getLeagueDashPlayerClutchFromJson = async(request, response) => {
+  let stats = await require(`./juicystats/leaguedashplayerclutch2015-2016.json`);
+  console.log(stats);
+  response.status(200).send(stats);
+}
+
+const createLeagueDashPlayerClutch = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  db.query(`INSERT INTO "leaguedashplayerclutch${season.season}" (group_set, player_id, player_name, team_id, team_abbreviation, age, gp, w, l, w_pct, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, tov, stl, blk, blka, pf, pfd, pts, plus_minus, nba_fantasy_pts, dd2, td3, gp_rank, w_rank, l_rank, w_pct_rank, min_rank, fgm_rank, fga_rank, fg_pct_rank, fg3m_rank, fg3a_rank, fg3_pct_rank, ftm_rank, fta_rank, ft_pct_rank, oreb_rank, dreb_rank, reb_rank, ast_rank, tov_rank, stl_rank, blk_rank, blka_rank, pf_rank, pfd_rank, pts_rank, plus_minus_rank, nba_fantasy_pts_rank, dd2_rank, td3_rank, cfid, cfparams) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $60, $61, $62, $63, $64, $65, $66)`, 
+  [body[0], body[1], body[2], body[4].toString(), body[5], body[6].toString(), body[7].toString(), body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21].toString(), body[22].toString(), body[23].toString(), body[24].toString(), body[25].toString(), body[26].toString(), body[27].toString(), body[28].toString(), body[29].toString(), body[30].toString(), body[31].toString(), body[32].toString(), body[33].toString(), body[34].toString(), body[35].toString(), body[36].toString(), body[37].toString(), body[38].toString(), body[39].toString(), body[40].toString(), body[41].toString(), body[42].toString(), body[43].toString(), body[44].toString(), body[45].toString(), body[46].toString(), body[47].toString(), body[48].toString(), body[49].toString(), body[50].toString(), body[51].toString(), body[52].toString(), body[53].toString(), body[54].toString(), body[55].toString(), body[56].toString(), body[57].toString(), body[58].toString(), body[59].toString(), body[60].toString(), body[61].toString(), body[62].toString(), body[63].toString(), body[64].toString(), body[65].toString(), body[66].toString()], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -1185,4 +1281,12 @@ module.exports = {
     createBoxScoreMiscTeams,
     getBoxScorePlayerTrackerFromCSV,
     createBoxScorePlayerTracker,
+    getBoxScorePlayerTrackerTeamsFromCSV,
+    createBoxScorePlayerTrackerTeams,
+    getLeagueDashLineupsFromJson,
+    createLeagueDashLineups,
+    getLeagueDashOppPtShotFromJson,
+    createLeagueDashOppPtShot,
+    getLeagueDashPlayerClutchFromJson,
+    createLeagueDashPlayerClutch,
 }
