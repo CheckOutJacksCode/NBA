@@ -505,7 +505,7 @@ const loadUpLeagueDashOppPtShotFunction = async() => {
 }
 
 const loadUpLeagueDashPlayerClutchFunction = async() => {
-    let season = "2021-2022";
+    let season = "2020-2021";
     let results = await getJsonResponse(`/read/leaguedashplayerclutch/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)
@@ -519,7 +519,7 @@ const loadUpLeagueDashPlayerClutchFunction = async() => {
 }
 
 const loadUpLeagueDashPlayerPtShotFunction = async() => {
-    let season = "2017-2018";
+    let season = "2021-2022";
     let results = await getJsonResponse(`/read/leaguedashplayerptshot/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)

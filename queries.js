@@ -1151,7 +1151,9 @@ const createBoxScorePlayerTrackerTeams = (request, response) => {
 }
 
 const getLeagueDashLineupsFromJson = async(request, response) => {
-    let stats = await require(`./juicystats/leaguedashlineups2015-2016.json`);
+    let season = request.params;
+    console.log(season);
+    let stats = await require(`./juicystats/leaguedashlineups${season.season}.json`);
     console.log(stats);
     response.status(200).send(stats);
 }
@@ -1170,7 +1172,9 @@ const createLeagueDashLineups = (request, response) => {
 }
 
 const getLeagueDashOppPtShotFromJson = async(request, response) => {
-  let stats = await require(`./juicystats/leaguedashoppptshot2015-2016.json`);
+  let season = request.params;
+  console.log(season);
+  let stats = await require(`./juicystats/leaguedashoppptshot${season.season}.json`);
   console.log(stats);
   response.status(200).send(stats);
 }
@@ -1189,7 +1193,8 @@ const createLeagueDashOppPtShot = (request, response) => {
 }
 
 const getLeagueDashPlayerClutchFromJson = async(request, response) => {
-  let stats = await require(`./juicystats/leaguedashplayerclutch2015-2016.json`);
+  let season = request.params;
+  let stats = await require(`./juicystats/leaguedashplayerclutch${season.season}.json`);
   console.log(stats);
   response.status(200).send(stats);
 }
@@ -1208,7 +1213,8 @@ const createLeagueDashPlayerClutch = (request, response) => {
 }
 
 const getLeagueDashPlayerPtShotFromJson = async(request, response) => {
-  let stats = await require(`./juicystats/leaguedashplayerptshot${season}.json`);
+  let season = request.params;
+  let stats = await require(`./juicystats/leaguedashplayerptshot${season.season}.json`);
   console.log(stats);
   response.status(200).send(stats);
 }
