@@ -201,6 +201,9 @@ app.get('/read/leaguedashplayerclutch/:season', db.getLeagueDashPlayerClutchFrom
 
 app.post(`/leaguedashplayerclutch/:season`, db.createLeagueDashPlayerClutch);
 
+app.get('/read/leaguedashplayerptshot/:season', db.getLeagueDashPlayerPtShotFromJson);
+
+app.post(`/leaguedashplayerptshot/:season`, db.createLeagueDashPlayerPtShot);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

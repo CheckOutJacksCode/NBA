@@ -27,6 +27,8 @@ const loadUpBoxScorePlayerTrackerTeamsButton = document.getElementById("loadUpBo
 const loadUpLeagueDashLineupsButton = document.getElementById("loadUpLeagueDashLineups");
 const loadUpLeagueDashOppPtShotButton = document.getElementById("loadUpLeagueDashOppPtShot");
 const loadUpLeagueDashPlayerClutchButton = document.getElementById("loadUpLeagueDashPlayerClutch");
+const loadUpLeagueDashPlayerPtShotButton = document.getElementById("loadUpLeagueDashPlayerPtShot");
+
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
@@ -238,6 +240,9 @@ const onStartUp = async() => {
     }
     loadUpLeagueDashPlayerClutchButton.onclick = async() => {
         await loadUpLeagueDashPlayerClutchFunction();
+    }
+    loadUpLeagueDashPlayerPtShotButton.onclick = async() => {
+        await loadUpLeagueDashPlayerPtShotFunction();
     }
 }
 
@@ -513,5 +518,17 @@ const loadUpLeagueDashPlayerClutchFunction = async() => {
     }
 }
 
+const loadUpLeagueDashPlayerPtShotFunction = async() => {
+    let season = "2017-2018";
+    let results = await getJsonResponse(`/read/leaguedashplayerptshot/${season}`);
+    console.log(results);
+    console.log(results.resultSets[0].rowSet.length)
+    console.log(results.resultSets[0].rowSet)
 
+    for (let i = 0; i < results.resultSets[0].rowSet.length; i++) {
+        console.log(results.resultSets[0].rowSet[i])
+        let postedResults = await postLeagueDashPlayerPtShot(results.resultSets[0].rowSet[i], season);
+        console.log(postedResults);
+    }
+}
 onStartUp();

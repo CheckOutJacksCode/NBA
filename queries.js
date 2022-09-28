@@ -1207,6 +1207,30 @@ const createLeagueDashPlayerClutch = (request, response) => {
   })
 }
 
+const getLeagueDashPlayerPtShotFromJson = async(request, response) => {
+  let stats = await require(`./juicystats/leaguedashplayerptshot${season}.json`);
+  console.log(stats);
+  response.status(200).send(stats);
+}
+
+const createLeagueDashPlayerPtShot = (request, response) => {
+  const body = request.body;
+  const season = request.params;
+  console.log(season);
+  for (let i = 0; i < body.length; i++) {
+    if (!body[i]) {
+      body[i] = 'null';
+    }
+  }
+  db.query(`INSERT INTO "leaguedashplayerptshot${season.season}" (player_id, player_name, player_last_team_id, player_last_team_abbreviation, age, gp, g, fga_frequency, fgm, fga, fg_pct, efg_pct, fg2a_frequency, fg2m, fg2a, fg2_pct, fg3_frequency, fg3m, fg3a, fg3_pct) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`, 
+  [body[0].toString(), body[1], body[2].toString(), body[3], body[4].toString(), body[5].toString(), body[6].toString(), body[7].toString(), body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString()], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(body);
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -1289,4 +1313,6 @@ module.exports = {
     createLeagueDashOppPtShot,
     getLeagueDashPlayerClutchFromJson,
     createLeagueDashPlayerClutch,
+    getLeagueDashPlayerPtShotFromJson,
+    createLeagueDashPlayerPtShot,
 }
