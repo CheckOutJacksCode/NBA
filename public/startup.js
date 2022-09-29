@@ -28,6 +28,10 @@ const loadUpLeagueDashLineupsButton = document.getElementById("loadUpLeagueDashL
 const loadUpLeagueDashOppPtShotButton = document.getElementById("loadUpLeagueDashOppPtShot");
 const loadUpLeagueDashPlayerClutchButton = document.getElementById("loadUpLeagueDashPlayerClutch");
 const loadUpLeagueDashPlayerPtShotButton = document.getElementById("loadUpLeagueDashPlayerPtShot");
+const loadUpLeagueDashPlayerShotLocationButton = document.getElementById("loadUpLeagueDashPlayerShotLocation");
+const loadUpBoxScoreScoringButton = document.getElementById("loadUpBoxScoreScoring");
+const loadUpBoxScoreScoringTeamsButton = document.getElementById("loadUpBoxScoreScoringTeams")
+const loadUpBoxScoreSummaryButton = document.getElementById("loadUpBoxScoreSummary");
 
 
 const onStartUp = async() => {
@@ -243,6 +247,18 @@ const onStartUp = async() => {
     }
     loadUpLeagueDashPlayerPtShotButton.onclick = async() => {
         await loadUpLeagueDashPlayerPtShotFunction();
+    }
+    loadUpLeagueDashPlayerShotLocationButton.onclick = async() => {
+        await loadUpLeagueDashPlayerShotLocationFunction();
+    }
+    loadUpBoxScoreScoringButton.onclick = async() => {
+        await loadUpBoxScoreScoringFunction();
+    }
+    loadUpBoxScoreScoringTeamsButton.onclick = async() => {
+        await loadUpBoxScoreScoringTeamsFunction();
+    }
+    loadUpBoxScoreSummaryButton.onclick = async() => {
+        await loadUpBoxScoreSummaryFunction();
     }
 }
 
@@ -505,7 +521,7 @@ const loadUpLeagueDashOppPtShotFunction = async() => {
 }
 
 const loadUpLeagueDashPlayerClutchFunction = async() => {
-    let season = "2020-2021";
+    let season = "2021-2022";
     let results = await getJsonResponse(`/read/leaguedashplayerclutch/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)
@@ -531,4 +547,56 @@ const loadUpLeagueDashPlayerPtShotFunction = async() => {
         console.log(postedResults);
     }
 }
+
+const loadUpLeagueDashPlayerShotLocationFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/leaguedashplayershotlocations/${season}`);
+    console.log(results);
+    console.log(results.resultSets.rowSet.length)
+    console.log(results.resultSets.rowSet)
+
+    for (let i = 0; i < results.resultSets.rowSet.length; i++) {
+        console.log(results.resultSets.rowSet[i])
+        let postedResults = await postLeagueDashPlayerShotLocations(results.resultSets.rowSet[i], season);
+        console.log(postedResults);
+    }
+}
+
+const loadUpBoxScoreScoringFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscorescoring/${season}`);
+    console.log(results);
+
+    for (let i = 0; i < results.length; i++) {
+        console.log(results[i])
+        let postedResults = await postBoxScoreScoring(results[i], season);
+        console.log(postedResults);
+    }
+}
+
+const loadUpBoxScoreScoringTeamsFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscorescoringteams/${season}`);
+    console.log(results);
+
+    for (let i = 0; i < results.length; i++) {
+        console.log(results[i])
+        let postedResults = await postBoxScoreScoringTeams(results[i], season);
+        console.log(postedResults);
+    }
+}
+
+const loadUpBoxScoreSummaryFunction = async() => {
+    let season = "2021-2022";
+    let results = await getJsonResponse(`/read/boxscoresummary/${season}`);
+    console.log(results);
+
+    for (let i = 0; i < results.length; i++) {
+        console.log(results[i])
+        let postedResults = await postBoxScoreSummary(results[i], season);
+        console.log(postedResults);
+    }
+}
+
+
 onStartUp();

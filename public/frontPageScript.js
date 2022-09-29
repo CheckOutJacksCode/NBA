@@ -582,6 +582,93 @@ const postLeagueDashPlayerPtShot = async(obj, season) => {
     } 
 }
 
+const postLeagueDashPlayerShotLocations = async(obj, season) => {
+    console.log(obj);
+    const url = `/leaguedashplayershotlocations/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
+
+const postBoxScoreScoring = async(obj, season) => {
+    console.log(obj);
+    const url = `/boxscorescoring/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
+
+const postBoxScoreScoringTeams = async(obj, season) => {
+    console.log(obj);
+    const url = `/boxscorescoringteams/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
+
+const postBoxScoreSummary = async(obj, season) => {
+    console.log(obj);
+    const url = `/boxscoresummary/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    } 
+}
 /* uses the players name to retrieve the player Id from the NBA api, to access the statistics
 endpoints in the NBA api I had to first supply the id. */
 const getIdFromPlayersByName = async(playerLastName, playerFirstName) => {
@@ -617,7 +704,7 @@ const getTeamsInConference = async(conference) => {
     let teams = await fetch('https://api-nba-v1.p.rapidapi.com/teams/confName/' + conference, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': PUBLICAPIKEY,
+            'X-RapidAPI-Key': process.env.PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -640,7 +727,7 @@ const getPlayersByTeamId = async(teamId) => {
     let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/teamId/' + teamId, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': PUBLICAPIKEY,
+            'X-RapidAPI-Key': process.env.PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -654,7 +741,7 @@ const getStatsFromPlayerId = async(playerId) => {
     let stats = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': PUBLICAPIKEY,
+            'X-RapidAPI-Key': process.env.PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -669,7 +756,7 @@ const getTodaysStatsFromPlayerId = async(playerId) => {
     let stats = await fetch('https://api-nba-v1.p.rapidapi.com/statistics/players/playerId/' + playerId, {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': PUBLICAPIKEY,
+            'X-RapidAPI-Key': process.env.PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -683,7 +770,7 @@ const getPlayersInStandardLeague = async() => {
     let players = await fetch('https://api-nba-v1.p.rapidapi.com/players/league/standard/', {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': PUBLICAPIKEY,
+            'X-RapidAPI-Key': process.env.PUBLICAPIKEY,
             'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
         }
     })
@@ -701,7 +788,7 @@ const getPlayersByName = async(playerLastName) => {
         method: 'GET',
         headers: {
             'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': PUBLICAPIKEY
+            'x-rapidapi-key': process.env.PUBLICAPIKEY
         }
     })
     if (players.ok) {
@@ -715,7 +802,7 @@ const getGameInfo = async(year) => {
         method: 'GET',
         headers: {
             'x-rapidapi-host': 'api-nba-v1.p.rapidapi.com',
-            'x-rapidapi-key': PUBLICAPIKEY
+            'x-rapidapi-key': process.env.PUBLICAPIKEY
         }
     })
     if (games.ok) {
