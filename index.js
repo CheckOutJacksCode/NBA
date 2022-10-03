@@ -43,6 +43,10 @@ app.get('/shotCharts', (req, res, next) => {
     res.sendFile(__dirname + "/public/shotCharts.html");
 });
 
+app.get('/jackarithm', (req, res, next) => {
+    res.sendFile(__dirname + "/public/jackarithm.html");
+});
+
 app.get('/leaguegames/:season', db.getGamesBySeason);
 
 app.get('/leaguehustlestats/:season', db.getLeagueHustleStatsBySeason);
@@ -220,6 +224,10 @@ app.post(`/boxscorescoringteams/:season`, db.createBoxScoreScoringTeams);
 app.get('/read/boxscoresummary/:season', db.getBoxScoreSummaryFromCSV);
 
 app.post(`/boxscoresummary/:season`, db.createBoxScoreSummary);
+
+app.get(`/getroster/:season/:team`, db.getRosterBySeasonByTeam);
+
+app.get(`/jackarithm/boxscorestraditional/:playerid/:season`, db.getBoxScoreTraditionalStats);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

@@ -1380,6 +1380,30 @@ const createBoxScoreSummary = (request, response) => {
 }
 
 
+const getRosterBySeasonByTeam = (request, response) => {
+  const { season, team } = request.params;
+  console.log(season);
+  console.log(team);
+  db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" WHERE team_id = $1`, [team], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBoxScoreTraditionalStats = (request, response) => {
+  const {playerid, season} = request.params;
+  console.log(playerid);
+  console.log(season);
+  db.query(`SELECT * FROM "boxscorestraditional${season}" WHERE player_id = $1`, [playerid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -1472,4 +1496,6 @@ module.exports = {
     createBoxScoreScoringTeams,
     getBoxScoreSummaryFromCSV,
     createBoxScoreSummary,
+    getRosterBySeasonByTeam,
+    getBoxScoreTraditionalStats,
 }

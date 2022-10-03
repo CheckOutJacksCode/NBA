@@ -99,3 +99,22 @@ describe('/GET league carmelo points by season', () => {
         testGetCarmeloPointsBySeason(seasons[i][0], seasons[i][1]);
     }
 });
+
+describe('/GET league hustle points by season', () => {
+    function testGetHustlePointsBySeason(season, len) {
+        it('it should GET league hustle points from season for every qualifying player', (done) => {
+          chai.request(app)
+              .get(`/getLocalHustlePointsInSeason/${season}`)
+              .end((err, res) => {
+                    console.log(res.body.length);
+                    res.status.should.be.equal(200);
+                    chai.expect(res.body).to.be.an('array').of.length(len);
+                done();
+              });
+        });
+    }
+    let seasons = [['2015-2016', 477], ['2016-2017', 486], ['2017-2018', 535], ['2018-2019', 529], ['2019-2020', 527], ['2020-2021', 540], ['2021-2022', 582]];
+    for(let i = 0; i < seasons.length; i++) {
+        testGetHustlePointsBySeason(seasons[i][0], seasons[i][1]);
+    }
+});

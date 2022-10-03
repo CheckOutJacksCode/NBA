@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    </head>
+    <header>
+    </header>
+    <body style="background-color:teal; color:black; background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
+        <!--Navigation bar-->
+        <div id="nav-placeholder">
+        
+        </div>
+        <script>
+            $(function(){
+              $("#nav-placeholder").load("nav.html");
+            });
+        </script>
+        <!--end of Navigation bar-->
+        <table  class="nostyle" id="seasonTeamRosterTable" style="font-size: 2vw; background-color: white;">
+            <tr style="background-color: white;">
+                <td style="background-color: white;"></td>
+            </tr>
+        </table>
+        <h1>box score traditional</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTable" style="font-size: 2vw;">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+        <table  class="nostyle" id="boxTraditionalSeasonAverageTable_82" style="font-size: 2vw;">
+            <tr style="background-color: white;">
+                <td style="background-color: white;"></td>
+            </tr>
+        </table>
+        <script src="./mutualScript.js" async></script>
+        <script src="./jackarithm.js" async></script>
+    </body>
+</html>

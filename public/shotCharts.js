@@ -5,6 +5,19 @@ const shotsGameId = document.getElementById("shots_gameId");
 const teamChosenShots = document.getElementById("teamsshots");
 
 
+const getJsonResponseShotCharts = async (url) => {
+  console.log(url);
+  const response = await fetch(url);
+  try{
+      if (response.ok){
+          const jsonResponse = await response.json();
+          return jsonResponse;
+      }
+  } catch(err){
+      console.log(err);
+  }
+}
+
 
 // Set Dimensions
 const xSize = 600; 
@@ -18,14 +31,13 @@ const height = ySize - yMargin
 const halfWidth = xHalf + xMargin;
 const halfPosWidth = xPosHalf - xMargin;
 
-
 const letsGo = async(url, game_id) => {
     const data = [];
     const dataMadeShots = [];
     const dataMissedShots = [];
 //    let season = {"season":"2015-2016"};
 
-    let totalShotsArray = await getJsonResponse(url);
+    let totalShotsArray = await getJsonResponseShotCharts(url);
     /*console.log(totalShotsArray.resultSets[0].rowSet);
     console.log([totalShotsArray.resultSets[0].rowSet[0]])
     console.log(totalShotsArray.resultSets.length)
@@ -65,15 +77,15 @@ const letsGo = async(url, game_id) => {
       chartTitle = "SEASON SHOT CHART";
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
-      //let playerId = await getJsonResponse(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
-      let playerId = await getJsonResponse(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+      //let playerId = await getJsonResponseShotCharts(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playerId = await getJsonResponseShotCharts(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
       playerId = playerId[0].playerid.toString();
       
       year = shotsSeason.value;
       console.log(year);
       let splitYear = year.split('-');
       let realYear = splitYear[0] + '-' + splitYear[1].substring(2, 4);
-      let statlines = await getJsonResponse(`/getregularseasonstatlines/${realYear}/${playerId}`);
+      let statlines = await getJsonResponseShotCharts(`/getregularseasonstatlines/${realYear}/${playerId}`);
       console.log(statlines);
 
       /*for (let j = 0; j < statlines.length; j++) {
@@ -134,7 +146,7 @@ const letsGo = async(url, game_id) => {
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
 
-      let playerId = await getJsonResponse(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playerId = await getJsonResponseShotCharts(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
       console.log(playerId);
       let playerid = playerId[0].playerid.toString();
       let season = shotsSeason.value;
@@ -144,14 +156,14 @@ const letsGo = async(url, game_id) => {
       let shotsgameid = shotsGameId.value.substring(0, 10);
       //MAKE ENDPOINT TO GET ONE GAME
  /*
-      let games = await getJsonResponse(`/games/${playerid}`)
+      let games = await getJsonResponseShotCharts(`/games/${playerid}`)
 
       let gameid;
       let gameidArray = [];
       for (let i = 0; i < games.length; i++) {
         gameid = games[i].gameid;
         
-        let gameinfo = await getJsonResponse(`/gameinfo/${gameid}`)
+        let gameinfo = await getJsonResponseShotCharts(`/gameinfo/${gameid}`)
        
         if (gameinfo[0].vteam.shortName + ' vs. ' + gameinfo[0].hteam.shortName === shotsGameId.value.substring(11, 20) || gameinfo[0].vteam.shortName + ' @ ' + gameinfo[0].hteam.shortName === shotsGameId.value.substring(11, 20)) {
           let game_date = shotsGameId.value.substring(0, 10);
@@ -170,21 +182,21 @@ const letsGo = async(url, game_id) => {
       
 
       //GET GAME
-      /*let vteamhteam = await getJsonResponse(`/games/vteamhteam/${playerid}`);
+      /*let vteamhteam = await getJsonResponseShotCharts(`/games/vteamhteam/${playerid}`);
       console.log(`/games/vteamhteam/${playerid}`);
       console.log(vteamhteam);
       for (let j = 0; j < vteamhteam.length; j++) {
         if (vteamhteam[j].vteam.shortName + ' vs. ' + vteamhteam[j].hteam.shortName === shotsGameId.value.substring(11, -1) || vteamhteam[j].vteam.shortName + ' @ ' + vteamhteam[j].hteam.shortName === shotsGameId.value.substring(11, -1)) {
           let game_date = shotsGameId.value.substring(0, 10);
           //GET GAMEID WHERE VTEAM SHORTNAME HTEAM SHORTNAME === 
-          let gameid = await getJsonResponse(`/games/gameid/${playerid}/${league}/${year}/${shotsgameid}`);
+          let gameid = await getJsonResponseShotCharts(`/games/gameid/${playerid}/${league}/${year}/${shotsgameid}`);
         }
       }*/
-      //await getJsonResponse(`/gameid/vshortname/hshortname`)
+      //await getJsonResponseShotCharts(`/gameid/vshortname/hshortname`)
       console.log('KDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
       //CATCH THE ERROR HERE IF THE PLAYER DIDNT PLAY IN THE GAME
-      //let boxScore = await getJsonResponse(`/games/${gameid}/${playerid}`);
-      let boxScore = await getJsonResponse(`/boxscorestraditional/${season}/${game_id}/${playerid}`);
+      //let boxScore = await getJsonResponseShotCharts(`/games/${gameid}/${playerid}`);
+      let boxScore = await getJsonResponseShotCharts(`/boxscorestraditional/${season}/${game_id}/${playerid}`);
       console.log(boxScore);
       boxScore = boxScore[0];
       points = boxScore.pts;
@@ -643,7 +655,7 @@ const letsGo = async(url, game_id) => {
 const getGameIdGameDateMatchupBySeason = async(player, season) => {
   console.log(player);
   console.log(season);
-  let matchupArray = await getJsonResponse(`/local/gameidgamedatematchup/${player}/${season}`);
+  let matchupArray = await getJsonResponseShotCharts(`/local/gameidgamedatematchup/${player}/${season}`);
   return matchupArray;
 }
 
@@ -688,7 +700,7 @@ const showForm = async() => {
 let teamArray = [];
 const teamsShotsDropDown = async() => {
 
-  let teams = await getJsonResponse('/teamnames');
+  let teams = await getJsonResponseShotCharts('/teamnames');
   var str = '<option value="none" selected disabled hidden>Select an Option</option>';
   document.getElementById("teamsshots").innerHTML = str;
 
@@ -706,8 +718,8 @@ const teamsShotsDropDown = async() => {
 let teamPlayersArray = [];
 const teamPlayersShotsDropDown = async() => {
 
-    let teamId = await getJsonResponse(`/teamid/${teamChosenShots.value}`)
-    let teamPlayers = await getJsonResponse(`/teamplayers/${teamId[0].team_id}`);
+    let teamId = await getJsonResponseShotCharts(`/teamid/${teamChosenShots.value}`)
+    let teamPlayers = await getJsonResponseShotCharts(`/teamplayers/${teamId[0].team_id}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("shots_player").innerHTML = str;
     try {
@@ -727,9 +739,9 @@ const getShotSeasons = async() => {
     let player = shotsPlayer.value;
     let playerFirstLast = player.split(' ');
 
-    let playerid = await getJsonResponse(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
+    let playerid = await getJsonResponseShotCharts(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
 
-    let results = await getJsonResponse(`/shotseasons/${playerid[0].playerid}`);
+    let results = await getJsonResponseShotCharts(`/shotseasons/${playerid[0].playerid}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("shots_season").innerHTML = str;
     let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];

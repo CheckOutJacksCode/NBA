@@ -31,6 +31,18 @@ table.center {
   font-family: "Garamond", serif;
 }
 
+table.nostyle {
+  background-color: bisque;
+}
+
+table.nostyle tr, table.nostyle td {
+	background-color: antiquewhite;
+}
+
+tr.no-style {
+  background-color: antiquewhite;
+}
+
 th, td {
   border-bottom: 1px solid rgb(10, 10, 68);
   
