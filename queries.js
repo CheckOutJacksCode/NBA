@@ -1404,6 +1404,34 @@ const getBoxScoreTraditionalStats = (request, response) => {
   })
 }
 
+//I NEED: HOME TEAM: visitor team, 
+const getGameResultsByHomeTeamSeason = (request, response) => {
+  const {team, season} = request.params;
+  console.log(team);
+  console.log(season);
+  db.query(`SELECT game_date, matchup, wl, pts, plus_minus FROM "leagueGames${season}" WHERE team_name = $1`, [team], (error, results) => {
+    if (error) {
+        throw error
+    }
+    console.log(results.rows);
+    response.status(200).json(results.rows)
+  })
+}
+
+//I NEED: HOME TEAM: visitor team, 
+const getGameResultsByVisitorTeamSeason = (request, response) => {
+  const {team, season} = request.params;
+  console.log(team);
+  console.log(season);
+  db.query(`SELECT game_date, matchup, wl, pts, plus_minus FROM "leaguegames${season}" WHERE team_name = $1`, [team], (error, results) => {
+    if (error) {
+        throw error
+    }
+    console.log(results.rows);
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -1498,4 +1526,6 @@ module.exports = {
     createBoxScoreSummary,
     getRosterBySeasonByTeam,
     getBoxScoreTraditionalStats,
+    getGameResultsByHomeTeamSeason,
+    getGameResultsByVisitorTeamSeason,
 }

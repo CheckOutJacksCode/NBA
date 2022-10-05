@@ -1,6 +1,17 @@
-const rosterTable = document.getElementById("seasonTeamRosterTable");
-const boxTraditionalSeasonAverageTable = document.getElementById("boxTraditionalSeasonAverageTable");
-const boxTraditionalSeasonAverageTable_82 = document.getElementById("boxTraditionalSeasonAverageTable_82");
+const homeRosterTable = document.getElementById("seasonHomeTeamRosterTable");
+const visitorRosterTable = document.getElementById("seasonHomeTeamRosterTable");
+const boxTraditionalSeasonAverageTableHome = document.getElementById("boxTraditionalSeasonAverageTableHome");
+const boxTraditionalSeasonAverageTable_82Home = document.getElementById("boxTraditionalSeasonAverageTable_82Home");
+const boxTraditionalSeasonAverageTableVisitor = document.getElementById("boxTraditionalSeasonAverageTableVisitor");
+const boxTraditionalSeasonAverageTable_82Visitor = document.getElementById("boxTraditionalSeasonAverageTable_82Visitor");
+const homeTeamSeasonGameResults = document.getElementById("gameResultsHomeTeamPerSeason");
+const visitorTeamSeasonGameResults = document.getElementById("gameResultsVisitorTeamPerSeason");
+const homeTeamSeasonGameResultsTable = document.getElementById("gameResultsHomeTeamPerSeasonTable");
+const visitorTeamSeasonGameResultsTable = document.getElementById("gameResultsVisitorTeamPerSeasonTable");
+const gameResultsHomeTeamPerSeasonExpectedTable = document.getElementById("gameResultsHomeTeamPerSeasonExpectedTable");
+const getBoxTraditionalButton = document.getElementById("getBoxTraditionalButton");
+const getPP240ExpectedButton = document.getElementById("getPP240ExpectedButton")
+
 
 const getJsonResponseJackarithm = async (url) => {
     console.log(url);
@@ -35,6 +46,48 @@ const getRoster = async(season, team) => {
     console.log(totalMinutes_82);
 }
 
+const getRosterNoParams = async(H_or_V) => {
+    let team = document.getElementById(`${H_or_V}TeamJackarithm`);
+    let teamId = await getJsonResponse(`/teamid/${team.value}`)
+    let season = '2017-2018';
+    let roster = await getJsonResponseJackarithm(`/getroster/${season}/${teamId[0].team_id}`);
+    for (let i = 0; i < roster.length; i++) {
+        let appendedPlayer = await appendPlayerRosterTable(roster[i].player_id, roster[i].player_name, H_or_V);
+    }
+}
+
+getBoxTraditionalButton.onclick = async() => {
+    let H_or_V;
+    if (document.getElementById("homeTeamJackarith") !== 'Select an Option') {
+        H_or_V = 'home';
+    } else if (document.getElementById("visitorTeamJackarith") !== 'Select an Option') {
+        H_or_V = 'visitor';
+    }
+    let team = document.getElementById(`${H_or_V}TeamJackarithm`);
+    let teamId = await getJsonResponse(`/teamid/${team.value}`)
+    let season = '2017-2018';
+    let roster = await getJsonResponseJackarithm(`/getroster/${season}/${teamId[0].team_id}`);
+    for (let i = 0; i < roster.length; i++) {
+        let playerStats = await getPlayerSeasonOffensiveStatAveragesTraditional(season, roster[i].player_id);
+
+        await appendPlayerBoxTraditionalSeasonAverageTable(playerStats, roster[i].player_name, H_or_V);
+    }
+}
+
+getPP240ExpectedButton.onclick = async() => {
+    let results = getPP240Expected();
+    console.log(results)
+}
+
+const appendExpectedPoints = async(team, pp240expected) => {
+    let row = gameResultsHomeTeamPerSeasonExpectedTable.insertRow();
+    let cell = row.insertCell(0)
+    cell.innerHTML = team;
+    let cell2 = row.insertCell(1)
+    cell2.innerHTML = pp240expected;
+    console.log(team);
+    console.log(pp240expected);
+}
 
 const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid) => {
     let seasonStats = await getStatsFromBoxTraditional(season, playerid);
@@ -191,7 +244,8 @@ const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid) 
         steals:steals,
         turnovers:turnovers,
         blocks:blocks,
-        plusminus:plusminus
+        plusminus:plusminus,
+        pfouls:pfouls
     }
 
     let averagesObject_82 = {
@@ -211,7 +265,8 @@ const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid) 
         steals:steals_82,
         turnovers:turnovers_82,
         blocks:blocks_82,
-        plusminus:plusminus_82
+        plusminus:plusminus_82,
+        pfouls:pfouls_82
     }
 
     return [averagesObject, averagesObject_82];
@@ -222,61 +277,193 @@ const getStatsFromBoxTraditional = async(season, playerid) => {
     return stats;
 }
 
-rosterRowIndex = 0;
-const appendPlayerRosterTable = async(playerid, player) => {
-    let row = seasonTeamRosterTable.insertRow(rosterRowIndex);
+rosterHomeRowIndex = 0;
+rosterVisitorRowIndex = 0;
+const appendPlayerRosterTable = async(playerid, player, H_or_V) => {
+    let row;
+    if (H_or_V === 'home') {
+        row = seasonHomeTeamRosterTable.insertRow(rosterHomeRowIndex);
+        rosterHomeRowIndex += 1;
+    } else {
+        row = seasonVisitorTeamRosterTable.insertRow(rosterVisitorRowIndex);
+        rosterVisitorRowIndex += 1;
+    }
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
     cell1.innerHTML = player;
     cell2.innerHTML = playerid;
-    rosterRowIndex += 1;
     return 'appended';
 }
 
 
-const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name) => {
-    let nameRow = boxTraditionalSeasonAverageTable.insertRow(0);
-    let headerRow = boxTraditionalSeasonAverageTable.insertRow(1);
-    let statRow = boxTraditionalSeasonAverageTable.insertRow(2);
-    let separationRow = boxTraditionalSeasonAverageTable.insertRow(3);
-    let nameRow_82 = boxTraditionalSeasonAverageTable_82.insertRow(0);
-    let headerRow_82 = boxTraditionalSeasonAverageTable_82.insertRow(1);
-    let statRow_82 = boxTraditionalSeasonAverageTable_82.insertRow(2);
-    let separationRow_82 = boxTraditionalSeasonAverageTable.insertRow(3);
+const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name, H_or_V) => {
+    let nameRow
+    let headerRow
+    let statRow
+    let separationRow
+    let nameRow_82 
+    let headerRow_82 
+    let statRow_82 
+    let separationRow_82
+
+    if (H_or_V === 'home') {
+        nameRow = boxTraditionalSeasonAverageTableHome.insertRow(0);
+        headerRow = boxTraditionalSeasonAverageTableHome.insertRow(1);
+        statRow = boxTraditionalSeasonAverageTableHome.insertRow(2);
+        separationRow = boxTraditionalSeasonAverageTableHome.insertRow(3);
+        nameRow_82 = boxTraditionalSeasonAverageTable_82Home.insertRow(0);
+        headerRow_82 = boxTraditionalSeasonAverageTable_82Home.insertRow(1);
+        statRow_82 = boxTraditionalSeasonAverageTable_82Home.insertRow(2);
+        separationRow_82 = boxTraditionalSeasonAverageTableHome.insertRow(3);
+    } else {
+        nameRow = boxTraditionalSeasonAverageTableVisitor.insertRow(0);
+        headerRow = boxTraditionalSeasonAverageTableVisitor.insertRow(1);
+        statRow = boxTraditionalSeasonAverageTableVisitor.insertRow(2);
+        separationRow = boxTraditionalSeasonAverageTableVisitor.insertRow(3);
+        nameRow_82 = boxTraditionalSeasonAverageTable_82Visitor.insertRow(0);
+        headerRow_82 = boxTraditionalSeasonAverageTable_82Visitor.insertRow(1);
+        statRow_82 = boxTraditionalSeasonAverageTable_82Visitor.insertRow(2);
+        separationRow_82 = boxTraditionalSeasonAverageTableVisitor.insertRow(3);
+    }
 
 
     for (let i = 0; i < Object.keys(objArray[0]).length; i++) {
         let cell0 = nameRow.insertCell(i)
         let cell1 = headerRow.insertCell(i)
         let cell2 = statRow.insertCell(i)
-        let cell3 = separationRow.insertCell(i)
         cell0.innerHTML = player_name
         cell1.innerHTML = Object.keys(objArray[0])[i]
         cell2.innerHTML = Object.values(objArray[0])[i]
-        cell3.innerHTML = '-'
         let cell4 = nameRow_82.insertCell(i)
         let cell5 = headerRow_82.insertCell(i)
         let cell6 = statRow_82.insertCell(i)
-
+        
         cell4.innerHTML = player_name
         cell5.innerHTML = Object.keys(objArray[1])[i]
         cell6.innerHTML = Object.values(objArray[1])[i]
     }
     return 'appended';
 }
-const gameDropDown = async() => {
 
-    let games = await getGameIdGameDateMatchupBySeason(shotsPlayer.value, shotsSeason.value);
+let teamArray = [];
+const teamsDropDown = async() => {
+
+    let teams = await getJsonResponseJackarithm('/teamnames');
+    console.log(teams)
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
-    document.getElementById("shots_gameId").innerHTML = str;
-      try {
-        for (var game of games) {
-          str += "<option>" + game.game_date + " " + game.matchup + "</option>";
-          gameIdArray.push({ game_id: game.game_id, game_date: game.game_date, matchup: game.matchup })
-        }
-        document.getElementById("shots_gameId").innerHTML = str;
-      } catch(error) {
-        console.log(error);
+    document.getElementById("homeTeamJackarithm").innerHTML = str;
+    document.getElementById("visitorTeamJackarithm").innerHTML = str;
+    document.getElementById("gameResultsHomeTeamPerSeason").innerHTML = str;
+    document.getElementById("gameResultsVisitorTeamPerSeason").innerHTML = str;
+
+    try {
+      for (var team of teams) {
+        str += "<option>" + team.team_name + "</option>";
+        teamArray.push(team.team_name);
       }
-  }
-getRoster("2021-2022", "1610612744");
+      document.getElementById("homeTeamJackarithm").innerHTML = str;
+      document.getElementById("visitorTeamJackarithm").innerHTML = str;
+      document.getElementById("gameResultsHomeTeamPerSeason").innerHTML = str;
+      document.getElementById("gameResultsVisitorTeamPerSeason").innerHTML = str;
+
+    } catch(error) {
+      console.log(error);
+    }
+}
+
+const getSeasonGameResultsByTeamHome = async() => {
+    let homeTeam = homeTeamSeasonGameResults.value;
+    let season = seasonGameResults.value;
+    //get league games
+
+    let results = await getJsonResponseJackarithm(`/jackarithm/gameResults/home/${homeTeam}/${season}`)
+
+    let headers = homeTeamSeasonGameResultsTable.insertRow();
+    for (let j = 0; j < Object.keys(results[0]).length; j++) {
+        let cell = headers.insertCell(j);
+        cell.innerHTML = Object.keys(results[0])[j];
+    }
+    for (let i = 0; i < results.length; i++) {
+        let appendedGame = await appendSeasonGameResults(results[i]);
+    }
+}
+
+const appendSeasonGameResults = async(game) => {
+
+    let row = homeTeamSeasonGameResultsTable.insertRow();
+    for (let i = 0; i < Object.keys(game).length; i++) {
+        let cell = row.insertCell(i);
+        cell.innerHTML = Object.values(game)[i];
+    }
+    return (game);
+
+}
+
+const getSeasonGameResultsByTeamVisitor = async() => {
+    let visitorTeam = visitorTeamSeasonGameResults.value;
+
+    //get league games
+    console.log(visitorTeam)
+    console.log(season)
+    let results = await getJsonResponseJackarithm(`/jackarithm/gameResults/visitor/${visitorTeam}/${season}`)
+    console.log(results);
+}
+
+const getGameResultsHomeTeamPerSeasonExpectedTable = async() => {
+    let homeTeam = homeTeamSeasonGameResults.value;
+    let season = seasonGameResults.value;
+    //get league games
+    //get roster expected output
+    //roster average per game output
+    let results = await getJsonResponseJackarithm(`/jackarithm/gameResults/home/${homeTeam}/${season}`)
+
+    let headers = homeTeamSeasonGameResultsTable.insertRow();
+    for (let j = 0; j < Object.keys(results[0]).length; j++) {
+        let cell = headers.insertCell(j);
+        cell.innerHTML = Object.keys(results[0])[j];
+    }
+    for (let i = 0; i < results.length; i++) {
+        let appendedGame = await appendSeasonGameResults(results[i]);
+    }
+}
+
+const getPP240Expected = async() => {
+    let teams = await getJsonResponseJackarithm('/teamnames');
+    console.log(teams);
+    let season = '2017-2018';
+    for (let x = 0; x < teams.length; x++) {
+        let teamId = await getJsonResponse(`/teamid/${teams[x].team_name}`)
+        console.log(teamId);
+        let totalMinutes = 0;
+        let totalMinutes_82 = 0;
+        let totalPoints = 0;
+        let totalPoints_82 = 0;
+        let roster = await getJsonResponseJackarithm(`/getroster/${season}/${teamId[0].team_id}`);
+        console.log(roster);
+        for (let i = 0; i < roster.length; i++) {
+            let playerStats = await getPlayerSeasonOffensiveStatAveragesTraditional(season, roster[i].player_id);
+            console.log(playerStats)
+            totalMinutes += playerStats[0].min;
+            //total of minutes per 82 games of every player on roster
+            totalMinutes_82 += playerStats[1].min;
+            totalPoints += playerStats[0].points;
+            totalPoints_82 += playerStats[1].points;
+        }
+        let ratio_82 = totalPoints_82 / totalMinutes_82;
+        console.log(totalMinutes)
+        console.log(totalPoints)
+        console.log(totalMinutes_82)
+        console.log(totalPoints_82)
+
+        let pointsPer240Expected = ratio_82 * 240;
+        console.log(pointsPer240Expected);
+        console.log(teams[x].team_name)
+        let results = await appendExpectedPoints(teams[x].team_name, pointsPer240Expected);
+    }
+}
+
+
+
+
+teamsDropDown();
+//getRoster("2021-2022", "1610612744");

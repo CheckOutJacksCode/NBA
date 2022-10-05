@@ -21,6 +21,16 @@ div {
   zoom: 1.0;
   resize: both
 }
+div.jackarithm {
+  text-align: center;
+  color: black;
+  font-family: "Garamond", serif;
+  font-weight: bold;
+  width: 100%;
+  zoom: 1.0;
+  resize: both
+}
+
 table.center {
   margin-left: auto; 
   margin-right: auto;

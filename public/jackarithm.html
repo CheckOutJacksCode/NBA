@@ -3,8 +3,42 @@
     <head>
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-    </head>
+            <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+            <style>
+
+            body {
+              background-color: rgb(4, 4, 30);
+            }
+
+            p {
+              text-align: center;
+              font-family: "Garamond", serif;
+              text-shadow: 3px 3px 6px #000000;
+              resize: both;
+            }
+            * {
+              box-sizing: border-box;
+            }
+            
+            /* Create three equal columns that floats next to each other */
+            .column {
+              float: left;
+              width: 33.33%;
+              padding: 10px;
+              color: black;
+              font-family: "Garamond", serif;
+              font-weight: bold;
+              /*height: 300px; Should be removed. Only for demonstration */
+            }
+            
+            /* Clear floats after the columns */
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            </style>
+        </head>
     <header>
     </header>
     <body style="background-color:teal; color:black; background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
@@ -18,23 +52,120 @@
             });
         </script>
         <!--end of Navigation bar-->
-        <table  class="nostyle" id="seasonTeamRosterTable" style="font-size: 2vw; background-color: white;">
+
+        <label for="homeTeamJackarithm">Choose Home Team: </label>
+        <select name="homeTeamJackarithm" id="homeTeamJackarithm" style="font-size: 2vw;" onchange="getRosterNoParams('home')">
+        </select>
+        <button class="button" id="getPP240ExpectedButton" name="getPP240ExpectedButton" style="font-size: 2vw;">Get Expected PP240</button>
+        <br>
+        
+        <button class="button" id="getBoxTraditionalButton" name="getBoxTraditionalButton" style="font-size: 2vw;">Get Box Traditional Stats</button>
+
+        <br>
+        <label for="visitorTeamJackarithm">Choose Visitor Team: </label>
+        <select name="visitorTeamJackarithm" id="visitorTeamJackarithm" style="font-size: 2vw;" onchange="getRosterNoParams('visitor')">
+        </select>
+        <br>
+        <br>
+        <label for="gameResultsHomeTeamPerSeason">Choose Home Team: </label>
+        <select name="gameResultsHomeTeamPerSeason" id="gameResultsHomeTeamPerSeason" style="font-size: 2vw;" onchange="getSeasonGameResultsByTeamHome()">
+        </select>
+        <label for="gameResultsVisitorTeamPerSeason">Choose Team: </label>
+        <select name="gameResultsVisitorTeamPerSeason" id="gameResultsVisitorTeamPerSeason" style="font-size: 2vw;" onchange="getSeasonGameResultsByTeamVisitor()">
+        </select>
+
+        <label for="seasonGameResults">Choose season: </label>
+        <select name="seasonGameResults" id="seasonGameResults" style="font-size: 2vw;">
+            <option value="2015-2016">2015-2016</option>
+            <option value="2016-2017">2016-2017</option>
+            <option value="2017-2018">2017-2018</option>
+            <option value="2018-2019">2018-2019</option>
+            <option value="2019-2020">2019-2020</option>
+            <option value="2020-2021">2020-2021</option>
+            <option value="2021-2022">2021-2022</option>
+        </select>
+
+        <table class="nostyle" id="seasonHomeTeamRosterTable" style="font-size: 2vw; background-color: white;">
             <tr style="background-color: white;">
                 <td style="background-color: white;"></td>
             </tr>
         </table>
-        <h1>box score traditional</h1>
-        <table class="nostyle" id="boxTraditionalSeasonAverageTable" style="font-size: 2vw;">
+        <br>
+        <br>
+        <table class="nostyle" id="seasonVisitorTeamRosterTable" style="font-size: 2vw; background-color: white;">
+            <tr style="background-color: white;">
+                <td style="background-color: white;"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <h1>box score traditional home</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTableHome" style="font-size: 2vw;">
             <tr>
                 <td></td>
             </tr>
         </table>
-        <table  class="nostyle" id="boxTraditionalSeasonAverageTable_82" style="font-size: 2vw;">
+        <br>
+        <br>
+        <br>
+        <h1>box score traditional per 82 home</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTable_82Home" style="font-size: 2vw;">
             <tr style="background-color: white;">
                 <td style="background-color: white;"></td>
             </tr>
         </table>
+
+        <h1>box score traditional visitor</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTableVisitor" style="font-size: 2vw;">
+            <tr>
+                <td></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <h1>box score traditional per 82 visitor</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTable_82Visitor" style="font-size: 2vw;">
+            <tr style="background-color: white;">
+                <td style="background-color: white;"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="column">
+                <h1>Game Results Per Season Home Team</h1>
+                <table class="nostyle" id="gameResultsHomeTeamPerSeasonTable" style="font-size: 2vw;">
+                    <tr style="background-color: white;">
+                        <td style="background-color: white;"></td>
+                    </tr>
+                </table>
+                <br>
+                <br>
+                <br>
+                <h1>Game Results Per Season Visitor Team</h1>
+                <table class="nostyle" id="gameResultsVisitorTeamPerSeasonTable" style="font-size: 2vw;">
+                    <tr style="background-color: white;">
+                        <td style="background-color: white;"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column" width="33%">
+                <h1>Game Results Home Team Expected
+                </h1>
+                <table class="nostyle" id="gameResultsHomeTeamPerSeasonExpectedTable" style="font-size: 2vw;">
+                    <tr style="background-color: white;">
+                        <td style="background-color: white;"></td>
+                    </tr>
+                </table>
+                <br>
+                <br>
+            </div>
+        </div>
+
         <script src="./mutualScript.js" async></script>
         <script src="./jackarithm.js" async></script>
+        
     </body>
 </html>
