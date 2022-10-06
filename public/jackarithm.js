@@ -10,8 +10,10 @@ const homeTeamSeasonGameResultsTable = document.getElementById("gameResultsHomeT
 const visitorTeamSeasonGameResultsTable = document.getElementById("gameResultsVisitorTeamPerSeasonTable");
 const gameResultsHomeTeamPerSeasonExpectedTable = document.getElementById("gameResultsHomeTeamPerSeasonExpectedTable");
 const getBoxTraditionalButton = document.getElementById("getBoxTraditionalButton");
-const getPP240ExpectedButton = document.getElementById("getPP240ExpectedButton")
-
+const getP240ExpectedButton = document.getElementById("getP240ExpectedButton");
+const p240StatSelected = document.getElementById("p240StatDropDown");
+const boxTraditionalSeasonAverageTable = document.getElementById("boxTraditionalSeasonAverageTable");
+const boxTraditionalSeasonAverageTable_82 = document.getElementById("boxTraditionalSeasonAverageTable_82");
 
 const getJsonResponseJackarithm = async (url) => {
     console.log(url);
@@ -58,218 +60,133 @@ const getRosterNoParams = async(H_or_V) => {
 
 getBoxTraditionalButton.onclick = async() => {
     let H_or_V;
-    if (document.getElementById("homeTeamJackarith") !== 'Select an Option') {
+    if (document.getElementById("homeTeamJackarithm") !== 'Select an Option') {
         H_or_V = 'home';
-    } else if (document.getElementById("visitorTeamJackarith") !== 'Select an Option') {
+    } else if (document.getElementById("visitorTeamJackarithm") !== 'Select an Option') {
         H_or_V = 'visitor';
     }
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
     let teamId = await getJsonResponse(`/teamid/${team.value}`)
     let season = '2017-2018';
     let roster = await getJsonResponseJackarithm(`/getroster/${season}/${teamId[0].team_id}`);
+    console.log(roster)
     for (let i = 0; i < roster.length; i++) {
-        let playerStats = await getPlayerSeasonOffensiveStatAveragesTraditional(season, roster[i].player_id);
-
+        let playerStats = await getPlayerSeasonOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V);
+        console.log(playerStats)
         await appendPlayerBoxTraditionalSeasonAverageTable(playerStats, roster[i].player_name, H_or_V);
     }
 }
 
-getPP240ExpectedButton.onclick = async() => {
-    let results = getPP240Expected();
-    console.log(results)
-}
 
-const appendExpectedPoints = async(team, pp240expected) => {
-    let row = gameResultsHomeTeamPerSeasonExpectedTable.insertRow();
-    let cell = row.insertCell(0)
-    cell.innerHTML = team;
-    let cell2 = row.insertCell(1)
-    cell2.innerHTML = pp240expected;
-    console.log(team);
-    console.log(pp240expected);
-}
-
-const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid) => {
-    let seasonStats = await getStatsFromBoxTraditional(season, playerid);
-    let gameCount = 0;
-    let points = 0;
-    let min = 0;
-    let fga = 0;
-    let fgm = 0;
-    let fgp = 0;
-    let fta = 0;
-    let ftm = 0;
-    let ftp = 0;
-    let fg3_pct = 0;
-    let fg3a = 0;
-    let fg3m = 0;
-    let totreb = 0;
-    let assists = 0;
-    let steals = 0;
-    let turnovers = 0;
-    let blocks = 0;
-    let plusminus = 0;
-    let pfouls = 0;
-
-    let points_82 = 0;
-    let min_82 = 0;
-    let fga_82 = 0;
-    let fgm_82 = 0;
-    let fgp_82 = 0;
-    let fta_82 = 0;
-    let ftm_82 = 0;
-    let ftp_82 = 0;
-    let fg3_pct_82 = 0;
-    let fg3a_82 = 0;
-    let fg3m_82 = 0;
-    let totreb_82 = 0;
-    let assists_82 = 0;
-    let steals_82 = 0;
-    let turnovers_82 = 0;
-    let blocks_82 = 0;
-    let plusminus_82 = 0;
-    let pfouls_82 = 0;
+//for one player, return every stat average per season
+const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid, H_or_V) => {
+    let table = 'boxscorestraditional2021-2022'
+    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
+    season = '2017-2018';
+    let playerStats = await getStatsFromBoxTraditional(season, playerid);
     
-    for (let i = 0; i < seasonStats.length; i++) {
-        points_82 += parseFloat(seasonStats[i].pts)
-        min_82 += parseFloat(seasonStats[i].min)
-        fga_82 += parseFloat(seasonStats[i].fga)
-        fgm_82 += parseFloat(seasonStats[i].fgm)
-        fgp_82 += parseFloat(seasonStats[i].fg_pct);
+    let averagesObjectAny = {};
+    let averagesObject_82Any = {};
+    let averagesObjectAny_HorV = {};
+    let averagesObject_82Any_HorV = {};
+ 
+    let gameCount = 0;
+    let gameCount_HorV = 0;
+    let gameCount_total_HorV = 0;
+    let stats_82 = [];
+    let statsPerGame = [];
+    let statsHeaders = [];
+    let stats_82_HorV = [];
+    let statsPerGame_HorV = [];
+    let statsHeaders_HorV = [];
 
-        fg3a_82 += parseFloat(seasonStats[i].fg3a)
-        fg3m_82 += parseFloat(seasonStats[i].fg3m)
-        fg3_pct_82 += parseFloat(seasonStats[i].fg3_pct);
-  
-        fta_82 += parseFloat(seasonStats[i].fta)
-        ftm_82 += parseFloat(seasonStats[i].ftm)
-        ftp_82 += parseFloat(seasonStats[i].ft_pct);
-  
-        totreb_82 += parseFloat(seasonStats[i].reb) 
-        assists_82 += parseFloat(seasonStats[i].ast)
-        steals_82 += parseFloat(seasonStats[i].stl) 
-        turnovers_82 += parseFloat(seasonStats[i].turnovers)
-        blocks_82 += parseFloat(seasonStats[i].blk)
-        plusminus_82 += parseFloat(seasonStats[i].plus_minus);
-        pfouls_82 += parseFloat(seasonStats[i].pf)
-        
-        console.log(points_82)
-        console.log(min_82)
-        
-        if (parseFloat(seasonStats[i].min) > 0) {
-            gameCount++;
+    for (let j = 0; j <stats.length; j++) {
 
-            points += parseFloat(seasonStats[i].pts)
-            min += parseFloat(seasonStats[i].min)
-            fga += parseFloat(seasonStats[i].fga)
-            fgm += parseFloat(seasonStats[i].fgm)
-            fgp += parseFloat(seasonStats[i].fg_pct);
+        statsHeaders.push(stats[j].column_name)
+        stats_82.push(0);
+        statsPerGame.push(0);
+        stats_82_HorV.push(0);
+        statsPerGame_HorV.push(0);
+        statsHeaders_HorV.push(0);
 
-            fg3a += parseFloat(seasonStats[i].fg3a)
-            fg3m += parseFloat(seasonStats[i].fg3m)
-            fg3_pct += parseFloat(seasonStats[i].fg3_pct);
-      
-            fta += parseFloat(seasonStats[i].fta)
-            ftm += parseFloat(seasonStats[i].ftm)
-            ftp += parseFloat(seasonStats[i].ft_pct);
-      
-            totreb += parseFloat(seasonStats[i].reb) 
-            assists += parseFloat(seasonStats[i].ast)
-            steals += parseFloat(seasonStats[i].stl) 
-            turnovers += parseFloat(seasonStats[i].turnovers)
-            blocks += parseFloat(seasonStats[i].blk)
-            plusminus += parseFloat(seasonStats[i].plus_minus);
-            pfouls += parseFloat(seasonStats[i].pf)
+    }    
+    
+    let team_id = playerStats[0].team_id;
+    let horv_gameids;
+
+    for (let i = 0; i < playerStats.length; i++) {
+        if (H_or_V === 'home') {
+            horv_gameids = await getJsonResponseJackarithm(`/home/gameids/${season}/${team_id}`);
+        } else {
+            horv_gameids = await getJsonResponseJackarithm(`/visitor/gameids/${season}/${team_id}`)
         }
+        console.log(horv_gameids);
+
+        let result = horv_gameids.map(a => a.game_id);
+        console.log(result);
+        if (result.includes(playerStats[i].game_id)) {
+
+            gameCount_total_HorV++;
+            if (parseFloat(playerStats[i].min) > 0) {
+                gameCount_HorV++;
+            }
+
+            if (!playerStats[i].min) {
+                playerStats[i].min = 0;
+            }
+
+            for (let j = 0; j < stats.length; j++) {
+                if (stats[j].column_name === 'points') {
+                    stats[j].column_name = 'pts';
+                }
+
+                if (!parseFloat(playerStats[i][stats[j].column_name])) {
+                    playerStats[i][stats[j].column_name] = 0;
+                }
+                stats_82_HorV[j] += parseFloat(playerStats[i][stats[j].column_name]);
+
+                if (parseFloat(playerStats[i].min) > 0) {
+                    statsPerGame_HorV[j] += parseFloat(playerStats[i][stats[j].column_name]);
+                }
+            }
+        }
+        if (parseFloat(playerStats[i].min) > 0) {
+            gameCount++;
+        }
+    
+        if (!playerStats[i].min) {
+            playerStats[i].min = 0;
+        }
+    
+        for (let j = 0; j < stats.length; j++) {
+            if (stats[j].column_name === 'points') {
+                stats[j].column_name = 'pts';
+            }
+        
+            if (!parseFloat(playerStats[i][stats[j].column_name])) {
+                playerStats[i][stats[j].column_name] = 0;
+            }
+            stats_82[j] += parseFloat(playerStats[i][stats[j].column_name]);
+        
+            if (parseFloat(playerStats[i].min) > 0) {
+                statsPerGame[j] += parseFloat(playerStats[i][stats[j].column_name]);
+            }
+        }
+        //total of minutes per 82 games of every player on roster
     }
-    console.log(points_82)
-    console.log(points)
+    for (let k = 0; k < stats_82.length; k++) {
+        let header = statsHeaders[k];
+        let statAverage_82 = stats_82[k] / 82;
+        let statAverage = statsPerGame[k] / gameCount;
+        let statAverage_82_HorV = stats_82_HorV[k] / gameCount_total_HorV;
+        let statAverage_HorV = statsPerGame_HorV[k] / gameCount_HorV;
 
-    points_82 = points / 82
-    console.log(points)
-    console.log(points_82)
-    min_82 = min / 82
-    console.log(min)
-    console.log(min_82)
-    fga_82 = fga / 82
-    fgm_82 = fgm / 82
-    fgp_82 = fgp / 82
-    fg3a_82 = fg3a / 82
-    fg3m_82 = fg3m / 82
-    fg3_pct_82 = fg3_pct / 82
-    fta_82 = fta / 82
-    ftm_82 = ftm / 82
-    ftp_82 = ftp / 82
-    totreb_82 = totreb / 82
-    assists_82 = assists / 82
-    steals_82 = steals / 82
-    turnovers_82 = turnovers / 82
-    blocks_82 = blocks / 82
-    plusminus_82 = plusminus / 82
-    pfouls_82 = pfouls / 82
-
-    points = points / gameCount
-    min = min / gameCount
-    fga = fga / gameCount
-    fgm = fgm / gameCount
-    fgp = fgp / gameCount
-    fg3a = fg3a / gameCount
-    fg3m = fg3m / gameCount
-    fg3_pct = fg3_pct / gameCount
-    fta = fta / gameCount
-    ftm = ftm / gameCount
-    ftp = ftp / gameCount
-    totreb = totreb / gameCount
-    assists = assists / gameCount
-    steals = steals / gameCount
-    turnovers = turnovers / gameCount
-    blocks = blocks / gameCount
-    plusminus = plusminus / gameCount
-    pfouls = pfouls / gameCount
-
-    let averagesObject = {
-        points:points,
-        min:min,
-        fga:fga,
-        fgm:fgm,
-        fgp:fgp,
-        fta:fta,
-        ftm:ftm,
-        ftp:ftp,
-        fg3_pct:fg3_pct,
-        fg3a:fg3a,
-        fg3m:fg3m,
-        totreb:totreb,
-        assists:assists,
-        steals:steals,
-        turnovers:turnovers,
-        blocks:blocks,
-        plusminus:plusminus,
-        pfouls:pfouls
+        averagesObjectAny[header] = statAverage;
+        averagesObject_82Any[header] = statAverage_82;
+        averagesObjectAny_HorV[header] = statAverage_HorV;
+        averagesObject_82Any_HorV[header] = statAverage_82_HorV;
     }
-
-    let averagesObject_82 = {
-        points:points_82,
-        min:min_82,
-        fga:fga_82,
-        fgm:fgm_82,
-        fgp:fgp_82,
-        fta:fta_82,
-        ftm:ftm_82,
-        ftp:ftp_82,
-        fg3_pct:fg3_pct_82,
-        fg3a:fg3a_82,
-        fg3m:fg3m_82,
-        totreb:totreb_82,
-        assists:assists_82,
-        steals:steals_82,
-        turnovers:turnovers_82,
-        blocks:blocks_82,
-        plusminus:plusminus_82,
-        pfouls:pfouls_82
-    }
-
-    return [averagesObject, averagesObject_82];
+    return [averagesObjectAny, averagesObject_82Any, averagesObjectAny_HorV, averagesObject_82Any_HorV];
 }
 
 const getStatsFromBoxTraditional = async(season, playerid) => {
@@ -305,7 +222,7 @@ const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name
     let headerRow_82 
     let statRow_82 
     let separationRow_82
-
+ 
     if (H_or_V === 'home') {
         nameRow = boxTraditionalSeasonAverageTableHome.insertRow(0);
         headerRow = boxTraditionalSeasonAverageTableHome.insertRow(1);
@@ -315,7 +232,7 @@ const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name
         headerRow_82 = boxTraditionalSeasonAverageTable_82Home.insertRow(1);
         statRow_82 = boxTraditionalSeasonAverageTable_82Home.insertRow(2);
         separationRow_82 = boxTraditionalSeasonAverageTableHome.insertRow(3);
-    } else {
+    } else if (H_or_V === 'visitor') {
         nameRow = boxTraditionalSeasonAverageTableVisitor.insertRow(0);
         headerRow = boxTraditionalSeasonAverageTableVisitor.insertRow(1);
         statRow = boxTraditionalSeasonAverageTableVisitor.insertRow(2);
@@ -326,21 +243,47 @@ const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name
         separationRow_82 = boxTraditionalSeasonAverageTableVisitor.insertRow(3);
     }
 
+    let nameRowSeason = boxTraditionalSeasonAverageTable.insertRow(0);
+    let headerRowSeason = boxTraditionalSeasonAverageTable.insertRow(1);
+    let statRowSeason = boxTraditionalSeasonAverageTable.insertRow(2);
+    let separationRowSeason = boxTraditionalSeasonAverageTable.insertRow(3);
+    let nameRow_82Season = boxTraditionalSeasonAverageTable_82.insertRow(0);
+    let headerRow_82Season = boxTraditionalSeasonAverageTable_82.insertRow(1);
+    let statRow_82Season = boxTraditionalSeasonAverageTable_82.insertRow(2);
+    let separationRow_82Season = boxTraditionalSeasonAverageTable.insertRow(3);
 
     for (let i = 0; i < Object.keys(objArray[0]).length; i++) {
         let cell0 = nameRow.insertCell(i)
         let cell1 = headerRow.insertCell(i)
         let cell2 = statRow.insertCell(i)
+
+        let cell3 = nameRowSeason.insertCell(i)
+        let cell4 = headerRowSeason.insertCell(i)
+        let cell5 = statRowSeason.insertCell(i)
+
         cell0.innerHTML = player_name
         cell1.innerHTML = Object.keys(objArray[0])[i]
         cell2.innerHTML = Object.values(objArray[0])[i]
-        let cell4 = nameRow_82.insertCell(i)
-        let cell5 = headerRow_82.insertCell(i)
-        let cell6 = statRow_82.insertCell(i)
+
+        cell3.innerHTML = player_name
+        cell4.innerHTML = Object.keys(objArray[2])[i]
+        cell5.innerHTML = Object.values(objArray[2])[i]
+
+        let cell6 = nameRow_82.insertCell(i)
+        let cell7 = headerRow_82.insertCell(i)
+        let cell8 = statRow_82.insertCell(i)
         
-        cell4.innerHTML = player_name
-        cell5.innerHTML = Object.keys(objArray[1])[i]
-        cell6.innerHTML = Object.values(objArray[1])[i]
+        let cell9 = nameRow_82Season.insertCell(i)
+        let cell10 = headerRow_82Season.insertCell(i)
+        let cell11 = statRow_82Season.insertCell(i)
+
+        cell6.innerHTML = player_name
+        cell7.innerHTML = Object.keys(objArray[1])[i]
+        cell8.innerHTML = Object.values(objArray[1])[i]
+
+        cell9.innerHTML = player_name
+        cell10.innerHTML = Object.keys(objArray[3])[i]
+        cell11.innerHTML = Object.values(objArray[3])[i]
     }
     return 'appended';
 }
@@ -427,17 +370,35 @@ const getGameResultsHomeTeamPerSeasonExpectedTable = async() => {
     }
 }
 
-const getPP240Expected = async() => {
+
+getP240ExpectedButton.onclick = async() => {
+    let stat = p240StatSelected.value;
+    let results = getStatP240Expected(stat);
+    console.log(results)
+}
+
+const appendExpectedPoints = async(team, pp240expected) => {
+    let row = gameResultsHomeTeamPerSeasonExpectedTable.insertRow();
+    let cell = row.insertCell(0)
+    cell.innerHTML = team;
+    let cell2 = row.insertCell(1)
+    cell2.innerHTML = pp240expected;
+    console.log(team);
+    console.log(pp240expected);
+}
+
+
+const getStatP240Expected = async(stat) => {
     let teams = await getJsonResponseJackarithm('/teamnames');
     console.log(teams);
     let season = '2017-2018';
     for (let x = 0; x < teams.length; x++) {
-        let teamId = await getJsonResponse(`/teamid/${teams[x].team_name}`)
+        let teamId = await getJsonResponseJackarithm(`/teamid/${teams[x].team_name}`)
         console.log(teamId);
         let totalMinutes = 0;
         let totalMinutes_82 = 0;
-        let totalPoints = 0;
-        let totalPoints_82 = 0;
+        let totalStat = 0;
+        let totalStat_82 = 0;
         let roster = await getJsonResponseJackarithm(`/getroster/${season}/${teamId[0].team_id}`);
         console.log(roster);
         for (let i = 0; i < roster.length; i++) {
@@ -445,25 +406,49 @@ const getPP240Expected = async() => {
             console.log(playerStats)
             totalMinutes += playerStats[0].min;
             //total of minutes per 82 games of every player on roster
+            if (stat === 'pts') {
+                stat = 'points';
+            }
             totalMinutes_82 += playerStats[1].min;
-            totalPoints += playerStats[0].points;
-            totalPoints_82 += playerStats[1].points;
+            totalStat += playerStats[0][stat];
+            totalStat_82 += playerStats[1][stat];
         }
-        let ratio_82 = totalPoints_82 / totalMinutes_82;
+        let ratio_82 = totalStat_82 / totalMinutes_82;
         console.log(totalMinutes)
-        console.log(totalPoints)
+        console.log(totalStat)
         console.log(totalMinutes_82)
-        console.log(totalPoints_82)
+        console.log(totalStat_82)
 
-        let pointsPer240Expected = ratio_82 * 240;
-        console.log(pointsPer240Expected);
+        let statPer240Expected = ratio_82 * 240;
+        console.log(statPer240Expected);
         console.log(teams[x].team_name)
-        let results = await appendExpectedPoints(teams[x].team_name, pointsPer240Expected);
+        let results = await appendExpectedPoints(teams[x].team_name, statPer240Expected);
     }
 }
 
+let statsArray = [];
+const p240StatDropDownFunction = async() => {
+    let table = 'boxscorestraditional2021-2022';
+    console.log(table);
+    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
+    console.log(stats);
 
+    var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+    document.getElementById("p240StatDropDown").innerHTML = str;
+    try {
+        for (var stat of stats) {
+            console.log(stat);
+            str += "<option>" + stat.column_name + "</option>";
+            statsArray.push(stat);
+        }
+        document.getElementById("p240StatDropDown").innerHTML = str;
+    } catch(error) {
+        console.log(error);
+    }
+    
+}
 
 
 teamsDropDown();
+p240StatDropDownFunction();
 //getRoster("2021-2022", "1610612744");

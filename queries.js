@@ -1421,13 +1421,42 @@ const getGameResultsByHomeTeamSeason = (request, response) => {
 //I NEED: HOME TEAM: visitor team, 
 const getGameResultsByVisitorTeamSeason = (request, response) => {
   const {team, season} = request.params;
-  console.log(team);
-  console.log(season);
+
   db.query(`SELECT game_date, matchup, wl, pts, plus_minus FROM "leaguegames${season}" WHERE team_name = $1`, [team], (error, results) => {
     if (error) {
         throw error
     }
     console.log(results.rows);
+    response.status(200).json(results.rows)
+  })
+}
+
+const getStatsHeadersFromTable = (request, response) => {
+  const table = request.params;
+  db.query(`SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'${table.table}'`, (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getHomeGameIdsBySeason = (request, response) => {
+  const {season, team_id} = request.params;
+  db.query(`SELECT DISTINCT game_id FROM "boxscoresummary${season}" WHERE home_team_id = $1`, [team_id], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getVisitorGameIdsBySeason = (request, response) => {
+  const {season, team_id} = request.params;
+  db.query(`SELECT DISTINCT game_id FROM "boxscoresummary${season}" WHERE visitor_team_id = $1`, [team_id], (error, results) => {
+    if (error) {
+        throw error
+    }
     response.status(200).json(results.rows)
   })
 }
@@ -1528,4 +1557,7 @@ module.exports = {
     getBoxScoreTraditionalStats,
     getGameResultsByHomeTeamSeason,
     getGameResultsByVisitorTeamSeason,
+    getStatsHeadersFromTable,
+    getHomeGameIdsBySeason,
+    getVisitorGameIdsBySeason,
 }

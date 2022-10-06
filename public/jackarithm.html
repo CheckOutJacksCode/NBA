@@ -56,7 +56,13 @@
         <label for="homeTeamJackarithm">Choose Home Team: </label>
         <select name="homeTeamJackarithm" id="homeTeamJackarithm" style="font-size: 2vw;" onchange="getRosterNoParams('home')">
         </select>
-        <button class="button" id="getPP240ExpectedButton" name="getPP240ExpectedButton" style="font-size: 2vw;">Get Expected PP240</button>
+
+        <br>
+        <br>
+        <label for="p240StatDropDown">Choose stat to get p240 average: </label>
+        <select name="p240StatDropDown" id="p240StatDropDown" style="font-size: 2vw;">
+        </select>
+        <button class="button" id="getP240ExpectedButton" name="getP240ExpectedButton" style="font-size: 2vw;">Get Expected PP240</button>
         <br>
         
         <button class="button" id="getBoxTraditionalButton" name="getBoxTraditionalButton" style="font-size: 2vw;">Get Box Traditional Stats</button>
@@ -126,6 +132,24 @@
         <br>
         <h1>box score traditional per 82 visitor</h1>
         <table class="nostyle" id="boxTraditionalSeasonAverageTable_82Visitor" style="font-size: 2vw;">
+            <tr style="background-color: white;">
+                <td style="background-color: white;"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <h1>box score traditional</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTable" style="font-size: 2vw;">
+            <tr style="background-color: white;">
+                <td style="background-color: white;"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <h1>box score traditional per 82</h1>
+        <table class="nostyle" id="boxTraditionalSeasonAverageTable_82" style="font-size: 2vw;">
             <tr style="background-color: white;">
                 <td style="background-color: white;"></td>
             </tr>
