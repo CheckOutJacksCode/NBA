@@ -242,6 +242,13 @@ app.get(`/home/gameids/:season/:team_id`, db.getVisitorGameIdsBySeason);
 
 app.get(`/visitor/gameids/:season/:team_id`, db.getVisitorGameIdsBySeason);
 
+app.get(`/jackarithm/home/boxscorestraditional/:playerid/:season`, db.getBoxScoreTraditionalHome);
+
+app.get(`/jackarithm/visitor/boxscorestraditional/:playerid/:season`, db.getBoxScoreTraditionalVisitor);
+
+app.get(`/actual/gameresult/:matchup1/:season`, db.getActualGameResultsByMatchupBySeason);
+
+app.get(`/teamabbreviation/:team_name`, db.getAbbreviationFromTeamName);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

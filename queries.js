@@ -1342,7 +1342,6 @@ const createBoxScoreScoringTeams = (request, response) => {
 
 const getBoxScoreSummaryFromCSV = (request, response) => {
   let {season} = request.params;
-  console.log(season);
   const data = [];
   fs.createReadStream(`./juicystats/boxscoresummary${season}.csv`)
       .pipe(
@@ -1369,7 +1368,6 @@ const getBoxScoreSummaryFromCSV = (request, response) => {
 const createBoxScoreSummary = (request, response) => {
   const body = request.body;
   const season = request.params;
-  console.log(season);
   db.query(`INSERT INTO "boxscoresummary${season.season}" (game_date_est, game_sequence, game_id, game_status_id, game_status_text, gamecode, home_team_id, visitor_team_id, season, live_period, live_pc_time, natl_tv_broadcaster_abbreviation, live_period_time_bcast, wh_status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`, 
   [body.GAME_DATE_EST, body.GAME_SEQUENCE, body.GAME_ID, body.GAME_STATUS_ID, body.GAME_STATUS_TEXT, body.GAMECODE, body.HOME_TEAM_ID, body.VISITOR_TEAM_ID, body.SEASON, body.LIVE_PERIOD, body.LIVE_PC_TIME, body.NATL_TV_BROADCASTER_ABBREVIATION, body.LIVE_PERIOD_TIME_BCAST, body.WH_STATUS], (error, results) => {
     if (error) {
@@ -1382,8 +1380,7 @@ const createBoxScoreSummary = (request, response) => {
 
 const getRosterBySeasonByTeam = (request, response) => {
   const { season, team } = request.params;
-  console.log(season);
-  console.log(team);
+
   db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" WHERE team_id = $1`, [team], (error, results) => {
     if (error) {
         throw error
@@ -1394,8 +1391,7 @@ const getRosterBySeasonByTeam = (request, response) => {
 
 const getBoxScoreTraditionalStats = (request, response) => {
   const {playerid, season} = request.params;
-  console.log(playerid);
-  console.log(season);
+
   db.query(`SELECT * FROM "boxscorestraditional${season}" WHERE player_id = $1`, [playerid], (error, results) => {
     if (error) {
         throw error
@@ -1407,13 +1403,11 @@ const getBoxScoreTraditionalStats = (request, response) => {
 //I NEED: HOME TEAM: visitor team, 
 const getGameResultsByHomeTeamSeason = (request, response) => {
   const {team, season} = request.params;
-  console.log(team);
-  console.log(season);
+
   db.query(`SELECT game_date, matchup, wl, pts, plus_minus FROM "leagueGames${season}" WHERE team_name = $1`, [team], (error, results) => {
     if (error) {
         throw error
     }
-    console.log(results.rows);
     response.status(200).json(results.rows)
   })
 }
@@ -1422,11 +1416,10 @@ const getGameResultsByHomeTeamSeason = (request, response) => {
 const getGameResultsByVisitorTeamSeason = (request, response) => {
   const {team, season} = request.params;
 
-  db.query(`SELECT game_date, matchup, wl, pts, plus_minus FROM "leaguegames${season}" WHERE team_name = $1`, [team], (error, results) => {
+  db.query(`SELECT game_date, matchup, wl, pts, plus_minus FROM "leagueGames${season}" WHERE team_name = $1`, [team], (error, results) => {
     if (error) {
         throw error
     }
-    console.log(results.rows);
     response.status(200).json(results.rows)
   })
 }
@@ -1460,6 +1453,60 @@ const getVisitorGameIdsBySeason = (request, response) => {
     response.status(200).json(results.rows)
   })
 }
+
+const getBoxScoreTraditionalHome = (request, response) => {
+  const {playerid, season} = request.params;
+
+  db.query(`SELECT * FROM "boxscorestraditional${season}" 
+            INNER JOIN "boxscoresummary${season}" 
+            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
+            WHERE player_id = $1
+            AND "boxscoresummary${season}".home_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBoxScoreTraditionalVisitor = (request, response) => {
+  const {playerid, season} = request.params;
+
+  db.query(`SELECT * FROM "boxscorestraditional${season}" 
+            INNER JOIN "boxscoresummary${season}" 
+            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
+            WHERE player_id = $1
+            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getActualGameResultsByMatchupBySeason = (request, response) => {
+  const {matchup1, season} = request.params;
+
+  db.query(`SELECT * FROM "leagueGames${season}"
+            WHERE matchup = $1`, [matchup1], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getAbbreviationFromTeamName = (request, response) => {
+  const {team_name} = request.params;
+  db.query(`SELECT team_abbreviation FROM "leagueGames2021-2022"
+            WHERE team_name = $1 limit 1`, [team_name], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 
 module.exports = {
     getPlayers,
@@ -1560,4 +1607,8 @@ module.exports = {
     getStatsHeadersFromTable,
     getHomeGameIdsBySeason,
     getVisitorGameIdsBySeason,
+    getBoxScoreTraditionalHome,
+    getBoxScoreTraditionalVisitor,
+    getActualGameResultsByMatchupBySeason,
+    getAbbreviationFromTeamName,
 }
