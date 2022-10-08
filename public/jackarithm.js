@@ -24,11 +24,11 @@ const homeTeam = document.getElementById("homeTeamJackarithm");
 const visitorTeam = document.getElementById("visitorTeamJackarithm");
 const compareP240ExpectedResultsToGameResultsButton = document.getElementById("compareP240ExpectedResultsToGameResultsButton");
 const compareResultsTable = document.getElementById("compareResultsTable");
+const writeOddsToDatabaseButton = document.getElementById("writeOddsToDatabaseButton");
 
 
 
 const getJsonResponseJackarithm = async (url) => {
-    console.log(url);
     const response = await fetch(url);
     try{
         if (response.ok){
@@ -541,16 +541,15 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V) => {
     }
 
     let season = '2017-2018';
-    let previousSeason = '2016-2017';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
     let totalStat = 0;
     let totalStat_82 = 0;
-    let roster = await getJsonResponseJackarithm(`/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`);
 
     for (let i = 0; i < roster.length; i++) {
-        let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(previousSeason, roster[i].player_id, H_or_V);
+        let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V);
         totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
         totalMinutes_82 += playerStats[1].min;
@@ -561,12 +560,89 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V) => {
     let statPer240Expected = ratio_82 * 240;
     let statObject = {};
     statObject[stat] = statPer240Expected;
-    return statObject
+    return [statObject, season]
 }
 
 compareP240ExpectedResultsToGameResultsButton.onclick = async() => {
     let stat = 'pts'
-    await compareP240ExpectedResultsToGameResults(stat);
+
+    let stuff = await compareP240ExpectedResultsToGameResults(stat);
+    // get expected points for each team
+    // get moneyline for each team
+    // if home team wins
+        // if expected pts home team > expected pts visitor team 
+            // use money line to calculate winnings on a $100 bet
+                // add winnings to total
+        // else if expected pts home team < expected pts visitor team
+            // use money line to calculate losses on a $100 bet
+                // subtract losses from total
+    // else if home team loses
+        // if expected pts home team < expected pts visitor team
+            // use money line to calculate winnings on a $100 bet
+                // add winnings to total
+        // else if expected pts home team > expected pts visitor team
+            // use money line to calculate losses on a $100 bet
+                // subtract losses from total
+    console.log('hello');
+    console.log(stuff);
+    let results = await oddStuff(stuff);
+}
+
+let total = 0;
+const oddStuff = async(stuff) => {
+    let exPtsHome = stuff[1].pts;
+    let exPtsVisitor = stuff[2].pts;
+    let season = stuff[6];
+    let home = homeTeam.value;
+    let homesplit = home.split(' ');
+    let home_name;
+    if (homesplit.length === 3) {
+        home_name = homesplit[0] + homesplit[1];
+    } else {
+        home_name = homesplit[0];
+    }
+    let visitor = visitorTeam.value;
+    let visitorsplit = visitor.split(' ');
+    let visitor_name;
+    if (visitorsplit.length === 3) {
+        visitor_name = visitorsplit[0] + visitorsplit[1];
+    } else {
+        visitor_name = visitorsplit[0];
+    }
+    let date = stuff[0][0].game_date;
+    let splitDate = date.split('-');
+    let gamedate = splitDate[1] + splitDate[2];
+    console.log(gamedate);
+    if (gamedate.substring(0, 1) === '0') {
+        gamedate = gamedate.substring(1)
+    }
+    let moneylineHome = await getJsonResponseJackarithm(`/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate}`);
+    let moneylineVisitor = await getJsonResponseJackarithm(`/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate}`)
+    console.log(moneylineHome)
+    console.log(moneylineVisitor)
+    // if home team wins
+        // if expected pts home team > expected pts visitor team 
+            // use money line to calculate winnings on a $100 bet
+                // add winnings to total
+        // else if expected pts home team < expected pts visitor team
+            // use money line to calculate losses on a $100 bet
+                // subtract losses from total
+    // else if home team loses
+        // if expected pts home team < expected pts visitor team
+            // use money line to calculate winnings on a $100 bet
+                // add winnings to total
+        // else if expected pts home team > expected pts visitor team
+            // use money line to calculate losses on a $100 bet
+                // subtract losses from total
+    if (stuff[3] > 0) {
+        if (exPtsHome > exPtsVisitor) {
+            let bet = 100;
+            if (moneylineHome < 0) {
+                let profit = abs(bet / moneylineHome)
+                console.log(profit)
+            }
+        }
+    }
 }
 
 let greenCount = 0;
@@ -588,9 +664,11 @@ const compareP240ExpectedResultsToGameResults = async(stat) => {
     }
     await appendActualResults(actualResults, row1, row2);
     
-    let p240ExpStatHome = await getStatP240ExpectedNoAppend(stat, 'home');
-    let p240ExpStatVisitor = await getStatP240ExpectedNoAppend(stat, 'visitor');
-
+    let homeResults = await getStatP240ExpectedNoAppend(stat, 'home');
+    let p240ExpStatHome = homeResults[0];
+    let visitorResults = await getStatP240ExpectedNoAppend(stat, 'visitor');
+    let p240ExpStatVisitor = visitorResults[0];
+    let season = homeResults[1];
     let color0;
     let color1;
     let plus_minus_expected = Object.values(p240ExpStatHome)[0] - Object.values(p240ExpStatVisitor)[0];
@@ -647,6 +725,7 @@ const compareP240ExpectedResultsToGameResults = async(stat) => {
     for(let k = 0; k < actualResults.length; k++) {
         await appendExpectedToComparisonTable(p240ExpStatHome, p240ExpStatVisitor, plus_minus_expected, color0, color1, row1, row2, k)
     }
+    return ([actualResults, p240ExpStatHome, p240ExpStatVisitor, pmActual0, pmActual1, plus_minus_expected, season])
 }
 
 const appendActualResults = async(results, row1, row2) => {
@@ -717,7 +796,6 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V) => {
 
 //for one player, return every stat average per season
 const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V) => {
-    console.log(H_or_V);
     let table = 'boxscorestraditional2021-2022'
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
     season = '2017-2018';
@@ -775,7 +853,60 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     return [averagesObjectAny, averagesObject_82Any];
 }
 
+const getSports = async() => {
+    let odds = await fetch('https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?apiKey=e608b4f8686dca79c52e27f32388a938&regions=us', {
+        method: 'GET',
+    })
+    if (odds.ok) {
+        let jsonOdds = odds.json();
+        console.log(jsonOdds)
+        return jsonOdds;
+    }
+}
+
+const postOdds = async(odds, season) => {
+    console.log(odds);
+    console.log(season);
+    const url = `/odds/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(odds),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    }
+}
+
+const writeOddsToDatabase = async(season) => {
+    let odds = await getJsonResponseJackarithm(`/odds/${season}`);
+    console.log(odds);
+    //date rot vh team 1 2 3 4 final open close ml 2h
+    for (let i = 0; i < odds.length; i++) {
+        let oddsValues = Object.values(odds[i])[0];
+        console.log(oddsValues)
+        let splitValues = oddsValues.split(" ");
+        console.log(splitValues);
+        let x = splitValues[0].split('\t');
+        console.log(x);
+        let results = await postOdds(x, season);
+    }
+
+}
+
+writeOddsToDatabaseButton.onclick = async() => {
+    let season = '2020-2021';
+    await writeOddsToDatabase(season);
+}
 
 teamsDropDown();
 p240StatDropDownFunction();
-//getRoster("2021-2022", "1610612744");

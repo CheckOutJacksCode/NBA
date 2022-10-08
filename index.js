@@ -250,6 +250,14 @@ app.get(`/actual/gameresult/:matchup1/:season`, db.getActualGameResultsByMatchup
 
 app.get(`/teamabbreviation/:team_name`, db.getAbbreviationFromTeamName);
 
+app.get('/odds/:season', db.getOddsFromCSV);
+
+app.post('/odds/:season', db.createOddsBySeason);
+
+app.get(`/moneyline/home/:season/:homeTeam/:gamedate`, db.getHomeMoneyline)
+
+app.get(`/moneyline/visitor/:season/:visitorTeam/:gamedate`, db.getVisitorMoneyline)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })
