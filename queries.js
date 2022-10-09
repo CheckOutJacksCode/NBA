@@ -1486,7 +1486,8 @@ const getBoxScoreTraditionalVisitor = (request, response) => {
 
 const getActualGameResultsByMatchupBySeason = (request, response) => {
   const {matchup1, season} = request.params;
-
+  console.log(matchup1)
+  console.log(season)
   db.query(`SELECT * FROM "leagueGames${season}"
             WHERE matchup = $1`, [matchup1], (error, results) => {
     if (error) {
