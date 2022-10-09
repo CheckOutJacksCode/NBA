@@ -258,6 +258,13 @@ app.get(`/moneyline/home/:season/:homeTeam/:gamedate`, db.getHomeMoneyline)
 
 app.get(`/moneyline/visitor/:season/:visitorTeam/:gamedate`, db.getVisitorMoneyline)
 
+app.get(`/previousgame/gameid/:season/:teamId`, db.getPreviousGameIdBySeasonByTeam);
+
+app.get(`/previousgame/gameid/:season/:teamId/:gameid`, db.getPreviousRosterBySeasonByTeamByGameId);
+
+app.get(`/testing/previousgame/gameid/:season/:teamId/:gamedate`, db.getPreviousGameIdBySeasonByTeamByGameDate);
+
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

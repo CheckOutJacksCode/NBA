@@ -1550,9 +1550,6 @@ const createOddsBySeason = (request, response) => {
 
 const getHomeMoneyline = (request, response) => {
   const {season, homeTeam, gamedate} = request.params;
-  console.log(homeTeam)
-  console.log(season);
-  console.log(gamedate)
   db.query(`SELECT ml FROM "odds${season}"
             WHERE team = $1
             AND date = $2`, [homeTeam, gamedate], (error, results) => {
@@ -1565,12 +1562,48 @@ const getHomeMoneyline = (request, response) => {
 
 const getVisitorMoneyline = (request, response) => {
   const {season, visitorTeam, gamedate} = request.params;
-  console.log(visitorTeam)
-  console.log(season);
-  console.log(gamedate)
   db.query(`SELECT ml FROM "odds${season}"
             WHERE team = $1
             AND date = $2`, [visitorTeam, gamedate], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPreviousGameIdBySeasonByTeam = (request, response) => {
+  const {season, teamId} = request.params;
+  db.query(`SELECT game_id FROM "boxscorestraditional${season}"
+            WHERE team_id = $1
+            ORDER BY id DESC LIMIT 1`, [teamId], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPreviousRosterBySeasonByTeamByGameId = (request, response) => {
+  const { season, teamId, gameid } = request.params;
+
+  db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" 
+            WHERE team_id = $1 AND game_id = $2`, [teamId, gameid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPreviousGameIdBySeasonByTeamByGameDate = (request, response) => {
+  const {season, teamId, gamedate} = request.params;
+  console.log(gamedate);
+  console.log(season);
+  console.log(teamId);
+  db.query(`SELECT game_id FROM "leagueGames${season}"
+            WHERE team_id = $1
+            AND game_date = $2`, [teamId, gamedate], (error, results) => {
     if (error) {
         throw error
     }
@@ -1685,4 +1718,7 @@ module.exports = {
     createOddsBySeason,
     getHomeMoneyline,
     getVisitorMoneyline,
+    getPreviousGameIdBySeasonByTeam,
+    getPreviousRosterBySeasonByTeamByGameId,
+    getPreviousGameIdBySeasonByTeamByGameDate,
 }
