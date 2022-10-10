@@ -29,7 +29,7 @@ const compareP240ResultsBySeasonButton = document.getElementById("compareP240Res
 
 const compareStatExpectedResultsToGameResultsButton = document.getElementById("compareExpectedResultsToGameResultsButton");
 const compareStatResultsBySeasonButton = document.getElementById("compareResultsBySeasonButton");
-
+const compareP240ResultsBySeasonTotalsButton = document.getElementById("compareP240ResultsBySeasonTotalsButton");
 
 
 
@@ -67,6 +67,7 @@ const getRoster = async(season, team) => {
 */
 
 const getRosterFromPreviousGame = async(teamId, gameDate) => {
+    console.log(teamId)
     //THIS IS HOW YOU GET THE MOST RECENT GAME_ID FROM BOXSCORESTRADITIONAL WHEN THE SEASON STARTS
 /*
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
@@ -181,7 +182,6 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
         if (recentGameId.length > 0) {
             recentGameId = recentGameId[0].game_id;
             roster = await getJsonResponseJackarithm(`/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${recentGameId}`);
-            console.log(roster);
             return roster;
         }
     }
@@ -688,46 +688,56 @@ const getStatExpectedNoAppend = async(stat, H_or_V, gameDate, visitorteam) => {
     let totalStat_82 = 0;
     //let roster = await getJsonResponseJackarithm(`/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`);
     let roster = await getRosterFromPreviousGame(teamId, gameDate);
-    console.log(roster)
 
     for (let i = 0; i < roster.length; i++) {
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V);
-        console.log(playerStats);
-        console.log(stat)
-
+     
         //totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
         //totalMinutes_82 += playerStats[1].min;
         if (playerStats[0][stat]) {
             totalStat += playerStats[0][stat];
-            console.log(totalStat);
             totalStat_82 += playerStats[1][stat];
         }
     }
     let statPerGameExpected = totalStat;
     let statObject = {};
     statObject[stat] = statPerGameExpected;
-    console.log(statObject);
     return [statObject, season]
 }
 
-const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, visitorteam) => {
+const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visitorteam) => {
     let team;
 
-    if (visitorteam) {
+    console.log(hometeam)
+    console.log(visitorteam)
+    console.log(homeTeam.value)
+    
+    if (homeTeam.value == "none") {
+        console.log('TOTALS, YOU SHOULDNT BE HERE UNLESS YOU ARE GETTING ENTIRE SEASON, EVERY TEAM');
         if (H_or_V === 'home') {
-            team = homeTeam.value;
+            team = hometeam;
         } else {
             team = visitorteam;
         }
     } else {
-        if (H_or_V === 'home') {
-            team = homeTeam.value;
+        if (visitorteam) {
+            if (H_or_V === 'home') {
+                team = homeTeam.value;
+            } else {
+                team = visitorteam;
+            }
         } else {
-            team = visitorTeam.value;
+            console.log('YOU SHOULD ONLY BE HERE IF YOURE DOING ONE GAME AT A TIME');
+            if (H_or_V === 'home') {
+                console.log('cmon man')
+                team = homeTeam.value;
+            } else {
+                team = visitorTeam.value;
+            }
         }
     }
-
+    console.log(team);
     let season = '2017-2018';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
@@ -737,9 +747,9 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, visitorteam) =
     //let roster = await getJsonResponseJackarithm(`/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`);
     let roster = await getRosterFromPreviousGame(teamId, gameDate);
     console.log(roster)
-
     for (let i = 0; i < roster.length; i++) {
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V);
+        console.log(playerStats)
         totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
         totalMinutes_82 += playerStats[1].min;
@@ -750,8 +760,35 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, visitorteam) =
     let statPer240Expected = ratio_82 * 240;
     let statObject = {};
     statObject[stat] = statPer240Expected;
-    console.log(statObject);
     return [statObject, season]
+}
+
+compareP240ResultsBySeasonTotalsButton.onclick = async() => {
+    let stat = 'plus_minus';
+    let teamsH = await getJsonResponseJackarithm('/teamnames');
+    for (let i = 0; i < teamsH.length; i++) {
+        let hometeam = teamsH[i];
+        hometeam = hometeam.team_name;
+        let teamsV = await getJsonResponseJackarithm('/teamnames');
+        for (let j = 0; j < teamsV.length; j++) {
+            console.log(teamsV[j].team_name)
+            console.log(hometeam);
+            if (teamsV[j].team_name === hometeam) {
+                console.log('booger')
+                let index = teamsV.indexOf(teamsV[j]);
+                teamsV.splice(index, 1);
+                console.log(teamsV);
+            }
+        }
+        let stuff;
+        for (let k = 0; k < teamsV.length; k++) {
+            console.log(hometeam)
+            console.log(teamsV[k])
+            stuff = await compareP240ExpectedResultsToGameResults(stat, hometeam, teamsV[k].team_name);
+            console.log(stuff);
+            let results = await oddStuff(stuff, stat, hometeam, teamsV[k].team_name);
+        }
+    }
 }
 
 compareStatResultsBySeasonButton.onclick = async() => {
@@ -838,7 +875,7 @@ compareStatExpectedResultsToGameResultsButton.onclick = async() => {
 
 
 let total = 0;
-const oddStuff = async(stuff, stat, visitorteam) => {
+const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
     //[actualResults, p240ExpStatHome0, p240ExpStatVisitor0, p240ExpStatHome1, p240ExpStatVisitor1, pmActual0, pmActual1, plus_minus_expected0, plus_minus_expected1, season])
 
     let exPtsHome0 = stuff[1][stat];
@@ -851,10 +888,19 @@ const oddStuff = async(stuff, stat, visitorteam) => {
     }
 
     let season = stuff[9];
-    let home = homeTeam.value;
-    let homesplit = home.split(' ');
     let home_name;
-
+    let home;
+    let homesplit
+    
+    if (homeTeam.value !== "none") {
+        home = homeTeam.value;
+        homesplit = home.split(' ');
+        console.log('no')
+    } else {
+        console.log('praise be');
+        home = hometeam;
+        homesplit = home.split(' ');
+    }
     if (home === 'Los Angeles Lakers') {
         home_name = 'LALakers'
     } 
@@ -869,7 +915,7 @@ const oddStuff = async(stuff, stat, visitorteam) => {
     } else {
         home_name = homesplit[0];
     }
-    
+    console.log(home_name)
     let visitor;
     let visitorSplit;
     let visitor_name;
@@ -922,6 +968,8 @@ const oddStuff = async(stuff, stat, visitorteam) => {
         moneylineHome2 = await getJsonResponseJackarithm(`/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate2}`);
         moneylineVisitor2 = await getJsonResponseJackarithm(`/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate2}`);
     }
+    console.log(moneylineHome)
+    console.log(moneylineVisitor)
 
     moneylineHome = parseInt(moneylineHome[0].ml)
     moneylineVisitor = parseInt(moneylineVisitor[0].ml)
@@ -1140,7 +1188,8 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     let matchup1 = `${abbreviationHome[0].team_abbreviation} vs. ${abbreviationVisitor[0].team_abbreviation}`
     //get all games by game id, home team and visitor team
     let actualResults = await getJsonResponseJackarithm(`/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
-  
+    console.log(actualResults);
+
     let row1 = compareResultsTable.insertRow();
     let row2;
     if (actualResults.length > 1) { 
@@ -1150,9 +1199,11 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     
     let gameDate0 = actualResults[0].game_date;
 
-    let homeResults0 = await getStatP240ExpectedNoAppend(stat, 'home', gameDate0, visitorteam);
+    let homeResults0 = await getStatP240ExpectedNoAppend(stat, 'home', gameDate0, hometeam, visitorteam);
+    console.log(homeResults0)
     let p240ExpStatHome0 = homeResults0[0];
-    let visitorResults0 = await getStatP240ExpectedNoAppend(stat, 'visitor', gameDate0, visitorteam);
+    let visitorResults0 = await getStatP240ExpectedNoAppend(stat, 'visitor', gameDate0, hometeam, visitorteam);
+    console.log(visitorResults0)
     let p240ExpStatVisitor0 = visitorResults0[0];
     
     let homeResults1;
@@ -1163,9 +1214,9 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     let gameDate1;
     if (actualResults.length > 1) {
         gameDate1 = actualResults[1].game_date;
-        homeResults1 = await getStatP240ExpectedNoAppend(stat, 'home', gameDate1, visitorteam);
+        homeResults1 = await getStatP240ExpectedNoAppend(stat, 'home', gameDate1, hometeam, visitorteam);
         p240ExpStatHome1 = homeResults1[0];
-        visitorResults1 = await getStatP240ExpectedNoAppend(stat, 'visitor', gameDate1, visitorteam);
+        visitorResults1 = await getStatP240ExpectedNoAppend(stat, 'visitor', gameDate1, hometeam, visitorteam);
         p240ExpStatVisitor1 = visitorResults1[0];
     }
     let season = homeResults0[1];
@@ -1293,7 +1344,16 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
     season = '2017-2018';
     let playerStats = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V);
-    
+
+    if (!playerStats[0]) {
+        //games played = get gameid's in seasonDropChoice year where player.mins > 0
+        //stat total = for each game in games played, add up stats
+        let split = season.split('-')
+        let next = parseInt(split[1]) + 1
+        let thisSeason = split[1] + '-' + next;
+        playerStats = await getStatsFromBoxTraditionalHorV(thisSeason, playerid, H_or_V);
+        console.log(playerStats);
+    }
     let averagesObjectAny = {};
     let averagesObject_82Any = {};
  
