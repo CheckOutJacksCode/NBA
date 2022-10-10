@@ -738,7 +738,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
         }
     }
     console.log(team);
-    let season = '2017-2018';
+    let season = '2018-2019';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -786,6 +786,9 @@ compareP240ResultsBySeasonTotalsButton.onclick = async() => {
             console.log(teamsV[k])
             stuff = await compareP240ExpectedResultsToGameResults(stat, hometeam, teamsV[k].team_name);
             console.log(stuff);
+            if (stuff == null) {
+                continue;
+            }
             let results = await oddStuff(stuff, stat, hometeam, teamsV[k].team_name);
         }
     }
@@ -1185,11 +1188,18 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
         abbreviationVisitor = await getJsonResponseJackarithm(`/teamabbreviation/${visitorTeam.value}`)
     }
 
+    console.log(abbreviationHome);
+    console.log(abbreviationVisitor);
+
     let matchup1 = `${abbreviationHome[0].team_abbreviation} vs. ${abbreviationVisitor[0].team_abbreviation}`
+    console.log(matchup1)
     //get all games by game id, home team and visitor team
     let actualResults = await getJsonResponseJackarithm(`/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
     console.log(actualResults);
 
+    if (actualResults.length === 0) {
+        return;
+    }
     let row1 = compareResultsTable.insertRow();
     let row2;
     if (actualResults.length > 1) { 
@@ -1283,6 +1293,7 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
 }
 
 const appendActualResults = async(results, row1, row2) => {
+    console.log(results);
     if (results.length > 1) {
         let cellActual1 = row1.insertCell();
         let cellActual2 = row2.insertCell();
@@ -1342,7 +1353,6 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V) => {
 const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V) => {
     let table = 'boxscorestraditional2021-2022'
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
-    season = '2017-2018';
     let playerStats = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V);
 
     if (!playerStats[0]) {
