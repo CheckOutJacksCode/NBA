@@ -264,6 +264,7 @@ app.get(`/previousgame/gameid/:season/:teamId/:gameid`, db.getPreviousRosterBySe
 
 app.get(`/testing/previousgame/gameid/:season/:teamId/:gamedate`, db.getPreviousGameIdBySeasonByTeamByGameDate);
 
+app.get(`/lengthofseason/:season/:teamid/:H_or_V`, db.getLengthOfSeason);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

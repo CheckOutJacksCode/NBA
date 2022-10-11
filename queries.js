@@ -1612,6 +1612,20 @@ const getPreviousGameIdBySeasonByTeamByGameDate = (request, response) => {
   })
 }
 
+const getLengthOfSeason = (request, response) => {
+  const {season, teamid, H_or_V} = request.params;
+  console.log(season);
+  console.log(teamid);
+  db.query(`SELECT COUNT(DISTINCT game_id) FROM "boxscoresummary${season}"
+            WHERE ${H_or_V}_team_id = $1`, [teamid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+
 module.exports = {
     getPlayers,
     getPlayersNBA,
@@ -1722,4 +1736,5 @@ module.exports = {
     getPreviousGameIdBySeasonByTeam,
     getPreviousRosterBySeasonByTeamByGameId,
     getPreviousGameIdBySeasonByTeamByGameDate,
+    getLengthOfSeason,
 }

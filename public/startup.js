@@ -587,7 +587,7 @@ const loadUpBoxScoreScoringTeamsFunction = async() => {
 }
 
 const loadUpBoxScoreSummaryFunction = async() => {
-    let season = "2021-2022";
+    let season = "2018-2019";
     let results = await getJsonResponse(`/read/boxscoresummary/${season}`);
     console.log(results);
 
