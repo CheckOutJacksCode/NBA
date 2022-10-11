@@ -729,7 +729,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             }
         }
     }
-    let season = '2015-2016';
+    let season = '2017-2018';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -754,7 +754,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
 }
 
 compareP240ResultsBySeasonTotalsButton.onclick = async() => {
-    let stat = 'plus_minus';
+    let stat = 'mvpPoints';
     let teamsH = await getJsonResponseJackarithm('/teamnames');
     for (let i = 0; i < teamsH.length; i++) {
         let hometeam = teamsH[i];
@@ -778,7 +778,7 @@ compareP240ResultsBySeasonTotalsButton.onclick = async() => {
 }
 
 compareStatResultsBySeasonButton.onclick = async() => {
-    let stat = 'plus_minus';
+    let stat = 'mvpPoints';
     let hometeam = homeTeam.value;
     let teams = await getJsonResponseJackarithm('/teamnames');
     for (let j = 0; j < teams.length; j++) {
@@ -796,7 +796,7 @@ compareStatResultsBySeasonButton.onclick = async() => {
 }
 
 compareP240ResultsBySeasonButton.onclick = async() => {
-    let stat = 'plus_minus';
+    let stat = 'mvpPoints';
     let hometeam = homeTeam.value;
     let teams = await getJsonResponseJackarithm('/teamnames');
     for (let j = 0; j < teams.length; j++) {
@@ -807,16 +807,18 @@ compareP240ResultsBySeasonButton.onclick = async() => {
     }
 
     let stuff;
+    console.log(teams);
     for (let i = 0; i < teams.length; i++) {
         stuff = await compareP240ExpectedResultsToGameResults(stat, hometeam, teams[i].team_name);
-        let results = await oddStuff(stuff, stat, teams[i].team_name);
+        console.log(stuff);
+        let results = await oddStuff(stuff, stat, hometeam, teams[i].team_name);
     }
 }
 
 compareP240ExpectedResultsToGameResultsButton.onclick = async() => {
-    let stat = 'plus_minus'
+    let stat = 'mvpPoints'
     let stuff = await compareP240ExpectedResultsToGameResults(stat);
-
+    console.log(stuff);
     // get expected points for each team
     // get moneyline for each team
     // if home team wins
@@ -837,7 +839,7 @@ compareP240ExpectedResultsToGameResultsButton.onclick = async() => {
 }
 
 compareStatExpectedResultsToGameResultsButton.onclick = async() => {
-    let stat = 'plus_minus'
+    let stat = 'mvpPoints'
     let stuff = await compareStatExpectedResultsToGameResults(stat);
 
     // get expected points for each team
@@ -945,30 +947,52 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
     console.log('------------------')
     console.log(seasonDropChoice.value)
     console.log(home_name)
+    console.log(visitor_name)
     console.log(gamedate)
     console.log('------------------')
     let moneylineHome = await getJsonResponseJackarithm(`/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate}`);
     let moneylineVisitor = await getJsonResponseJackarithm(`/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate}`);
     if (moneylineHome.length < 1) {
-        moneylineHome = ['0'];
-        moneylineVisitor = ['0'];
+        console.log(moneylineHome)
+        moneylineHome = [{ml: '0'}];
+        moneylineVisitor = [{ml: '0'}];
+    } 
+    
+    moneylineHome = parseInt(moneylineHome[0].ml)
+    if (moneylineVisitor.length < 1) {
+        console.log(moneylineVisitor)
+        moneylineHome = [{ml: '0'}];
+        moneylineVisitor = [{ml: '0'}];
     }
+
+    console.log(moneylineVisitor)
+    moneylineVisitor = parseInt(moneylineVisitor[0].ml)
+    console.log(moneylineHome)
+    console.log(moneylineVisitor)
+
     let moneylineHome2;
     let moneylineVisitor2;
     
-    if (gamedate2) {
+    console.log(gamedate2)
+    if (parseInt(gamedate2) >= 0) {
         moneylineHome2 = await getJsonResponseJackarithm(`/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate2}`);
         moneylineVisitor2 = await getJsonResponseJackarithm(`/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate2}`);
+        if (moneylineHome2.length < 1) {
+            console.log(moneylineHome2)
+            moneylineHome2 = [{ml: '0'}];
+            moneylineVisitor2 = [{ml: '0'}];
+        }
+        moneylineHome2 = parseInt(moneylineHome2[0].ml);
+        if (moneylineVisitor2.length < 1) {
+            console.log(moneylineVisitor2)
+            moneylineHome2 = [{ml: '0'}];
+            moneylineVisitor2 = [{ml: '0'}];
+        }
+        moneylineVisitor2 = parseInt(moneylineVisitor2[0].ml);
     }
-    console.log(moneylineHome)
-    console.log(moneylineHome[0])
+    console.log(moneylineHome2)
+    console.log(moneylineVisitor2)
 
-    moneylineHome = parseInt(moneylineHome[0].ml)
-    moneylineVisitor = parseInt(moneylineVisitor[0].ml)
-    if (moneylineHome2) {
-        moneylineHome2 = parseInt(moneylineHome2[0].ml)
-        moneylineVisitor2 = parseInt(moneylineVisitor2[0].ml)
-    }
 
     // if home team wins
         // if expected pts home team > expected pts visitor team 
@@ -985,11 +1009,13 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
             // use money line to calculate losses on a $100 bet
                 // subtract losses from total
     let bet = 100;
+    console.log(stuff)
     if (stuff[5] > 0) {
         if (exPtsHome0 > exPtsVisitor0) {
             let profit;
             if (moneylineHome < 0) {
                 profit = Math.abs(bet / moneylineHome) * 100;
+                console.log(profit);
                 total += profit;
             } else if (moneylineHome > 0) {
                 profit = moneylineHome;
@@ -1004,9 +1030,12 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
             let profit;
             if (moneylineVisitor < 0) {
                 profit = Math.abs(bet / moneylineVisitor) * 100;
+                console.log(profit)
                 total += profit;
+                console.log(total)
             } else if (moneylineVisitor > 0) {
                 profit = moneylineVisitor;
+                total += profit;
             }
         } else if (exPtsHome0 > exPtsVisitor0) {
             let losses = 100;
@@ -1015,6 +1044,7 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
     }
 
     if (stuff[6]) {
+        console.log(stuff[6])
         let bet2 = 100;
         if (stuff[6] > 0) {
             if (exPtsHome1 > exPtsVisitor1) {
@@ -1022,24 +1052,35 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
                 if (moneylineHome2 < 0) {
                     profit = Math.abs(bet2 / moneylineHome2) * 100
                     total += profit;
+                    console.log(profit)
+                    console.log(total)
                 } else if (moneylineHome2 > 0) {
                     profit = moneylineHome2;
                     total += profit;
+                    console.log(profit)
+                    console.log(total)
                 }
             } else if (exPtsHome1 < exPtsVisitor1) {
                 let losses = 100;
                 total -= losses;
             }
         } else if (stuff[6] < 0) {
+            console.log(stuff[6])
+            console.log(exPtsHome1)
+            console.log(exPtsVisitor1)
             if (exPtsHome1 < exPtsVisitor1) {
                 let profit;
-
+                console.log(moneylineVisitor2)
                 if (moneylineVisitor2 < 0) {
                     profit = Math.abs(bet2 / moneylineVisitor2) * 100;
                     total += profit;
+                    console.log(profit)
+                    console.log(total)
                 } else if (moneylineVisitor2 > 0) {
                     profit = moneylineVisitor2;
                     total += profit;
+                    console.log(profit)
+                    console.log(total)
                 }
             } else if (exPtsHome1 > exPtsVisitor1) {
                 let losses = 100;
@@ -1164,8 +1205,11 @@ const compareStatExpectedResultsToGameResults = async(stat, hometeam, visitortea
 let greenCount = 0;
 const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitorteam) => {
     let table = 'boxscorestraditional2021-2022';
+    let table2 = 'mvpPoints'
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
-
+    let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
+    //console.log('stats after mvppoints database hit')
+    console.log(stats);
     let abbreviationHome;
     let abbreviationVisitor;
 
@@ -1173,13 +1217,18 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
         abbreviationHome = await getJsonResponseJackarithm(`/teamabbreviation/${hometeam}`)
         abbreviationVisitor = await getJsonResponseJackarithm(`/teamabbreviation/${visitorteam}`)
     } else {
+        hometeam = homeTeam.value;
+        visitorteam = visitorTeam.value;
         abbreviationHome = await getJsonResponseJackarithm(`/teamabbreviation/${homeTeam.value}`)
         abbreviationVisitor = await getJsonResponseJackarithm(`/teamabbreviation/${visitorTeam.value}`)
     }
 
     let matchup1 = `${abbreviationHome[0].team_abbreviation} vs. ${abbreviationVisitor[0].team_abbreviation}`
     //get all games by game id, home team and visitor team
+    console.log(matchup1);
+
     let actualResults = await getJsonResponseJackarithm(`/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
+    console.log(actualResults)
 
     if (actualResults.length === 0) {
         return;
@@ -1266,6 +1315,8 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     }
     let H_or_V = 'home';
     let teamId = await getJsonResponseJackarithm(`/teamid/${hometeam}`)
+    console.log(hometeam) 
+    console.log(teamId)
     let gamesInSeasonCount = await getJsonResponseJackarithm(`/lengthofseason/${seasonDropChoice.value}/${teamId[0].team_id}/${H_or_V}`);
     gamesInSeasonCount = gamesInSeasonCount[0].count;
     let percentage = greenCount / gamesInSeasonCount;
@@ -1323,9 +1374,9 @@ const p240StatDropDownFunction = async() => {
 }
 
 
-const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V) => {
+const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) => {
     let stats;
-
+    console.log(table)
     if (H_or_V === 'home') {
         stats = await getJsonResponseJackarithm(`/jackarithm/home/boxscorestraditional/${playerid}/${season}`);
     } else {
@@ -1337,9 +1388,9 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V) => {
 
 //for one player, return every stat average per season
 const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V, teamid) => {
-    let table = 'boxscorestraditional2021-2022'
+    let table = "boxscorestraditional2021-2022"
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
-    let playerStats = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V);
+    let playerStats = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table);
 
     if (!playerStats[0]) {
         //games played = get gameid's in seasonDropChoice year where player.mins > 0
@@ -1347,7 +1398,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
         let split = season.split('-')
         let next = parseInt(split[1]) + 1
         let thisSeason = split[1] + '-' + next;
-        playerStats = await getStatsFromBoxTraditionalHorV(thisSeason, playerid, H_or_V);
+        playerStats = await getStatsFromBoxTraditionalHorV(thisSeason, playerid, H_or_V, table);
     }
     let averagesObjectAny = {};
     let averagesObject_82Any = {};
