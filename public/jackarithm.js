@@ -729,7 +729,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             }
         }
     }
-    let season = '2015-2016';
+    let season = '2017-2018';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -743,7 +743,6 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     let backupStat = 'plus_minus'
     for (let i = 0; i < roster.length; i++) {
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V, teamId);
-        stat = 'mvppoints'
         totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
 
