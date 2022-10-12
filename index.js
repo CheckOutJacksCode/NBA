@@ -266,6 +266,8 @@ app.get(`/testing/previousgame/gameid/:season/:teamId/:gamedate`, db.getPrevious
 
 app.get(`/lengthofseason/:season/:teamid/:H_or_V`, db.getLengthOfSeason);
 
+app.get(`/jackarithm/mvpPoints/:playerid/:season`, db.getMVPPointsByPlayerBySeason);
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

@@ -1625,6 +1625,19 @@ const getLengthOfSeason = (request, response) => {
   })
 }
 
+const getMVPPointsByPlayerBySeason = (request, response) => {
+  const {playerid, season} = request.params;
+  console.log(season);
+  console.log(playerid);
+  db.query(`SELECT * FROM "mvpPoints"
+            WHERE playerid = $1
+            AND season = $2`, [playerid, season], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
 
 module.exports = {
     getPlayers,
@@ -1737,4 +1750,5 @@ module.exports = {
     getPreviousRosterBySeasonByTeamByGameId,
     getPreviousGameIdBySeasonByTeamByGameDate,
     getLengthOfSeason,
+    getMVPPointsByPlayerBySeason,
 }
