@@ -58,7 +58,6 @@ const getRoster = async(season, team) => {
         totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
         totalMinutes_82 += playerStats[1].min;
-
         await appendPlayerBoxTraditionalSeasonAverageTable(playerStats, roster[i].player_name);
     }
     console.log(totalMinutes);
@@ -71,16 +70,13 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
 /*
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
     let teamId = await getJsonResponse(`/teamid/${team.value}`);
-
     let season = '2018-2019';
     let teamId = '1610612744'
     let todaysDate = new Date();
     console.log(todaysDate);
-
     let recentGameId = await getJsonResponseJackarithm(`/previousgame/gameid/${season}/${teamId}`);
     console.log(recentGameId);
     recentGameId = recentGameId[0].game_id;
-
     let roster = await getJsonResponseJackarithm(`/previousgame/gameid/${season}/${teamId}/${recentGameId}`);
     console.log(roster);
 */  let gameDateArray = [];
@@ -449,9 +445,7 @@ const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name
         cellStat_82.innerHTML = Object.values(objArray[1])[i]
 
         /*let cellStatSeason = statRowSeason.insertCell()
-
         let cellStatSeason_82 = statRow_82Season.insertCell()
-
         cellStatSeason.innerHTML = Object.values(objArray[2])[i]
         
         cellStatSeason_82.innerHTML = Object.values(objArray[3])[i]
@@ -729,7 +723,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             }
         }
     }
-    let season = '2017-2018';
+    let season = '2019-2020';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -754,6 +748,8 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
         if (!playerStats[2][stat]) {
             playerStats[2][stat] = playerStats[0][backupStat];
             playerStats[3][stat] = playerStats[1][backupStat];
+            //playerStats[2][stat] = '0.2500';
+            //playerStats[3][stat] = '0.2500';
         }
         totalStat1 += playerStats[2][stat];
         totalStat_82_1 += playerStats[3][stat];
@@ -772,7 +768,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
 }
 
 compareP240ResultsBySeasonTotalsButton.onclick = async() => {
-    let stat = 'mvppoints';
+    let stat = 'plus_minus';
     let teamsH = await getJsonResponseJackarithm('/teamnames');
     for (let i = 0; i < teamsH.length; i++) {
         let hometeam = teamsH[i];
@@ -796,7 +792,7 @@ compareP240ResultsBySeasonTotalsButton.onclick = async() => {
 }
 
 compareStatResultsBySeasonButton.onclick = async() => {
-    let stat = 'mvppoints';
+    let stat = 'plus_minus';
     let hometeam = homeTeam.value;
     let teams = await getJsonResponseJackarithm('/teamnames');
     for (let j = 0; j < teams.length; j++) {
@@ -814,7 +810,7 @@ compareStatResultsBySeasonButton.onclick = async() => {
 }
 
 compareP240ResultsBySeasonButton.onclick = async() => {
-    let stat = 'mvppoints';
+    let stat = 'plus_minus';
     let hometeam = homeTeam.value;
     let teams = await getJsonResponseJackarithm('/teamnames');
     for (let j = 0; j < teams.length; j++) {
@@ -832,7 +828,7 @@ compareP240ResultsBySeasonButton.onclick = async() => {
 }
 
 compareP240ExpectedResultsToGameResultsButton.onclick = async() => {
-    let stat = 'mvppoints'
+    let stat = 'plus_minus'
     let stuff = await compareP240ExpectedResultsToGameResults(stat);
     // get expected points for each team
     // get moneyline for each team
@@ -854,7 +850,7 @@ compareP240ExpectedResultsToGameResultsButton.onclick = async() => {
 }
 
 compareStatExpectedResultsToGameResultsButton.onclick = async() => {
-    let stat = 'mvppoints'
+    let stat = 'plus_minus'
     let stuff = await compareStatExpectedResultsToGameResults(stat);
 
     // get expected points for each team
@@ -1193,8 +1189,8 @@ const compareStatExpectedResultsToGameResults = async(stat, hometeam, visitortea
 
 let greenCount = 0;
 const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitorteam) => {
-    let table = 'boxscorestraditional2021-2022';
-    let table2 = 'mvpPoints'
+    let table = 'boxscorestraditionalTEST10000Rows2017-2018';
+    let table2 = 'boxscorestraditional2017-2018'
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
     let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
     //console.log('stats after mvppoints database hit')
@@ -1361,7 +1357,7 @@ const p240StatDropDownFunction = async() => {
 const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) => {
     let stats;
     if (table === 'mvpPoints') { 
-        stats = await getJsonResponseJackarithm(`/jackarithm/mvpPoints/${playerid}/${season}`);
+        stats = await getJsonResponseJackarithm(`/jackarithm/mvpPoints/${playerid}/${season}/${H_or_V}`);
     } else {
         if (H_or_V === 'home') {
             //HEEERRRREEEE
@@ -1375,35 +1371,43 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) =>
 
 //for one player, return every stat average per season
 const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V, teamid) => {
-    let table1 = "mvpPoints"
-    let table2 = "boxscorestraditional2021-2022"
+    let table1 = "boxscorestraditionalTEST3000Rows2019-2020"
+    let table2 = "boxscorestraditional2018-2019"
     let stats1 = await getJsonResponseJackarithm(`/statsheaders/${table1}`)
     let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
 
     let playerStats1 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table1);
     let playerStats2 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table2);
-
-    if (!playerStats2[0]) {
+    
+    /*if (!playerStats2[0]) {
         //games played = get gameid's in seasonDropChoice year where player.mins > 0
         //stat total = for each game in games played, add up stats
-        let split = season.split('-')
+        /*let split = season.split('-')
         let next = parseInt(split[1]) + 1
-        let thisSeason = split[1] + '-' + next;
+        let thisSeason = split[1] + '-' + next;*/
+        /*let split = season.split('-')
+        let previous = parseInt(split[1]) - 1;
+        let previous2 = parseInt(split[0]) - 1;
+        let thisSeason = previous2 + '-' + previous;
         playerStats2 = await getStatsFromBoxTraditionalHorV(thisSeason, playerid, H_or_V, table2);
-    }
+    }*/
 
     let temp;
     if (!playerStats1[0]) {
         temp = playerStats2;
         playerStats1 = temp;
     }
+    /*
+    if (!playerStats1[0]) {
+        playerStats1 = [{mvppoints: '0.2500'}]
+    }
+    */
 
     let averagesObjectAny1 = {};
     let averagesObject_82Any1 = {};
     let averagesObjectAny2 = {};
     let averagesObject_82Any2 = {};
 
-    let gameCount = 0;
     let stats_82_1 = [];
     let statsPerGame1 = [];
     let statsHeaders1 = [];
@@ -1412,7 +1416,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     let statsPerGame2 = [];
     let statsHeaders2 = [];
 
-    for (let j = 0; j <stats1.length; j++) {
+    for (let j = 0; j < stats1.length; j++) {
 
         statsHeaders1.push(stats1[j].column_name)
         stats_82_1.push(0);
@@ -1420,7 +1424,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
 
     }    
 
-    for (let n = 0; n <stats2.length; n++) {
+    for (let n = 0; n < stats2.length; n++) {
 
         statsHeaders2.push(stats2[n].column_name)
         stats_82_2.push(0);
@@ -1428,9 +1432,10 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
 
     } 
     
+    let gameCount2 = 0;
     for (let i = 0; i < playerStats2.length; i++) {
         if (parseFloat(playerStats2[i].min) > 0) {
-            gameCount++;
+            gameCount2++;
         }
         if (!playerStats2[i].min) {
             playerStats2[i].min = 0;
@@ -1450,6 +1455,30 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
             }
         }
     }
+    let gameCount1 = 0;
+    for (let i = 0; i < playerStats1.length; i++) {
+        if (parseFloat(playerStats1[i].min) > 0) {
+            gameCount1++;
+        }
+        if (!playerStats1[i].min) {
+            playerStats1[i].min = 0;
+        }
+        for (let j = 0; j < stats1.length; j++) {
+            if (stats1[j].column_name === 'points') {
+                stats1[j].column_name = 'pts';
+            }
+            if (!parseFloat(playerStats1[i][stats1[j].column_name])) {
+                playerStats1[i][stats1[j].column_name] = 0;
+            }
+            
+            stats_82_1[j] += parseFloat(playerStats1[i][stats1[j].column_name]);
+            
+            if (parseFloat(playerStats1[i].min) > 0) {
+                statsPerGame1[j] += parseFloat(playerStats1[i][stats1[j].column_name]);
+            }
+        }
+    }
+
     teamid = teamid[0].team_id;
     let gamesInSeasonCount = await getJsonResponseJackarithm(`/lengthofseason/${seasonDropChoice.value}/${teamid}/${H_or_V}`);
 
@@ -1464,16 +1493,25 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     let statAverage_82_1;
     
     if (playerStats1 !== playerStats2) {
-        header1 = statsHeaders1[4];
-        statAverage_82_1 = parseFloat(playerStats1[0].mvppoints);
-        statAverage1 = parseFloat(playerStats1[0].mvppoints);
+        /*header1 = statsHeaders1[4];
+        statAverage_82_1 = parseFloat(playerStats1[0].plus_minus);
+        statAverage1 = parseFloat(playerStats1[0].plus_minus);
+        console.log(statAverage1)
+        console.log(statAverage_82_1)
         averagesObjectAny1[header1] = statAverage1;
-        averagesObject_82Any1[header1] = statAverage_82_1;
+        averagesObject_82Any1[header1] = statAverage_82_1;*/
+        for (let y = 0; y < stats_82_1.length; y++) {
+            header1 = statsHeaders1[y];
+            statAverage_82_1 = stats_82_1[y] / gamesInSeasonCount;
+            statAverage1 = statsPerGame1[y] / gameCount1;
 
+            averagesObjectAny1[header1] = statAverage1;
+            averagesObject_82Any1[header1] = statAverage_82_1;
+        }
         for (let k = 0; k < stats_82_2.length; k++) {
             header2 = statsHeaders2[k];
             statAverage_82_2 = stats_82_2[k] / gamesInSeasonCount;
-            statAverage2 = statsPerGame2[k] / gameCount;
+            statAverage2 = statsPerGame2[k] / gameCount2;
 
             averagesObjectAny2[header2] = statAverage2;
             averagesObject_82Any2[header2] = statAverage_82_2;
@@ -1482,7 +1520,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
         for (let k = 0; k < stats_82_2.length; k++) {
             header2 = statsHeaders2[k];
             statAverage_82_2 = stats_82_2[k] / gamesInSeasonCount;
-            statAverage2 = statsPerGame2[k] / gameCount;
+            statAverage2 = statsPerGame2[k] / gameCount2;
 
             averagesObjectAny2[header2] = statAverage2;
             averagesObject_82Any2[header2] = statAverage_82_2;
@@ -1541,5 +1579,22 @@ writeOddsToDatabaseButton.onclick = async() => {
     await writeOddsToDatabase(season);
 }
 
+const getAverageMvpPointsBySeason = async(season) => {
+   
+    let total = 0;
+    let points = await getJsonResponseJackarithm(`/getAllMvpPoints/${season}`);
+    console.log(points)
+    for (let i = 0; i < points.length; i++) {
+        let pts = parseFloat(points[i].mvppoints)
+        if (!pts) {
+            continue;
+        }
+        console.log(pts);
+        total += pts;
+    }
+    let average = total / points.length;
+    console.log(average);
+}
 teamsDropDown();
 p240StatDropDownFunction();
+//getAverageMvpPointsBySeason('2016-2017');

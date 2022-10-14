@@ -47,6 +47,9 @@ app.get('/jackarithm', (req, res, next) => {
     res.sendFile(__dirname + "/public/jackarithm.html");
 });
 
+app.get(`/getAllMvpPoints/:season`, db.getAllMvpPointsFunction)
+
+
 app.get('/leaguegames/:season', db.getGamesBySeason);
 
 app.get('/leaguehustlestats/:season', db.getLeagueHustleStatsBySeason);
@@ -73,7 +76,9 @@ app.get('/playersNBA', db.getPlayersNBA);
 
 app.get('/games/:playerid/:league/:seasonyear', db.getPlayerSeasonGameStats);
 
-app.get('/officialboxscores/:playerid/:seasonyear', db.getPlayerSeasonGameStatsOfficial);
+app.get('/officialboxscores/home/:playerid/:season', db.getBoxScoreTraditionalHome);
+
+app.get('/officialboxscores/visitor/:playerid/:season', db.getBoxScoreTraditionalVisitor);
 
 app.get('/shots', db.getShots);
 
@@ -150,6 +155,8 @@ app.post('/gameinfocloud', db.createGameInfoCloud);
 app.get('/boxscorestraditional/:season/:gameid/:playerid', db.getBoxScoresTraditional);
 
 app.get('/playeridlist/:season', db.getOfficialPlayerIdList);
+
+app.get('/playernameidlist/:season', db.getOfficialPlayerIdNameList);
 
 app.get('/playerNBA/:playerid', db.getPlayerByIdOfficial);
 
@@ -266,7 +273,12 @@ app.get(`/testing/previousgame/gameid/:season/:teamId/:gamedate`, db.getPrevious
 
 app.get(`/lengthofseason/:season/:teamid/:H_or_V`, db.getLengthOfSeason);
 
-app.get(`/jackarithm/mvpPoints/:playerid/:season`, db.getMVPPointsByPlayerBySeason);
+app.get(`/jackarithm/mvpPoints/:playerid/:season/:H_or_V`, db.getMVPPointsByPlayerBySeason);
+
+app.get(`/fourfactorsboxscores/home/:playerid/:season`, db.getBoxScoreFourFactorsVisitor)
+
+app.get(`/fourfactorsboxscores/visitor/:playerid/:season`, db.getBoxScoreFourFactorsHome)
+
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

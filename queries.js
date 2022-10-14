@@ -125,6 +125,7 @@ const getPlayerById = async(request, response) => {
     })
 }
 
+
 const createPlayer = (request, response) => {
     const body = request.body;
     //console.log(body.firstName);
@@ -321,10 +322,10 @@ const createShotBySeason = (request, response) => {
 
 const createPlayerMvpPoints = (request, response) => {
   const body = request.body;
-  console.log(body.player[0].playerid);
-  console.log(body.mvpPoints);
+  //console.log(body.player[0].playerid);
+  console.log(body.mvppoints);
   console.log(body);
-  db.query('INSERT INTO "mvpPoints" (playerid, firstname, lastname, mvppoints, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].first_name, body.player[0].last_name, body.mvpPoints, body.season], (error, results) => {
+  db.query('INSERT INTO "mvpPointsv3" (playerid, player_name, mvppoints, season, H_or_V) VALUES ($1, $2, $3, $4, $5)', [body.playerid, body.player_name, body.mvppoints, body.season, body.H_or_V], (error, results) => {
     if (error) {
       throw error
     }
@@ -637,7 +638,6 @@ const deleteUser = (request, response) => {
       response.status(200).send()
     })
 }
-
 */
 const boxScoreLoad = (request, response) => {
 
@@ -819,6 +819,18 @@ const getOfficialPlayerIdList = (request, response) => {
   
   let {season} = request.params;
   db.query(`SELECT distinct player_id FROM "boxscorestraditional${season}"`, (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
+
+const getOfficialPlayerIdNameList = (request, response) => {
+  
+  let {season} = request.params;
+  db.query(`SELECT distinct player_id, player_name FROM "boxscorestraditional${season}"`, (error, results) => {
     if (error) {
       throw error
     }
@@ -1456,12 +1468,12 @@ const getVisitorGameIdsBySeason = (request, response) => {
 
 const getBoxScoreTraditionalHome = (request, response) => {
   const {playerid, season} = request.params;
-
-  db.query(`SELECT * FROM "boxscorestraditional${season}" 
+  console.log(season)
+  db.query(`SELECT * FROM "boxscorestraditionalTEST3000Rows${season}" 
             INNER JOIN "boxscoresummary${season}" 
-            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
+            ON "boxscorestraditionalTEST3000Rows${season}".game_id = "boxscoresummary${season}".game_id
             WHERE player_id = $1
-            AND "boxscoresummary${season}".home_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
+            AND "boxscoresummary${season}".home_team_id = "boxscorestraditionalTEST3000Rows${season}".team_id`, [playerid], (error, results) => {
     if (error) {
         throw error
     }
@@ -1472,11 +1484,11 @@ const getBoxScoreTraditionalHome = (request, response) => {
 const getBoxScoreTraditionalVisitor = (request, response) => {
   const {playerid, season} = request.params;
 
-  db.query(`SELECT * FROM "boxscorestraditional${season}" 
+  db.query(`SELECT * FROM "boxscorestraditionalTEST3000Rows${season}" 
             INNER JOIN "boxscoresummary${season}" 
-            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
+            ON "boxscorestraditionalTEST3000Rows${season}".game_id = "boxscoresummary${season}".game_id
             WHERE player_id = $1
-            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
+            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditionalTEST3000Rows${season}".team_id`, [playerid], (error, results) => {
     if (error) {
         throw error
     }
@@ -1626,12 +1638,14 @@ const getLengthOfSeason = (request, response) => {
 }
 
 const getMVPPointsByPlayerBySeason = (request, response) => {
-  const {playerid, season} = request.params;
+  const {playerid, season, H_or_V} = request.params;
   console.log(season);
   console.log(playerid);
+  console.log(H_or_V)
   db.query(`SELECT * FROM "mvpPoints"
             WHERE playerid = $1
             AND season = $2`, [playerid, season], (error, results) => {
+              //AND h_or_v = $3
     if (error) {
         throw error
     }
@@ -1639,7 +1653,52 @@ const getMVPPointsByPlayerBySeason = (request, response) => {
   })
 }
 
+const getBoxScoreFourFactorsHome = (request, response) => {
+  const {playerid, season} = request.params;
+
+  db.query(`SELECT * FROM "boxscorefourfactors${season}" 
+            INNER JOIN "boxscoresummary${season}" 
+            ON "boxscorefourfactors${season}".game_id = "boxscoresummary${season}".game_id
+            WHERE player_id = $1
+            AND "boxscoresummary${season}".home_team_id = "boxscorefourfactors${season}".team_id`, [playerid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBoxScoreFourFactorsVisitor = (request, response) => {
+  const {playerid, season} = request.params;
+
+  db.query(`SELECT * FROM "boxscorefourfactors${season}" 
+            INNER JOIN "boxscoresummary${season}" 
+            ON "boxscorefourfactors${season}".game_id = "boxscoresummary${season}".game_id
+            WHERE player_id = $1
+            AND "boxscoresummary${season}".visitor_team_id = "boxscorefourfactors${season}".team_id`, [playerid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getAllMvpPointsFunction = (request, response) => {
+  const {season} = request.params;
+  console.log('boosh')
+  console.log(season)
+  db.query(`SELECT mvppoints FROM "mvpPoints" 
+            WHERE season = $1`, [season], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+
 module.exports = {
+    getAllMvpPointsFunction,
     getPlayers,
     getPlayersNBA,
     createPlayersNBA,
@@ -1751,4 +1810,7 @@ module.exports = {
     getPreviousGameIdBySeasonByTeamByGameDate,
     getLengthOfSeason,
     getMVPPointsByPlayerBySeason,
+    getBoxScoreFourFactorsHome,
+    getBoxScoreFourFactorsVisitor,
+    getOfficialPlayerIdNameList,
 }

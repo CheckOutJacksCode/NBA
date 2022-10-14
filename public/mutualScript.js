@@ -247,29 +247,69 @@ const getAssistsAverage = async(year, playerId) => {
 -MAKE A 'GNARLIEST DUDE' STAT, 'SLOWEST GUY IN THE NFL', 'BIGGEST COMPLAINER', etc.
 */
 
+//GET EVERY PLAYERID
+//CALL MVPPOINTS WITH EVERY ID
+//CREATE OBJECT
+//POST OBJECT
+
+const postMvpPoints = async(obj) => {
+    console.log('wweeeeeeeeeeeeeeeeeeeewwwwwwwwwww');
+    const url = '/mvpPoints';
+    console.log(obj);
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(obj),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log(error);
+    } 
+}
+
+const loadUpMvpPoints = async(season, H_or_V) => {
+    let idNameList = await getJsonResponse(`/playernameidlist/${season}`);
+    for (let i = 0; i < idNameList.length; i++) {
+        let points = await getMvpPoints(season, idNameList[i].player_id, H_or_V);
+        let obj = {playerid: idNameList[i].player_id, player_name: idNameList[i].player_name, mvppoints: points, season: season, H_or_V: H_or_V}
+        console.log(obj)
+        let results = await postMvpPoints(obj)
+        console.log(results)
+    }
+}
+
 /* MVP points logic */
 /*NOW YOU HAVE THE PLAYER ID.
 CALL GETSTANDARDPLAYERDETAILS*/
-const getMvpPoints = async(year, playerId) => {
-    let ppg = await getSeasonStatAvgLocal('pts', year, playerId);
+const getMvpPoints = async(year, playerId, H_or_V) => {
+    let ppg = await getSeasonStatAvgLocal('pts', year, playerId, H_or_V);
     console.log(ppg)
-    let totReb = await getSeasonStatAvgLocal('reb', year, playerId);
+    let totReb = await getSeasonStatAvgLocal('reb', year, playerId, H_or_V);
     console.log(totReb);
-    let assists = await getSeasonStatAvgLocal('ast', year, playerId);
+    let assists = await getSeasonStatAvgLocal('ast', year, playerId, H_or_V);
     console.log(assists);
-    let steals = await getSeasonStatAvgLocal('stl', year, playerId);
+    let steals = await getSeasonStatAvgLocal('stl', year, playerId, H_or_V);
     console.log(steals);
-    let turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId);
+    let turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId, H_or_V);
     console.log(turnovers);
-    let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
+    let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId, H_or_V);
     console.log(plusMinus);
+    let efg_pct = await getSeasonStatAvgFourFactorsLocal('efg_pct', year, playerId, H_or_V)
     let fgp = await getSeasonStatAvgLocal('fg_pct', year, playerId);
-    console.log(fgp);
+    console.log(efg_pct);
     let mvpPoints = (.15 * parseFloat(ppg)) + (.07 * parseFloat(totReb)) + (.06 * parseFloat(assists)) + (.125 * parseFloat(steals)) - (.125 * parseFloat(turnovers)) + (.3 * parseFloat(plusMinus)) + (.02 * parseFloat(fgp));
     console.log(plusMinus);
     if (!mvpPoints) {
         return 'STATISTICS UNAVAILABLE'
     }
+    console.log(mvpPoints)
     return mvpPoints.toFixed(2);
 }
 
@@ -325,10 +365,40 @@ const getCarmeloFactor = async(year, playerId) => {
 }
 */
 
-const getSeasonStatAvgLocal = async(stat, year, playerId) => {
-    //let league = 'standard';
-    //let url = `/games/` + playerId + '/' + league + '/' + year;
-    let url = '/officialboxscores/' + playerId + '/' + year; 
+
+const getSeasonStatAvgFourFactorsLocal = async(stat, year, playerId, H_or_V) => {
+    let url;
+    console.log(year);
+    if (H_or_V === 'home') {
+        url = '/fourfactorsboxscores/home/' + playerId + '/' + year; 
+    } else {
+        url = '/fourfactorsboxscores/visitor/' + playerId + '/' + year; 
+    }
+    let gameDetailsArray = await getJsonResponse(url);
+    console.log(gameDetailsArray);
+    let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
+    console.log(statTotal);
+    //let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
+    let gamesPlayed = gameDetailsArray.length;
+    let statAverage = statTotal / gamesPlayed;
+    if (stat === 'efg_pct') {
+        console.log(statTotal);
+        console.log(gamesPlayed);
+        console.log(statAverage);
+    }
+    console.log(statAverage);
+    return Number.parseFloat(statAverage).toFixed(2);
+}
+
+const getSeasonStatAvgLocal = async(stat, year, playerId, H_or_V) => {
+    let url;
+    console.log(year)
+    console.log(playerId)
+    if (H_or_V === 'home') {
+        url = '/officialboxscores/home/' + playerId + '/' + year; 
+    } else {
+        url = '/officialboxscores/visitor/' + playerId + '/' + year; 
+    } 
     let gameDetailsArray = await getJsonResponse(url);
     console.log(gameDetailsArray);
     let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
@@ -380,3 +450,5 @@ const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
     console.log(playerid);
     return playerid;
 }
+
+//loadUpMvpPoints('2021-2022', 'visitor')
