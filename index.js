@@ -236,6 +236,7 @@ app.get(`/getroster/:season/:team`, db.getRosterBySeasonByTeam);
 
 app.get(`/jackarithm/boxscorestraditional/:playerid/:season`, db.getBoxScoreTraditionalStats);
 
+app.get(`/boxnum/:gameid/:season/:teamid`, db.getBoxNumFromGameIdSeason)
 
 app.get('/jackarithm/gameResults/home/:team/:season', db.getGameResultsByHomeTeamSeason);
 

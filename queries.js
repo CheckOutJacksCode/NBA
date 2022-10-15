@@ -1469,11 +1469,11 @@ const getVisitorGameIdsBySeason = (request, response) => {
 const getBoxScoreTraditionalHome = (request, response) => {
   const {playerid, season} = request.params;
   console.log(season)
-  db.query(`SELECT * FROM "boxscorestraditionalTEST3000Rows${season}" 
+  db.query(`SELECT * FROM "boxscorestraditional${season}" 
             INNER JOIN "boxscoresummary${season}" 
-            ON "boxscorestraditionalTEST3000Rows${season}".game_id = "boxscoresummary${season}".game_id
+            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
             WHERE player_id = $1
-            AND "boxscoresummary${season}".home_team_id = "boxscorestraditionalTEST3000Rows${season}".team_id`, [playerid], (error, results) => {
+            AND "boxscoresummary${season}".home_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
     if (error) {
         throw error
     }
@@ -1484,11 +1484,11 @@ const getBoxScoreTraditionalHome = (request, response) => {
 const getBoxScoreTraditionalVisitor = (request, response) => {
   const {playerid, season} = request.params;
 
-  db.query(`SELECT * FROM "boxscorestraditionalTEST3000Rows${season}" 
+  db.query(`SELECT * FROM "boxscorestraditional${season}" 
             INNER JOIN "boxscoresummary${season}" 
-            ON "boxscorestraditionalTEST3000Rows${season}".game_id = "boxscoresummary${season}".game_id
+            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
             WHERE player_id = $1
-            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditionalTEST3000Rows${season}".team_id`, [playerid], (error, results) => {
+            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
     if (error) {
         throw error
     }
@@ -1696,8 +1696,26 @@ const getAllMvpPointsFunction = (request, response) => {
   })
 }
 
+const getBoxNumFromGameIdSeason = (request, response) => {
+  const {gameid, season, teamid} = request.params;
+  console.log('boosh');
+  console.log(season);
+  console.log(gameid);
+  console.log(teamid);
+
+  db.query(`SELECT COUNT(DISTINCT game_id) FROM "boxscorestraditional${season}" 
+            WHERE CAST(SUBSTRING(game_id, 3) AS INT) < $1
+            AND team_id = $2`, [gameid, teamid], (error, results) => {
+    if (error) {
+        throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 
 module.exports = {
+    getBoxNumFromGameIdSeason,
     getAllMvpPointsFunction,
     getPlayers,
     getPlayersNBA,

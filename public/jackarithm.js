@@ -723,7 +723,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             }
         }
     }
-    let season = '2019-2020';
+    let season = '2021-2022';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -733,10 +733,18 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     let totalStat_82_2 = 0;
     //let roster = await getJsonResponseJackarithm(`/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`);
     let roster = await getRosterFromPreviousGame(teamId, gameDate);
+    let recentGameId = await getJsonResponseJackarithm(`/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDate}`);
+    recentGameId = recentGameId[0].game_id.substring(2)
+    let gameid = parseInt(recentGameId);
+    console.log(gameDate)
+    console.log(gameid)
+    console.log(teamId[0].team_id)
+    let boxNum = await getJsonResponseJackarithm(`/boxnum/${gameid}/${season}/${teamId[0].team_id}`);
+    console.log(boxNum[0].count)
 
     let backupStat = 'plus_minus'
     for (let i = 0; i < roster.length; i++) {
-        let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V, teamId);
+        let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V, teamId, boxNum[0].count);
         totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
 
@@ -750,6 +758,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             playerStats[3][stat] = playerStats[1][backupStat];
             //playerStats[2][stat] = '0.2500';
             //playerStats[3][stat] = '0.2500';
+            console.log('BACKUP STAT======================BACKUP STAT')
         }
         totalStat1 += playerStats[2][stat];
         totalStat_82_1 += playerStats[3][stat];
@@ -770,6 +779,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
 compareP240ResultsBySeasonTotalsButton.onclick = async() => {
     let stat = 'plus_minus';
     let teamsH = await getJsonResponseJackarithm('/teamnames');
+    
     for (let i = 0; i < teamsH.length; i++) {
         let hometeam = teamsH[i];
         hometeam = hometeam.team_name;
@@ -782,6 +792,7 @@ compareP240ResultsBySeasonTotalsButton.onclick = async() => {
         }
         let stuff;
         for (let k = 0; k < teamsV.length; k++) {
+            
             stuff = await compareP240ExpectedResultsToGameResults(stat, hometeam, teamsV[k].team_name);
             if (stuff == null) {
                 continue;
@@ -1370,15 +1381,18 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) =>
 }
 
 //for one player, return every stat average per season
-const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V, teamid) => {
-    let table1 = "boxscorestraditionalTEST3000Rows2019-2020"
-    let table2 = "boxscorestraditional2018-2019"
+const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V, teamid, boxNum) => {
+    let table1 = "boxscorestraditional2021-2022"
+    let table2 = "boxscorestraditional2020-2021"
     let stats1 = await getJsonResponseJackarithm(`/statsheaders/${table1}`)
     let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
 
     let playerStats1 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table1);
     let playerStats2 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table2);
     
+    playerStats1.splice(boxNum);
+    console.log(playerStats1);
+    playerStats2;
     /*if (!playerStats2[0]) {
         //games played = get gameid's in seasonDropChoice year where player.mins > 0
         //stat total = for each game in games played, add up stats
@@ -1396,6 +1410,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     if (!playerStats1[0]) {
         temp = playerStats2;
         playerStats1 = temp;
+        console.log('PLAYER STATS SWAPPED BECAUSE PLAYERSTATS1 DOES NOT EXIST')
     }
     /*
     if (!playerStats1[0]) {
@@ -1480,6 +1495,8 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     }
 
     teamid = teamid[0].team_id;
+    
+    //*******DURING THE SEASON/PRODUCTION, YOU'LL JUST HAVE TO CHANGE 'GAMESINSEASONCOUNT' TO 82, OR 41, DOUBLE CHECK.
     let gamesInSeasonCount = await getJsonResponseJackarithm(`/lengthofseason/${seasonDropChoice.value}/${teamid}/${H_or_V}`);
 
     gamesInSeasonCount = gamesInSeasonCount[0].count;
@@ -1487,7 +1504,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     let header2;
     let statAverage2
     let statAverage_82_2
-
+0
     let header1;
     let statAverage1;
     let statAverage_82_1;
