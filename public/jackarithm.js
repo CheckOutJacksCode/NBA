@@ -79,7 +79,10 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
     recentGameId = recentGameId[0].game_id;
     let roster = await getJsonResponseJackarithm(`/previousgame/gameid/${season}/${teamId}/${recentGameId}`);
     console.log(roster);
-*/  let gameDateArray = [];
+
+    return roster;
+*/  
+    let gameDateArray = [];
     let splitGameDate = gameDate.split('-');
     let day = splitGameDate[2];
     let thirtyOneDayMonths = ['01', '03', '05', '07', '08', '10', '12'];
@@ -179,10 +182,9 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
             return roster;
         }
     }
+    /* If you don't get a 'recentgameid' from the loop above, use overall roster from current season.*/
     roster = await getJsonResponseJackarithm(`/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`)
     return roster;
-
-    
 }
 
 const getRosterNoParams = async(H_or_V) => {
@@ -701,14 +703,27 @@ const getStatExpectedNoAppend = async(stat, H_or_V, gameDate, visitorteam) => {
 
 const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visitorteam) => {
     let team;
+
+    /*This function is called every time you need to predict an expected p240 stat prediction for a given team.
+    It is called once for the home team and once for the visitor team. (in compareP240ExpectedResultsToGameResults())
+    If actualResults is longer than 1, (which means there was more than one game of the given matchup at home), this function
+    will be called twice more, once for the home team, once for visitor team to get expected stats for that game.
     
+    If there was not a homeTeam selected in the drop down menu, that means you are getting all the season predicitions
+    for every single team / game in the given season. If H_or_V parameter is 'home', you are getting the expected stat for
+    the hometeam (passed into the function), and if the H_or_V parameter is 'visitor' you are getting the expected stat for the
+    visitor team that is pass into the function. */
     if (homeTeam.value == "none") {
         if (H_or_V === 'home') {
             team = hometeam;
         } else {
             team = visitorteam;
         }
+    /*If homeTeam has been selected from the drop down, that means we are either getting all game predictions for the given
+    home team / season, or we visitorTeam has also been selected from the drop down and we are getting the prediction for the specific
+    matchup selected between the two selected teams in the given season. */
     } else {
+        //if visitor team is passed in and exists, you know its the whole season you're after.
         if (visitorteam) {
             if (H_or_V === 'home') {
                 team = homeTeam.value;
@@ -716,6 +731,8 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
                 team = visitorteam;
             }
         } else {
+        //else, if visitor team is not passed in, that means you are getting the specific matchup between two selected teams, and the teams
+        //from the drop down menus will be used.
             if (H_or_V === 'home') {
                 team = homeTeam.value;
             } else {
@@ -723,6 +740,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             }
         }
     }
+    /* This selection of the season is the season used to get boxscorestraditioal from, as well as the roster.*/
     let season = '2021-2022';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
@@ -731,33 +749,37 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     let totalStat_82_1 = 0;
     let totalStat2 = 0;
     let totalStat_82_2 = 0;
-    //let roster = await getJsonResponseJackarithm(`/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`);
+
+    /* This call to the database retreives the active roster from the previous game, given the team id and the current game date/
+    During production during the current season, this will return a roster from the latest game's box score.*/
     let roster = await getRosterFromPreviousGame(teamId, gameDate);
+
+    /* This call to the database retreives the previous game id given the season (current season), team id, and the current gameDate
+    DURING THE CURRENT SEASON/PRODUCTION, YOU WILL NOT NEED THIS NEXT CHUNK OF CODE, ALREADY HAVE RECENT GAMEID, ROSTER.*/
+    //===================================================================================================================
     let recentGameId = await getJsonResponseJackarithm(`/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDate}`);
     recentGameId = recentGameId[0].game_id.substring(2)
     let gameid = parseInt(recentGameId);
-    console.log(gameDate)
-    console.log(gameid)
-    console.log(teamId[0].team_id)
     let boxNum = await getJsonResponseJackarithm(`/boxnum/${gameid}/${season}/${teamId[0].team_id}`);
     console.log(boxNum[0].count)
-
+    //====================================================================================================================
+    
     let backupStat = 'plus_minus'
     for (let i = 0; i < roster.length; i++) {
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V, teamId, boxNum[0].count);
-        totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster
-
-        //HHHHHHHHHHEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEE
+        totalMinutes += playerStats[0].min;
         totalMinutes_82 += playerStats[1].min;
-
+        //HHHHHHHHHHEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEE
         totalStat2 += playerStats[0][backupStat];
         totalStat_82_2 += playerStats[1][backupStat];
+
         if (!playerStats[2][stat]) {
             playerStats[2][stat] = playerStats[0][backupStat];
             playerStats[3][stat] = playerStats[1][backupStat];
             //playerStats[2][stat] = '0.2500';
             //playerStats[3][stat] = '0.2500';
+            backupFlag = true;
             console.log('BACKUP STAT======================BACKUP STAT')
         }
         totalStat1 += playerStats[2][stat];
@@ -1197,20 +1219,34 @@ const compareStatExpectedResultsToGameResults = async(stat, hometeam, visitortea
     return ([actualResults, expStatHome0, expStatVisitor0, expStatHome1, expStatVisitor1, pmActual0, pmActual1, plus_minus_expected0, plus_minus_expected1, season])
 }
 
-
+//GREEN COUNT => total number of correct game predictions
 let greenCount = 0;
 const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitorteam) => {
-    let table = 'boxscorestraditionalTEST10000Rows2017-2018';
-    let table2 = 'boxscorestraditional2017-2018'
-    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
-    let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
-    //console.log('stats after mvppoints database hit')
+
     let abbreviationHome;
     let abbreviationVisitor;
 
+    /*if a hometeam is not passed to compareP240ExpectedResultsToGameResults, that means I want to 
+    use the hometeam and visitor team selections from the drop down box and get the comparison for only
+    one that specific matchup for that specific (season drop down) season. */
+
+    /*If hometeam is passed in, this means visitorteam must be passed in as well. If you call this function
+    through the clicking of the 'compareP240ResultsBySeasonButton', this function will be passed the homeTeam.value
+    value of hometeam (selected from the home team drop down), and will be called 29 addition times, one for every possible
+    visitor team. 
+    
+    If you call this function by through clicking of the 'compareP240ResultsBySeasonTotalsButton', it will trigger a 
+    nested loop, in which it will call this function with every combination of hometeam and visitor team. I will start with
+    the first home team in the drop down list (Charlotte Hornets) and call this function 29 times to get every single matchup
+    with the 29 possible visitor teams. After retreiving every Hornets home matchup, (29) function calls, it will move on to
+    the next home team and loop through all 29 possible visitor teams... and so on until all 30 home teams have each cycled through
+    their 29 possible matchups */
     if (hometeam) {
         abbreviationHome = await getJsonResponseJackarithm(`/teamabbreviation/${hometeam}`)
         abbreviationVisitor = await getJsonResponseJackarithm(`/teamabbreviation/${visitorteam}`)
+
+    /*hometeam parameter not passed in, must use values from the drop down boxes, if you are here that means
+    you are getting the comparison of only one specific matchup in one specific season*/
     } else {
         hometeam = homeTeam.value;
         visitorteam = visitorTeam.value;
@@ -1218,24 +1254,86 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
         abbreviationVisitor = await getJsonResponseJackarithm(`/teamabbreviation/${visitorTeam.value}`)
     }
 
+    //matchup1 will look like => 'CHA vs. PHI', or 'PHI vs. WAS'...
     let matchup1 = `${abbreviationHome[0].team_abbreviation} vs. ${abbreviationVisitor[0].team_abbreviation}`
     //get all games by game id, home team and visitor team
 
+    /*This call to the database will return an array of max length 2. The array will contain objects, each
+    containing a team box score for each instance of the specified matchup in the specified season. Results will
+    only contain box scores for the home team, but contain a 'plus_minus' attribute which is used to determine whether
+    the home team won or lost. If the home team never plays the given visitor team at home that season, (only happens in 2019-2020),
+    the array will be empty. If the home team only plays the given visitor once at home, it will be of length 1. 
+    If the home team plays the given visitor team at home twice (normal season), the array will be of length 2.
+    TABLE CALLED => leagueGames${season} */
     let actualResults = await getJsonResponseJackarithm(`/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
-
+    /*EXAMPLE 'actualResults' =>
+    (2) [{…}, {…}]
+        0: 
+            ast: "31"
+            blk: "6"
+            dreb: "29"
+            fg3_pct: "0.348"
+            fg3a: "46"
+            fg3m: "16"
+            fg_pct: "0.449"
+            fga: "107"
+            fgm: "48"
+            ft_pct: "0.706"
+            fta: "17"
+            ftm: "12"
+            game_date: "2021-12-06"
+            game_id: "0022100353"
+            id: 718
+            matchup: "CHA vs. PHI"
+            min: "265"
+            oreb: "13"
+            pf: "18"
+            plus_minus: "-3"
+            pts: "124"
+            reb: "42"
+            season_id: "22021"
+            stl: "6"
+            team_abbreviation: "CHA"
+            team_id: "1610612766"
+            team_name: "Charlotte Hornets"
+            tov: "8"
+            video_available: "1"
+            wl: "L"
+            [[Prototype]]: Object
+        1: {id: 738, season_id: '22021', team_id: '1610612766', team_abbreviation: 'CHA', team_name: 'Charlotte Hornets', …}
+        length: 2
+        [[Prototype]]: Array(0)
+*/
     if (actualResults.length === 0) {
         return;
     }
+    //THIS IS JUST TO APPEND THE RESULTS TO THE FRONT END.
+    //-------------------------------------------------
     let row1 = compareResultsTable.insertRow();
     let row2;
     if (actualResults.length > 1) { 
         row2 = compareResultsTable.insertRow();
     }
     await appendActualResults(actualResults, row1, row2);
+    //---------------------------------------------------
     
+    /*gameDate is acquired and passed on to getStatP240ExpectedNoAppend (ex: '2021-12-06') to eventually be used to cut off the
+    boxscorestraditional box scores for the given player at the game before the game that is to be predicted. (This is done to simulate
+    only having the data available up to the current day, as I will not be able to use future data to predict the upcoming season. This will
+    actually be an unecessary step in production during this season, as my boxscorestraditional2022-2023 table will only contain data up to 
+    the current day, so it will not need to be spliced.)*/
     let gameDate0 = actualResults[0].game_date;
 
     let homeResults0 = await getStatP240ExpectedNoAppend(stat, 'home', gameDate0, hometeam, visitorteam);
+    console.log(homeResults0)
+    /*
+    (3) [{…}, {…}, '2021-2022']
+        0: {plus_minus: -0.8439383791024779}
+        1: {plus_minus: -0.763563295378432}
+        2: "2021-2022"
+        length: 3
+        [[Prototype]]: Array(0)
+    */
     let p240ExpStatHome0 = homeResults0[0];
     let visitorResults0 = await getStatP240ExpectedNoAppend(stat, 'visitor', gameDate0, hometeam, visitorteam);
     let p240ExpStatVisitor0 = visitorResults0[0];
@@ -1391,7 +1489,6 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     let playerStats2 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table2);
     
     playerStats1.splice(boxNum);
-    console.log(playerStats1);
     playerStats2;
     /*if (!playerStats2[0]) {
         //games played = get gameid's in seasonDropChoice year where player.mins > 0
