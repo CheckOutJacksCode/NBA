@@ -66,14 +66,13 @@ const getRoster = async(season, team) => {
 */
 
 const getRosterFromPreviousGame = async(teamId, gameDate) => {
-    //THIS IS HOW YOU GET THE MOST RECENT GAME_ID FROM BOXSCORESTRADITIONAL WHEN THE SEASON STARTS
+    //THIS IS HOW YOU GET THE MOST RECENT GAME_ID/ROSTER FROM BOXSCORESTRADITIONAL WHEN THE SEASON STARTS
 /*
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
     let teamId = await getJsonResponse(`/teamid/${team.value}`);
-    let season = '2018-2019';
+    let season = '2022-2023';
     let teamId = '1610612744'
-    let todaysDate = new Date();
-    console.log(todaysDate);
+
     let recentGameId = await getJsonResponseJackarithm(`/previousgame/gameid/${season}/${teamId}`);
     console.log(recentGameId);
     recentGameId = recentGameId[0].game_id;
@@ -173,6 +172,9 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
         }
         gameDateArray.push(lastGameDate);
     }
+    /*AGAIN, this entire part of the function only applies to development; I only need the game date when I need to splice the entire
+    season's worth of boxscores, so during production (current season) I can just grab the last box score gameId from the boxscorestraditional
+    table, as there will only be the current amount of games available.*/
     let roster;
     for (let j = 0; j < gameDateArray.length; j++) {
         let recentGameId = await getJsonResponseJackarithm(`/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDateArray[j]}`);
@@ -239,7 +241,7 @@ getBoxTraditionalButtonVisitor.onclick = async() => {
 
 
 //for one player, return every stat average per season
-const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid, H_or_V) => {
+/*const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid, H_or_V) => {
     let table = 'boxscorestraditional2021-2022';
     let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`);
     let playerStats = await getStatsFromBoxTraditional(season, playerid);
@@ -348,7 +350,7 @@ const getPlayerSeasonOffensiveStatAveragesTraditional = async(season, playerid, 
     }
     return [averagesObjectAny, averagesObject_82Any, averagesObjectAny_HorV, averagesObject_82Any_HorV];
 }
-
+*/
 const getStatsFromBoxTraditional = async(season, playerid) => {
     let stats = await getJsonResponseJackarithm(`/jackarithm/boxscorestraditional/${playerid}/${season}`);
     return stats;
@@ -571,8 +573,8 @@ const appendExpectedStat = async(team, pp240expected) => {
 
 const getStatP240Expected = async(stat) => {
     let teams = await getJsonResponseJackarithm('/teamnames');
-    let season = '2017-2018';
-    let previousSeason = '2016-2017';
+    let season = '2018-2019';
+    let previousSeason = '2017-2018';
     for (let x = 0; x < teams.length; x++) {
         let teamId = await getJsonResponseJackarithm(`/teamid/${teams[x].team_name}`)
         let totalMinutes = 0;
@@ -741,7 +743,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
         }
     }
     /* This selection of the season is the season used to get boxscorestraditioal from, as well as the roster.*/
-    let season = '2021-2022';
+    let season = '2020-2021';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -760,33 +762,56 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     let recentGameId = await getJsonResponseJackarithm(`/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDate}`);
     recentGameId = recentGameId[0].game_id.substring(2)
     let gameid = parseInt(recentGameId);
-    let boxNum = await getJsonResponseJackarithm(`/boxnum/${gameid}/${season}/${teamId[0].team_id}`);
-    console.log(boxNum[0].count)
+    let boxNum = await getJsonResponseJackarithm(`/boxnum/${gameid}/${season}/${teamId[0].team_id}/${H_or_V}`);
     //====================================================================================================================
-    
+
+
+    /*HERE WE GO!!!! FOR EVERY SINGLE PLAYER ON THE CURRENT ROSTER, CALL 'getPlayerHorVOffensiveStatAveragesTraditional' function */
     let backupStat = 'plus_minus'
     for (let i = 0; i < roster.length; i++) {
+        /**This call to the database will return 4 box score averages objects, each containing the per game or per 82 game averages for 
+         * every traditional box score stat for the given player/season. The first averages object contains the per game box score averages
+         * for the previous season's stats, the second averages object contains the per 82 game averages for the previous season's stats.
+         * The third averages object contains the per game box score averages for the current season's stats, and the fourth averages object
+         * contains the per 82 game box score averages for the current season's stats, (by player/season). 
+         * */
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V, teamId, boxNum[0].count);
-        //total of minutes per 82 games of every player on roster
+        //total of minutes per game of every player on roster during previous season
         totalMinutes += playerStats[0].min;
+        //total of minutes per 82 games of every player on roster during previous season
         totalMinutes_82 += playerStats[1].min;
-        //HHHHHHHHHHEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRRRRRRRRRRREEEEEEEEEEEEEEEEEEEEEEEEEEE
+
+        //add up season stat averages per game for every player on current roster using last year's stat averages.
         totalStat2 += playerStats[0][backupStat];
+        //add up season stat averages per 82 games for every player on current roster using last year's stat averages.
         totalStat_82_2 += playerStats[1][backupStat];
 
+        /**If player stat averages from current season does not exist (recent call up, player's first game off of injury), insert last year's stat
+         * insert last year's stat averages into current season's non-existing stat averages. 
+         * */
         if (!playerStats[2][stat]) {
             playerStats[2][stat] = playerStats[0][backupStat];
             playerStats[3][stat] = playerStats[1][backupStat];
             //playerStats[2][stat] = '0.2500';
             //playerStats[3][stat] = '0.2500';
-            backupFlag = true;
             console.log('BACKUP STAT======================BACKUP STAT')
         }
+        /* add up season stat averages per game for every player on current roster using current season's stat averages, if the stat averages didn't
+        exist when retreived from database, they are swapped out for last year's stats in the step above. */
         totalStat1 += playerStats[2][stat];
+        /* add up season stat averages per 82 games for every player on current roster using current season's stat averages, if the stat averages didn't
+        exist when retreived from database, they are swapped out for last year's stats in the step above. */
         totalStat_82_1 += playerStats[3][stat];
     }
 
+    /* Divide total of stat averages per 82 games for entire roster (totalStat_82_1) by the total minutes of all players on roster for all 82 games
+     * (totalMinutes_82) */
     let ratio_82_1 = totalStat_82_1 / totalMinutes_82;
+    /**
+     * p240 formula:
+     * totalStat_82_1 / totalMinutes_82 = X / 240;
+     * X = (totalStat_82_1 / totalMinutes_82) * 240;
+     */
     let statPer240Expected1 = ratio_82_1 * 240;
     let statObject1 = {};
     statObject1[stat] = statPer240Expected1;
@@ -1480,28 +1505,57 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) =>
 
 //for one player, return every stat average per season
 const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_or_V, teamid, boxNum) => {
-    let table1 = "boxscorestraditional2021-2022"
-    let table2 = "boxscorestraditional2020-2021"
+    /**
+     * These are the two tables you will be retrieving data from, table one represents the current
+     * season and the primary table from which we will retrieve data from. Table2 represents the table from
+     * which we will retrieve the 'backup' data, or more specifically 'backupStat' from. For most of the iterations 
+     * of prediction models I have tried, I like to use the same table for table1 and table2; table1 = current season
+     * table2 = last season. Alternatively, you could use the current season for both tables, but use a different stat
+     * grouping for each table (different stat category table from the same season, for example, boxscorefourfactors as primary and boxscorestraditional
+     * as secondary). ALWAYS MAKE SURE TO USE THE SCIENTIFIC METHOD WHICH EACH ATTEMPT, KEEPING A CONTROL VARIABLE / SEASON.
+     */
+    let table1 = "boxscorestraditional2020-2021"
+    let table2 = "boxscorestraditional2019-2020"
+
+    /**
+     * stats1 and stats2 just represent the headers for each stat provided in whatever box score table you are querying.
+     * With this information, we are able to loop through each stat in the given box score, and provide a stat average for every
+     * single stat within the given table.
+     */
     let stats1 = await getJsonResponseJackarithm(`/statsheaders/${table1}`)
     let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
 
+    /** season2 is just the backup season, if you are using a different stat table of the same season, just set this variable to the
+     * given season (seasonDropDown.value);
+     * */
+    let season2 = '2019-2020';
+
+    //playerStats1 will be an array of either home game or visitor game traditional box scores given the season, and playerid
     let playerStats1 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table1);
-    let playerStats2 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table2);
+
+    /** since I am using the same stat category table for table1 and table2, but from different seasons, I have to call getStatsFromBoxTraditionalHorV()
+     * with season2 to acquire playerStats2 from the previous season to backup playerStats1.
+     * */
+    //BACKUP STATS
+    let playerStats2 = await getStatsFromBoxTraditionalHorV(season2, playerid, H_or_V, table2);
     
+    /**
+     * 
+     */
     playerStats1.splice(boxNum);
-    playerStats2;
-    /*if (!playerStats2[0]) {
+    //playerStats2;
+    if (!playerStats2[0]) {
         //games played = get gameid's in seasonDropChoice year where player.mins > 0
         //stat total = for each game in games played, add up stats
         /*let split = season.split('-')
         let next = parseInt(split[1]) + 1
         let thisSeason = split[1] + '-' + next;*/
-        /*let split = season.split('-')
+        let split = season2.split('-')
         let previous = parseInt(split[1]) - 1;
         let previous2 = parseInt(split[0]) - 1;
         let thisSeason = previous2 + '-' + previous;
         playerStats2 = await getStatsFromBoxTraditionalHorV(thisSeason, playerid, H_or_V, table2);
-    }*/
+    }
 
     let temp;
     if (!playerStats1[0]) {

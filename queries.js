@@ -1473,7 +1473,8 @@ const getBoxScoreTraditionalHome = (request, response) => {
             INNER JOIN "boxscoresummary${season}" 
             ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
             WHERE player_id = $1
-            AND "boxscoresummary${season}".home_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
+            AND "boxscoresummary${season}".home_team_id = "boxscorestraditional${season}".team_id
+            ORDER BY "boxscorestraditional${season}".id`, [playerid], (error, results) => {
     if (error) {
         throw error
     }
@@ -1488,7 +1489,8 @@ const getBoxScoreTraditionalVisitor = (request, response) => {
             INNER JOIN "boxscoresummary${season}" 
             ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
             WHERE player_id = $1
-            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditional${season}".team_id`, [playerid], (error, results) => {
+            AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditional${season}".team_id
+            ORDER BY "boxscorestraditional${season}".id`, [playerid], (error, results) => {
     if (error) {
         throw error
     }
@@ -1697,15 +1699,18 @@ const getAllMvpPointsFunction = (request, response) => {
 }
 
 const getBoxNumFromGameIdSeason = (request, response) => {
-  const {gameid, season, teamid} = request.params;
+  const {gameid, season, teamid, H_or_V} = request.params;
   console.log('boosh');
   console.log(season);
   console.log(gameid);
   console.log(teamid);
 
-  db.query(`SELECT COUNT(DISTINCT game_id) FROM "boxscorestraditional${season}" 
-            WHERE CAST(SUBSTRING(game_id, 3) AS INT) < $1
-            AND team_id = $2`, [gameid, teamid], (error, results) => {
+  db.query(`SELECT COUNT(DISTINCT "boxscorestraditional${season}".game_id) FROM "boxscorestraditional${season}"
+            INNER JOIN "boxscoresummary${season}"
+            ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id 
+            WHERE CAST(SUBSTRING("boxscorestraditional${season}".game_id, 3) AS INT) < $1
+            AND "boxscorestraditional${season}".team_id = $2
+            AND "boxscoresummary${season}".${H_or_V}_team_id = $3`, [gameid, teamid, teamid], (error, results) => {
     if (error) {
         throw error
     }
