@@ -8,9 +8,20 @@ const teamChosen = document.getElementById("teams");
 const teamPlayerChosen = document.getElementById("teamplayers");
 const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAveragesRegularSeasonsTable");
 
-
+const getJsonResponseFront = async (url) => {
+    console.log(url);
+    const response = await fetch(url);
+    try{
+        if (response.ok){
+            const jsonResponse = await response.json();
+            return jsonResponse;
+        }
+    } catch(err){
+        console.log(err);
+    }
+}
 /* YOU WOULD DO IT JUST LIKE A POST REQUEST, 
-DOOO NOOOOTTT USE THE GETJSONRESPONSE FUNCTION
+DOOO NOOOOTTT USE THE getJsonResponseFront FUNCTION
 MAKE A SEPARATE FUNCTION CALLED 'const getPlayer....'
 
 and then ...
@@ -861,7 +872,7 @@ const getStatsArray = async(playerIdArray) => {
 let teamArray = [];
 const teamsDropDown = async() => {
 
-    let teams = await getJsonResponse('/teamnames');
+    let teams = await getJsonResponseFront('/teamnames');
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("teams").innerHTML = str;
     try {
@@ -878,9 +889,9 @@ const teamsDropDown = async() => {
 let teamPlayersArray = [];
 const teamPlayersDropDown = async() => {
 
-    let teamId = await getJsonResponse(`/teamid/${teamChosen.value}`)
+    let teamId = await getJsonResponseFront(`/teamid/${teamChosen.value}`)
     console.log(teamId);
-    let teamPlayers = await getJsonResponse(`/teamplayers/${teamId[0].team_id}`);
+    let teamPlayers = await getJsonResponseFront(`/teamplayers/${teamId[0].team_id}`);
     console.log(teamPlayers);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("teamplayers").innerHTML = str;
@@ -902,14 +913,14 @@ const displayPlayerCareerStats = async() => {
     let playerFirstLast = player.split(' ');
     console.log(player);
     console.log(playerFirstLast);
-    let playerid = await getJsonResponse(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
+    let playerid = await getJsonResponseFront(`/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
     console.log(playerid);
     console.log(playerid[0]);
     if (!playerid[0]) {
         await appendStatsUnavailable();
         return;
     }
-    let statLines = await getJsonResponse(`/getregularseasonstatlines/${playerid[0].playerid}`);
+    let statLines = await getJsonResponseFront(`/getregularseasonstatlines/${playerid[0].playerid}`);
     console.log(statLines);
     await appendPlayerRegularSeasonStatLines(statLines);
 }
