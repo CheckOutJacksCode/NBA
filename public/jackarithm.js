@@ -743,7 +743,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
         }
     }
     /* This selection of the season is the season used to get boxscorestraditioal from, as well as the roster.*/
-    let season = '2017-2018';
+    let season = '2020-2021';
     let teamId = await getJsonResponseJackarithm(`/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -1514,8 +1514,8 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
      * grouping for each table (different stat category table from the same season, for example, boxscorefourfactors as primary and boxscorestraditional
      * as secondary). ALWAYS MAKE SURE TO USE THE SCIENTIFIC METHOD WHICH EACH ATTEMPT, KEEPING A CONTROL VARIABLE / SEASON.
      */
-    let table1 = "boxscorestraditional2017-2018"
-    let table2 = "boxscorestraditional2016-2017"
+    let table1 = "boxscorestraditional2020-2021"
+    let table2 = "boxscorestraditional2019-2020"
 
     /**
      * stats1 and stats2 just represent the headers for each stat provided in whatever box score table you are querying.
@@ -1528,7 +1528,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     /** season2 is just the backup season, if you are using a different stat table of the same season, just set this variable to the
      * given season (seasonDropDown.value);
      * */
-    let season2 = '2016-2017';
+    let season2 = '2019-2020';
 
     //playerStats1 will be an array of either home game or visitor game traditional box scores given the season, and playerid
     let playerStats1 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table1);
