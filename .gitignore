@@ -1,10 +1,6 @@
 *.csv
 node_modules/
 *.txt
-data.py
-data3.py
-data4.py
-data5.py
 .env
 nba_api/
 juicystats/
