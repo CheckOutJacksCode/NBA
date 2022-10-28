@@ -1,6 +1,5 @@
 *.csv
 node_modules/
-*.py~
 *.txt
 data.py
 data3.py
@@ -10,4 +9,4 @@ data5.py
 nba_api/
 juicystats/
 NBAangular/
-jackarithm.js
+
