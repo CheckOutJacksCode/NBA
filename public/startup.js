@@ -6,7 +6,7 @@ const clearButton = document.getElementById("clearButton");
 const loadUpLocal = document.getElementById("loadButton");
 
 const loadUpLocalPlayers = document.getElementById("loadPlayersButton");
-
+const loadUpLeagueGamesBySeasonButton = document.getElementById("LOADGAMES")
 const loadUpGamesLocal = document.getElementById("loadGamesButton");
 const loadUpGameInfoLocal = document.getElementById("loadGameInfoButton");
 const loadUpShotChartButton = document.getElementById("loadUpShotChartButton");
@@ -154,7 +154,7 @@ const onStartUp = async() => {
     }
 
     loadUpLocalPlayers.onclick = async() => {
-        let players = await getJsonResponseStartup('/playersJson');
+        let players = await getJsonResponseStartup('/publicApiPlayers/playersJson');
         for (let i = 0; i < players.length; i++) {
             let playersdoc = await postWriteJsonPlayers(players[i]);
             console.log(playersdoc);
@@ -177,9 +177,9 @@ const onStartUp = async() => {
     }
 
     loadUpGamesCloud.onclick = async() => {
-        let games = await getJsonResponseStartup('/gamescloud');
+        let games = await getJsonResponseStartup('/publicGames/gamescloud');
         console.log(games.length)
-        for (let i = 208645; i < games.length; i++) {
+        for (let i = 0; i < games.length; i++) {
             console.log(games[i]);
             await postGameCloud(games[i]);
         }
@@ -198,9 +198,9 @@ const onStartUp = async() => {
     submitPlayerStats.onclick = async() => {
         let splitName = fullName.value.split(' ');
         console.log(splitName);
-        let results = await getJsonResponseStartup(`/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+        let results = await getJsonResponseStartup(`/playersNBA/official/players/playerid/${splitName[1]}/${splitName[0]}`);
         console.log(results);
-        let statlines = await getJsonResponseStartup(`/getregularseasonstatlines/${results[0].playerid}`);
+        let statlines = await getJsonResponseStartup(`/regularSeasonStats/getregularseasonstatlines/${results[0].playerid}`);
         await appendPlayerRegularSeasonStatLines(statlines);
     }
 
@@ -373,10 +373,10 @@ const loadUpNBAPlayers = async() => {
 }
 
 const loadUpLeagueGamesBySeason = async() => {
-    //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
-    let years = ['2021-2022'];
+    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    //let years = ['2022-2023'];
     for (let i = 0; i < years.length; i++) {
-        let gamesArray = await getJsonResponseStartup(`/leaguegames/${years[i]}`);
+        let gamesArray = await getJsonResponseStartup(`/leagueGames/${years[i]}`);
         console.log(gamesArray)
         for (let j = 0; j < gamesArray.resultSets.length; j++) {
             for (let m = 0; m < gamesArray.resultSets[j].rowSet.length; m++) {
@@ -392,7 +392,7 @@ const loadUpLeagueGamesBySeason = async() => {
 
 const loadUpBoxScoresLocalFunction = async() => {
     let season = "2015-2016";
-    let data = await getJsonResponseStartup(`/boxscores/read/${season}`);
+    let data = await getJsonResponseStartup(`/box/read/${season}`);
     for (let i = 0; i < data.length; i++) {
         await postBoxScoresBySeason(data[i], season);
     } 
@@ -401,7 +401,7 @@ const loadUpBoxScoresLocalFunction = async() => {
 
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
     let season = "2021-2022";
-    let data = await getJsonResponseStartup(`/boxscorestraditional/read/${season}`);
+    let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
     for (let i = 0; i < data.length; i++) {
         await postBoxScoresTraditionalBySeason(data[i], season);
     } 
@@ -411,8 +411,8 @@ const loadUpLeagueHustleStatsPlayerFunction = async() => {
     let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
     for (let i = 0; i < years.length; i++) {
         console.log(years[i])
-        console.log(`/leaguehustlestats/${years[i]}`);
-        let hustleArray = await getJsonResponseStartup(`/leaguehustlestats/${years[i]}`);
+        console.log(`/hustleStats/leaguehustlestats/${years[i]}`);
+        let hustleArray = await getJsonResponseStartup(`/hustleStats/leaguehustlestats/${years[i]}`);
         console.log(hustleArray)
         for (let j = 0; j < hustleArray.resultSets.length; j++) {
             console.log(hustleArray.resultSets.length);
@@ -428,7 +428,7 @@ const loadUpLeagueHustleStatsPlayerFunction = async() => {
 }
 
 const loadUpGameInfoCloud = async() => {
-    let gameinfo = await getJsonResponseStartup(`/gameinfocloud`);
+    let gameinfo = await getJsonResponseStartup(`/publicGames/gameinfocloud`);
     for (let i = 0; i < gameinfo.length; i++) {
         let info = await postGameInfoCloud(gameinfo[i]);
         console.log(info);
@@ -437,7 +437,7 @@ const loadUpGameInfoCloud = async() => {
 
 const loadUpPlayerCareerStatsFunction = async() => {
     //WRITE SEASON REGULAR PLAYER STATS
-    let results = await getJsonResponseStartup('/seasonregularplayerstats');
+    let results = await getJsonResponseStartup('/regularSeasonStats');
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postSeasonRegularPlayerStatsTotals(results[i]);
@@ -447,7 +447,7 @@ const loadUpPlayerCareerStatsFunction = async() => {
 
 const loadUpBoxScoreFourFactorsFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscorefourfactors/${season}`);
+    let results = await getJsonResponseStartup(`/fourFactors/read/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postBoxScoreFourFactors(results[i], season);
@@ -457,7 +457,7 @@ const loadUpBoxScoreFourFactorsFunction = async() => {
 
 const loadUpBoxScoreFourFactorsTeamsFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscorefourfactorsteams/${season}`);
+    let results = await getJsonResponseStartup(`/fourFactors/teams/read/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postBoxScoreFourFactorsTeams(results[i], season);
@@ -467,7 +467,7 @@ const loadUpBoxScoreFourFactorsTeamsFunction = async() => {
 
 const loadUpBoxScoreMiscFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscoremisc/${season}`);
+    let results = await getJsonResponseStartup(`/boxScoreMisc/read/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postBoxScoreMisc(results[i], season);
@@ -477,7 +477,7 @@ const loadUpBoxScoreMiscFunction = async() => {
 
 const loadUpBoxScoreMiscTeamsFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscoremiscteams/${season}`);
+    let results = await getJsonResponseStartup(`/boxScoreMisc/teams/read/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postBoxScoreMiscTeams(results[i], season);
@@ -487,7 +487,7 @@ const loadUpBoxScoreMiscTeamsFunction = async() => {
 
 const loadUpBoxScorePlayerTrackerFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscoreplayertracker/${season}`);
+    let results = await getJsonResponseStartup(`/playerTracker/read/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postBoxScorePlayerTracker(results[i], season);
@@ -497,7 +497,7 @@ const loadUpBoxScorePlayerTrackerFunction = async() => {
 
 const loadUpBoxScorePlayerTrackerTeamsFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscoreplayertrackerteams/${season}`);
+    let results = await getJsonResponseStartup(`/playerTracker/teams/read/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let postedResults = await postBoxScorePlayerTrackerTeams(results[i], season);
@@ -507,7 +507,7 @@ const loadUpBoxScorePlayerTrackerTeamsFunction = async() => {
 
 const loadUpLeagueDashLineupsFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/leaguedashlineups/${season}`);
+    let results = await getJsonResponseStartup(`/leagueDashLineups/read/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)
     console.log(results.resultSets[0].rowSet)
@@ -521,7 +521,7 @@ const loadUpLeagueDashLineupsFunction = async() => {
 
 const loadUpLeagueDashOppPtShotFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/leaguedashoppptshot/${season}`);
+    let results = await getJsonResponseStartup(`/leagueDashOppPtShot/read/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)
     console.log(results.resultSets[0].rowSet)
@@ -535,7 +535,7 @@ const loadUpLeagueDashOppPtShotFunction = async() => {
 
 const loadUpLeagueDashPlayerClutchFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/leaguedashplayerclutch/${season}`);
+    let results = await getJsonResponseStartup(`/leagueDashPlayerClutch/read/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)
     console.log(results.resultSets[0].rowSet)
@@ -549,7 +549,7 @@ const loadUpLeagueDashPlayerClutchFunction = async() => {
 
 const loadUpLeagueDashPlayerPtShotFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/leaguedashplayerptshot/${season}`);
+    let results = await getJsonResponseStartup(`/leagueDashPlayerPtShot/read/${season}`);
     console.log(results);
     console.log(results.resultSets[0].rowSet.length)
     console.log(results.resultSets[0].rowSet)
@@ -563,7 +563,7 @@ const loadUpLeagueDashPlayerPtShotFunction = async() => {
 
 const loadUpLeagueDashPlayerShotLocationFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/leaguedashplayershotlocations/${season}`);
+    let results = await getJsonResponseStartup(`/leagueDashPlayerPtShot/read/leaguedashplayershotlocations/${season}`);
     console.log(results);
     console.log(results.resultSets.rowSet.length)
     console.log(results.resultSets.rowSet)
@@ -577,7 +577,7 @@ const loadUpLeagueDashPlayerShotLocationFunction = async() => {
 
 const loadUpBoxScoreScoringFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscorescoring/${season}`);
+    let results = await getJsonResponseStartup(`/boxScoreScoring/read/${season}`);
     console.log(results);
 
     for (let i = 0; i < results.length; i++) {
@@ -589,7 +589,7 @@ const loadUpBoxScoreScoringFunction = async() => {
 
 const loadUpBoxScoreScoringTeamsFunction = async() => {
     let season = "2021-2022";
-    let results = await getJsonResponseStartup(`/read/boxscorescoringteams/${season}`);
+    let results = await getJsonResponseStartup(`/boxScoreScoring/teams/read/${season}`);
     console.log(results);
 
     for (let i = 0; i < results.length; i++) {
@@ -601,7 +601,7 @@ const loadUpBoxScoreScoringTeamsFunction = async() => {
 
 const loadUpBoxScoreSummaryFunction = async() => {
     let season = "2018-2019";
-    let results = await getJsonResponseStartup(`/read/boxscoresummary/${season}`);
+    let results = await getJsonResponseStartup(`/boxScoreSummary/read/${season}`);
     console.log(results);
 
     for (let i = 0; i < results.length; i++) {

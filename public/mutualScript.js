@@ -18,7 +18,7 @@ const getJsonResponse = async (url) => {
 
 //GET PLAYER IDS FROM LOCAL DATABASE
 const getArrayOfPlayerIdsInEastandWestConferences = async() => {
-    const players = await getJsonResponse('/playerIds');
+    const players = await getJsonResponse('/publicApiPlayers/playerIds');
     console.log(players);
     return players;
 }
@@ -72,7 +72,7 @@ const appendIndividualPlayer = async(player) => {
 //then use the game id's and loop through statistics/players/playerId
 
 //get list of games in 2021 where the league is 'standard'
-const getGamesBySeason = async(year) => {
+const getGamesBySeasonPublic = async(year) => {
     try {    
         let gamesResponse = await fetch('https://api-nba-v1.p.rapidapi.com/games/seasonYear/' + year, {
             method: 'GET',
@@ -93,7 +93,7 @@ const getGamesBySeason = async(year) => {
 //make sure all games are in the standard league
 const getStandardGames = async(year) => {
     let standardGamesArray = [];
-    const games = await getGamesBySeason(year);
+    const games = await getGamesBySeasonPublic(year);
     for(let i = 0; i < games.api.games.length; i++) {
         if (games.api.games[i].league === 'standard') {
             standardGamesArray.push(games.api.games[i]);
@@ -275,7 +275,7 @@ const postMvpPoints = async(obj) => {
 }
 
 const loadUpMvpPoints = async(season, H_or_V) => {
-    let idNameList = await getJsonResponse(`/playernameidlist/${season}`);
+    let idNameList = await getJsonResponse(`/boxScoresTraditional/playernameidlist/${season}`);
     for (let i = 0; i < idNameList.length; i++) {
         let points = await getMvpPoints(season, idNameList[i].player_id, H_or_V);
         let obj = {playerid: idNameList[i].player_id, player_name: idNameList[i].player_name, mvppoints: points, season: season, H_or_V: H_or_V}
@@ -324,7 +324,7 @@ const getHustleFactor = async(year, playerId) => {
     let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
     //let games = await getPlayerStandardGameDetails(playerId);
     //let gamesPlayed = games.length;
-    let player = await getJsonResponse(`/playerNBA/${playerId}`)
+    let player = await getJsonResponse(`/playersNBA/playerNBA/${playerId}`)
     console.log(player);
     console.log(offRebPg);
     console.log(stl);
@@ -370,9 +370,9 @@ const getSeasonStatAvgFourFactorsLocal = async(stat, year, playerId, H_or_V) => 
     let url;
     console.log(year);
     if (H_or_V === 'home') {
-        url = '/fourfactorsboxscores/home/' + playerId + '/' + year; 
+        url = '/fourFactors/home/' + playerId + '/' + year; 
     } else {
-        url = '/fourfactorsboxscores/visitor/' + playerId + '/' + year; 
+        url = '/fourFactors/visitor/' + playerId + '/' + year; 
     }
     let gameDetailsArray = await getJsonResponse(url);
     console.log(gameDetailsArray);
@@ -395,9 +395,9 @@ const getSeasonStatAvgLocal = async(stat, year, playerId, H_or_V) => {
     console.log(year)
     console.log(playerId)
     if (H_or_V === 'home') {
-        url = '/officialboxscores/home/' + playerId + '/' + year; 
+        url = '/boxScoresTraditional/home/' + playerId + '/' + year; 
     } else {
-        url = '/officialboxscores/visitor/' + playerId + '/' + year; 
+        url = '/boxScoresTraditional/visitor/' + playerId + '/' + year; 
     } 
     let gameDetailsArray = await getJsonResponse(url);
     console.log(gameDetailsArray);
@@ -436,11 +436,11 @@ const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
 
 const getIndividualPlayerLocal = async(playerid) => {
     console.log(playerid);
-    const player = await getJsonResponse(`/local/players/` + playerid);
+    const player = await getJsonResponse(`/publicApiPlayers/` + playerid);
     console.log(player);
     return player;
 }
-
+///////////////////////////////////////////////////////////////////////////////
 const getPlayersByLastNameLocal = async(playerLastName) => {
     let players = await getJsonResponse('/players/lastName/' + playerLastName);
     return players;
@@ -450,5 +450,5 @@ const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
     console.log(playerid);
     return playerid;
 }
-
+///////////////////////////////////////////////////////////////////////////////////
 //loadUpMvpPoints('2021-2022', 'visitor')

@@ -100,7 +100,7 @@ const postCarmeloPointsLocal = async(obj) => {
     console.log('wuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuw');
     console.log(obj);
     console.log(JSON.stringify(obj))
-    const url = '/carmeloPoints';
+    const url = '/carmelo';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -124,7 +124,7 @@ const postHustlePointsLocal = async(obj) => {
     console.log('wuuuuuuuuuuuuuuuuuu999999999999999999999999999999999999999999999999uuuuuuuw');
     console.log(obj);
     console.log(JSON.stringify(obj))
-    const url = '/hustlePoints';
+    const url = '/hustleStats';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -147,7 +147,7 @@ const postHustlePointsLocal = async(obj) => {
 const mvpLoadUp = async() => {
 
     loadSeasonMvpLocal.onclick = async() => {
-        let playerIdArray = await getJsonResponse(`/playeridlist/${seasonMvpPts.value}`);
+        let playerIdArray = await getJsonResponse(`/boxScoresTraditional/playeridlist/${seasonMvpPts.value}`);
 
         //CHANGE 'i < 10 ; to 'i < playerIdArray.length'
         for (let i = 0; i < playerIdArray.length; i++) {
@@ -158,7 +158,7 @@ const mvpLoadUp = async() => {
                 //  continue;
             //}
 
-            let player = await getJsonResponse(`/playerNBA/${playerIdArray[i].player_id}`);
+            let player = await getJsonResponse(`/playersNBA/playerNBA/${playerIdArray[i].player_id}`);
             let object = {"player":player, "mvpPoints":mvpPoints, "season":seasonMvpPts.value};
 
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL MVP POINTS DATABASE
@@ -176,7 +176,7 @@ const mvpLoadUp = async() => {
 
     loadSeasonCarmeloPtsLocal.onclick = async() => {
     
-        let playerIdArray = await getJsonResponse(`/playeridlist/${seasonCarmeloPts.value}`);
+        let playerIdArray = await getJsonResponse(`/boxScoresTraditional/playeridlist/${seasonCarmeloPts.value}`);
     
         //CHANGE 'i < 10 ; to 'i < playerIdArray.length'
         for (let i = 0; i < playerIdArray.length; i++) {
@@ -187,7 +187,7 @@ const mvpLoadUp = async() => {
               //  continue;
             //}
         
-            let player = await getJsonResponse(`/playerNBA/${playerIdArray[i].player_id}`);
+            let player = await getJsonResponse(`/playersNBA/playerNBA/${playerIdArray[i].player_id}`);
             let object = {"player":player, "carmeloPts":carmeloPts, "season":seasonCarmeloPts.value};
         
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL CARMELO POINTS DATABASE
@@ -204,7 +204,7 @@ const mvpLoadUp = async() => {
     }
 
     loadSeasonHustlePtsLocal.onclick = async() => {
-        let playerIdArray = await getJsonResponse(`/playeridlist/${seasonHustlePts.value}`);
+        let playerIdArray = await getJsonResponse(`/boxScoresTraditional/playeridlist/${seasonHustlePts.value}`);
 
         //CHANGE 'i < 10 ; to 'i < playerIdArray.length'
         for (let i = 0; i < playerIdArray.length; i++) {
@@ -215,7 +215,7 @@ const mvpLoadUp = async() => {
               //  continue;
             //}
 
-            let player = await getJsonResponse(`/playerNBA/${playerIdArray[i].player_id}`);
+            let player = await getJsonResponse(`/playersNBA/playerNBA/${playerIdArray[i].player_id}`);
             let object = {"player":player, "hustlePts":hustlePts, "season":seasonHustlePts.value};
 
             //ACTIVATE THIS CODE IF YOU WANT TO POST TO LOCAL CARMELO POINTS DATABASE
@@ -233,7 +233,7 @@ const mvpLoadUp = async() => {
 
     submitSeasonMvp.onclick = async() => {
 
-        let results = await getJsonResponse('/getLocalMvpPointsInSeason/' + seasonMvpPts.value);
+        let results = await getJsonResponse('/mvpPoints/getLocalMvpPointsInSeason/' + seasonMvpPts.value);
         console.log(results);
         seasonMvpPointsTable.innerHTML = '';
         rowIndex = 0;
@@ -248,7 +248,7 @@ const mvpLoadUp = async() => {
 
     submitSeasonCarmelo.onclick = async() => {
 
-        let results = await getJsonResponse('/getLocalCarmeloPointsInSeason/' + seasonCarmeloPts.value);
+        let results = await getJsonResponse('/carmelo/getLocalCarmeloPointsInSeason/' + seasonCarmeloPts.value);
         console.log(results);
         seasonCarmeloPointsTable.innerHTML = '';
         carmeloRowIndex = 0;
@@ -262,7 +262,7 @@ const mvpLoadUp = async() => {
     }
     submitSeasonHustle.onclick = async() => {
 
-        let results = await getJsonResponse('/getLocalHustlePointsInSeason/' + seasonHustlePts.value);
+        let results = await getJsonResponse('/hustleStats/getLocalHustlePointsInSeason/' + seasonHustlePts.value);
         console.log(results);
         seasonHustlePointsTable.innerHTML = '';
         hustleRowIndex = 0;
