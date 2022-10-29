@@ -3,8 +3,9 @@ const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser')
 const db = require('./queries');
-require('dotenv').config();
-
+const dotenv = require('dotenv').config();
+const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
 
 const port = process.env.PORT || 3000;
 var swaggerUi = require('swagger-ui-express'),
@@ -65,7 +66,10 @@ app.use(
     })
 );
 
-
+const helmet = require('helmet')
+app.use(helmet())
+//app.use(cookieParser());
+//app.use(csrf({ cookie: true }))
 
 app.get('/', (req, res, next) => {
     res.sendFile(__dirname + "/public/front.html");
