@@ -6,10 +6,52 @@ const db = require('./queries');
 const dotenv = require('dotenv').config();
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
-
 const port = process.env.PORT || 3000;
-var swaggerUi = require('swagger-ui-express'),
-    swaggerDocument = require('./swagger.json');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'The Hoop Scoop API',
+            description: "NBA Statistics API",
+            contact: {
+                name: "Jack Petersen"
+            },
+            servers: ["http://localhost:3000"]
+        }
+    },
+    apis: ["index.js", "./routes/boxRoutes.js", "./routes/boxScoreMiscRoutes.js",
+            "./routes/boxScoreScoringRoutes.js", "./routes/boxScoresTraditionalRoutes.js",
+            "./routes/boxScoreSummaryRoutes.js", "./routes/carmeloRoutes.js", "./routes/fourFactorsRoutes.js",
+            "./routes/gamblingRoutes.js", "./routes/hustleStatsRoutes.js", "./routes/leagueDashLineupsRoutes.js",
+            "./routes/leagueDashOppShotRoutes.js","./routes/leagueDashPlayerClutch.js",
+            "./routes/leagueDashPlayerPtShotRoutes.js", "./routes/leagueGamesRoutes.js", "./routes/mvpPointsRoutes.js",
+            "./routes/playersNBARoutes.js", "./routes/playerTrackerRoutes.js", "./routes/publicApiPlayersRoutes.js",
+            "./routes/publicGamesRoutes", "./routes/regularSeasonStatsRoutes.js", "./routes/shotsRoutes.js"]
+}
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+app.use(
+    '/api-docs',
+    swaggerUi.serve, 
+    swaggerUi.setup(swaggerDocs)
+);
+
+app.use(express.static("public"));
+app.use(bodyParser.json());
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+);
+
+const helmet = require('helmet')
+app.use(helmet());
+app.use(cookieParser());
+app.use(csrf({ cookie: true }))
+
 
 const boxRouter = require('./routes/boxRoutes');
 const boxScoreMiscRouter = require('./routes/boxScoreMiscRoutes');
@@ -55,21 +97,6 @@ app.use("/publicGames", publicGamesRouter);
 app.use("/regularSeasonStats", regularSeasonStatsRouter);
 app.use("/shots", shotsRouter);
 
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.use(express.static("public"));
-app.use(bodyParser.json());
-app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
-);
-
-const helmet = require('helmet')
-app.use(helmet())
-//app.use(cookieParser());
-//app.use(csrf({ cookie: true }))
 
 app.get('/', (req, res, next) => {
     res.sendFile(__dirname + "/public/front.html");

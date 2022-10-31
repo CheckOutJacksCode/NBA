@@ -109,7 +109,8 @@ const getTeamPlayersFromTeamId = async(request, response) => {
 
 const getRosterBySeasonByTeam = (request, response) => {
     const { season, team } = request.params;
-  
+    console.log(season)
+    console.log(team)
     db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" WHERE team_id = $1`, [team], (error, results) => {
       if (error) {
           throw error
@@ -164,6 +165,7 @@ const getBoxScoreTraditionalVisitor = (request, response) => {
 }
 
 const getPreviousGameIdBySeasonByTeam = (request, response) => {
+    console.log('ffffffffffff')
     const {season, teamId} = request.params;
     db.query(`SELECT game_id FROM "boxscorestraditional${season}"
               WHERE team_id = $1
@@ -177,7 +179,10 @@ const getPreviousGameIdBySeasonByTeam = (request, response) => {
   
 const getPreviousRosterBySeasonByTeamByGameId = (request, response) => {
     const { season, teamId, gameid } = request.params;
-  
+    console.log('aaaaaaaa')
+    console.log(season)
+    console.log(teamId)
+    console.log(gameid)
     db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" 
               WHERE team_id = $1 AND game_id = $2`, [teamId, gameid], (error, results) => {
       if (error) {

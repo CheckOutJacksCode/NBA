@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
             <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
             <style>
 
@@ -42,15 +40,25 @@
     <header>
     </header>
     <body style="background-color:teal; color:black; background-repeat: no-repeat; background-size: cover; font-size: 2vw; background-position: center;">
-        <!--Navigation bar-->
-        <div id="nav-placeholder">
-        
-        </div>
-        <script>
+        <nav>
+            <div>
+                <a href="/">
+                    <div id="headtag"><img src="hoopgreen.webp" alt="Home"/></div>
+                    <div id="tagline"><img src="chucker.webp" alt="Home"/></div>
+                </a>
+            </div>
+            <div> 
+                <a href="/">HOME</a>
+                <a href="/deepStats" > | DEEP STATS | </a>      
+                <a href="/shotCharts" > SHOT CHARTS </a>
+                <a href="/jackarithm" >JACKARITHM</a>
+            </div>
+        </nav>
+        <!--<script>
             $(function(){
               $("#nav-placeholder").load("nav.html");
             });
-        </script>
+        </script>-->
         <!--end of Navigation bar-->
 
         <label for="homeTeamJackarithm">Choose Home Team: </label>

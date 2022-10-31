@@ -28,6 +28,7 @@
     "express-session": "^1.17.2",
     "helmet": "^6.0.0",
     "heroku": "^7.59.2",
+    "jquery": "^3.6.1",
     "jquery-csv": "^1.0.21",
     "jsdom": "^19.0.0",
     "minimist": "*",
@@ -38,8 +39,9 @@
     "react": "^18.2.0",
     "redis": "^4.0.3",
     "should": "^13.2.3",
+    "swagger-jsdoc": "^6.2.5",
     "swagger-node-express": "~2.0",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
     "supertest": "^6.2.4"
