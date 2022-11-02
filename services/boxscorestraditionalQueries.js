@@ -134,6 +134,7 @@ const getBoxScoreTraditionalStats = (request, response) => {
 
 const getBoxScoreTraditionalHome = (request, response) => {
     const {playerid, season} = request.params;
+    console.log('seasonssssss')
     console.log(season)
     db.query(`SELECT * FROM "boxscorestraditional${season}" 
               INNER JOIN "boxscoresummary${season}" 
@@ -141,7 +142,12 @@ const getBoxScoreTraditionalHome = (request, response) => {
               WHERE player_id = $1
               AND "boxscoresummary${season}".home_team_id = "boxscorestraditional${season}".team_id
               ORDER BY "boxscorestraditional${season}".id`, [playerid], (error, results) => {
-      if (error) {
+      if (!season) {
+          console.log('hereererrerererere');
+          response.stats(404).send('Playerid or season is missing');
+      }
+      else if (error) {
+          
           throw error
       }
       response.status(200).json(results.rows)
@@ -159,6 +165,7 @@ const getBoxScoreTraditionalVisitor = (request, response) => {
               ORDER BY "boxscorestraditional${season}".id`, [playerid], (error, results) => {
       if (error) {
           throw error
+
       }
       response.status(200).json(results.rows)
     })
@@ -180,9 +187,6 @@ const getPreviousGameIdBySeasonByTeam = (request, response) => {
 const getPreviousRosterBySeasonByTeamByGameId = (request, response) => {
     const { season, teamId, gameid } = request.params;
     console.log('aaaaaaaa')
-    console.log(season)
-    console.log(teamId)
-    console.log(gameid)
     db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" 
               WHERE team_id = $1 AND game_id = $2`, [teamId, gameid], (error, results) => {
       if (error) {
@@ -196,9 +200,6 @@ const getPreviousRosterBySeasonByTeamByGameId = (request, response) => {
 const getBoxNumFromGameIdSeason = (request, response) => {
     const {gameid, season, teamid, H_or_V} = request.params;
     console.log('boosh');
-    console.log(season);
-    console.log(gameid);
-    console.log(teamid);
   
     db.query(`SELECT COUNT(DISTINCT "boxscorestraditional${season}".game_id) FROM "boxscorestraditional${season}"
               INNER JOIN "boxscoresummary${season}"

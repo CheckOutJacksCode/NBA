@@ -1,14 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+
 const app = express();
 const bodyParser = require('body-parser')
 const db = require('./queries');
-const dotenv = require('dotenv').config();
-const csrf = require('csurf');
-const cookieParser = require('cookie-parser');
+//const dotenv = require('dotenv').config();
+//const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3000;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+
+/*app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self' http://d3js.org");
+    return next();
+});*/
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -32,14 +37,16 @@ const swaggerOptions = {
 }
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-
+//app.use(cors());
 app.use(
     '/api-docs',
     swaggerUi.serve, 
     swaggerUi.setup(swaggerDocs)
 );
 
-app.use(express.static("public"));
+
+app.use(express.static('public'))
+
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
@@ -49,9 +56,7 @@ app.use(
 
 const helmet = require('helmet')
 app.use(helmet());
-app.use(cookieParser());
-app.use(csrf({ cookie: true }))
-
+//app.use(cookieParser());
 
 const boxRouter = require('./routes/boxRoutes');
 const boxScoreMiscRouter = require('./routes/boxScoreMiscRoutes');

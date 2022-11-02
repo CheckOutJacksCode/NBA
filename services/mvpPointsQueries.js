@@ -19,7 +19,7 @@ const createPlayerMvpPoints = (request, response) => {
 
 const getAllFirstLastMvpPointsInSeason = (request, response) => {
     const season = request.params;
-    console.log(request);
+   
     db.query(`SELECT firstname, lastname, mvppoints FROM "mvpPoints" WHERE season = $1 AND mvppoints!='STATISTICS UNAVAILABLE' ORDER BY CAST(mvppoints AS FLOAT) ASC`, [season.season], (error, results) => {
       if (error) {
         throw error
@@ -30,9 +30,7 @@ const getAllFirstLastMvpPointsInSeason = (request, response) => {
 
 const getMVPPointsByPlayerBySeason = (request, response) => {
     const {playerid, season, H_or_V} = request.params;
-    console.log(season);
-    console.log(playerid);
-    console.log(H_or_V)
+
     db.query(`SELECT * FROM "mvpPoints"
               WHERE playerid = $1
               AND season = $2`, [playerid, season], (error, results) => {
@@ -46,8 +44,7 @@ const getMVPPointsByPlayerBySeason = (request, response) => {
 
 const getAllMvpPointsFunction = (request, response) => {
     const {season} = request.params;
-    console.log('boosh')
-    console.log(season)
+
     db.query(`SELECT mvppoints FROM "mvpPoints" 
               WHERE season = $1`, [season], (error, results) => {
       if (error) {

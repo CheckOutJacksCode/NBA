@@ -4,7 +4,6 @@ const shotsGameId = document.getElementById("shots_gameId");
 //const submitShots = document.getElementById("submit_shots");
 const teamChosenShots = document.getElementById("teamsshots");
 
-
 const getJsonResponseShotCharts = async (url) => {
   console.log(url);
   const response = await fetch(url);
