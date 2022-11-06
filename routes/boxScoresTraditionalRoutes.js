@@ -22,8 +22,7 @@ const boxScoreTraditional = require('../services/boxscorestraditionalQueries')
  *     responses:
  *       '200':
  *         description: A successful response
- *       '404':
- *         description: Stuff not found
+ *       
  */
 router.get('/home/:playerid/:season', boxScoreTraditional.getBoxScoreTraditionalHome);
 

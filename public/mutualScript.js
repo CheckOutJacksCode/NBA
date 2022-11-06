@@ -8,6 +8,7 @@ const getJsonResponse = async (url) => {
     try{
         if (response.ok){
             const jsonResponse = await response.json();
+            
             return jsonResponse;
         }
     } catch(err){
@@ -445,10 +446,12 @@ const getPlayersByLastNameLocal = async(playerLastName) => {
     let players = await getJsonResponse('/players/lastName/' + playerLastName);
     return players;
 }
+/*
 const getIdFromPlayersByNameLocal = async(playerLastName, playerFirstName) => {
     let playerid = await getJsonResponse(`/local/players/playerid/` + playerLastName + '/' + playerFirstName);
     console.log(playerid);
     return playerid;
 }
+*/
 ///////////////////////////////////////////////////////////////////////////////////
 //loadUpMvpPoints('2021-2022', 'visitor')

@@ -49,14 +49,16 @@ const getJsonResponseStartup = async (url) => {
 
 const onStartUp = async() => {
     mvpSubmit.onclick = async() => {
-        let playerIdArray = await getIdFromPlayersByNameLocal(lastName.value, firstName.value);
+        let splitPlayer = teamPlayerChosen.value.split(' ');
+        let last = splitPlayer[1];
+        let first = splitPlayer[0]; 
+        let playerIdArray = await getJsonResponseStartup(`/official/players/playerid/${last}/${first}`);
         console.log(seasonToGet.value)
         console.log(playerIdArray[0].playerid)
         let mvpPoints = await getMvpPoints(seasonToGet.value, playerIdArray[0].playerid);
         console.log(mvpPoints)
-        let player = await getIndividualPlayerLocal(playerIdArray[0].playerid);
-        console.log(player);
-        appendPlayerAndStat(player, 'MVP Points: ', mvpPoints);
+        //let player = await getIndividualPlayerLocal(playerIdArray[0].playerid);
+        appendPlayerAndStat(teamPlayerChosen.value, 'MVP Points: ', mvpPoints);
     }
 
     statSubmit.onclick = async() => {

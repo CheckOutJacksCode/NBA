@@ -1,20 +1,16 @@
-const logError = err => {
-    console.log("ERROR: " + String(err))
+// middleware.js
+const errorLogger = (err, req, res, next) => {
+    console.error('\x1b[31m', err) // adding some color to our logs
+    next(err) // calling next middleware
 }
 
-const errorLoggerMiddleware = (err, req, res, next) => {
-    logError(err)
-    next(err)
+const errorResponder = (err, req, res, next) => {
+  res.header("Content-Type", 'application/json')
+  res.status(err.statusCode).send(JSON.stringify(err, null, 4)) // pretty print
 }
 
-const returnErrorMiddleware = (err, req, res, next) => {
-    console.log(res);
-    res.status(err.statusCode || 500)
-       .send(err.message)
+const invalidPathHandler = (req, res, next) => {
+  res.redirect('/error')
 }
 
-module.exports = {
-    logError,
-    errorLoggerMiddleware,
-    returnErrorMiddleware
-}
+module.exports = { errorLogger, errorResponder, invalidPathHandler }

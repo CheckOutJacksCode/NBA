@@ -52,7 +52,8 @@ const getPlayerIdWithLastFirst = (request, response) => {
       response.status(200).json(results.rows)
     })
 }
-  
+
+
 const getPlayersWithLastFirst = (request, response) => {
     let {lastName, firstName} = request.params;
     db.query(`SELECT * FROM players WHERE lastname = $1 AND firstname = $2`, [lastName, firstName], (error, results) => {

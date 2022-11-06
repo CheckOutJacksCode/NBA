@@ -887,6 +887,11 @@ const teamsDropDown = async() => {
 }
 /* Start up function, provides functionality for submit buttons. */
 let teamPlayersArray = [];
+
+teamChosen.onchange = async() => {
+    await teamPlayersDropDown();
+}
+
 const teamPlayersDropDown = async() => {
 
     let teamId = await getJsonResponseFront(`/leagueGames/teamid/${teamChosen.value}`)
@@ -906,6 +911,10 @@ const teamPlayersDropDown = async() => {
         console.log(error);
     }
     
+}
+
+teamPlayerChosen.onchange = async() => {
+    await displayPlayerCareerStats();
 }
 
 const displayPlayerCareerStats = async() => {
