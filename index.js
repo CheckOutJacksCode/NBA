@@ -26,7 +26,7 @@ const swaggerOptions = {
             servers: ["http://localhost:3000"]
         }
     },
-    apis: ["index.js", "./routes/boxRoutes.js", "./routes/boxScoreMiscRoutes.js",
+    apis: ["index.js", "./routes/boxPlayersRoutes.js", "./routes/boxRoutes.js", "./routes/boxScoreMiscRoutes.js",
             "./routes/boxScoreScoringRoutes.js", "./routes/boxScoresTraditionalRoutes.js",
             "./routes/boxScoreSummaryRoutes.js", "./routes/carmeloRoutes.js", "./routes/fourFactorsRoutes.js",
             "./routes/gamblingRoutes.js", "./routes/hustleStatsRoutes.js", "./routes/leagueDashLineupsRoutes.js",
@@ -58,6 +58,7 @@ const helmet = require('helmet')
 app.use(helmet());
 //app.use(cookieParser());
 
+const boxPlayersRouter = require('./routes/boxPlayersRoutes');
 const boxRouter = require('./routes/boxRoutes');
 const boxScoreMiscRouter = require('./routes/boxScoreMiscRoutes');
 const boxScoreScoringRouter = require('./routes/boxScoreScoringRoutes');
@@ -80,6 +81,7 @@ const publicGamesRouter = require('./routes/publicGamesRoutes');
 const regularSeasonStatsRouter = require('./routes/regularSeasonStatsRoutes');
 const shotsRouter = require('./routes/shotsRoutes');
 
+app.use("/boxPlayers", boxPlayersRouter)
 app.use("/box", boxRouter);
 app.use("/boxScoreMisc", boxScoreMiscRouter);
 app.use("/boxScoreScoring", boxScoreScoringRouter);

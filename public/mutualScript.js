@@ -2,21 +2,36 @@ const playerId = document.getElementById("playerId");
 const playerIdSubmit = document.getElementById("playerId-submit");
 const playerInfoTable = document.getElementById("player-info");
 
+
 const getJsonResponse = async (url) => {
     console.log(url);
     const response = await fetch(url);
-    try{
+    try {
         if (response.ok){
             const jsonResponse = await response.json();
             
             return jsonResponse;
         }
-    } catch(err){
+    }
+    catch (err) {
         console.log(err);
     }
 }
-
-
+/*
+catch (err) {
+    console.log('eheeheheheheh')
+    if (err instanceof Errors.BadRequest)
+      return res.status(HttpStatus.BAD_REQUEST).send({ message: err.message }); // 400
+    if (err instanceof Errors.Forbidden)
+      return res.status(HttpStatus.FORBIDDEN).send({ message: err.message }); // 403
+    if (err instanceof Errors.NotFound)
+      return res.status(HttpStatus.NOT_FOUND).send({ message: err.message }); // 404
+    if (err instanceof Errors.UnprocessableEntity)
+      return res.status(HttpStatus.UNPROCESSABLE_ENTITY).send({ message: err.message }); // 422
+    console.log(err);
+    return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send({ error: err, message: err.message });
+}
+*/
 //GET PLAYER IDS FROM LOCAL DATABASE
 const getArrayOfPlayerIdsInEastandWestConferences = async() => {
     const players = await getJsonResponse('/publicApiPlayers/playerIds');
@@ -291,22 +306,14 @@ const loadUpMvpPoints = async(season, H_or_V) => {
 CALL GETSTANDARDPLAYERDETAILS*/
 const getMvpPoints = async(year, playerId, H_or_V) => {
     let ppg = await getSeasonStatAvgLocal('pts', year, playerId, H_or_V);
-    console.log(ppg)
     let totReb = await getSeasonStatAvgLocal('reb', year, playerId, H_or_V);
-    console.log(totReb);
     let assists = await getSeasonStatAvgLocal('ast', year, playerId, H_or_V);
-    console.log(assists);
     let steals = await getSeasonStatAvgLocal('stl', year, playerId, H_or_V);
-    console.log(steals);
     let turnovers = await getSeasonStatAvgLocal('turnovers', year, playerId, H_or_V);
-    console.log(turnovers);
     let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId, H_or_V);
-    console.log(plusMinus);
     let efg_pct = await getSeasonStatAvgFourFactorsLocal('efg_pct', year, playerId, H_or_V)
     let fgp = await getSeasonStatAvgLocal('fg_pct', year, playerId);
-    console.log(efg_pct);
     let mvpPoints = (.15 * parseFloat(ppg)) + (.07 * parseFloat(totReb)) + (.06 * parseFloat(assists)) + (.125 * parseFloat(steals)) - (.125 * parseFloat(turnovers)) + (.3 * parseFloat(plusMinus)) + (.02 * parseFloat(fgp));
-    console.log(plusMinus);
     if (!mvpPoints) {
         return 'STATISTICS UNAVAILABLE'
     }
@@ -393,25 +400,25 @@ const getSeasonStatAvgFourFactorsLocal = async(stat, year, playerId, H_or_V) => 
 
 const getSeasonStatAvgLocal = async(stat, year, playerId, H_or_V) => {
     let url;
-    console.log(year)
-    console.log(playerId)
+    console.log(playerId);
     if (H_or_V === 'home') {
-        url = '/boxScoresTraditional/home/' + playerId + '/' + year; 
+        url = '/boxScoresTraditional/home/' + playerId[0].playerid + '/' + year; 
+    } else if (H_or_V === 'visitor') {
+        url = '/boxScoresTraditional/visitor/' + playerId[0].playerid + '/' + year; 
     } else {
-        url = '/boxScoresTraditional/visitor/' + playerId + '/' + year; 
-    } 
+        url = '/boxScoresTraditional/' + playerId[0].playerid + '/' + year;
+    }
+    console.log(stat);
     let gameDetailsArray = await getJsonResponse(url);
-    console.log(gameDetailsArray);
+    console.log(gameDetailsArray)
+    if (gameDetailsArray.length === 0) {
+        return 'Player was inactive the entire season'
+    }
     let statTotal = await getSeasonTotalOfStat(stat.toLowerCase(), gameDetailsArray);
-    console.log(statTotal);
     //let gamesPlayed = await getGamesPlayedInSeason(gameDetailsArray);
     let gamesPlayed = gameDetailsArray.length;
     let statAverage = statTotal / gamesPlayed;
-    if (stat === 'fg_pct') {
-        console.log(statTotal);
-        console.log(gamesPlayed);
-        console.log(statAverage);
-    }
+
     console.log(statAverage);
     return Number.parseFloat(statAverage).toFixed(2);
 }
@@ -422,14 +429,12 @@ const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
     let statTotal = 0;
     //console.log(gameDetailsArray);
     if (stat === 'ppg') {
-        console.log('YOTOTOTOOOOTORORORORTOOREWEOE')
         //stat = 'points';
         stat = 'pts';
     }
     for (let i = 0; i < gameDetailsArray.length; i++) {
         if (gameDetailsArray[i].min) {
             statTotal += parseFloat(gameDetailsArray[i][stat]);
-            console.log(parseFloat(gameDetailsArray[i][stat]));
         }
     }
     return statTotal;

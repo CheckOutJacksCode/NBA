@@ -33,6 +33,8 @@ const getOfficialPlayerIdWithLastFirst = (request, response) => {
     firstNameEndString += firstName[i];
   }
   let first = firstName[0].toUpperCase() + firstNameEndString;
+  console.log(last)
+  console.log(first)
   db.query(`SELECT playerid FROM "playersNBA" WHERE last_name = $1 AND first_name = $2`, [last, first], (error, results) => {
     if (error) {
       throw error
@@ -53,11 +55,23 @@ const getPlayerByIdOfficial = async(request, response) => {
       response.status(200).json(results.rows)
   })
 }
-  
+
+const getOfficialPlayerIdWithFullName = (request, response) => {
+  let {name} = request.params;
+
+  db.query(`SELECT playerid FROM "playersNBA" WHERE full_name = $1`, [name], (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
 
 module.exports = {
     createPlayersNBA,
     getOfficialPlayerIdWithLastFirst,
     getPlayersNBA,
     getPlayerByIdOfficial,
+    getOfficialPlayerIdWithFullName,
 }

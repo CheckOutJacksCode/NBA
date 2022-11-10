@@ -2,11 +2,12 @@ const db = require("../pgPool");
 const fs = require("fs");
 const { parse } = require("csv-parse");
 const createCsvWriter = require('csv-writer');
+const errors = require('../middleware/errors.js');
 
-const getPlayerSeasonGameStatsOfficial = async(request, response) => {
-    let {playerid, seasonyear} = request.params;
+const getBoxScorePlayer = async(request, response) => {
+    let {playerid, season} = request.params;
   
-    db.query(`SELECT * FROM "boxscorestraditional${seasonyear}"
+    db.query(`SELECT * FROM "boxscorestraditional${season}"
               WHERE player_id = $1`, [playerid], (error, results) => {
       if (error) {
         throw error
@@ -70,69 +71,9 @@ const getBoxScoresTraditional = async(request, response) => {
     })
 }
   
-  
-  
-const getOfficialPlayerIdList = (request, response) => {
-    
-    let {season} = request.params;
-    db.query(`SELECT distinct player_id FROM "boxscorestraditional${season}"`, (error, results) => {
-      if (error) {
-        throw error
-      }
-  
-      response.status(200).json(results.rows)
-    })
-}
-  
-const getOfficialPlayerIdNameList = (request, response) => {
-    
-    let {season} = request.params;
-    db.query(`SELECT distinct player_id, player_name FROM "boxscorestraditional${season}"`, (error, results) => {
-      if (error) {
-        throw error
-      }
-  
-      response.status(200).json(results.rows)
-    })
-}
-
-  
-const getTeamPlayersFromTeamId = async(request, response) => {
-    let teamid = request.params;
-    db.query('SELECT DISTINCT player_name FROM "boxscorestraditional2021-2022" WHERE team_id = $1', [teamid.teamid], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
-}
-
-const getRosterBySeasonByTeam = (request, response) => {
-    const { season, team } = request.params;
-    console.log(season)
-    console.log(team)
-    db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" WHERE team_id = $1`, [team], (error, results) => {
-      if (error) {
-          throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
-  
-const getBoxScoreTraditionalStats = (request, response) => {
-    const {playerid, season} = request.params;
-  
-    db.query(`SELECT * FROM "boxscorestraditional${season}" WHERE player_id = $1`, [playerid], (error, results) => {
-      if (error) {
-          throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
-  
 
 
-const getBoxScoreTraditionalHome = (request, response) => {
+const getBoxScoreTraditionalHome = (request, response, next) => {
     const {playerid, season} = request.params;
     console.log('seasonssssss')
     console.log(season);
@@ -147,7 +88,9 @@ const getBoxScoreTraditionalHome = (request, response) => {
               ORDER BY "boxscorestraditional${stringSeason}".id`, [playerid], (error, results) => {
       if (error) {
           return response.status(error.statusCode || 500)
-          .send(error.message)
+          .send({name: error.name, 
+                message: error.message,
+                stack: error.stack})
       }
       response.status(200).json(results.rows)
     })
@@ -183,19 +126,6 @@ const getPreviousGameIdBySeasonByTeam = (request, response) => {
     })
 }
   
-const getPreviousRosterBySeasonByTeamByGameId = (request, response) => {
-    const { season, teamId, gameid } = request.params;
-    console.log('aaaaaaaa')
-    db.query(`SELECT DISTINCT player_id, player_name FROM "boxscorestraditional${season}" 
-              WHERE team_id = $1 AND game_id = $2`, [teamId, gameid], (error, results) => {
-      if (error) {
-          throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
-
-  
 const getBoxNumFromGameIdSeason = (request, response) => {
     const {gameid, season, teamid, H_or_V} = request.params;
     console.log('boosh');
@@ -214,17 +144,12 @@ const getBoxNumFromGameIdSeason = (request, response) => {
 }
 
 module.exports = {
-    getPlayerSeasonGameStatsOfficial,
+    getBoxScorePlayer,
+    getBoxScorePlayer,
     getBoxNumFromGameIdSeason,
-    getPreviousRosterBySeasonByTeamByGameId,
     getPreviousGameIdBySeasonByTeam,
     getBoxScoreTraditionalVisitor,
     getBoxScoreTraditionalHome,
-    getBoxScoreTraditionalStats,
-    getRosterBySeasonByTeam,         
-    getTeamPlayersFromTeamId,
-    getOfficialPlayerIdNameList,
-    getOfficialPlayerIdList,
     getBoxScoresTraditional,
     boxScoreTraditionalLoad,
     createBoxScoresTraditional,  

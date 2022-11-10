@@ -7,6 +7,8 @@ const deepStatToGet = document.getElementById("deepStatToGet");
 const teamChosen = document.getElementById("teams");
 const teamPlayerChosen = document.getElementById("teamplayers");
 const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAveragesRegularSeasonsTable");
+const splits = document.getElementById("player-splits");
+const splitLineTable = document.getElementById("splitTable");
 
 const getJsonResponseFront = async (url) => {
     console.log(url);
@@ -702,7 +704,7 @@ const appendPlayerAndStat = async(player, stat, statAverage) => {
     let row = playerInfoTable.insertRow(rowIndex);
     let cell1 = row.insertCell(0);
     let cell2 = row.insertCell(1);
-    cell1.innerHTML = player[0].firstname + ' ' + player[0].lastname;
+    cell1.innerHTML = player;
     if (isNaN(statAverage)) {
         cell2.innerHTML = 'Statistics Unavailable'
     } else {
@@ -896,7 +898,7 @@ const teamPlayersDropDown = async() => {
 
     let teamId = await getJsonResponseFront(`/leagueGames/teamid/${teamChosen.value}`)
     console.log(teamId);
-    let teamPlayers = await getJsonResponseFront(`/boxScoresTraditional/teamplayers/${teamId[0].team_id}`);
+    let teamPlayers = await getJsonResponseFront(`/boxPlayers/teamplayers/${teamId[0].team_id}`);
     console.log(teamPlayers);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("teamplayers").innerHTML = str;
@@ -913,58 +915,139 @@ const teamPlayersDropDown = async() => {
     
 }
 
+const clearTableContents = async() => {
+    seasonAveragesRegularSeasonsTable.innerHTML = '';
+    //splitLineTable.innerHTML = '';
+    return true;
+}
+
+const clearSplitTable = async() => {
+    splitLineTable.innerHTML = '';
+    return true;
+}
+
 teamPlayerChosen.onchange = async() => {
-    await displayPlayerCareerStats();
+    let career = await displayPlayerCareerStats();
+    let splits = await displayPlayerSplitStats();
+}
+
+splits.onchange = async() => {
+    let cleared = false;
+    cleared = await clearTableContents();
+    if (cleared) {
+        let splits = await displayPlayerSplitStats();
+    }
+}
+
+seasonToGet.onchange = async() => {
+    let cleared = false;
+    cleared = await clearTableContents();
+    if (cleared) {
+        let splits = await displayPlayerSplitStats();
+    }
+}
+
+const splitNameFunction = async(fullName) => {
+    if (!fullName) {
+        let player = teamPlayerChosen.value;
+        let playerFirstLast = player.split(' ');
+        let first;
+        let last;
+        if (playerFirstLast.length > 2) {
+            first = playerFirstLast[0];
+            last = playerFirstLast[1] + ' ' + playerFirstLast[2];
+        } else {
+            first = playerFirstLast[0];
+            last = playerFirstLast[1];
+        }
+        return ([first, last]);
+    }
+
 }
 
 const displayPlayerCareerStats = async() => {
-    let player = teamPlayerChosen.value;
-    let playerFirstLast = player.split(' ');
-    console.log(player);
-    console.log(playerFirstLast);
-    let playerid = await getJsonResponseFront(`/playersNBA/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
-    console.log(playerid);
-    console.log(playerid[0]);
+
+    let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`)
     if (!playerid[0]) {
-        await appendStatsUnavailable();
+        await appendStatsUnavailable('bad player id');
         return;
     }
     let statLines = await getJsonResponseFront(`/regularSeasonStats/getregularseasonstatlines/${playerid[0].playerid}`);
     console.log(statLines);
-    await appendPlayerRegularSeasonStatLines(statLines);
+    let appended = await appendPlayerRegularSeasonStatLines(statLines);
 }
 
-const appendStatsUnavailable = async() => {
-    seasonAveragesRegularSeasonsTable.innerHTML = '';
-    seasonAveragesRegularSeasonsTable.innerHTML = 'STATISTICS UNAVAILABLE'
-}
-
-const appendPlayerRegularSeasonStatLines = async(statlines) => {
-    seasonAveragesRegularSeasonsTable.innerHTML = '';
-    console.log(statlines);
-    let row0 = seasonAveragesRegularSeasonsTable.insertRow(0);
-    let headers = Object.keys(statlines[0]);
-    console.log(headers);
-    for (let i = 2; i < 28; i++) {
-        let cell = row0.insertCell(i - 2);
-        cell.innerHTML = headers[i];
+const displayPlayerSplitStats = async() => {
+    
+    let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`)
+    let headers = await getJsonResponseFront(`/statsheaders/boxscorestraditional2015-2016`);
+    let stat;
+    let average;
+    let averageObj = {};
+    let averagesArray = [];
+    if (!playerid[0]) {
+        await appendStatsUnavailable();
+        return;
     }
-    let rowIndex = 1;
-    for (let j = 0; j < statlines.length; j++) {
-        let row = seasonAveragesRegularSeasonsTable.insertRow(rowIndex);
-        for (let k = 2; k < 28; k++) {
-            let cell = row.insertCell(k - 2);
+    for (let i = 0; i < headers.length; i++) {
+        stat = headers[i].column_name;
+        average = await getSeasonStatAvgLocal(stat, seasonToGet.value, playerid, splits.value)
+        averageObj[stat] = average;
+    }
+    averagesArray.push(averageObj);
+    console.log(averagesArray);
+    await appendPlayerRegularSeasonStatLines(averagesArray, true);
+}
 
-            let values = Object.values(statlines[j]);
-            let totals = [9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
-            if (totals.includes(k)) {
-                let average = values[k] / values[7];
-                cell.innerHTML = average.toFixed(2);
-            } else {
-                cell.innerHTML = values[k];
+const appendStatsUnavailable = async(table, message) => {
+    table.innerHTML = '';
+    table.innerHTML = message;
+}
+
+const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
+    console.log(statlines);
+    let table = seasonAveragesRegularSeasonsTable;
+    let headers = Object.keys(statlines[0]);
+    let cleared;
+    if (isSplitLine) {
+        cleared = await clearSplitTable();
+        table = splitLineTable;
+        row0 = splitLineTable.insertRow();
+        row1 = splitLineTable.insertRow();
+        let hiddenColumns = []
+        for (let x = 10; x < headers.length; x++) {
+            let cell0 = row0.insertCell();
+            cell0.innerHTML = headers[x]
+            let cell1 = row1.insertCell();
+            
+            cell1.innerHTML = Object.values(statlines[0])[x];
+        }
+
+    } else {
+        cleared = await clearTableContents();
+        row0 = seasonAveragesRegularSeasonsTable.insertRow(0);
+        for (let i = 2; i < 28; i++) {
+            let cell = row0.insertCell(i - 2);
+            cell.innerHTML = headers[i];
+        }
+        let rowIndex = 1;
+        for (let j = 0; j < statlines.length; j++) {
+            let row = table.insertRow(rowIndex);
+            for (let k = 2; k < 28; k++) {
+                let cell = row.insertCell(k - 2);
+    
+                let values = Object.values(statlines[j]);
+                let totals = [9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+                if (totals.includes(k)) {
+                    let average = values[k] / values[7];
+                    cell.innerHTML = average.toFixed(2);
+                } else {
+                    cell.innerHTML = values[k];
+                }
             }
         }
     }
+
     /*
     if (isNaN(statAverage)) {
         cell2.innerHTML = 'Statistics Unavailable'

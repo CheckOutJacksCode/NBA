@@ -1,24 +1,91 @@
-class CharacterCountExceeded extends Error { // parent error
-    constructor(post_id, content) {
-        super();
-        this.name = this.constructor.name // good practice
-  
-        if (this instanceof LongTitleError) // checking if title or body
-            this.type = 'title'
-        else if (this instanceof LongBodyError)
-            this.type = 'body'
-   
-      this.message = `The character count of post (id: ${post_id}) ${this.type} is too long. (${content.length} characters)` // detailed error message
-      this.statusCode = 500 // error code for responding to client
-    }
+'use strict';
+
+class ExtendableError extends Error {
+  constructor(message) {
+    if (new.target === ExtendableError)
+      throw new TypeError('Abstract class "ExtendableError" cannot be instantiated directly.');
+    super(message);
+    this.name = this.constructor.name;
+    this.message = message;
+    Error.captureStackTrace(this, this.contructor);
   }
-  
-  // extending to child error classes
-  class LongTitleError extends CharacterCountExceeded { }
-  class LongBodyError extends CharacterCountExceeded { }
-  
-  module.exports = {
-      CharacterCountExceeded,
-      LongTitleError,
-      LongBodyError
+}
+
+// 400 Bad Request
+class BadRequest extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('bad request');
+    else
+      super(m);
   }
+}
+
+// 401 Unauthorized
+class Unauthorized extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('unauthorized');
+    else
+      super(m);
+  }
+}
+
+// 403 Forbidden
+class Forbidden extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('forbidden');
+    else
+      super(m);
+  }
+}
+
+// 404 Not Found
+class NotFound extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('not found');
+    else
+      super(m);
+  }
+}
+
+// 409 Conflict
+class Conflict extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('conflict');
+    else
+      super(m);
+  }
+}
+
+// 422 Unprocessable Entity
+class UnprocessableEntity extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('unprocessable entity');
+    else
+      super(m);
+  }
+}
+
+// 500 Internal Server Error
+class InternalServerError extends ExtendableError {
+  constructor(m) {
+    if (arguments.length === 0)
+      super('internal server error');
+    else
+      super(m);
+  }
+}
+
+
+module.exports.BadRequest = BadRequest;
+module.exports.Unauthorized = Unauthorized;
+module.exports.Forbidden = Forbidden;
+module.exports.NotFound = NotFound;
+module.exports.Conflict = Conflict;
+module.exports.UnprocessableEntity = UnprocessableEntity;
+module.exports.InternalServerError = InternalServerError;

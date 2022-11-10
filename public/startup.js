@@ -47,19 +47,24 @@ const getJsonResponseStartup = async (url) => {
     }
 }
 
-const onStartUp = async() => {
-    mvpSubmit.onclick = async() => {
-        let splitPlayer = teamPlayerChosen.value.split(' ');
-        let last = splitPlayer[1];
-        let first = splitPlayer[0]; 
-        let playerIdArray = await getJsonResponseStartup(`/official/players/playerid/${last}/${first}`);
-        console.log(seasonToGet.value)
-        console.log(playerIdArray[0].playerid)
-        let mvpPoints = await getMvpPoints(seasonToGet.value, playerIdArray[0].playerid);
-        console.log(mvpPoints)
-        //let player = await getIndividualPlayerLocal(playerIdArray[0].playerid);
-        appendPlayerAndStat(teamPlayerChosen.value, 'MVP Points: ', mvpPoints);
+deepStatToGet.onchange = async() => {
+    let splitPlayer = teamPlayerChosen.value.split(' ');
+    let last = splitPlayer[1];
+    let first = splitPlayer[0]; 
+    let playerIdArray = await getJsonResponseStartup(`/playersNBA/official/players/playerid/${last}/${first}`);
+    let stat;
+    if (deepStatToGet.value === 'MVP Points') {
+        stat = await getMvpPoints(seasonToGet.value, playerIdArray[0].playerid);
+    } else if (deepStatToGet === 'Hustle Factor') {
+        stat = await getHustleFactor(seasonToGet.value, playerIdArray[0].playerid);
+    } else {
+        stat = await getCarmeloFactor(seasonToGet.value, playerIdArray[0].playerid);
     }
+    appendPlayerAndStat(teamPlayerChosen.value, stat, deepStatToGet.value);
+
+}
+
+const onStartUp = async() => {
 
     statSubmit.onclick = async() => {
         let stat = statToGet.value;
@@ -117,23 +122,6 @@ const onStartUp = async() => {
         appendPlayerAndStat(player.api.players[0], stat, statPoints);
     }
 */
-
-    deepStatSubmit.onclick = async() => {
-        let stat = deepStatToGet.value;
-        let season = seasonToGet.value;
-        let id = await getIdFromPlayersByNameLocal(lastName.value, firstName.value);
-        let statPoints;
-        if (stat === "Hustle Factor") {
-            statPoints = await getHustleFactor(season, id[0].playerid);
-        } else if (stat === "Carmelo Factor") {
-            statPoints = await getCarmeloFactor(season, id[0].playerid);
-        } else {
-            statPoints = await getQualityShotPercentage(season, id[0].playerid);
-        }
-        let player = await getIndividualPlayerLocal(id[0].playerid);
-        console.log(player);
-        appendPlayerAndStat(player, stat, statPoints);
-    }
 
     clearButton.onclick = async() => {
         playerInfoTable.innerHTML = '';

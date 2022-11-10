@@ -4,6 +4,7 @@ const playersNBA = require('../services/playersNBAQueries');
 
 router.post('/', playersNBA.createPlayersNBA);
 router.get('/', playersNBA.getPlayersNBA);
+router.get('/:name', playersNBA.getOfficialPlayerIdWithFullName);
 router.get('/official/players/playerid/:lastName/:firstName', playersNBA.getOfficialPlayerIdWithLastFirst);
 router.get('/playerNBA/:playerid', playersNBA.getPlayerByIdOfficial);
 

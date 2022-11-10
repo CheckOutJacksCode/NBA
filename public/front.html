@@ -74,30 +74,30 @@
         <button class="button" id="submit-player-stats" name="submit-player-stats" style="font-size: 2vw;">Submit</button>
         <br>
         <br>
-        <table class="center" id="seasonAveragesRegularSeasonsTable" style="font-size: 2vw;">
-            <tr class="tr-with-style">
-                <td style="text-align:center"></td>
-            </tr>
-        </table>
+        <label for="season">Choose season: </label>
+        <select name="season" id="season" style="font-size: 2vw;">
+            <option value="2021-2022">2021</option>
+            <option value="2020-2021">2020</option>
+            <option value="2019-2020">2019</option>
+            <option value="2018-2019">2018</option>
+            <option value="2017-2018">2017</option>
+            <option value="2016-2017">2016</option>
+            <option value="2015-2016">2015</option>
 
-        <br>
-        <br>
-        <label hidden for="season">Choose season: </label>
-        <select hidden name="season" id="season" style="font-size: 2vw;">
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-            <option value="2019">2019</option>
-            <option value="2020">2020</option>
-            <option value="2021">2021</option>
         </select>
         <br>
         <br>
-        <button class="button" id="submit-mvp" name="submit-mvp" style="font-size: 2vw;">Get MVP Points</button>
+        <label for="player-splits">Player Splits: </label>
+        <select name="player-splits" id="player-splits" style="font-size: 2vw;">
+            <option value="Full">Full Season</option>
+            <option value="home">Home</option>
+            <option value="visitor">Visitor</option>
+        </select>
+        <br>
         <br>
         <label hidden for="statToGet">Choose statistic: </label>
         <select hidden name="statToGet" id="statToGet" style="font-size: 2vw;">
+            <option value="none" selected disabled hidden>Select an Option</option>
             <option value="ppg">ppg</option>
             <option value="min">minutes</option>
             <option value="fgm">fgm</option>
@@ -120,6 +120,41 @@
             <option value="plusMinus">plusMinus</option>
             <option value="playerId">playerId</option>
         </select>
+        <br>
+        <br>
+        <label hidden for="deepStatToGet">Choose deep stat: </label>
+        <select hidden name="deepStatToGet" id="deepStatToGet" style="font-size: 2vw;">
+            <option value="MVP Points">MVP Points</option>
+            <option value="Hustle Factor">Hustle Factor</option>
+            <option value="Carmelo Factor">The Carmelo Factor</option>
+        </select>
+        <input hidden type="submit" name="SUBMIT" id="submit-deep-stat" style="font-size: 2vw;">
+        <br>
+        <button class="button" id="clearButton" name="clearButton" style="font-size: 2vw;">Clear</button>
+        <br>
+        <!--<h1><span style="font-size: 2vw;">QUERY RESULTS:</span></h1>-->
+        <table class="center" id="player-info" style="font-size: 2vw;">
+            <tr class="tr-with-style">
+                <td style="text-align:center"></td>
+                <td style="text-align:center"></td>
+                <td style="text-align:center"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <table class="center" id="splitTable" style="font-size: 2vw;">
+            <tr class="tr-with-style">
+                <td style="text-align:center"></td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <table class="center" id="seasonAveragesRegularSeasonsTable" style="font-size: 2vw;">
+            <tr class="tr-with-style">
+                <td style="text-align:center"></td>
+            </tr>
+        </table>
+        
         <input hidden type="submit" name="SUBMIT" id="submit-stat" style="font-size: 2vw;">
         <br>
         <label hidden for="deepStatToGet">Choose deep stat: </label>
@@ -129,15 +164,7 @@
         </select>
         <input hidden type="submit" name="SUBMIT" id="submit-deep-stat" style="font-size: 2vw;">
         <br>
-        <!--<h1><span style="font-size: 2vw;">QUERY RESULTS:</span></h1>-->
-        <table hidden class="center" id="player-info" style="font-size: 2vw;">
-        <tr class="tr-with-style">
-            <td style="text-align:center"></td>
-            <td style="text-align:center"></td>
-            <td style="text-align:center"></td>
-        </tr>
-        </table>
-        <button hidden class="button" id="clearButton" name="clearButton" style="font-size: 2vw;">Clear</button>
+        <button class="button" id="clearButton" name="clearButton" style="font-size: 2vw;">Clear</button>
         <br>
         <button hidden class="button" id="loadButton" name="loadButton" style="font-size: 2vw;">Load Players into Local</button>
         <button hidden class="button" id="loadGamesButton" name="loadGamesButton" style="font-size: 2vw;">Load Games into Local</button>
