@@ -43,7 +43,12 @@ printData = (req, res, next) => {
 
 router.use(printData)
 
-router.get("/", (req, res, next) => {
+const checkAuthenticated = async(req, res, next) => {
+    if (req.isAuthenticated()) { return next() }
+    res.redirect("/login")
+}
+
+/*router.get("/", (req, res, next) => {
     res.redirect("/users/login");
 });
 
@@ -187,7 +192,7 @@ router.post('/', async(req, res) => {
  *             description: A successful response
  * 
  */
-router.get('/', async (req, res) => {
+router.get('/', checkAuthenticated, async (req, res) => {
     try {
         const users = await User.findAll();
         console.log(users)
