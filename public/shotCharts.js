@@ -718,7 +718,7 @@ let teamPlayersArray = [];
 const teamPlayersShotsDropDown = async() => {
 
     let teamId = await getJsonResponseShotCharts(`/leagueGames/teamid/${teamChosenShots.value}`)
-    let teamPlayers = await getJsonResponseShotCharts(`/boxScoresTraditional/teamplayers/${teamId[0].team_id}`);
+    let teamPlayers = await getJsonResponseShotCharts(`/boxPlayers/teamplayers/${teamId[0].team_id}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("shots_player").innerHTML = str;
     try {
@@ -762,5 +762,19 @@ const getShotSeasons = async() => {
         console.log(error);
     }
 }
+
+teamChosenShots.onchange = async() => {
+    await teamPlayersShotsDropDown();
+}
+
+shotsPlayer.onchange = async() => {
+    await getShotSeasons();
+}
+
+shotsSeason.onchange = async() => {
+    await showForm();
+}
+
+
 
 teamsShotsDropDown();

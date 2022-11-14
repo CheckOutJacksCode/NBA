@@ -73,7 +73,7 @@ const getBoxScoresTraditional = async(request, response) => {
   
 
 
-const getBoxScoreTraditionalHome = (request, response, next) => {
+const getBoxScoreTraditionalHome = async(request, response, next) => {
     const {playerid, season} = request.params;
     console.log('seasonssssss')
     console.log(season);
@@ -87,15 +87,12 @@ const getBoxScoreTraditionalHome = (request, response, next) => {
               AND "boxscoresummary${stringSeason}".home_team_id = "boxscorestraditional${stringSeason}".team_id
               ORDER BY "boxscorestraditional${stringSeason}".id`, [playerid], (error, results) => {
       if (error) {
-          return response.status(error.statusCode || 500)
-          .send({name: error.name, 
-                message: error.message,
-                stack: error.stack})
+          return next(error);
       }
       response.status(200).json(results.rows)
     })
 }
-  
+
 const getBoxScoreTraditionalVisitor = (request, response) => {
     const {playerid, season} = request.params;
   

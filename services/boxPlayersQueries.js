@@ -30,7 +30,7 @@ const getOfficialPlayerIdNameList = (request, response) => {
 }
 
   
-const getTeamPlayersFromTeamId = async(request, response) => {
+const getTeamPlayersFromTeamId = (request, response) => {
     let teamid = request.params;
     db.query('SELECT DISTINCT player_name FROM "boxscorestraditional2021-2022" WHERE team_id = $1', [teamid.teamid], (error, results) => {
         if (error) {

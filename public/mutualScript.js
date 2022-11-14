@@ -9,7 +9,7 @@ const getJsonResponse = async (url) => {
     try {
         if (response.ok){
             const jsonResponse = await response.json();
-            
+
             return jsonResponse;
         }
     }

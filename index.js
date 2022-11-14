@@ -1,5 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config()
+const session = require('express-session');
+const passport = require('passport');
+const flash = require('express-flash');
+const initializePassport = require('./config/passport');
+initializePassport(passport);
 
 const app = express();
 const bodyParser = require('body-parser')
@@ -9,7 +15,7 @@ const db = require('./queries');
 const port = process.env.PORT || 3000;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-
+const { sequelize } = require('./models');
 /*app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' http://d3js.org");
     return next();
@@ -33,7 +39,7 @@ const swaggerOptions = {
             "./routes/leagueDashOppShotRoutes.js","./routes/leagueDashPlayerClutch.js",
             "./routes/leagueDashPlayerPtShotRoutes.js", "./routes/leagueGamesRoutes.js", "./routes/mvpPointsRoutes.js",
             "./routes/playersNBARoutes.js", "./routes/playerTrackerRoutes.js", "./routes/publicApiPlayersRoutes.js",
-            "./routes/publicGamesRoutes", "./routes/regularSeasonStatsRoutes.js", "./routes/shotsRoutes.js"]
+            "./routes/publicGamesRoutes", "./routes/regularSeasonStatsRoutes.js", "./routes/shotsRoutes.js", "./models/user.js", "./routes/userRouter.js"]
 }
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -44,6 +50,17 @@ app.use(
     swaggerUi.setup(swaggerDocs)
 );
 
+app.use(flash());
+
+
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(express.static('public'))
 
@@ -54,8 +71,16 @@ app.use(
     })
 );
 
+app.set('view engine', 'ejs');
+
 const helmet = require('helmet')
-app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        "script-src": ["'self'", "https://d3js.org/d3.v6.min.js"],
+      },
+    })
+  );
 //app.use(cookieParser());
 
 const boxPlayersRouter = require('./routes/boxPlayersRoutes');
@@ -80,6 +105,8 @@ const publicApiPlayersRouter = require('./routes/publicApiPlayersRoutes');
 const publicGamesRouter = require('./routes/publicGamesRoutes');
 const regularSeasonStatsRouter = require('./routes/regularSeasonStatsRoutes');
 const shotsRouter = require('./routes/shotsRoutes');
+const userRouter = require("./routes/userRouter");
+
 
 app.use("/boxPlayers", boxPlayersRouter)
 app.use("/box", boxRouter);
@@ -103,6 +130,7 @@ app.use("/publicApiPlayers", publicApiPlayersRouter);
 app.use("/publicGames", publicGamesRouter);
 app.use("/regularSeasonStats", regularSeasonStatsRouter);
 app.use("/shots", shotsRouter);
+app.use("/users", userRouter);
 
 
 app.get('/', (req, res, next) => {
@@ -133,7 +161,6 @@ app.get('/jackarithm', (req, res, next) => {
     res.sendFile(__dirname + "/public/jackarithm.html");
 });
 
-
 app.delete('/database/delete', db.deleteDatabase);
 
 
@@ -141,9 +168,44 @@ app.get(`/statsheaders/:table`, db.getStatsHeadersFromTable);
 
 app.get('/teamnames', db.getTeamNames);
 
+const errorLogger = (error, request, response, next) => {
+    console.log( `error ${error.message}`) 
+    next(error) // calling next middleware
+}
 
+// Error handling Middleware function reads the error message 
+// and sends back a response in JSON format
+const errorResponder = (error, request, response, next) => {
+    response.header("Content-Type", 'application/json')
+    const status = error.status || 400;
+    if (process.env.NODE_ENV === 'development') {
+        response.status(status).send({
+            name: error.name,
+            message: error.message,
+            stack: error.stack
+        })
+    } else {
+        response.status(status).send(error.message)
+    }
+}
 
-app.listen(port, () => {
+// Fallback Middleware function for returning 
+// 404 error for undefined paths
+const invalidPathHandler = (request, response, next) => {
+    response.status(404)
+    response.send('invalid path')
+}
+app.use(errorLogger);
+app.use(errorResponder);
+app.use(invalidPathHandler);
+
+/*async function main() {
+    await sequelize.sync();
+}
+main();*/
+
+app.listen(port, async() => {
+    await sequelize.authenticate();
     console.log(`App running on port ${port}.`)
 })
 module.exports = app;
