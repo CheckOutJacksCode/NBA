@@ -44,8 +44,14 @@ printData = (req, res, next) => {
 router.use(printData)
 
 const checkAuthenticated = async(req, res, next) => {
-    if (req.isAuthenticated()) { return next() }
-    res.redirect("/login")
+    if (req.isAuthenticated()) { 
+        return next() 
+    }
+    let error = {
+        status: 403,
+        message: 'not authenticated'
+    }
+    return next(error);
 }
 
 /*router.get("/", (req, res, next) => {
