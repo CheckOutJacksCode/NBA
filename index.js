@@ -177,6 +177,10 @@ const errorLogger = (error, request, response, next) => {
 // and sends back a response in JSON format
 const errorResponder = (error, request, response, next) => {
     response.header("Content-Type", 'application/json')
+    if (error.message === 'Stats Do Not Exist') {
+        error.status = 404;
+        error.name = 'error';
+    }
     const status = error.status || 400;
     if (process.env.NODE_ENV === 'development') {
         response.status(status).send({

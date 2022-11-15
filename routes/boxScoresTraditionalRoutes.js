@@ -4,32 +4,6 @@ const boxScoreTraditional = require('../services/boxscorestraditionalQueries')
 
 /**
  * @swagger
- * /boxScoresTraditional/home/{playerid}/{season}:
- *   get:
- *     parameters:
- *       - in: path
- *         name: playerid
- *         schema:
- *           type: string
- *         required: true
- *         description: String ID of the player who's box scores we are getting
- *       - in: path
- *         name: season
- *         schema:
- *           type: string
- *         required: true
- *         description: String season of the box scores we are getting
- *     responses:
- *       '200':
- *         description: A successful response
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/definitions/BoxScoreTraditionalArray'
- *       '400':
- *         description: Bad Request
- *       '404':
- *         description: Invalid Path
  * definitions:
  *   BoxScoreTraditionalArray:
  *     type: 'array'
@@ -124,6 +98,32 @@ const boxScoreTraditional = require('../services/boxscorestraditionalQueries')
  *         type: 'string'
  *       wh_status:
  *         type: 'string'
+ * /boxScoresTraditional/home/{playerid}/{season}:
+ *   get:
+ *     parameters:
+ *       - in: path
+ *         name: playerid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String ID of the player who's box scores we are getting
+ *       - in: path
+ *         name: season
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String season of the box scores we are getting
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/definitions/BoxScoreTraditionalArray'
+ *       '400':
+ *         description: Bad Request
+ *       '404':
+ *         description: Invalid Path
  */
 router.get('/home/:playerid/:season', boxScoreTraditional.getBoxScoreTraditionalHome);
 

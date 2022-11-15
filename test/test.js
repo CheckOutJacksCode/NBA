@@ -7,7 +7,7 @@ const app = require('../index.js');
 
 
 chai.use(chaiHttp);
-describe('/GET official player_id by name', () => {
+/*describe('/GET official player_id by name', () => {
     function testGetPlayerId (lastName, firstName, playerid) {
         it('it should GET player_id from players last, first names', (done) => {
           chai.request(app)
@@ -117,4 +117,4 @@ describe('/GET league hustle points by season', () => {
     for(let i = 0; i < seasons.length; i++) {
         testGetHustlePointsBySeason(seasons[i][0], seasons[i][1]);
     }
-});
+});*/

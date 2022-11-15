@@ -775,6 +775,8 @@ shotsSeason.onchange = async() => {
     await showForm();
 }
 
-
+shotsGameId.onchange = async() => {
+   await submitShots();
+}
 
 teamsShotsDropDown();

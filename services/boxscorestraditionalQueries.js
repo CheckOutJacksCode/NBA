@@ -75,38 +75,41 @@ const getBoxScoresTraditional = async(request, response) => {
 
 const getBoxScoreTraditionalHome = async(request, response, next) => {
     const {playerid, season} = request.params;
-    console.log('seasonssssss')
-    console.log(season);
     let newSeason = JSON.stringify(season);
     let stringSeason = newSeason.replace(/"/g, '');
-    console.log(stringSeason);
     db.query(`SELECT * FROM "boxscorestraditional${stringSeason}" 
               INNER JOIN "boxscoresummary${stringSeason}" 
               ON "boxscorestraditional${stringSeason}".game_id = "boxscoresummary${stringSeason}".game_id
               WHERE player_id = $1
               AND "boxscoresummary${stringSeason}".home_team_id = "boxscorestraditional${stringSeason}".team_id
               ORDER BY "boxscorestraditional${stringSeason}".id`, [playerid], (error, results) => {
-      if (error) {
-          return next(error);
-      }
-      response.status(200).json(results.rows)
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0) {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
     })
 }
 
-const getBoxScoreTraditionalVisitor = (request, response) => {
+const getBoxScoreTraditionalVisitor = (request, response, next) => {
     const {playerid, season} = request.params;
-  
-    db.query(`SELECT * FROM "boxscorestraditional${season}" 
-              INNER JOIN "boxscoresummary${season}" 
-              ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
+    let newSeason = JSON.stringify(season);
+    let stringSeason = newSeason.replace(/"/g, '');
+    db.query(`SELECT * FROM "boxscorestraditional${stringSeason}" 
+              INNER JOIN "boxscoresummary${stringSeason}" 
+              ON "boxscorestraditional${stringSeason}".game_id = "boxscoresummary${stringSeason}".game_id
               WHERE player_id = $1
-              AND "boxscoresummary${season}".visitor_team_id = "boxscorestraditional${season}".team_id
-              ORDER BY "boxscorestraditional${season}".id`, [playerid], (error, results) => {
-      if (error) {
-          return response.status(error.statusCode || 500)
-          .send(error.message)
-      }
-      response.status(200).json(results.rows)
+              AND "boxscoresummary${stringSeason}".visitor_team_id = "boxscorestraditional${stringSeason}".team_id
+              ORDER BY "boxscorestraditional${stringSeason}".id`, [playerid], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0) {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
     })
 }
 
