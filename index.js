@@ -23,6 +23,7 @@ const { sequelize } = require('./models');
 
 const swaggerOptions = {
     swaggerDefinition: {
+        openapi: '3.0.0',
         info: {
             title: 'The Hoop Scoop API',
             description: "NBA Statistics API",
@@ -130,7 +131,7 @@ app.use("/publicApiPlayers", publicApiPlayersRouter);
 app.use("/publicGames", publicGamesRouter);
 app.use("/regularSeasonStats", regularSeasonStatsRouter);
 app.use("/shots", shotsRouter);
-app.use("/users", userRouter);
+app.use("/users", userRouter.router);
 
 
 app.get('/', (req, res, next) => {

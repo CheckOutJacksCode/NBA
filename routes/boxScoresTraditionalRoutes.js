@@ -1,103 +1,106 @@
 const express = require('express');
 const router = express.Router();
-const boxScoreTraditional = require('../services/boxscorestraditionalQueries')
-
+const boxScoreTraditional = require('../services/boxscorestraditionalQueries');
+const { checkAuthenticated } = require('./userRouter');
 /**
  * @swagger
- * definitions:
- *   BoxScoreTraditionalArray:
- *     type: 'array'
- *     items:
- *       $ref: '#definitions/BoxScoreTraditionalObject'
- *   BoxScoreTraditionalObject:
- *     type: 'object'
- *     properties:
- *       id:
- *         type: 'integer'
- *       game_id:
- *         type: 'string'
- *       team_id:
- *         type: 'string'
- *       team_abbreviation:
- *         type: 'string'
- *       team_city:
- *         type: 'string'
- *       player_id:
- *         type: 'string'
- *       player_name:
- *         type: 'string'
- *       nickname:
- *         type: 'string'
- *       start_position:
- *         type: 'string'
- *       comment:
- *         type: 'string'
- *       min:
- *         type: 'string'
- *       fgm:
- *         type: 'string'
- *       fga:
- *         type: 'string'
- *       fg_pct:
- *         type: 'string'
- *       fg3m:
- *         type: 'string'
- *       fg3a:
- *         type: 'string'
- *       fg3_pct:
- *         type: 'string'
- *       ftm:
- *         type: 'string'
- *       fta:
- *         type: 'string'
- *       ft_pct:
- *         type: 'string'
- *       oreb:
- *         type: 'string'
- *       dreb:
- *         type: 'string'
- *       reb:
- *         type: 'string'
- *       ast:
- *         type: 'string'
- *       stl:
- *         type: 'string'
- *       blk:
- *         type: 'string'
- *       turnovers:
- *         type: 'string'
- *       pf:
- *         type: 'string'
- *       pts:
- *         type: 'string'
- *       plus_minus:
- *         type: 'string'
- *       game_date_est:
- *         type: 'string'
- *       game_sequence:
- *         type: 'string'
- *       game_status_id:
- *         type: 'string'
- *       game_status_text:
- *         type: 'string'
- *       gamecode:
- *         type: 'string'
- *       home_team_id:
- *         type: 'string'
- *       visitor_team_id:
- *         type: 'string'
- *       season:
- *         type: 'string'
- *       live_period:
- *         type: 'string'
- *       live_pc_time:
- *         type: 'string'
- *       natl_tv_broadcaster_abbreviation:
- *         type: 'string'
- *       live_period_time_bcast:
- *         type: 'string'
- *       wh_status:
- *         type: 'string'
+ * components:
+ *   schemas:
+ *     BoxScoreTraditionalArray:
+ *       type: 'array'
+ *       items:
+ *         $ref: '#/components/schemas/BoxScoreTraditionalObject'
+ *     BoxScoreTraditionalObject:
+ *       type: 'object'
+ *       properties:
+ *         GAME_ID:
+ *           type: 'string'
+ *         TEAM_ID:
+ *           type: 'string'
+ *         TEAM_ABBREVIATION:
+ *           type: 'string'
+ *         TEAM_CITY:
+ *           type: 'string'
+ *         PLAYER_ID:
+ *           type: 'string'
+ *         PLAYER_NAME:
+ *           type: 'string'
+ *         NICKNAME:
+ *           type: 'string'
+ *         START_POSITION:
+ *           type: 'string'
+ *         COMMENT:
+ *           type: 'string'
+ *         MIN:
+ *           type: 'string'
+ *         FGM:
+ *           type: 'string'
+ *         FGA:
+ *           type: 'string'
+ *         FG_PCT:
+ *           type: 'string'
+ *         FG3M:
+ *           type: 'string'
+ *         FG3A:
+ *           type: 'string'
+ *         FG3_PCT:
+ *           type: 'string'
+ *         FTM:
+ *           type: 'string'
+ *         FTA:
+ *           type: 'string'
+ *         FT_PCT:
+ *           type: 'string'
+ *         OREB:
+ *           type: 'string'
+ *         DREB:
+ *           type: 'string'
+ *         REB:
+ *           type: 'string'
+ *         AST:
+ *           type: 'string'
+ *         STL:
+ *           type: 'string'
+ *         BLK:
+ *           type: 'string'
+ *         TO:
+ *           type: 'string'
+ *         PF:
+ *           type: 'string'
+ *         PTS:
+ *           type: 'string'
+ *         PLUS_MINUS:
+ *           type: 'string'
+ *       example:
+ *         GAME_ID: '1'
+ *         TEAM_ID: '1'
+ *         TEAM_ABBREVIATION: BOS
+ *         TEAM_CITY: Boston
+ *         PLAYER_ID: '1'
+ *         PLAYER_NAME: Buck Dancer
+ *         NICKNAME: Buck
+ *         START_POSITION: F
+ *         COMMENT: something about player health usually
+ *         MIN: 30:00
+ *         FGM: '5'
+ *         FGA: '10'
+ *         FG_PCT: '0.5'
+ *         FG3M: '2'
+ *         FG3A: '4'
+ *         FG3_PCT: '0.5'
+ *         FTM: '2'
+ *         FTA: '2'
+ *         FT_PCT: '1.0'
+ *         OREB: '1'
+ *         DREB: '1'
+ *         REB: '2'
+ *         AST: '1'
+ *         STL: '1'
+ *         BLK: '1'
+ *         TO: '1'
+ *         PF: '1'
+ *         PTS: '12'
+ *         PLUS_MINUS: '5'
  * /boxScoresTraditional/home/{playerid}/{season}:
  *   get:
  *     parameters:
@@ -119,7 +122,7 @@ const boxScoreTraditional = require('../services/boxscorestraditionalQueries')
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/definitions/BoxScoreTraditionalArray'
+ *               $ref: '#/components/schemas/BoxScoreTraditionalObject'
  *       '400':
  *         description: Bad Request
  *       '404':
@@ -150,7 +153,7 @@ router.get('/home/:playerid/:season', boxScoreTraditional.getBoxScoreTraditional
 *         content:
 *           application/json:
 *             schema:
-*               $ref: '#/definitions/BoxScoreTraditionalArray'
+*               $ref: '#/components/schemas/BoxScoreTraditionalObject'
 *       '400':
 *         description: Bad Request
 *       '404':
@@ -158,12 +161,135 @@ router.get('/home/:playerid/:season', boxScoreTraditional.getBoxScoreTraditional
 */
 router.get('/visitor/:playerid/:season', boxScoreTraditional.getBoxScoreTraditionalVisitor);
 
-router.post('/:season', boxScoreTraditional.createBoxScoresTraditional);
 
-router.get('/read/:season', boxScoreTraditional.boxScoreTraditionalLoad);
+/**
+ * @swagger
+ * /boxScoresTraditional/{season}:
+ *    post:
+ *      summary: Creates a new Box Score Traditional
+ *      parameters:
+ *        - in: path
+ *          name: season
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: Box Score Traditional season to post to
+ *      requestBody:
+ *        description: Data for new Box Score Traditional
+ *        required: true
+ *        content:
+ *          application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/BoxScoreTraditionalObject'
+ *      responses:
+ *        '201':
+ *          description: returns created box score traditional
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/BoxScoreTraditionalObject'
+ *        '403':
+ *          description: Not Authorized
+ *        '400':
+ *          description: Bad Request
+ *        '404':
+ *          description: Invalid Path
+ */
+router.post('/:season', checkAuthenticated, boxScoreTraditional.createBoxScoresTraditional);
 
+/** 
+* @swagger
+* /boxScoresTraditional/read/{season}:
+*   get:
+*     parameters:
+*       - in: path
+*         name: season
+*         schema:
+*           type: string
+*         required: true
+*         description: String season of the box scores we are reading
+*     responses:
+*       '201':
+*         description: A successful response
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/BoxScoreTraditionalArray'
+*       '403':
+*         description: Not Authorized
+*       '400':
+*         description: Bad Request
+*       '404':
+*         description: Invalid Path
+*/
+router.get('/read/:season', checkAuthenticated, boxScoreTraditional.boxScoreTraditionalLoad);
+
+/** 
+* @swagger
+* /boxScoresTraditional/{playerid}/{season}:
+*   get:
+*     parameters:
+*       - in: path
+*         name: playerid
+*         schema:
+*           type: string
+*         required: true
+*         description: String ID of the player who's box scores we are getting
+*       - in: path
+*         name: season
+*         schema:
+*           type: string
+*         required: true
+*         description: String season of the box scores we are getting
+*     responses:
+*       '200':
+*         description: A successful response
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/BoxScoreTraditionalArray'
+*       '400':
+*         description: Bad Request
+*       '404':
+*         description: Invalid Path
+*/
 router.get(`/:playerid/:season`, boxScoreTraditional.getBoxScorePlayer);
 
+/** 
+* @swagger
+* /boxScoresTraditional/{season}/{gameid}/{playerid}:
+*   get:
+*     parameters:
+*       - in: path
+*         name: season
+*         schema:
+*           type: string
+*         required: true
+*         description: String season of the box scores we are getting
+*       - in: path
+*         name: gameid
+*         schema:
+*           type: string
+*         required: true
+*         description: String ID of the game we are getting
+*       - in: path
+*         name: playerid
+*         schema:
+*           type: string
+*         required: true
+*         description: String ID of the player who's box scores we are getting
+*     responses:
+*       '200':
+*         description: A successful response
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/BoxScoreTraditionalArray'
+*       '400':
+*         description: Bad Request
+*       '404':
+*         description: Invalid Path
+*/
 router.get('/:season/:gameid/:playerid', boxScoreTraditional.getBoxScoresTraditional);
 
 router.get(`/boxnum/:gameid/:season/:teamid/:H_or_V`, boxScoreTraditional.getBoxNumFromGameIdSeason)

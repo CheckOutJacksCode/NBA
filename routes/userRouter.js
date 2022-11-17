@@ -385,4 +385,4 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/login'
       res.redirect('/');
 });
 
-module.exports = router;
+module.exports = { router, checkAuthenticated };
