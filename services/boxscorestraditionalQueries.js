@@ -119,33 +119,36 @@ const getBoxScoreTraditionalVisitor = (request, response, next) => {
     })
 }
 
-const getPreviousGameIdBySeasonByTeam = (request, response) => {
-    console.log('ffffffffffff')
+const getPreviousGameIdBySeasonByTeam = (request, response, next) => {
     const {season, teamId} = request.params;
     db.query(`SELECT game_id FROM "boxscorestraditional${season}"
               WHERE team_id = $1
               ORDER BY id DESC LIMIT 1`, [teamId], (error, results) => {
-      if (error) {
-          throw error
-      }
-      response.status(200).json(results.rows)
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0) {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
     })
 }
   
-const getBoxNumFromGameIdSeason = (request, response) => {
+const getBoxNumFromGameIdSeason = (request, response, next) => {
     const {gameid, season, teamid, H_or_V} = request.params;
-    console.log('boosh');
-  
     db.query(`SELECT COUNT(DISTINCT "boxscorestraditional${season}".game_id) FROM "boxscorestraditional${season}"
               INNER JOIN "boxscoresummary${season}"
               ON "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id 
               WHERE CAST(SUBSTRING("boxscorestraditional${season}".game_id, 3) AS INT) < $1
               AND "boxscorestraditional${season}".team_id = $2
               AND "boxscoresummary${season}".${H_or_V}_team_id = $3`, [gameid, teamid, teamid], (error, results) => {
-      if (error) {
-          throw error
-      }
-      response.status(200).json(results.rows)
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
     })
 }
 

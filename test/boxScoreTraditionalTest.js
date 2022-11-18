@@ -124,8 +124,6 @@ describe('/POST Box Score Traditional', () => {
         ]
     ];
     for(let i = 0; i < boxScores.length; i++) {
-        console.log(boxScores[i][1])
-        console.log(boxScores[i][2])
         testCreateBoxScoresTraditional(boxScores[i][0], boxScores[i][1], boxScores[i][2]);
     }
 
@@ -213,5 +211,57 @@ describe('/GET box scores traditional by season, gameid, playerid', () => {
     let players = [['2015-2016', '0021500003', '203110', 200], ['2015-2016', '0021500005', '1628369', 404], ['2015-2015', '0021500003', '203110', 400]];
     for(let i = 0; i < players.length; i++) {
         testBoxScoresTraditionalGame(players[i][0], players[i][1], players[i][2])
+    }
+});
+
+describe('/GET number of home or visitor games played by team up until date of gameid in given season', () => {
+    function testBoxNum (gameid, season, teamid, H_or_V, status) {
+        it(`it should GET count of home or away games played in given season from "boxscorestraditional${season}" WHERE game_id = gameid AND team_id = teamid`, (done) => {
+          chai.request(app)
+              .get(`/boxScoresTraditional/boxnum/${gameid}/${season}/${teamid}/${H_or_V}`)
+              .end((err, res) => {
+                    if ( status === 200) {
+                        res.status.should.be.equal(200);
+                        chai.expect(res.body).to.be.an('array').of.length(1);
+                    } else if (status === 404) {
+                        res.status.should.be.equal(404);
+                        chai.expect(res.body).to.be.an('object').with.property('name').to.be.equal('error');
+                    } else if (status === 400) {
+                        res.status.should.be.equal(400);
+                        chai.expect(res.body).to.be.an('object').with.property('name').to.be.equal('error');
+                    }
+                    done();
+              });
+        });
+    }
+    let players = [['0021500069', '2015-2016', '1610612744', 'home', 200], ['0021500069', '2015-2015', '1610612744', 'home', 400], ['0021500069', '2015-2016', '161061274', 'home', 404]];
+    for(let i = 0; i < players.length; i++) {
+        testBoxNum(players[i][0], players[i][1], players[i][2], players[i][3], players[i][4])
+    }
+});
+
+describe('/GET previous game gameid by season, teamId', () => {
+    function testPreviousGameId (season, teamId, status) {
+        it(`it should GET previous game's game_id from "boxscorestraditional${season}" WHERE season = season AND team_id = teamId`, (done) => {
+          chai.request(app)
+              .get(`/boxScoresTraditional/previousgame/gameid/${season}/${teamId}`)
+              .end((err, res) => {
+                    if ( status === 200) {
+                        res.status.should.be.equal(200);
+                        chai.expect(res.body).to.be.an('array').of.length(1);
+                    } else if (status === 404) {
+                        res.status.should.be.equal(404);
+                        chai.expect(res.body).to.be.an('object').with.property('name').to.be.equal('error');
+                    } else if (status === 400) {
+                        res.status.should.be.equal(400);
+                        chai.expect(res.body).to.be.an('object').with.property('name').to.be.equal('error');
+                    }
+                    done();
+              });
+        });
+    }
+    let players = [['2015-2016', '1610612744', 200], ['2015-2016', '161061274', 404], ['2015-2015', '1610612744', 400]];
+    for(let i = 0; i < players.length; i++) {
+        testPreviousGameId(players[i][0], players[i][1], players[i][2])
     }
 });
