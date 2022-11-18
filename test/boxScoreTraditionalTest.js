@@ -17,7 +17,7 @@ describe('/GET home box scores traditional by playerid, season', () => {
               .end((err, res) => {
                     if (status === 200) {
                         res.status.should.be.equal(200);
-                        chai.expect(res.body).to.be.an('array').of.length(41);
+                        chai.expect(res.body).to.be.an('array');
                         chai.expect(res.body[0].player_id).to.be.equal(playerid);
                     } else if (status === 404) {
                         res.status.should.be.equal(404);
@@ -44,7 +44,7 @@ describe('/GET visitor box scores traditional by playerid, season', () => {
               .end((err, res) => {
                     if ( status === 200) {
                         res.status.should.be.equal(200);
-                        chai.expect(res.body).to.be.an('array').of.length(41);
+                        chai.expect(res.body).to.be.an('array');
                         chai.expect(res.body[0].player_id).to.be.equal(playerid);
                     } else if (status === 404) {
                         res.status.should.be.equal(404);

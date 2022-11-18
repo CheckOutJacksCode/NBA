@@ -71,6 +71,19 @@ const letsGo = async(url, game_id) => {
     let plusminus
     let league = "standard";
     //HERES WHERE YOU FIX THE 'KEVIN DURANT DIDNT PLAY THAT SEASON SO THE GAMES CHART APPEARS' BUG
+    
+    /**
+     * GOTTA FIX THIS, SHOTS LENGTH < 40 COULD BE SEASON CHART
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     /////////////////////////////
+     //////////////////////////////
+     //////////////////////////////
+     */
     if (totalShotsArray.length > 40) {
       myPlot = "myPlot";
       chartTitle = "SEASON SHOT CHART";

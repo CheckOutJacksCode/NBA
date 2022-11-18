@@ -16,7 +16,7 @@ const createBoxScores = (request, response) => {
     });
 }
 
-const boxScoreLoad = (request, response) => {
+const boxScoreLoad = (request, response, next) => {
 
     let season = request.params;
     console.log(season);
@@ -34,7 +34,7 @@ const boxScoreLoad = (request, response) => {
             data.push(row);
         })
         .on("error", function async(error) {
-            console.log(error.message);
+            return next(error)
         })
         .on("end", function async() {
         // 👇 log the result array

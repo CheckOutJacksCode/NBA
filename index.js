@@ -170,7 +170,8 @@ app.get(`/statsheaders/:table`, db.getStatsHeadersFromTable);
 app.get('/teamnames', db.getTeamNames);
 
 const errorLogger = (error, request, response, next) => {
-    console.log( `error ${error.message}`) 
+    console.log( `error ${error.message}`)
+    console.log('inside the error middleware')
     next(error) // calling next middleware
 }
 
