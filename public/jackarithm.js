@@ -1739,7 +1739,6 @@ const writeOddsToDatabase = async(season) => {
         let x = splitValues[0].split('\t');
         let results = await postOdds(x, season);
     }
-
 }
 
 writeOddsToDatabaseButton.onclick = async() => {
