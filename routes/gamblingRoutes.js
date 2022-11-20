@@ -1,11 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const gambling = require('../services/gamblingQueries');
+const { checkAuthenticated } = require('./userRouter');
 
 /**
  * @swagger
  * components:
  *   schemas:
+ *     MoneylineArray:
+ *       type: 'array'
+ *       items:
+ *         $ref: '#/components/schemas/MoneylineObject'
+ *     MoneylineObject:
+ *       type: 'object'
+ *       properties:
+ *         ml:
+ *           type: 'string'
+ *       example:
+ *         ml: '-175'
  *     OddsArray:
  *       type: 'array'
  *       items:
@@ -42,46 +54,90 @@ const gambling = require('../services/gamblingQueries');
  *       '404':
  *         description: Invalid Path
  */
-router.get('/odds/:season', gambling.getOddsFromCSV);
+router.get('/odds/:season', checkAuthenticated, gambling.getOddsFromCSV);
+
+router.post('/odds/:season', checkAuthenticated, gambling.createOddsBySeason);
 
 /**
  * @swagger
- * /gambling/odds/{season}:
- *    post:
- *      summary: Creates a new season of odds in the database
- *      parameters:
- *        - in: path
- *          name: season
- *          schema:
- *            type: string
- *          required: true
- *          description: Odds season to post to
- *          example: '2015-2016'
- *      requestBody:
- *        description: Data for new odds
- *        required: true
- *        content:
- *          application/json:
+ * /gambling/moneyline/home/{season}/{homeTeam}/{gamedate}:
+ *   get:
+ *     summary: Get moneyline of home team of game corresponding to gamedate
+ *     parameters:
+ *       - in: path
+ *         name: season
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String season of the moneyline we are getting
+ *         example: '2015-2016'
+ *       - in: path
+ *         name: homeTeam
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String name of the team who's odds we are getting
+ *         example: 'GoldenState'
+ *       - in: path
+ *         name: gamedate
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String date of the game we are seeking the moneyline for
+ *         example: '619'
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *         content:
+ *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/OddsObject'
- *      responses:
- *        '201':
- *          description: returns created odds
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/OddsObject'
- *        '403':
- *          description: Not Authorized
- *        '400':
- *          description: Bad Request
- *        '404':
- *          description: Invalid Path
+ *               $ref: '#/components/schemas/MoneylineArray'
+ *       '400':
+ *         description: Bad Request
+ *       '404':
+ *         description: Invalid Path
  */
-router.post('/odds/:season', gambling.createOddsBySeason);
-
 router.get(`/moneyline/home/:season/:homeTeam/:gamedate`, gambling.getHomeMoneyline);
 
+/**
+ * @swagger
+ * /gambling/moneyline/visitor/{season}/{visitorTeam}/{gamedate}:
+ *   get:
+ *     summary: Get moneyline of visitor team of game corresponding to gamedate
+ *     parameters:
+ *       - in: path
+ *         name: season
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String season of the moneyline we are getting
+ *         example: '2015-2016'
+ *       - in: path
+ *         name: visitorTeam
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String name of the team who's odds we are getting
+ *         example: 'Cleveland'
+ *       - in: path
+ *         name: gamedate
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String date of the game we are seeking the moneyline for
+ *         example: '619'
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MoneylineArray'
+ *       '400':
+ *         description: Bad Request
+ *       '404':
+ *         description: Invalid Path
+ */
 router.get(`/moneyline/visitor/:season/:visitorTeam/:gamedate`, gambling.getVisitorMoneyline);
 
 module.exports = router;

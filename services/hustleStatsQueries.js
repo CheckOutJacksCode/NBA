@@ -2,17 +2,20 @@ const db = require("../pgPool");
 const fs = require("fs");
 const { parse } = require("csv-parse");
 const createCsvWriter = require('csv-writer');
+const { nextTick } = require("process");
 
 
-const getLeagueHustleStatsBySeason = async(request, response) => {
+const getLeagueHustleStatsBySeason = async(request, response, next) => {
     let season = request.params;
-    console.log(season);
-    console.log(season.season);
-    let games = await require(`./leaguehustlestatsplayer${season.season}.json`);
-    response.status(200).send(games);    
+    try {
+        let games = await require(`../juicystats/leaguehustlestatsplayer${season.season}.json`);
+        response.status(200).send(games); 
+    } catch (error) {
+        console.log(error);
+    }   
 }
 
-const createPlayerHustlePoints = (request, response) => {
+const createPlayerHustlePoints = (request, response, next) => {
     const body = request.body;
   
     db.query('INSERT INTO "hustleFactor" (playerid, firstname, lastname, hustlepts, season) VALUES ($1, $2, $3, $4, $5)', [body.player[0].playerid.toString(), body.player[0].first_name, body.player[0].last_name, body.hustlePts, body.season], (error, results) => {
@@ -23,7 +26,7 @@ const createPlayerHustlePoints = (request, response) => {
     })
 }
 
-const getAllFirstLastHustlePointsInSeason = (request, response) => {
+const getAllFirstLastHustlePointsInSeason = (request, response, next) => {
     const season = request.params;
     db.query(`SELECT firstname, lastname, hustlepts FROM "hustleFactor" WHERE season = $1 AND hustlepts!='STATISTICS UNAVAILABLE' ORDER BY CAST(hustlepts AS FLOAT) ASC`, [season.season], (error, results) => {
       if (error) {
@@ -33,7 +36,7 @@ const getAllFirstLastHustlePointsInSeason = (request, response) => {
     })
 }
   
-const createLeagueHustleStatsBySeason = (request, response) => {
+const createLeagueHustleStatsBySeason = (request, response, next) => {
     let season = request.params;
     console.log(season);
     const body = request.body;
