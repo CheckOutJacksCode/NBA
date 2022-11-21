@@ -1,16 +1,34 @@
-// middleware.js
-const errorLogger = (err, req, res, next) => {
-    console.error('\x1b[31m', err) // adding some color to our logs
-    next(err) // calling next middleware
+const errorLogger = (error, request, response, next) => {
+  console.log( `error ${error.message}`)
+  console.log('inside the error middleware')
+  next(error) // calling next middleware
 }
 
-const errorResponder = (err, req, res, next) => {
-  res.header("Content-Type", 'application/json')
-  res.status(err.statusCode).send(JSON.stringify(err, null, 4)) // pretty print
+// Error handling Middleware function reads the error message 
+// and sends back a response in JSON format
+const errorResponder = (error, request, response, next) => {
+  response.header("Content-Type", 'application/json')
+  if (error.message === 'Stats Do Not Exist') {
+      error.status = 404;
+      error.name = 'error';
+  }
+  const status = error.status || 400;
+  if (process.env.NODE_ENV === 'development') {
+      response.status(status).send({
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+      })
+  } else {
+      response.status(status).send(error.message)
+  }
 }
 
-const invalidPathHandler = (req, res, next) => {
-  res.redirect('/error')
+// Fallback Middleware function for returning 
+// 404 error for undefined paths
+const invalidPathHandler = (request, response, next) => {
+  response.status(404)
+  response.send('invalid path')
 }
 
 module.exports = { errorLogger, errorResponder, invalidPathHandler }
