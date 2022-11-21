@@ -52,46 +52,37 @@ const { checkAuthenticated } = require('./userRouter');
  *         season: '2015-2016'
  *     LeagueHustleArray:
  *       type: 'array'
- *       items:
- *         $ref: '#/components/schemas/LeagueHustleObject'
- *     LeagueHustleObject:
+ *       example: [201143,"Al Horford",1610612737,"ATL",30,82,2631,25,22,3,3,0,6,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+ *     LeagueHustleReadResults:
  *       type: 'object'
  *       properties:
- *         player:
- *           type:
- *         hustlePts:
+ *         resource:
  *           type: 'string'
- *         season:
+ *         parameters:
+ *           type: 'object'
+ *         resultSets:
+ *           type: 'array'
+ *       example:
+ *         resource: 'leaguehustlestatsplayer'
+ *         parameters: {"PerMode": "Totals", "LeagueId": null}
+ *         resultSets: ['stats go here']
+ *     HustleResponseArray:
+ *       type: 'array'
+ *       items:
+ *         $ref: '#/components/schemas/HustleResponseObject'
+ *     HustleResponseObject:
+ *       type: 'object'
+ *       properties:
+ *         firstname:
+ *           type: 'string'
+ *         lastname:
+ *           type: 'string'
+ *         carmelopts:
  *           type: 'string'
  *       example:
- *         PLAYER_ID
- *         PLAYER_NAME
- *         TEAM_ID
- *         TEAM_ABBREVIATION
- *         AGE
- *         G
- *         MIN
- *         CONTESTED_SHOTS
- *         CONTESTED_SHOTS_2PT
- *         CONTESTED_SHOTS_3PT
- *         DEFLECTIONS
- *         CHARGES_DRAWN
- *         SCREEN_ASSISTS
- *         SCREEN_AST_PTS
- *         OFF_LOOSE_BALLS_RECOVERED
- *         DEF_LOOSE_BALLS_RECOVERED
- *         LOOSE_BALLS_RECOVERED
- *         PCT_LOOSE_BALLS_RECOVERED_OFF
- *         PCT_LOOSE_BALLS_RECOVERED_DEF
- *         OFF_BOXOUTS
- *         DEF_BOXOUTS
- *         BOX_OUT_PLAYER_TEAM_REBS
- *         BOX_OUT_PLAYER_REBS
- *         BOX_OUTS
- *         PCT_BOX_OUTS_OFF
- *         PCT_BOX_OUTS_DEF
- *         PCT_BOX_OUTS_TEAM_REB
- *         PCT_BOX_OUTS_REB
+ *         firstname: 'Nate'
+ *         lastname: 'Robinson'
+ *         hustlepts: '-1.82'
  * /hustleStats:
  *    post:
  *      summary: Creates a new hustle stats player row in database
@@ -116,8 +107,33 @@ const { checkAuthenticated } = require('./userRouter');
  *        '404':
  *          description: Invalid Path
  */
-router.post('/', hustleStats.createPlayerHustlePoints);
+router.post('/', checkAuthenticated, hustleStats.createPlayerHustlePoints);
 
+/**
+ * @swagger
+ * /hustleStats/getLocalHustlePointsInSeason/{season}:
+ *   get:
+ *     summary: Get All Hustle Pts Players by season
+ *     parameters:
+ *       - in: path
+ *         name: season
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: String season of the hustle pts we are getting
+ *         example: '2015-2016'
+ *     responses:
+ *       '200':
+ *         description: A successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/HustleResponseArray'
+ *       '400':
+ *         description: Bad Request
+ *       '404':
+ *         description: Invalid Path
+ */
 router.get('/getLocalHustlePointsInSeason/:season', hustleStats.getAllFirstLastHustlePointsInSeason);
 
 /**
@@ -125,20 +141,28 @@ router.get('/getLocalHustlePointsInSeason/:season', hustleStats.getAllFirstLastH
  * /hustleStats/{season}:
  *    post:
  *      summary: Creates a new league hustle stats player row in database
+ *      parameters:
+ *        - in: path
+ *          name: season
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: String season of the league hustle stats we are posting
+ *          example: '2015-2016'
  *      requestBody:
  *        description: Data for new league hustle stats player
  *        required: true
  *        content:
  *          application/json:
  *             schema:
- *               $ref: '#/components/schemas/LeagueHustleObject'
+ *               $ref: '#/components/schemas/LeagueHustleArray'
  *      responses:
  *        '201':
- *          description: returns created league hustleObject
+ *          description: returns created league hustle array
  *          content:
  *            application/json:
  *              schema:
- *                $ref: '#/components/schemas/LeagueHustleObject'
+ *                $ref: '#/components/schemas/LeagueHustleArray'
  *        '403':
  *          description: Not Authorized
  *        '400':
@@ -146,20 +170,20 @@ router.get('/getLocalHustlePointsInSeason/:season', hustleStats.getAllFirstLastH
  *        '404':
  *          description: Invalid Path
  */
-router.post('/:season', hustleStats.createLeagueHustleStatsBySeason);
+router.post('/:season', checkAuthenticated, hustleStats.createLeagueHustleStatsBySeason);
 
 /**
  * @swagger
- * /boxScoreSummary/read/{season}:
+ * /hustleStats/leaguehustlestats/{season}:
  *   get:
- *     summary: Read Box Scores Summary from CSV
+ *     summary: Read League Hustle Stats from CSV
  *     parameters:
  *       - in: path
  *         name: season
  *         schema:
  *           type: string
  *         required: true
- *         description: String season of the box scores summary we are reading
+ *         description: String season of the league hustle stats we are reading
  *         example: '2015-2016'
  *     responses:
  *       '201':
@@ -167,10 +191,10 @@ router.post('/:season', hustleStats.createLeagueHustleStatsBySeason);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/BoxScoreSummaryArray'
+ *               $ref: '#/components/schemas/LeagueHustleReadResults'
  *       '403':
  *         description: Not Authorized
  */
-router.get('/leaguehustlestats/:season', hustleStats.getLeagueHustleStatsBySeason);
+router.get('/leaguehustlestats/:season', checkAuthenticated, hustleStats.getLeagueHustleStatsBySeason);
 
 module.exports = router;

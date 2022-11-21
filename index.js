@@ -37,7 +37,7 @@ const swaggerOptions = {
             "./routes/boxScoreScoringRoutes.js", "./routes/boxScoresTraditionalRoutes.js",
             "./routes/boxScoreSummaryRoutes.js", "./routes/carmeloRoutes.js", "./routes/fourFactorsRoutes.js",
             "./routes/gamblingRoutes.js", "./routes/hustleStatsRoutes.js", "./routes/leagueDashLineupsRoutes.js",
-            "./routes/leagueDashOppShotRoutes.js","./routes/leagueDashPlayerClutch.js",
+            "./routes/leagueDashOppShotRoutes.js","./routes/leagueDashPlayerClutchRoutes.js",
             "./routes/leagueDashPlayerPtShotRoutes.js", "./routes/leagueGamesRoutes.js", "./routes/mvpPointsRoutes.js",
             "./routes/playersNBARoutes.js", "./routes/playerTrackerRoutes.js", "./routes/publicApiPlayersRoutes.js",
             "./routes/publicGamesRoutes", "./routes/regularSeasonStatsRoutes.js", "./routes/shotsRoutes.js", "./models/user.js", "./routes/userRouter.js"]
