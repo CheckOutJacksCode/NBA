@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const leagueGames = require('../services/leagueGamesQueries');
+const { checkAuthenticated } = require('./userRouter');
 
 
 /**
@@ -272,7 +273,7 @@ const leagueGames = require('../services/leagueGamesQueries');
  *       '403':
  *         description: Not Authorized
  */
-router.get('/:season', leagueGames.getGamesBySeason);
+router.get('/:season', checkAuthenticated, leagueGames.getGamesBySeason);
 
 
 //router.get('/local/leaguegames', leagueGames.getGamesLocal);
@@ -338,7 +339,7 @@ router.get('/local/leaguegames/:season', leagueGames.getGamesBySeasonLocal);
  *        '404':
  *          description: Invalid Path
  */
-router.post('/:season', leagueGames.createGamesBySeason);
+router.post('/:season', checkAuthenticated, leagueGames.createGamesBySeason);
 
 /**
  * @swagger

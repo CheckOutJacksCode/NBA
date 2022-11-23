@@ -3,6 +3,7 @@ const shotsSeason = document.getElementById("shots_season");
 const shotsGameId = document.getElementById("shots_gameId");
 //const submitShots = document.getElementById("submit_shots");
 const teamChosenShots = document.getElementById("teamsshots");
+const shotsUnavailable = document.getElementById("shots-unavailable");
 
 const getJsonResponseShotCharts = async (url) => {
   console.log(url);
@@ -84,7 +85,7 @@ const letsGo = async(url, game_id) => {
      //////////////////////////////
      //////////////////////////////
      */
-    if (totalShotsArray.length > 40) {
+    if (game_id === 'season chart') {
       myPlot = "myPlot";
       chartTitle = "SEASON SHOT CHART";
       player_name = totalShotsArray[0].player_name;
@@ -209,6 +210,8 @@ const letsGo = async(url, game_id) => {
       //CATCH THE ERROR HERE IF THE PLAYER DIDNT PLAY IN THE GAME
       //let boxScore = await getJsonResponseShotCharts(`/games/${gameid}/${playerid}`);
       let boxScore = await getJsonResponseShotCharts(`/boxScoresTraditional/${season}/${game_id}/${playerid}`);
+
+
       console.log(boxScore);
       boxScore = boxScore[0];
       points = boxScore.pts;
@@ -746,13 +749,22 @@ const teamPlayersShotsDropDown = async() => {
     
 }
 
+const appendStatsUnavailable = async(table, message) => {
+    table.innerHTML = '';
+    table.innerHTML = message;
+}
+
 let playerShotsSeasonArray = [];
 const getShotSeasons = async() => {
     let player = shotsPlayer.value;
     let playerFirstLast = player.split(' ');
 
     let playerid = await getJsonResponseShotCharts(`/playersNBA/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
-
+    
+    if (!playerid) {
+        await appendStatsUnavailable(shotsUnavailable, 'Stats Unavailable');
+        return;
+    }
     let results = await getJsonResponseShotCharts(`/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("shots_season").innerHTML = str;
@@ -777,19 +789,22 @@ const getShotSeasons = async() => {
 }
 
 teamChosenShots.onchange = async() => {
+    shotsUnavailable.innerHTML = '';
     await teamPlayersShotsDropDown();
 }
 
 shotsPlayer.onchange = async() => {
+    shotsUnavailable.innerHTML = '';
     await getShotSeasons();
 }
 
 shotsSeason.onchange = async() => {
+    shotsUnavailable.innerHTML = '';
     await showForm();
 }
 
 shotsGameId.onchange = async() => {
-   await submitShots();
+    await submitShots();
 }
 
 teamsShotsDropDown();

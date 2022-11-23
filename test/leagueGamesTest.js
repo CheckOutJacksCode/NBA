@@ -63,7 +63,7 @@ describe('/POST League Games', () => {
             111,
             16,
             1
-        ], "2015-2016", 201]];
+        ], "2015-2016", 403]];
     for(let i = 0; i < boxScores.length; i++) {
         testCreateLeagueGames(boxScores[i][0], boxScores[i][1], boxScores[i][2]);
     }
@@ -92,7 +92,7 @@ describe('/GET *READ FROM JSON League Games by season', () => {
               });
         });
     }
-    let seasons = [["2015-2016", 200]];
+    let seasons = [["2015-2016", 403]];
     for(let i = 0; i < seasons.length; i++) {
         testReadLeagueGames(seasons[i][0], seasons[i][1]);
     }

@@ -66,6 +66,8 @@ const getRoster = async(season, team) => {
 */
 
 const getRosterFromPreviousGame = async(teamId, gameDate) => {
+    console.log(teamId)
+    console.log(gameDate)
     //THIS IS HOW YOU GET THE MOST RECENT GAME_ID/ROSTER FROM BOXSCORESTRADITIONAL WHEN THE SEASON STARTS
 /*
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
@@ -178,14 +180,14 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
     let roster;
     for (let j = 0; j < gameDateArray.length; j++) {
         let recentGameId = await getJsonResponseJackarithm(`/leagueGames/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDateArray[j]}`);
-        if (recentGameId.length > 0) {
+        if (recentGameId) {
             recentGameId = recentGameId[0].game_id;
-            roster = await getJsonResponseJackarithm(`/boxScoresTraditional/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${recentGameId}`);
+            roster = await getJsonResponseJackarithm(`/boxPlayers/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${recentGameId}`);
             return roster;
         }
     }
     /* If you don't get a 'recentgameid' from the loop above, use overall roster from current season.*/
-    roster = await getJsonResponseJackarithm(`/boxScoresTraditional/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`)
+    roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`)
     return roster;
 }
 
@@ -193,7 +195,7 @@ const getRosterNoParams = async(H_or_V) => {
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
     let teamId = await getJsonResponse(`/leagueGames/teamid/${team.value}`)
     let season = '2017-2018';
-    let roster = await getJsonResponseJackarithm(`/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
     for (let i = 0; i < roster.length; i++) {
         let appendedPlayer = await appendPlayerRosterTable(roster[i].player_id, roster[i].player_name, H_or_V);
     }
@@ -205,7 +207,7 @@ getBoxTraditionalButtonHome.onclick = async() => {
     let team = document.getElementById(`${HorV}TeamJackarithm`);
     let teamId = await getJsonResponse(`/leagueGames/teamid/${team.value}`)
     let season = '2017-2018';
-    let roster = await getJsonResponseJackarithm(`/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
 
     let table = "boxscorestraditional2021-2022"
 
@@ -225,7 +227,7 @@ getBoxTraditionalButtonVisitor.onclick = async() => {
     let team = document.getElementById(`${HorV}TeamJackarithm`);
     let teamId = await getJsonResponse(`/leagueGames/teamid/${team.value}`)
     let season = '2017-2018';
-    let roster = await getJsonResponseJackarithm(`/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
 
     let table = "boxscorestraditional2021-2022"
 
@@ -742,8 +744,8 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
             }
         }
     }
-    /* This selection of the season is the season used to get boxscorestraditioal from, as well as the roster.*/
-    let season = '2020-2021';
+    /* This selection of the season is the season used to get boxscorestraditional from, as well as the roster.*/
+    let season = seasonDropChoice.value;
     let teamId = await getJsonResponseJackarithm(`/leagueGames/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
@@ -763,6 +765,9 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     recentGameId = recentGameId[0].game_id.substring(2)
     let gameid = parseInt(recentGameId);
     let boxNum = await getJsonResponseJackarithm(`/boxScoresTraditional/boxnum/${gameid}/${season}/${teamId[0].team_id}/${H_or_V}`);
+    if (!boxNum) {
+        boxNum = [{ count: 0 }];
+    }
     //====================================================================================================================
 
 
@@ -775,7 +780,15 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
          * The third averages object contains the per game box score averages for the current season's stats, and the fourth averages object
          * contains the per 82 game box score averages for the current season's stats, (by player/season). 
          * */
+        console.log(season)
+        console.log(roster[i].player_id)
+        console.log(H_or_V)
+        console.log(teamId)
+        console.log(boxNum[0].count)
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(season, roster[i].player_id, H_or_V, teamId, boxNum[0].count);
+        if (!playerStats) {
+            continue;
+        }
         //total of minutes per game of every player on roster during previous season
         totalMinutes += playerStats[0].min;
         //total of minutes per 82 games of every player on roster during previous season
@@ -839,8 +852,11 @@ compareP240ResultsBySeasonTotalsButton.onclick = async() => {
         }
         let stuff;
         for (let k = 0; k < teamsV.length; k++) {
-            
+            console.log(stat)
+            console.log(hometeam)
+            console.log(teamsV[k].team_name);
             stuff = await compareP240ExpectedResultsToGameResults(stat, hometeam, teamsV[k].team_name);
+            console.log(stuff);
             if (stuff == null) {
                 continue;
             }
@@ -1348,7 +1364,10 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     actually be an unecessary step in production during this season, as my boxscorestraditional2022-2023 table will only contain data up to 
     the current day, so it will not need to be spliced.)*/
     let gameDate0 = actualResults[0].game_date;
-
+    console.log(stat)
+    console.log(gameDate0)
+    console.log(hometeam)
+    console.log(visitorteam)
     let homeResults0 = await getStatP240ExpectedNoAppend(stat, 'home', gameDate0, hometeam, visitorteam);
     console.log(homeResults0)
     /*
@@ -1498,9 +1517,18 @@ const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) =>
             stats = await getJsonResponseJackarithm(`/boxScoresTraditional/jackarithm/home/${playerid}/${season}`);
         } else {
             stats = await getJsonResponseJackarithm(`/boxScoresTraditional/jackarithm/visitor/${playerid}/${season}`);
+            console.log(stats);
         }
     }
     return stats;
+}
+
+const getPreviousSeason = async(season) => {
+    let split = season.split('-')
+    let previous = parseInt(split[1]) - 1;
+    let previous2 = parseInt(split[0]) - 1;
+    let thisSeason = previous2 + '-' + previous;
+    return thisSeason;
 }
 
 //for one player, return every stat average per season
@@ -1514,8 +1542,10 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
      * grouping for each table (different stat category table from the same season, for example, boxscorefourfactors as primary and boxscorestraditional
      * as secondary). ALWAYS MAKE SURE TO USE THE SCIENTIFIC METHOD WHICH EACH ATTEMPT, KEEPING A CONTROL VARIABLE / SEASON.
      */
-    let table1 = "boxscorestraditional2020-2021"
-    let table2 = "boxscorestraditional2019-2020"
+
+    let backupSeason = await getPreviousSeason(season);
+    let table1 = `boxscorestraditional${season}`
+    let table2 = `boxscorestraditional${backupSeason}`
 
     /**
      * stats1 and stats2 just represent the headers for each stat provided in whatever box score table you are querying.
@@ -1528,41 +1558,49 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     /** season2 is just the backup season, if you are using a different stat table of the same season, just set this variable to the
      * given season (seasonDropDown.value);
      * */
-    let season2 = '2019-2020';
+    let season2 = backupSeason;
 
     //playerStats1 will be an array of either home game or visitor game traditional box scores given the season, and playerid
     let playerStats1 = await getStatsFromBoxTraditionalHorV(season, playerid, H_or_V, table1);
-
+    console.log(playerStats1)
     /** since I am using the same stat category table for table1 and table2, but from different seasons, I have to call getStatsFromBoxTraditionalHorV()
      * with season2 to acquire playerStats2 from the previous season to backup playerStats1.
      * */
     //BACKUP STATS
     let playerStats2 = await getStatsFromBoxTraditionalHorV(season2, playerid, H_or_V, table2);
-    
+    console.log(playerStats2)
     /**
      * 
      */
-    playerStats1.splice(boxNum);
+
     //playerStats2;
-    if (!playerStats2[0]) {
+    if (!playerStats2) {
         //games played = get gameid's in seasonDropChoice year where player.mins > 0
         //stat total = for each game in games played, add up stats
         /*let split = season.split('-')
         let next = parseInt(split[1]) + 1
         let thisSeason = split[1] + '-' + next;*/
-        let split = season2.split('-')
-        let previous = parseInt(split[1]) - 1;
-        let previous2 = parseInt(split[0]) - 1;
-        let thisSeason = previous2 + '-' + previous;
+        let thisSeason = await getPreviousSeason(season2);
         playerStats2 = await getStatsFromBoxTraditionalHorV(thisSeason, playerid, H_or_V, table2);
+        
+        if (!playerStats2) {
+            playerStats2 = playerStats1;
+        }
     }
 
-    let temp;
-    if (!playerStats1[0]) {
-        temp = playerStats2;
-        playerStats1 = temp;
+    if (!playerStats1) {
+        playerStats1 = playerStats2;
         console.log('PLAYER STATS SWAPPED BECAUSE PLAYERSTATS1 DOES NOT EXIST')
     }
+
+    if (!playerStats1 && !playerStats2) {
+        console.log('NEITHER PLAYERSTATS1 OR PLAYERSTATS2 EXIST')
+        return null;
+    }
+
+    playerStats1.splice(boxNum);
+    console.log(playerStats1);
+
     /*
     if (!playerStats1[0]) {
         playerStats1 = [{mvppoints: '0.2500'}]

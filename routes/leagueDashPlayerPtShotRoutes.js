@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dashPlayerPtShot = require('../services/leagueDashPlayerPtShotQueries');
+const { checkAuthenticated } = require('./userRouter');
 
 
 /**
@@ -112,7 +113,7 @@ const dashPlayerPtShot = require('../services/leagueDashPlayerPtShotQueries');
  *       '403':
  *         description: Not Authorized
  */
-router.get('/read/:season', dashPlayerPtShot.getLeagueDashPlayerPtShotFromJson);
+router.get('/read/:season', checkAuthenticated, dashPlayerPtShot.getLeagueDashPlayerPtShotFromJson);
 
 /**
  * @swagger
@@ -148,7 +149,7 @@ router.get('/read/:season', dashPlayerPtShot.getLeagueDashPlayerPtShotFromJson);
  *        '404':
  *          description: Invalid Path
  */
-router.post(`/:season`, dashPlayerPtShot.createLeagueDashPlayerPtShot);
+router.post(`/:season`, checkAuthenticated, dashPlayerPtShot.createLeagueDashPlayerPtShot);
 
 
 /**
@@ -174,7 +175,7 @@ router.post(`/:season`, dashPlayerPtShot.createLeagueDashPlayerPtShot);
  *       '403':
  *         description: Not Authorized
  */
-router.get('/read/leaguedashplayershotlocations/:season', dashPlayerPtShot.getLeagueDashPlayerShotLocationsFromJson);
+router.get('/read/leaguedashplayershotlocations/:season', checkAuthenticated, dashPlayerPtShot.getLeagueDashPlayerShotLocationsFromJson);
 
 /**
  * @swagger
@@ -210,6 +211,6 @@ router.get('/read/leaguedashplayershotlocations/:season', dashPlayerPtShot.getLe
  *        '404':
  *          description: Invalid Path
  */
-router.post(`/leaguedashplayershotlocations/:season`, dashPlayerPtShot.createLeagueDashPlayerShotLocations);
+router.post(`/leaguedashplayershotlocations/:season`, checkAuthenticated, dashPlayerPtShot.createLeagueDashPlayerShotLocations);
 
 module.exports = router;

@@ -968,8 +968,9 @@ const splitNameFunction = async(fullName) => {
 const displayPlayerCareerStats = async() => {
 
     let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`)
-    if (!playerid[0]) {
-        await appendStatsUnavailable('bad player id');
+    console.log(playerid);
+    if (!playerid) {
+        await appendStatsUnavailable(seasonAveragesRegularSeasonsTable, 'Stats Unavailable');
         return;
     }
     let statLines = await getJsonResponseFront(`/regularSeasonStats/getregularseasonstatlines/${playerid[0].playerid}`);
@@ -985,8 +986,8 @@ const displayPlayerSplitStats = async() => {
     let average;
     let averageObj = {};
     let averagesArray = [];
-    if (!playerid[0]) {
-        await appendStatsUnavailable();
+    if (!playerid) {
+        await appendStatsUnavailable(splitLineTable, 'Stats Unavailable');
         return;
     }
     for (let i = 0; i < headers.length; i++) {

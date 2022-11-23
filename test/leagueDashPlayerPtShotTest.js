@@ -54,7 +54,7 @@ describe('/POST League Dash Player Pt Shot', () => {
             402,
             882,
             0.456
-        ], "2015-2016", 201]];
+        ], "2015-2016", 403]];
     for(let i = 0; i < boxScores.length; i++) {
         testCreateLeagueDashPlayerPtShot(boxScores[i][0], boxScores[i][1], boxScores[i][2]);
     }
@@ -83,7 +83,7 @@ describe('/GET *READ FROM CSV league dash player pt shot by season', () => {
               });
         });
     }
-    let seasons = [["2015-2016", 200]];
+    let seasons = [["2015-2016", 403]];
     for(let i = 0; i < seasons.length; i++) {
         testReadLeagueDashPlayerPtShot(seasons[i][0], seasons[i][1]);
     }
@@ -145,7 +145,7 @@ describe('/POST League Dash Player Shot Locations', () => {
             6,
             16,
             0.375
-        ], "2015-2016", 201]];
+        ], "2015-2016", 403]];
     for(let i = 0; i < boxScores.length; i++) {
         testCreateLeagueDashPlayerShotLocations(boxScores[i][0], boxScores[i][1], boxScores[i][2]);
     }
@@ -155,7 +155,7 @@ describe('/GET *READ FROM CSV league dash player shot locations by season', () =
     function testReadLeagueDashPlayerShotLocations(season, status) {
         it(`it should READ all league dash player shot locations from "leaguedashplayershotlocations${season}.csv"`, (done) => {
           chai.request(app)
-              .get(`/leagueDashPlayerClutch/read/leaguedashplayershotlocations/${season}`)
+              .get(`/leagueDashPlayerPtShot/read/leaguedashplayershotlocations/${season}`)
               .end((err, res) => {
                     if ( status === 200) {
                         res.status.should.be.equal(200);
@@ -174,7 +174,7 @@ describe('/GET *READ FROM CSV league dash player shot locations by season', () =
               });
         });
     }
-    let seasons = [["2015-2016", 201]];
+    let seasons = [["2015-2016", 403]];
     for(let i = 0; i < seasons.length; i++) {
         testReadLeagueDashPlayerShotLocations(seasons[i][0], seasons[i][1]);
     }
