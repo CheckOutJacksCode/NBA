@@ -41,7 +41,8 @@ const swaggerOptions = {
             "./routes/leagueDashOppShotRoutes.js","./routes/leagueDashPlayerClutchRoutes.js",
             "./routes/leagueDashPlayerPtShotRoutes.js", "./routes/leagueGamesRoutes.js", "./routes/mvpPointsRoutes.js",
             "./routes/playersNBARoutes.js", "./routes/playerTrackerRoutes.js", "./routes/publicApiPlayersRoutes.js",
-            "./routes/publicGamesRoutes", "./routes/regularSeasonStatsRoutes.js", "./routes/shotsRoutes.js", "./models/user.js", "./routes/userRouter.js"]
+            "./routes/publicGamesRoutes", "./routes/regularSeasonStatsRoutes.js", "./routes/shotsRoutes.js", "./models/user.js",
+            "./routes/userRouter.js", "./routes/statRankedRouter.js"]
 }
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -108,7 +109,7 @@ const publicGamesRouter = require('./routes/publicGamesRoutes');
 const regularSeasonStatsRouter = require('./routes/regularSeasonStatsRoutes');
 const shotsRouter = require('./routes/shotsRoutes');
 const userRouter = require("./routes/userRouter");
-
+const statRankedRouter = require("./routes/statRankedRoutes");
 
 app.use("/boxPlayers", boxPlayersRouter)
 app.use("/box", boxRouter);
@@ -133,6 +134,7 @@ app.use("/publicGames", publicGamesRouter);
 app.use("/regularSeasonStats", regularSeasonStatsRouter);
 app.use("/shots", shotsRouter);
 app.use("/users", userRouter.router);
+app.use("/statranked", statRankedRouter)
 
 
 app.get('/', (req, res, next) => {

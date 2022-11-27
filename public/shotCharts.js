@@ -757,9 +757,8 @@ const appendStatsUnavailable = async(table, message) => {
 let playerShotsSeasonArray = [];
 const getShotSeasons = async() => {
     let player = shotsPlayer.value;
-    let playerFirstLast = player.split(' ');
 
-    let playerid = await getJsonResponseShotCharts(`/playersNBA/official/players/playerid/${playerFirstLast[1]}/${playerFirstLast[0]}`)
+    let playerid = await getJsonResponseShotCharts(`/playersNBA/${player}`)
     
     if (!playerid) {
         await appendStatsUnavailable(shotsUnavailable, 'Stats Unavailable');
@@ -771,11 +770,11 @@ const getShotSeasons = async() => {
     let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
     realSeasonArray = [];
     for (var result of results) {
-      let splitSeason = result.season_id.split('-');
-      realSeason = splitSeason[0] + '-20' + splitSeason[1];
-      if (seasonsArr.includes(realSeason)) {
-        realSeasonArray.push(realSeason);
-      }
+        let splitSeason = result.season_id.split('-');
+        realSeason = splitSeason[0] + '-20' + splitSeason[1];
+        if (seasonsArr.includes(realSeason)) {
+            realSeasonArray.push(realSeason);
+        }
     }
     try {
         for (var season of realSeasonArray) {

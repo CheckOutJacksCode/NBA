@@ -9,6 +9,7 @@ const teamPlayerChosen = document.getElementById("teamplayers");
 const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAveragesRegularSeasonsTable");
 const splits = document.getElementById("player-splits");
 const splitLineTable = document.getElementById("splitTable");
+const statRankingTable = document.getElementById("statRanks");
 
 const getJsonResponseFront = async (url) => {
     console.log(url);
@@ -927,23 +928,51 @@ const clearSplitTable = async() => {
 }
 
 teamPlayerChosen.onchange = async() => {
+    await getPlayerSeasons();
     let career = await displayPlayerCareerStats();
     let splits = await displayPlayerSplitStats();
 }
 
 splits.onchange = async() => {
-    let cleared = false;
-    cleared = await clearTableContents();
-    if (cleared) {
-        let splits = await displayPlayerSplitStats();
-    }
+    splitLineTable.innerHTML = '';
+    await displayPlayerSplitStats();
 }
 
 seasonToGet.onchange = async() => {
-    let cleared = false;
-    cleared = await clearTableContents();
-    if (cleared) {
-        let splits = await displayPlayerSplitStats();
+    splitLineTable.innerHTML = '';
+    await displayPlayerSplitStats();
+}
+
+let playerSeasonArray = [];
+const getPlayerSeasons = async() => {
+    let player = teamPlayerChosen.value;
+
+    let playerid = await getJsonResponseFront(`/playersNBA/${player}`)
+    
+    if (!playerid) {
+        await appendStatsUnavailable(seasonAveragesRegularSeasonsTable, 'Stats Unavailable');
+        return;
+    }
+    let results = await getJsonResponseFront(`/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
+    var str = '<option value="none" selected disabled hidden>Select an Option</option>';
+    document.getElementById("season").innerHTML = str;
+    let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    realSeasonArray = [];
+    for (var result of results) {
+        let splitSeason = result.season_id.split('-');
+        realSeason = splitSeason[0] + '-20' + splitSeason[1];
+        if (seasonsArr.includes(realSeason)) {
+            realSeasonArray.push(realSeason);
+        }
+    }
+    try {
+        for (var season of realSeasonArray) {
+            str += "<option>" + season + "</option>";
+            playerSeasonArray.push(season);
+        }
+        document.getElementById("season").innerHTML = str;
+    } catch(error) {
+        console.log(error);
     }
 }
 
@@ -992,6 +1021,7 @@ const displayPlayerSplitStats = async() => {
     }
     for (let i = 0; i < headers.length; i++) {
         stat = headers[i].column_name;
+        console.log(seasonToGet.value)
         average = await getSeasonStatAvgLocal(stat, seasonToGet.value, playerid, splits.value)
         averageObj[stat] = average;
     }
@@ -1057,8 +1087,37 @@ const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
     }*/
 }
 
+//GET ANY STAT FROM ANY TABLE AND RANK PLAYERS BY STAT
+const getAnyStatEveryPlayerRanked = async(stat) => {
+
+    let season = seasonToGet.value
+    if (!season) {
+        season = '2015-2016';
+    }
+    let results = await getJsonResponseFront(`/statranked/${stat}/${season}`);
+    console.log(results);
+    let headerRow = statRankingTable.insertRow();
+    let headerCell = headerRow.insertCell()
+    headerCell.innerHTML = season + ' ' + statToGet.value;
+    for (let i = 0; i < results.length; i++) {
+        let appended = await appendStatRankingTable(results[i])
+    }
+}
+
+const appendStatRankingTable = async(stats) => {
+    let row = statRankingTable.insertRow();
+    let cell = row.insertCell();
+    let cell1 = row.insertCell();
+    cell.innerHTML = stats.player_name;
+    cell1.innerHTML = stats.avg;
+}
+
+const boxTraditionalHomePage = async() => {
+    let stats = ['']
+}
+
+
 const updateDatabase = async() => {
-    let results = await deleteDatabase();
     await loadUpLocalFunction();
     await loadUpGamesLocalFunction();
     await loadUpGameInfoLocalFunction();
@@ -1091,7 +1150,7 @@ const runOncePerDay = async() => {
 }
 
 teamsDropDown();
-
+getAnyStatEveryPlayerRanked('reb');
 
 
 

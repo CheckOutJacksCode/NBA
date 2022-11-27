@@ -1784,6 +1784,14 @@ writeOddsToDatabaseButton.onclick = async() => {
     await writeOddsToDatabase(season);
 }
 
+homeTeam.onchange = async() => {
+    await getRosterNoParams('home');
+}
+
+visitorTeam.onchange = async() => {
+    await getRosterNoParams('visitor');
+}
+
 const getAverageMvpPointsBySeason = async(season) => {
    
     let total = 0;

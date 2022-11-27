@@ -68,7 +68,7 @@ def allassists():
 
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("alltimeassists.json", "w") as outfile:
+	with open("./juicystats/alltimeassists.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def assiststracker():
@@ -108,12 +108,12 @@ def assiststracker():
 	)
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("assiststacker.json", "w") as outfile:
+	with open("./juicystats/assiststacker.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 boxScoreArray = []
 def readLeagueGames():
-	f = open('leaguegames2018-2019.json')
+	f = open('./juicystats/leaguegames2022-2023.json')
 	# returns JSON object as 
 	# a dictionary
 	games = json.load(f)
@@ -154,7 +154,7 @@ def boxscoreadvanced(gameId):
 	print(boxData.resultSets[0].headers)
 	header = boxData.resultSets[0].headers
 	try:
-		with open('boxscores2018-2019.csv', 'a', encoding='UTF8', newline='') as f:
+		with open('./juicystats/boxscores2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
 			writer = csv.writer(f)
 			writer.writerow(header)
 			writer.writerows(boxData.resultSets[0].rowSet)
@@ -176,7 +176,7 @@ def alltimers():
 
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("alltimeleadersgrids2.json", "w") as outfile:
+	with open("./juicystats/alltimeleadersgrids2.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def shotchartdetailfunction():
@@ -184,13 +184,12 @@ def shotchartdetailfunction():
 		team_id=0,
 		player_id=0,
 		context_measure_simple='FGA',
-		season_nullable='2020-21',
+		season_nullable='2022-23',
 		season_type_all_star='Regular Season'
 	)
-
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("2020-2021.json", "w") as outfile:
+	with open("2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def playergamelogfunction(playerId, season):
@@ -198,18 +197,18 @@ def playergamelogfunction(playerId, season):
 	response = playergamelog.PlayerGameLog(player_id=playerId, season=season)
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("games.json", "w") as outfile:
+	with open("./juicystats/games.json", "w") as outfile:
 		outfile.write(jsonContent)
 
 def writeNBAplayers():
-	seasons = ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+	seasons = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022']
 	list = []
 	for player in player_dict:
 		print(player)
 		jsonContent = json.dumps(player)
 		list.append(jsonContent)
 		jsonList = json.dumps(list)
-	with open("playersNBA.json", "w") as outfile:
+	with open("./juicystats/playersNBA.json", "w") as outfile:
 		outfile.write(jsonList)
 
 def leaguegames():
@@ -218,7 +217,7 @@ def leaguegames():
         direction=Direction.default,
         league_id=LeagueID.default,
         player_or_team_abbreviation=PlayerOrTeamAbbreviation.default,
-        season="2015-16",
+        season="2022-23",
         season_type_all_star=SeasonTypeAllStar.default,
         sorter=Sorter.default,
         date_from_nullable='',
@@ -231,13 +230,13 @@ def leaguegames():
 
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("leaguegames2015-2016.json", "w") as outfile:
+	with open("./juicystats/leaguegames2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def leaguehustlestats():
 	response = leaguehustlestatsplayer.LeagueHustleStatsPlayer(
 		per_mode_time=PerModeTime.default,
-        season="2020-21",
+        season="2022-23",
         season_type_all_star=SeasonTypeAllStar.default,
         college_nullable='',
         conference_nullable=ConferenceNullable.default,
@@ -270,7 +269,7 @@ def leaguehustlestats():
 	jsonContent = json.dumps(content)
 	print(response)
 	print(Season.default)
-	with open("leaguehustlestatsplayer2020-2021", "w") as outfile:
+	with open("./juicystats/leaguehustlestatsplayer2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 
@@ -278,7 +277,7 @@ def leaguehustlestats():
 def leaguehustlestatsleaders():
 	response = leaguehustlestatsplayerleaders.LeagueHustleStatsPlayerLeaders(
  		per_mode_time=PerModeTime.default,
-        season='2021-22',
+        season='2022-23',
         season_type_all_star=SeasonTypeAllStar.default,
         college_nullable='',
         conference_nullable=ConferenceNullable.default,
@@ -311,7 +310,7 @@ def leaguehustlestatsleaders():
 	jsonContent = json.dumps(content)
 	print(response)
 	print(Season.default)
-	with open("leaguehustlestatsplayerleaders2021-2022", "w") as outfile:
+	with open("leaguehustlestatsplayerleaders2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def leaguedashlineupsfunction():
@@ -326,7 +325,7 @@ def leaguedashlineupsfunction():
         period=Period.default,
         plus_minus=PlusMinus.default,
         rank=Rank.default,
-        season='2015-16',
+        season='2022-23',
         season_type_all_star=SeasonTypeAllStar.default,
         conference_nullable=ConferenceNullable.default,
         date_from_nullable='',
@@ -349,14 +348,14 @@ def leaguedashlineupsfunction():
 	)
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("leaguedashlineups2015-2016.json", "w") as outfile:
+	with open("./juicystats/leaguedashlineups2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def leaguedashoppptshotfunction():
 	response = leaguedashoppptshot.LeagueDashOppPtShot(
         league_id=LeagueID.default,
         per_mode_simple=PerModeSimple.default,
-        season='2021-22',
+        season='2022-23',
         season_type_all_star=SeasonTypeAllStar.default,
         close_def_dist_range_nullable='',
         conference_nullable=ConferenceNullable.default,
@@ -390,7 +389,7 @@ def leaguedashoppptshotfunction():
 	jsonContent = json.dumps(content)
 	print(response)
 	print(Season.default)
-	with open("leaguedashoppptshot2021-2022.json", "w") as outfile:
+	with open("./juicystats/leaguedashoppptshot2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def write():    
@@ -414,7 +413,7 @@ def write():
     jsonContent = json.loads(content)
     jsonResult = json.dumps(jsonContent)
 
-    with open("hustleFactor.json", "w") as outfile:
+    with open("./juicystats/hustleFactor.json", "w") as outfile:
         outfile.write(jsonResult)
     conn.close()
 
@@ -432,7 +431,7 @@ def leaguedashplayerclutchfunction():
         plus_minus=PlusMinus.default,
         point_diff=PointDiff.default,
         rank=Rank.default,
-        season="2020-21",
+        season="2022-23",
         season_type_all_star=SeasonTypeAllStar.default,
         college_nullable='',
         conference_nullable=ConferenceNullable.default,
@@ -465,14 +464,14 @@ def leaguedashplayerclutchfunction():
     )
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("leaguedashplayerclutch2021-2022.json", "w") as outfile:
+	with open("./juicystats/leaguedashplayerclutch2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def leaguedashplayerptshotfunction():
 	response = leaguedashplayerptshot.LeagueDashPlayerPtShot(
         league_id=LeagueID.default,
         per_mode_simple=PerModeSimple.default,
-        season="2015-16",
+        season="2022-23",
         season_type_all_star=SeasonTypeAllStar.default,
         close_def_dist_range_nullable='',
         college_nullable='',
@@ -512,7 +511,7 @@ def leaguedashplayerptshotfunction():
     )
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("leaguedashplayerptshot2015-2016.json", "w") as outfile:
+	with open("./juicystats/leaguedashplayerptshot2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 
@@ -528,7 +527,7 @@ def leaguedashplayershotlocationsfunction():
         period=Period.default,
         plus_minus=PlusMinus.default,
         rank=Rank.default,
-        season="2015-16",
+        season="2022-23",
         season_type_all_star=SeasonTypeAllStar.default,
         college_nullable='',
         conference_nullable=ConferenceNullable.default,
@@ -561,13 +560,13 @@ def leaguedashplayershotlocationsfunction():
     )
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("leaguedashplayershotlocations2015-2016.json", "w") as outfile:
+	with open("./juicystats/leaguedashplayershotlocations2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 
 boxScoreArrayTraditional = []
 def readLeagueGamesTraditional():
-    f = open('leaguegames2021-2022.json')
+    f = open('./juicystats/leaguegames2022-2023.json')
     games = json.load(f)
     idList = []
     for i in range (0, len(games["resultSets"][0]["rowSet"])):
@@ -605,7 +604,7 @@ def boxScoreTraditional(gameId):
     print(boxData.resultSets[0].headers)
     header = boxData.resultSets[0].headers
     try:
-        with open('boxscorestraditional2021-2022.csv', 'a', encoding='UTF8', newline='') as f:
+        with open('./juicystats/boxscorestraditional2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(header)
             writer.writerows(boxData.resultSets[0].rowSet)
@@ -624,7 +623,7 @@ def leagueDashPlayerStatsFunction():
         period=Period.default,
         plus_minus=PlusMinus.default,
         rank=Rank.default,
-        season='2021-22',
+        season='2022-23',
         season_type_all_star=SeasonTypeAllStar.default,
         college_nullable='',
         conference_nullable=ConferenceNullable.default,
@@ -661,11 +660,11 @@ def leagueDashPlayerStatsFunction():
     content = json.loads(response.get_json())
     jsonContent = json.dumps(content)
     print(jsonContent)
-    with open("leaguedashplayerstats2021-2022.json", "w") as outfile:
+    with open("./juicystats/leaguedashplayerstats2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def getPlayerIds():
-    f = open('playersNBA.json')
+    f = open('./juicystats/playersNBA.json')
     players = json.load(f)
 
     for i in range(0, len(players)):
@@ -688,11 +687,10 @@ def playerCareerStatsFunction(playerid):
     content = json.loads(response.get_json())
     jsonContent = json.dumps(content)
     careerData = json.loads(jsonContent, object_hook=lambda d: SimpleNamespace(**d))
-    print('BREAKKKKKKKKKKKKKKKKKK')
 
     header = careerData.resultSets[0].headers
     try:
-        with open('seasonregularplayerstats.csv', 'a', encoding='UTF8', newline='') as f:
+        with open('./juicystats/seasonregularplayerstats.csv', 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(header)
             writer.writerows(careerData.resultSets[0].rowSet)
@@ -714,7 +712,7 @@ def playerCareerStatsFunction(playerid):
 ##leaguedashplayerclutchfunction()
 ##leaguedashplayerptshotfunction()
 ##leaguedashplayershotlocationsfunction()
-##readLeagueGamesTraditional()
+readLeagueGamesTraditional()
 ##leagueDashPlayerStatsFunction()
 ##playerCareerStatsFunction()
-getPlayerIds()
+##getPlayerIds()

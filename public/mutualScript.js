@@ -400,7 +400,11 @@ const getSeasonStatAvgFourFactorsLocal = async(stat, year, playerId, H_or_V) => 
 
 const getSeasonStatAvgLocal = async(stat, year, playerId, H_or_V) => {
     let url;
+    console.log(year);
     console.log(playerId);
+    if (year === 'none') {
+        year = '2021-2022'
+    }
     if (H_or_V === 'home') {
         url = '/boxScoresTraditional/home/' + playerId[0].playerid + '/' + year; 
     } else if (H_or_V === 'visitor') {

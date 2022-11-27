@@ -12,15 +12,21 @@ h5 {
   color: black;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 div {
   text-align: center;
   color: rgb(117, 255, 4);
   font-family: "Garamond", serif;
-  font-weight: bold;
-  width: 100%;
-  zoom: 1.0;
   resize: both
 }
+
+div.frontInputFields {
+  text-align: left;
+  color: rgb(117, 255, 4);
+  font-family: "Garamond", serif;
+  resize: both
+}
+
 div.jackarithm {
   text-align: center;
   color: black;
