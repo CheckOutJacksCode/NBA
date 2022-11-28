@@ -10,6 +10,9 @@ const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAverage
 const splits = document.getElementById("player-splits");
 const splitLineTable = document.getElementById("splitTable");
 const statRankingTable = document.getElementById("statRanks");
+const rankedStatsHeader = document.getElementById("frontRankedStatsHeader");
+const rankedSeason = document.getElementById("rankedSeason");
+const scheduleTable = document.getElementById("scheduleTable");
 
 const getJsonResponseFront = async (url) => {
     console.log(url);
@@ -1087,29 +1090,51 @@ const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
     }*/
 }
 
+const getSchedule = async() => {
+    let season = rankedSeason.value;
+    let results = await getJsonResponseFront(`/leagueGames/frontSchedule/${season}`);
+    console.log(results);
+    for (let i = 0; i < results.length; i++) {
+        let appended = await appendScheduleTable(results[i]);
+    }
+}
+
+rankedSeason.onchange = async() => {
+    statRankingTable.innerHTML = '';
+    await getAnyStatEveryPlayerRanked(statToGet.value);
+}
+
+statToGet.onchange = async() => {
+    statRankingTable.innerHTML = '';
+    await getAnyStatEveryPlayerRanked(statToGet.value);
+}
 //GET ANY STAT FROM ANY TABLE AND RANK PLAYERS BY STAT
 const getAnyStatEveryPlayerRanked = async(stat) => {
 
-    let season = seasonToGet.value
+    let season = rankedSeason.value
     if (!season) {
         season = '2015-2016';
     }
     let results = await getJsonResponseFront(`/statranked/${stat}/${season}`);
     console.log(results);
-    let headerRow = statRankingTable.insertRow();
-    let headerCell = headerRow.insertCell()
-    headerCell.innerHTML = season + ' ' + statToGet.value;
     for (let i = 0; i < results.length; i++) {
-        let appended = await appendStatRankingTable(results[i])
+        let appended = await appendStatRankingTable(results[i], stat, season);
     }
 }
 
-const appendStatRankingTable = async(stats) => {
+const appendStatRankingTable = async(stats, stat, season) => {
+    rankedStatsHeader.innerHTML = season + ' ' + stat.toUpperCase()
+
     let row = statRankingTable.insertRow();
     let cell = row.insertCell();
     let cell1 = row.insertCell();
     cell.innerHTML = stats.player_name;
-    cell1.innerHTML = stats.avg;
+    cell1.innerHTML = stats.avg.toFixed(2);
+}
+
+const appendScheduleTable = async(stats) => {
+    scheduleTable.innerHTML = '';
+
 }
 
 const boxTraditionalHomePage = async() => {
@@ -1150,8 +1175,8 @@ const runOncePerDay = async() => {
 }
 
 teamsDropDown();
-getAnyStatEveryPlayerRanked('reb');
-
+getAnyStatEveryPlayerRanked('pts');
+getSchedule();
 
 
 //UNCOMMENT THIS CODE AND THE DATABASE WILL DELETE ITSELF AND REPLENISH EVERY TIME YOU START THE SERVER

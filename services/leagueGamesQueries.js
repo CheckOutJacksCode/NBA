@@ -168,6 +168,20 @@ const getPreviousGameIdBySeasonByTeamByGameDate = (request, response, next) => {
     })
 }
 
+const getFrontSchedule = (request, response, next) => {
+    const { season } = request.params;
+    db.query(`SELECT matchup, wl, game_date, pts FROM "leagueGames${season}"
+                ORDER BY id DESC`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getPreviousGameIdBySeasonByTeamByGameDate,
     getAbbreviationFromTeamName,
@@ -180,4 +194,5 @@ module.exports = {
     getGameIdGameDateMatchupBySeasonDropDownLocal,
     getGamesBySeasonLocal,
     getGamesBySeason,
+    getFrontSchedule,
 }

@@ -47,6 +47,28 @@ table.center {
   font-family: "Garamond", serif;
 }
 
+table.frontRankedStats {
+  background-color: black;
+  width: 100%;
+  max-width: 400px;
+  height: 240px;
+  margin: 0 auto;
+  display: block;
+  overflow-x: auto;
+  border-spacing: 0;
+}
+
+caption.frontRankedStats {
+  position: sticky;
+  top: 0;
+  background: rgb(0, 0, 0);
+  vertical-align: bottom;
+}
+
+tbody.frontRankedStats {
+  white-space: nowrap;
+}
+
 table.nostyle {
   background-color: bisque;
 }
@@ -59,12 +81,22 @@ tr.no-style {
   background-color: antiquewhite;
 }
 
-th, td {
-  border-bottom: 1px solid rgb(10, 10, 68);
-  
+td.frontRankedStats {
+  padding: 5px 10px;
+  border-top-width: 0;
+  border-left-width: 0;
 }
+
 tr:nth-child(even){
   background-color: #0e1441;
+}
+
+tr.frontRankedStats:nth-child(even){
+  background-color: #01030a;
+}
+
+tr.frontRankedStats:hover {
+  background-color: rgb(2, 29, 86);
 }
 
 tr:hover {

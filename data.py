@@ -712,7 +712,7 @@ def playerCareerStatsFunction(playerid):
 ##leaguedashplayerclutchfunction()
 ##leaguedashplayerptshotfunction()
 ##leaguedashplayershotlocationsfunction()
-readLeagueGamesTraditional()
+##readLeagueGamesTraditional()
 ##leagueDashPlayerStatsFunction()
 ##playerCareerStatsFunction()
 ##getPlayerIds()

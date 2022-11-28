@@ -573,4 +573,6 @@ router.get(`/teamabbreviation/:team_name`, leagueGames.getAbbreviationFromTeamNa
  */
 router.get(`/testing/previousgame/gameid/:season/:teamId/:gamedate`, leagueGames.getPreviousGameIdBySeasonByTeamByGameDate);
 
+router.get(`/frontSchedule/:season`, leagueGames.getFrontSchedule)
+
 module.exports = router;

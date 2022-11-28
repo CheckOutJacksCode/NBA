@@ -102,7 +102,19 @@
                 <br>
             </div>
         </div>
-        <div>
+        <div class="column">
+            <br>
+            <br>
+            <label for="rankedSeason">Choose season: </label>
+            <select name="rankedSeason" id="rankedSeason">
+                <option value="2021-2022">2021-2022</option>
+                <option value="2020-2021">2020-2021</option>
+                <option value="2019-2020">2019-2020</option>
+                <option value="2018-2019">2018-2019</option>
+                <option value="2017-2018">2017-2018</option>
+                <option value="2016-2017">2016-2017</option>
+                <option value="2015-2016">2015-2016</option>
+            </select>
             <br>
             <br>
             <label for="statToGet">Choose statistic: </label>
@@ -131,10 +143,23 @@
             </select>
             <br>
             <br>
-            <table class="center" id="statRanks" style="font-size: 2vw;">
-                <tr class="tr-with-style">
-                    <td style="text-align:center"></td>
-                </tr>
+            <table class="frontRankedStats" id="statRanks" style="font-size: 2vw;">
+                <caption class="frontRankedStats" id="frontRankedStatsHeader"></caption>
+                <tbody class="frontRankedStats">
+                    <tr class="frontRankedStats">
+                        <td class="frontRankedStats" style="text-align:left"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="column">
+            <table class="frontRankedStats" id="scheduleTable" style="font-size: 2vw;">
+                <caption class="frontRankedStats" id="scheduleHeader"></caption>
+                <tbody class="frontRankedStats">
+                    <tr class="frontRankedStats">
+                        <td class="frontRankedStats" style="text-align:left"></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
