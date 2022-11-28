@@ -8,17 +8,12 @@ const getRankedPlayersByStat = (request, response, next) => {
     let { stat, season } = request.params;
     console.log(stat)
 
-    if (stat === 'min') {
-        let splitMins = stat.split(':');
-        splitMins[1] = parseFloat(splitMins[1]) / 60 * 100;
-        splitMins[1] = splitMins[1].toString();
-        fullMins = splitMins[0] + '.' + splitMins[1];
-    }
     db.query(`SELECT AVG(CAST(${stat} AS FLOAT)), player_id, player_name
                 FROM "boxscorestraditional${season}"
                 WHERE ${stat} IS NOT NULL
                 AND ${stat} != ''
                 AND ${stat} != UPPER('${stat}')
+                AND ${stat} != 'TO'
                 GROUP BY player_id, player_name
                 ORDER BY AVG(CAST(${stat} AS FLOAT)) DESC`, (error, results) => {
         if (error) {

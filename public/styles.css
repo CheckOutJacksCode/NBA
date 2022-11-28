@@ -21,7 +21,7 @@ div {
 }
 
 div.frontInputFields {
-  text-align: left;
+  text-align: center;
   color: rgb(117, 255, 4);
   font-family: "Garamond", serif;
   resize: both
@@ -50,22 +50,32 @@ table.center {
 table.frontRankedStats {
   background-color: black;
   width: 100%;
-  max-width: 400px;
-  height: 240px;
+  max-width: fit-content;
+  height: 332px;
   margin: 0 auto;
   display: block;
   overflow-x: auto;
   border-spacing: 0;
+  resize: both
 }
 
-caption.frontRankedStats {
-  position: sticky;
-  top: 0;
+table.scheduleStats {
+  background-color: black;
+  width: 100%;
+  max-width: fit-content;
+  height: 400px;
+  margin: 0 auto;
+  display: block;
+  overflow-x: auto;
+  border-spacing: 0;
+  resize: both;
+}
+
+thead.frontRankedStats, thead.scheduleStats {
   background: rgb(0, 0, 0);
-  vertical-align: bottom;
 }
 
-tbody.frontRankedStats {
+tbody.frontRankedStats, tbody.scheduleStats {
   white-space: nowrap;
 }
 
@@ -81,22 +91,8 @@ tr.no-style {
   background-color: antiquewhite;
 }
 
-td.frontRankedStats {
-  padding: 5px 10px;
-  border-top-width: 0;
-  border-left-width: 0;
-}
-
 tr:nth-child(even){
   background-color: #0e1441;
-}
-
-tr.frontRankedStats:nth-child(even){
-  background-color: #01030a;
-}
-
-tr.frontRankedStats:hover {
-  background-color: rgb(2, 29, 86);
 }
 
 tr:hover {

@@ -170,7 +170,7 @@ const getPreviousGameIdBySeasonByTeamByGameDate = (request, response, next) => {
 
 const getFrontSchedule = (request, response, next) => {
     const { season } = request.params;
-    db.query(`SELECT matchup, wl, game_date, pts FROM "leagueGames${season}"
+    db.query(`SELECT game_id, matchup, wl, game_date, pts, plus_minus FROM "leagueGames${season}"
                 ORDER BY id DESC`, (error, results) => {
         if (error) {
             return next(error);

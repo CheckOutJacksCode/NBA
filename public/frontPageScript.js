@@ -10,9 +10,9 @@ const seasonAveragesRegularSeasonsTable = document.getElementById("seasonAverage
 const splits = document.getElementById("player-splits");
 const splitLineTable = document.getElementById("splitTable");
 const statRankingTable = document.getElementById("statRanks");
-const rankedStatsHeader = document.getElementById("frontRankedStatsHeader");
 const rankedSeason = document.getElementById("rankedSeason");
 const scheduleTable = document.getElementById("scheduleTable");
+const scheduleSeason = document.getElementById("scheduleSeason");
 
 const getJsonResponseFront = async (url) => {
     console.log(url);
@@ -1091,12 +1091,22 @@ const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
 }
 
 const getSchedule = async() => {
-    let season = rankedSeason.value;
+    let season = scheduleSeason.value;
+    let copies = [];
     let results = await getJsonResponseFront(`/leagueGames/frontSchedule/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
-        let appended = await appendScheduleTable(results[i]);
+        if (copies.includes(results[i].game_id)) {
+            continue
+        }
+        copies.push(results[i].game_id);
+        let appended = await appendScheduleTable(results[i], season);
     }
+}
+
+scheduleSeason.onchange = async() => {
+    scheduleTable.innerHTML = '';
+    await getSchedule();
 }
 
 rankedSeason.onchange = async() => {
@@ -1123,8 +1133,6 @@ const getAnyStatEveryPlayerRanked = async(stat) => {
 }
 
 const appendStatRankingTable = async(stats, stat, season) => {
-    rankedStatsHeader.innerHTML = season + ' ' + stat.toUpperCase()
-
     let row = statRankingTable.insertRow();
     let cell = row.insertCell();
     let cell1 = row.insertCell();
@@ -1132,9 +1140,15 @@ const appendStatRankingTable = async(stats, stat, season) => {
     cell1.innerHTML = stats.avg.toFixed(2);
 }
 
-const appendScheduleTable = async(stats) => {
-    scheduleTable.innerHTML = '';
-
+const appendScheduleTable = async(stats, season) => {
+    let row = scheduleTable.insertRow();
+    let cell = row.insertCell();
+    let cell1 = row.insertCell();
+    let cell2 = row.insertCell();
+    let pts2 = stats.pts - stats.plus_minus;
+    cell.innerHTML = stats.game_date
+    cell1.innerHTML = stats.matchup;
+    cell2.innerHTML = stats.pts + '-' + pts2; 
 }
 
 const boxTraditionalHomePage = async() => {
