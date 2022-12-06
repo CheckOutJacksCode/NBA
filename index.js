@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 const db = require('./queries');
 //const dotenv = require('dotenv').config();
 //const cookieParser = require('cookie-parser');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const { sequelize } = require('./models');
@@ -31,7 +31,7 @@ const swaggerOptions = {
             contact: {
                 name: "Jack Petersen"
             },
-            servers: ["http://localhost:3000"]
+            servers: ["http://localhost:3001"]
         }
     },
     apis: ["index.js", "./routes/boxPlayersRoutes.js", "./routes/boxRoutes.js", "./routes/boxScoreMiscRoutes.js",
