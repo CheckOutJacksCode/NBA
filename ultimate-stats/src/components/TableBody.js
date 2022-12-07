@@ -6,8 +6,11 @@ const TableBody = ({ tableData, columns }) => {
        return (
         <tr key={idCount}>
          {columns.map(({ accessor }) => {
-          const tData = data[accessor] ? data[accessor] : "——";
+          let tData = data[accessor] ? data[accessor] : "——";
           idCount++;
+          if (typeof tData === 'number') {
+            tData = tData.toFixed(2);
+          }
           return <td key={accessor}>{tData}</td>;
          })}
         </tr>

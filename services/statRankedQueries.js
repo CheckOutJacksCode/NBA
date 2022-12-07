@@ -67,7 +67,51 @@ const getRankedStats = (request, response, next) => {
     })
 }
 
+const getRankedBoxScores = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT player_id, player_name, team_id, team_abbreviation, 
+                AVG(CAST(min AS FLOAT)) AS MIN, 
+                AVG(CAST(e_off_rating AS FLOAT)) AS E_OFF_RATING,
+                AVG(CAST(off_rating AS FLOAT)) AS OFF_RATING,
+                AVG(cast(e_def_rating as float)) AS E_DEF_RATING,
+                AVG(CAST(def_rating AS FLOAT)) AS DEF_RATING,
+                AVG(CAST(e_net_rating AS FLOAT)) AS E_NET_RATING,
+                AVG(cast(net_rating as float)) AS NET_RATING,
+                AVG(CAST(ast_pct AS FLOAT)) AS AST_PCT,
+                AVG(CAST(ast_tov AS FLOAT)) AS AST_TOV,
+                AVG(cast(ast_ratio as float)) AS AST_RATIO,
+                AVG(CAST(oreb_pct AS FLOAT)) AS OREB_PCT,
+                AVG(CAST(dreb_pct AS FLOAT)) AS DREB_PCT, 
+                AVG(CAST(reb_pct AS FLOAT)) AS REB_PCT, 
+                AVG(CAST(tm_tov_pct AS FLOAT)) AS TM_TOV_PCT, 
+                AVG(CAST(efg_pct AS FLOAT)) AS EFG_PCT, 
+                AVG(CAST(ts_pct AS FLOAT)) AS TS_PCT, 
+                AVG(CAST(usg_pct AS FLOAT)) AS USG_PCT, 
+                AVG(CAST(e_usg_pct AS FLOAT)) AS E_USG_PCT, 
+                AVG(CAST(e_pace AS FLOAT)) AS E_PACE, 
+                AVG(CAST(pace AS FLOAT)) AS PACE,
+                AVG(CAST(pace_per40 AS FLOAT)) AS PACE_PER40, 
+                AVG(CAST(poss AS FLOAT)) AS POSS, 
+                AVG(CAST(pie AS FLOAT)) AS PIE
+                FROM "boxscores${season}"
+                WHERE min IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation`, (error, results) => {
+        if (error) {
+            throw error;
+        }
+        console.log(results);
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getRankedPlayersByStat,
     getRankedStats,
+    getRankedBoxScores,
 }
