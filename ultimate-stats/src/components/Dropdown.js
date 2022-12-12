@@ -2,6 +2,7 @@ import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
+import ShotChartGameSVG from "./ShotChartGameSVG";
 
 const TeamsDropdown = (props) => {
     let idSeasonCount = 0;
@@ -13,6 +14,7 @@ const TeamsDropdown = (props) => {
     let [gameData, setGameData] = useState([]);
     let [roster, setRosterData] = useState([]);
     let [shotsData, setShotsData] = useState([]);
+    let [shotsGameData, setShotsGameData] = useState([]);
 
     const [playerid, setPlayerId] = useState('');
     const [boxScore, setBoxScore] = useState([]);
@@ -26,6 +28,7 @@ const TeamsDropdown = (props) => {
     let options = null;
     let optionsGames = null;
     let shots = null;
+    let shotsGame = null;
 
     useEffect(() => {
         
@@ -67,14 +70,12 @@ const TeamsDropdown = (props) => {
       let isSubscribed = true;
         const getRoster = async() => {
             let teamid = await axios.get(`/leagueGames/teamid/${selectedTeam}`)
-            console.log(teamid.data)
             let response = await axios.get(`/boxPlayers/getroster/${selectedSeason}/${teamid.data[0].team_id}`)
             if (isSubscribed) {
                 setRosterData(response.data);
             }
         }
         if (selectedTeam) {
-            console.log(selectedTeam);
             getRoster()
         }
         return () => isSubscribed = false;
@@ -84,14 +85,13 @@ const TeamsDropdown = (props) => {
         
       let isSubscribed = true;
         const getGames = async() => {
-            console.log(selectedPlayer);
             let games = await axios.get(`/leagueGames/gameidgamedatematchup/${selectedPlayer}/${selectedSeason}`)
             if (isSubscribed) {
+                console.log(games.data);
                 setGameData(games.data);
             }
         }
         if (selectedPlayer) {
-            console.log(selectedPlayer);
             getGames();
         }
         return () => isSubscribed = false;
@@ -102,17 +102,32 @@ const TeamsDropdown = (props) => {
       let isSubscribed = true;
         const getShots = async() => {
             let shots = await axios.get(`/shots/${selectedPlayer}/${selectedSeason}`)
-            console.log(shots.data)
             if (isSubscribed) {
                 setShotsData(shots.data);
             }
         }
         if (selectedPlayer) {
-            console.log(selectedPlayer);
             getShots();
         }
         return () => isSubscribed = false;
-    }, [selectedPlayer])
+    }, [selectedSeason, selectedTeam, selectedPlayer])
+
+    useEffect(() => {
+        
+      let isSubscribed = true;
+        const getShotsGame = async() => {
+            console.log(selectedGame);
+            let shots = await axios.get(`/shots/${selectedPlayer}/${selectedSeason}/${selectedGame.substring(0,10)}`)
+            console.log(shots.data)
+            if (isSubscribed) {
+                setShotsGameData(shots.data);
+            }
+        }
+        if (playerid && selectedGame) {
+            getShotsGame();
+        }
+        return () => isSubscribed = false;
+    }, [selectedSeason, selectedTeam, selectedPlayer, selectedGame])
 
     useEffect(() => {
         
@@ -148,6 +163,24 @@ const TeamsDropdown = (props) => {
             return () => isSubscribed = false;
     }, [playerid])  
   
+   /* useEffect(() => {
+        
+      let isSubscribed = true;
+          const getGameStats = async() => {
+          
+
+              let boxScore = await axios.get(`/boxScoresTraditional/${selectedSeason}/${game_id}/${playerid}`);
+              if (isSubscribed) {
+                  setBoxScore(boxScore.data);
+              }
+          }
+          if (playerid) {
+
+              getAverages();
+          }
+          return () => isSubscribed = false;
+    }, [playerid])  */
+
 
     function handleTeamChange(event) {
         setSelectedPlayer('')
@@ -165,7 +198,8 @@ const TeamsDropdown = (props) => {
     }
 
     function handlePlayerChange(event) {
-        setSelectedPlayer(event.target.value);
+      setSelectedGame('')
+      setSelectedPlayer(event.target.value);
     }
 
     function handleGameChange(event) {
@@ -181,16 +215,18 @@ const TeamsDropdown = (props) => {
         let idGameCount = 0;
         optionsGames = gameData.map((option) => <option key={idGameCount++} value={Object.values(option)}>{Object.values(option)}</option>);
     }
-
+/*
     if (shotsData.length > 0 && boxScore.length > 0) {
         console.log('in here')
-        console.log(shotsData)
-        console.log(playerid)
-        console.log(boxScore)
-        console.log(selectedSeason)
         shots = <ShotChartSVG shotsData={shotsData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>
     }
-
+    if (shotsGameData.length > 0) {
+        console.log(shotsGameData)
+        console.log(shotsData)
+        shotsGame = <ShotChartSVG shotsData={shotsGameData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>
+        console.log(shotsGame)
+        console.log(shots);
+    }*/
 
     return (
       <label>
@@ -221,7 +257,11 @@ const TeamsDropdown = (props) => {
           {optionsGames}
         </select>
         <br></br>
-        <div>{shots}</div>
+        <div>{<ShotChartSVG shotsData={shotsData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>}</div>
+        <br></br>
+        <br></br>
+
+        <div>{<ShotChartGameSVG shotsData={shotsGameData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>}</div>
       </label>
     );
         
