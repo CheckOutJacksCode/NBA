@@ -70,8 +70,8 @@ const getRankedStats = (request, response, next) => {
 const getRankedBoxScores = (request, response, next) => {
 
     let { season } = request.params;
-    db.query(`SELECT player_id, player_name, team_id, team_abbreviation, 
-                AVG(CAST(min AS FLOAT)) AS MIN, 
+    db.query(`SELECT "boxscores${season}".player_id, "boxscores${season}".player_name, "boxscores${season}".team_id, "boxscores${season}".team_abbreviation, 
+                AVG(CAST("boxscores${season}".min AS FLOAT)) AS MIN, 
                 AVG(CAST(e_off_rating AS FLOAT)) AS E_OFF_RATING,
                 AVG(CAST(off_rating AS FLOAT)) AS OFF_RATING,
                 AVG(cast(e_def_rating as float)) AS E_DEF_RATING,
@@ -85,7 +85,7 @@ const getRankedBoxScores = (request, response, next) => {
                 AVG(CAST(dreb_pct AS FLOAT)) AS DREB_PCT, 
                 AVG(CAST(reb_pct AS FLOAT)) AS REB_PCT, 
                 AVG(CAST(tm_tov_pct AS FLOAT)) AS TM_TOV_PCT, 
-                AVG(CAST(efg_pct AS FLOAT)) AS EFG_PCT, 
+                AVG((CAST("boxscorestraditional${season}".fgm AS FLOAT) + .5 * CAST("boxscorestraditional${season}".fg3m AS FLOAT)) / NULLIF(CAST("boxscorestraditional${season}".fga AS FLOAT), 0)) AS EFG_PCT, 
                 AVG(CAST(ts_pct AS FLOAT)) AS TS_PCT, 
                 AVG(CAST(usg_pct AS FLOAT)) AS USG_PCT, 
                 AVG(CAST(e_usg_pct AS FLOAT)) AS E_USG_PCT, 
@@ -95,10 +95,12 @@ const getRankedBoxScores = (request, response, next) => {
                 AVG(CAST(poss AS FLOAT)) AS POSS, 
                 AVG(CAST(pie AS FLOAT)) AS PIE
                 FROM "boxscores${season}"
-                WHERE min IS NOT NULL
-                AND CAST(min AS FLOAT) > 0
-                AND player_id != 'PLAYER_ID'
-                GROUP BY player_id, player_name, team_id, team_abbreviation`, (error, results) => {
+                INNER JOIN "boxscorestraditional${season}"
+                ON "boxscorestraditional${season}".player_id = "boxscores${season}".player_id
+                WHERE "boxscores${season}".min IS NOT NULL
+                AND CAST("boxscores${season}".min AS FLOAT) > 0
+                AND "boxscores${season}".player_id != 'PLAYER_ID'
+                GROUP BY "boxscores${season}".player_id, "boxscores${season}".player_name, "boxscores${season}".team_id, "boxscores${season}".team_abbreviation`, (error, results) => {
         if (error) {
             throw error;
         }

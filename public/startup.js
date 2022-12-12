@@ -65,7 +65,7 @@ deepStatToGet.onchange = async() => {
 }
 
 const onStartUp = async() => {
-
+/*
     statSubmit.onclick = async() => {
         let stat = statToGet.value;
         console.log(stat)
@@ -81,7 +81,7 @@ const onStartUp = async() => {
         let player = await getIndividualPlayerLocal(id[0].playerid);
         console.log(player);
         appendPlayerAndStat(player, stat, statAverage);
-    }
+    }*/
     /*THIRD-PART STAT-SUBMIT BUTTON DEACTIVATED FOR NOW
     statSubmit.onclick = async() => {
         let stat = statToGet.value;

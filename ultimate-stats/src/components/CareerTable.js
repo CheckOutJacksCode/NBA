@@ -6,7 +6,7 @@ import axios from "axios";
 import '../App.css';
 
 
-const Table = (props) => {
+const CareerTable = (props) => {
     const [tableData, setTableData] = useState([]);
     
     let columns = [];
@@ -113,7 +113,7 @@ const Table = (props) => {
 
     return (
      <>
-      <table className="ultimate">
+      <table className="table">
        <caption>
         Developers currently enrolled in this course, column headers are sortable.
        </caption>
@@ -124,4 +124,4 @@ const Table = (props) => {
     );
 };
 
-export default Table;
+export default CareerTable;

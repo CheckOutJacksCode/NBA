@@ -155,6 +155,9 @@ const { checkAuthenticated } = require('./userRouter');
  */
 router.get('/home/:playerid/:season', boxScoreTraditional.getBoxScoreTraditionalHome);
 
+router.get('/averages/:playerid/:season', boxScoreTraditional.getBoxScoreTraditionalAverages);
+
+
  /** 
  * @swagger
  * /boxScoresTraditional/visitor/{playerid}/{season}:

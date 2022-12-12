@@ -13,6 +13,8 @@ const statRankingTable = document.getElementById("statRanks");
 const rankedSeason = document.getElementById("rankedSeason");
 const scheduleTable = document.getElementById("scheduleTable");
 const scheduleSeason = document.getElementById("scheduleSeason");
+const careerHeader = document.getElementById("careerHeader");
+const splitHeader = document.getElementById("splitHeader");
 
 const getJsonResponseFront = async (url) => {
     console.log(url);
@@ -932,17 +934,21 @@ const clearSplitTable = async() => {
 
 teamPlayerChosen.onchange = async() => {
     await getPlayerSeasons();
+    careerHeader.innerHTML = '';
+    splitHeader.innerHTML = '';
     let career = await displayPlayerCareerStats();
     let splits = await displayPlayerSplitStats();
 }
 
 splits.onchange = async() => {
     splitLineTable.innerHTML = '';
+    splitHeader.innerHTML = '';
     await displayPlayerSplitStats();
 }
 
 seasonToGet.onchange = async() => {
     splitLineTable.innerHTML = '';
+    splitHeader.innerHTML = '';
     await displayPlayerSplitStats();
 }
 
@@ -959,7 +965,7 @@ const getPlayerSeasons = async() => {
     let results = await getJsonResponseFront(`/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("season").innerHTML = str;
-    let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
     realSeasonArray = [];
     for (var result of results) {
         let splitSeason = result.season_id.split('-');
@@ -998,20 +1004,18 @@ const splitNameFunction = async(fullName) => {
 }
 
 const displayPlayerCareerStats = async() => {
-
-    let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`)
-    console.log(playerid);
+    let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`);
     if (!playerid) {
         await appendStatsUnavailable(seasonAveragesRegularSeasonsTable, 'Stats Unavailable');
         return;
     }
     let statLines = await getJsonResponseFront(`/regularSeasonStats/getregularseasonstatlines/${playerid[0].playerid}`);
-    console.log(statLines);
     let appended = await appendPlayerRegularSeasonStatLines(statLines);
+    seasonAveragesRegularSeasonsTable.style.border = "1px solid rgb(117, 255, 4)";
+
 }
 
 const displayPlayerSplitStats = async() => {
-    
     let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`)
     let headers = await getJsonResponseFront(`/statsheaders/boxscorestraditional2015-2016`);
     let stat;
@@ -1031,6 +1035,7 @@ const displayPlayerSplitStats = async() => {
     averagesArray.push(averageObj);
     console.log(averagesArray);
     await appendPlayerRegularSeasonStatLines(averagesArray, true);
+    splitLineTable.style.border = "1px solid rgb(117, 255, 4)";
 }
 
 const appendStatsUnavailable = async(table, message) => {
@@ -1040,18 +1045,37 @@ const appendStatsUnavailable = async(table, message) => {
 
 const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
     console.log(statlines);
+
     let table = seasonAveragesRegularSeasonsTable;
     let headers = Object.keys(statlines[0]);
+
+    console.log(headers);
     let cleared;
     if (isSplitLine) {
         cleared = await clearSplitTable();
         table = splitLineTable;
         row0 = splitLineTable.insertRow();
         row1 = splitLineTable.insertRow();
-        let hiddenColumns = []
+        let season = seasonToGet.value;
+        let split = splits.value;
+        if (season === 'none') {
+            season = '2021-2022';
+        }
+        if (split === 'none') {
+            split = 'Full Season';
+        }
+        
+        splitHeader.innerHTML = `${teamPlayerChosen.value} ${season} ${splits.value} SPLITS`
         for (let x = 10; x < headers.length; x++) {
             let cell0 = row0.insertCell();
-            cell0.innerHTML = headers[x]
+            if (headers[x].includes("_")) {
+                let split = headers[x].split("_");
+                headers[x] = split[0] + ' ' + split[1];
+            }
+            if (headers[x] === 'team_abbreviation') {
+                headers[x] = 'TEAM';
+            }
+            cell0.innerHTML = headers[x].toUpperCase();
             let cell1 = row1.insertCell();
             
             cell1.innerHTML = Object.values(statlines[0])[x];
@@ -1060,15 +1084,24 @@ const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
     } else {
         cleared = await clearTableContents();
         row0 = seasonAveragesRegularSeasonsTable.insertRow(0);
+        careerHeader.innerHTML = `${teamPlayerChosen.value} CAREER STATS`
+
+        let arr = [3, 4]
         for (let i = 2; i < 28; i++) {
-            let cell = row0.insertCell(i - 2);
+            if (arr.includes(i)) {
+                continue;
+            }
+            let cell = row0.insertCell();
             cell.innerHTML = headers[i];
         }
         let rowIndex = 1;
         for (let j = 0; j < statlines.length; j++) {
             let row = table.insertRow(rowIndex);
             for (let k = 2; k < 28; k++) {
-                let cell = row.insertCell(k - 2);
+                if (arr.includes(k)) {
+                    continue;
+                }
+                let cell = row.insertCell();
     
                 let values = Object.values(statlines[j]);
                 let totals = [9, 10, 11, 13, 14, 16, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27]

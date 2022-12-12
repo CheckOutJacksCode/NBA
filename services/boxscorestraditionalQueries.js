@@ -21,6 +21,47 @@ const getBoxScorePlayer = async(request, response, next) => {
     })
 }
 
+const getBoxScoreTraditionalAverages = async(request, response, next) => {
+    console.log('woooof')
+    let { playerid, season } = request.params;
+    console.log(playerid)
+    console.log(season)
+    db.query(`SELECT player_id, player_name, team_id, team_abbreviation,
+                AVG(CAST(min AS FLOAT)) AS MIN, 
+                AVG(CAST(fgm AS FLOAT)) AS FGM,
+                AVG(CAST(fga AS FLOAT)) AS FGA,
+                sum(cast(fgm as float)) / NULLIF(sum(cast(fga as float)), 0) AS FG_PCT,
+                AVG(CAST(fg3m AS FLOAT)) AS FG3M,
+                AVG(CAST(fg3a AS FLOAT)) AS FG3A,
+                sum(cast(fg3m as float)) / NULLIF(sum(cast(fg3a as float)), 0) AS FG3_PCT,
+                AVG(CAST(ftm AS FLOAT)) AS FTM,
+                AVG(CAST(fta AS FLOAT)) AS FTA,
+                sum(cast(ftm as float)) / NULLIF(sum(cast(fta as float)), 0) AS FT_PCT,
+                AVG(CAST(oreb AS FLOAT)) AS OREB,
+                AVG(CAST(dreb AS FLOAT)) AS DREB, 
+                AVG(CAST(reb AS FLOAT)) AS REB, 
+                AVG(CAST(ast AS FLOAT)) AS AST, 
+                AVG(CAST(stl AS FLOAT)) AS STL, 
+                AVG(CAST(blk AS FLOAT)) AS BLK, 
+                AVG(CAST(turnovers AS FLOAT)) AS TO, 
+                AVG(CAST(pf AS FLOAT)) AS PF, 
+                AVG(CAST(pts AS FLOAT)) AS PTS, 
+                AVG(CAST(plus_minus AS FLOAT)) AS "+/-"
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id = $1
+                GROUP BY player_id, player_name, team_id, team_abbreviation`, [playerid], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0) {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
   
 const createBoxScoresTraditional = (request, response, next) => {
     const body = request.body;
@@ -65,6 +106,7 @@ const boxScoreTraditionalLoad = (request, response, next) => {
 }
 
 const getBoxScoresTraditional = async(request, response, next) => {
+    console.log('nooooooo')
     let { season, gameid, playerid } = request.params;
     db.query(`SELECT * FROM "boxscorestraditional${season}" WHERE game_id = $1 AND player_id = $2`, [gameid, playerid], (error, results) => {
         if (error) {
@@ -162,4 +204,5 @@ module.exports = {
     getBoxScoresTraditional,
     boxScoreTraditionalLoad,
     createBoxScoresTraditional,  
+    getBoxScoreTraditionalAverages,
 }

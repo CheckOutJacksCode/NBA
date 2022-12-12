@@ -1,49 +1,24 @@
-import React, {useState} from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-import Table from "./components/Table";
-import NavBar from './components/NavBar';
-import StatTypeDropDown from './components/StatTypeDropDown';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import Home from './pages/home';
+import DeepStats from './pages/deepStats';
+import ShotCharts from './pages/shotCharts';
+import Jackarithm from './pages/jack-o-rithm';
+import Layout from './pages/Layout';
 
-const App = () => {
-
-    const [tableChoice, setTableChoice] = useState(<Table table={"boxscorestraditional2015-2016"} season={'2015-2016'}/>);
-
-    const getTable = (value) => {
-        console.log('woof')
-        if (value === 'traditional') {
-            console.log('hellllooo')
-            setTableChoice(<Table table={"boxscorestraditional2015-2016"} season={'2015-2016'}/>)
-        } else if (value === 'advanced') {
-            console.log('bark')
-            setTableChoice(<Table table={"boxscorestraditional2015-2016"} season={'2015-2016'}/>)
-        }
-    }
-    const handleMenuOne = () => {
-        console.log('clicked one');
-        getTable('traditional')
-    };
-
-    const handleMenuTwo = () => {
-        console.log('clicked two');
-        getTable('advanced')
-    };
-    return (
-        <div className="table_container">
-            <NavBar />
-            <StatTypeDropDown
-              trigger={<button>Dropdown</button>}
-              menu={[
-                <button onClick={handleMenuOne}>Menu 1</button>,
-                <button onClick={handleMenuTwo}>Menu 2</button>,
-              ]}
-            />
-            <h1>Sortable table with React</h1>
-            <div id="tableDiv">
-              {tableChoice}
-            </div>
-        </div>
-    );
-};
+function App() {
+return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="deepStats" element={<DeepStats />} />
+          <Route path="shotCharts" element={<ShotCharts />} />
+          <Route path="jackarithm" element={<Jackarithm />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+)};
 
 export default App;
