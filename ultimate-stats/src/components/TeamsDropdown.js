@@ -2,36 +2,34 @@ import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState } from "react";
 
-const TeamsDropdown = (props) => {
+const TeamsDropdown = ({teamsData, setTeamsData, selectedTeam, setSelectedTeam, H_or_V}) => {
 
-
-    const [teams, setTeams] = useState([]);
 
     useEffect(() => {
+        let isSubscribed = true;
         const getTeams = async() => {
             let teams = await axios.get(`/teamnames`);
-            setTeams(teams.data);
+            setTeamsData(teams.data);
         } 
         getTeams();   
+        return () => isSubscribed = false;
     }, [])
 
-        
+    function handleTeamChange(event) {
+        setSelectedTeam(event.target.value);
+        console.log(selectedTeam)
+    }
 
     return (
         <div>
-            <select className='form-control'>
-                <option value="0">Select Team</option>
-            {
-                teams &&
-                teams !== undefined ?
-                teams.map((team, index) => {
-                    return (
-                        <option key={index} value={team.team_id}>{team.team_name}</option>
-                    )
-                })
-                : 'No Team'
-            }
-            </select>
+        <select value={selectedTeam} onChange={handleTeamChange}>
+          <option value="0">Select {H_or_V}</option>
+
+          {teamsData.map((option, index) => (
+            <option key={index} value={Object.values(option)}>{Object.values(option)}</option>
+          ))}
+          
+        </select>
         </div>
     );
         

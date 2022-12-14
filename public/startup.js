@@ -314,12 +314,14 @@ const loadUpShotCharts = async() => {
     for (let i = 0; i < years.length; i++) {
         let shotsArray = await getJsonResponseStartup('/shots');
         for (let k = 0; k < shotsArray.length; k++) {
+            console.log(shotsArray)
             for (let j = 0; j < shotsArray[k].resultSets.length; j++) {
+                //console.log(shotsArray[k].resultSets[j])
                 for (let m = 0; m < shotsArray[k].resultSets[j].rowSet.length; m++) {
                     console.log(shotsArray[k].resultSets[j].rowSet.length);
                     
                     //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
-                    let results = await postShot(shotsArray[k].resultSets[j].rowSet[m]);
+                    //let results = await postShot(shotsArray[k].resultSets[j].rowSet[m]);
                 }
             }
         }
@@ -331,11 +333,13 @@ const loadUpShotChartsBySeason = async() => {
     let years = ['2022-2023'];
     for (let i = 0; i < years.length; i++) {
         let shotsArray = await getJsonResponseStartup(`/shots/${years[i]}`);
+        console.log(shotsArray)
+        break;
         for (let j = 0; j < shotsArray.resultSets.length; j++) {
             // m < shotsArray.resultSets[j].rowSet.length;
             for (let m = 0; m < shotsArray.resultSets[j].rowSet.length; m++) {                
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
-                let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
+                //let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
             }
         }
     }

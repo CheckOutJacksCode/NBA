@@ -55,7 +55,6 @@ app.use(
 
 app.use(flash());
 
-
 app.use(session({
     secret: 'secret',
     resave: false,
@@ -66,6 +65,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(express.static('public'))
+
+app.use(cors({
+    methods:['GET','POST'],
+    credentials: true 
+  }))
 
 app.use(bodyParser.json());
 app.use(
@@ -137,7 +141,7 @@ app.use("/users", userRouter.router);
 app.use("/statranked", statRankedRouter)
 
 
-app.get('/', (req, res, next) => {
+app.get('/front', (req, res, next) => {
     res.sendFile(__dirname + "/public/front.html");
 });
 /*

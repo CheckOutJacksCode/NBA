@@ -22,7 +22,7 @@ printData = (req, res, next) => {
     console.log("\n==============================")
     console.log(`------------>  ${count++}`)
 
-    console.log(`req.body.username -------> ${req.body.username}`) 
+    console.log(`req.body.email -------> ${req.body.email}`) 
     console.log(`req.body.password -------> ${req.body.password}`)
 
     console.log(`\n req.session.passport -------> `)
@@ -44,7 +44,12 @@ printData = (req, res, next) => {
 router.use(printData)
 
 const checkAuthenticated = async(req, res, next) => {
+    console.log(req.isAuthenticated)
+    console.log('CRAPPPPPPPPPPPPPPPPPPPP')
+    console.log(req.session)
+    console.log(req.session.passport)
     if (req.isAuthenticated()) { 
+        console.log(req.session.passport)
         return next() 
     }
     let error = {
@@ -382,7 +387,9 @@ router.delete('/:uuid', async (req, res) => {
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
     function(req, res) {
-      res.redirect('/');
+      res.send('ya man')
+      console.log('butthole')
+      console.log(req.session.passport)
 });
 
 module.exports = { router, checkAuthenticated };

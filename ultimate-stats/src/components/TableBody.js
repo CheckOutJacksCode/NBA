@@ -1,13 +1,11 @@
 const TableBody = ({ tableData, columns }) => {
-    let idCount = 0;
     return (
      <tbody>
-      {tableData.map((data) => {
+      {tableData.map((data, index) => {
        return (
-        <tr key={idCount}>
+        <tr key={index}>
          {columns.map(({ accessor }) => {
           let tData = data[accessor] ? data[accessor] : "——";
-          idCount++;
           if (typeof tData === 'number') {
             tData = tData.toFixed(2);
           }

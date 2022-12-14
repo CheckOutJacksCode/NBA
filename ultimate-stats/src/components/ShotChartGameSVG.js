@@ -25,6 +25,7 @@ function ShotChartGameSVG({ shotsData, playerid, boxData, season }) {
     }, [])*/
 
     useEffect(() => {
+
         const getSVG = async() => {
 
             const data = [];
@@ -448,8 +449,10 @@ function ShotChartGameSVG({ shotsData, playerid, boxData, season }) {
             console.log(shotsData)
             console.log(boxData)
             getSVG();
+        } else {
+            console.log('yo yo yo guy')
         }        
-    }, [state, boxData, shotsData])
+    }, [state, shotsData])
 
     return (
         <div>
