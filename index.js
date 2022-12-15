@@ -11,7 +11,7 @@ const app = express();
 const bodyParser = require('body-parser')
 const db = require('./queries');
 //const dotenv = require('dotenv').config();
-//const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3001;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -55,28 +55,30 @@ app.use(
 
 app.use(flash());
 
-app.use(session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false
-}))
-
-app.use(passport.initialize())
-app.use(passport.session())
-
-app.use(express.static('public'))
-
-app.use(cors({
-    methods:['GET','POST'],
-    credentials: true 
-  }))
-
 app.use(bodyParser.json());
 app.use(
     bodyParser.urlencoded({
         extended: true,
     })
 );
+
+app.use(cors({
+    origin: "http:///localhost:3000",
+    credentials: true
+}))
+
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
+
+app.use(cookieParser('secret'))
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(express.static('public'))
+
 
 app.set('view engine', 'ejs');
 
@@ -88,7 +90,7 @@ app.use(
       },
     })
   );
-//app.use(cookieParser());
+app.use(cookieParser());
 
 const boxPlayersRouter = require('./routes/boxPlayersRoutes');
 const boxRouter = require('./routes/boxRoutes');
@@ -175,6 +177,8 @@ app.delete('/database/delete', db.deleteDatabase);
 app.get(`/statsheaders/:table`, db.getStatsHeadersFromTable);
 
 app.get('/teamnames', db.getTeamNames);
+
+app.get(`/tablelength/:table`, db.getTableLength);
 
 app.use(errorLogger);
 app.use(errorResponder);

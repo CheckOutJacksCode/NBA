@@ -296,7 +296,7 @@ const postBoxScoresTraditionalBySeason = async(obj, season) => {
 }
 
 const postLeagueGamesBySeason = async(obj, season) => {
-    console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
+    console.log(season);
     const url = `/leagueGames/${season}`;
     try{
         const response = await fetch(url, {
@@ -317,7 +317,6 @@ const postLeagueGamesBySeason = async(obj, season) => {
 }
 
 const postLeagueHustleStatsBySeason = async(obj, season) => {
-    console.log('ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccrap');
     console.log(season);
     const url = `/hustleStats/${season}`;
     try{

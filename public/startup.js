@@ -36,7 +36,7 @@ const loadUpBoxScoreSummaryButton = document.getElementById("loadUpBoxScoreSumma
 
 const getJsonResponseStartup = async (url) => {
     console.log(url);
-    const response = await fetch(url);
+    const response = await fetch(url, {withCredentials: true});
     try{
         if (response.ok){
             const jsonResponse = await response.json();
@@ -330,16 +330,20 @@ const loadUpShotCharts = async() => {
 
 const loadUpShotChartsBySeason = async() => {
     //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
+    let tableLength = await getJsonResponseStartup(`/tablelength/2022-2023`);
+    console.log(tableLength);
     let years = ['2022-2023'];
     for (let i = 0; i < years.length; i++) {
         let shotsArray = await getJsonResponseStartup(`/shots/${years[i]}`);
-        console.log(shotsArray)
-        break;
         for (let j = 0; j < shotsArray.resultSets.length; j++) {
             // m < shotsArray.resultSets[j].rowSet.length;
-            for (let m = 0; m < shotsArray.resultSets[j].rowSet.length; m++) {                
+            console.log(shotsArray.resultSets.length)
+            console.log(shotsArray.resultSets[j].rowSet.length)                
+
+            for (let m = shotsArray.resultSets[j].rowSet.length; m > tableLength[0].count; m--) {
+                console.log(shotsArray.resultSets[j].rowSet.length)                
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
-                //let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
+                let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
             }
         }
     }
@@ -371,12 +375,14 @@ const loadUpNBAPlayers = async() => {
 const loadUpLeagueGamesBySeason = async() => {
     //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
     let years = ['2022-2023'];
+    let tableLength = await getJsonResponseStartup(`/tablelength/leagueGames2022-2023`);
+    tableLength = (tableLength[0].count)
+    console.log(tableLength)
     for (let i = 0; i < years.length; i++) {
         let gamesArray = await getJsonResponseStartup(`/leagueGames/${years[i]}`);
-        console.log(gamesArray)
         for (let j = 0; j < gamesArray.resultSets.length; j++) {
-            for (let m = 0; m < gamesArray.resultSets[j].rowSet.length; m++) {
-                console.log(m);
+            console.log(gamesArray.resultSets[j].rowSet.length)
+            for (let m = gamesArray.resultSets[j].rowSet.length; m > tableLength; m--) {
                 
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
                 let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);

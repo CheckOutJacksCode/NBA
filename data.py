@@ -48,7 +48,7 @@ from nba_api.stats.library.parameters import LastNGames, MeasureTypeDetailedDefe
 from nba_api.stats.endpoints._base import Endpoint
 from nba_api.stats.library.http import NBAStatsHTTP
 from nba_api.stats.library.parameters import PerMode36, LeagueIDNullable
-
+import requests
 
 
 player_dict = players.get_players()
@@ -113,25 +113,33 @@ def assiststracker():
 
 boxScoreArray = []
 def readLeagueGames():
-	f = open('./juicystats/leaguegames2022-2023.json')
+    URL = 'http://localhost:3001/tablelength/boxscores2022-2023'
+    response = requests.get(url = URL)
+    data = response.json()
+    print(data)
+    count = data[0]['count']
+    f = open('./juicystats/leaguegames2022-2023.json')
 	# returns JSON object as 
 	# a dictionary
-	games = json.load(f)
+    games = json.load(f)
 	# Iterating through the json
 	# list
-	idList = []
-	for i in range (0, len(games["resultSets"][0]["rowSet"])):
-		time.sleep(1)
-		print(len(games["resultSets"][0]["rowSet"]))
-		print(games["resultSets"][0]["rowSet"][i])
-		if games["resultSets"][0]["rowSet"][i][4] in idList:
-			continue
-		idList.append(games["resultSets"][0]["rowSet"][i][4])
-		box = boxscoreadvanced(games["resultSets"][0]["rowSet"][i][4])
-		boxScoreArray.append(box)
-	# Closing file
-	f.close()
-
+    idList = []
+    start = len(games["resultSets"][0]["rowSet"])
+    end = int(count) * 2
+    print(start)
+    print(end)
+    for i in range (start, end):
+        ##print(len(games["resultSets"][0]["rowSet"]))
+        ##print(games["resultSets"][0]["rowSet"][i])
+        print(i)
+        if games["resultSets"][0]["rowSet"][i][4] in idList:
+            continue
+        idList.append(games["resultSets"][0]["rowSet"][i][4])
+        ##box = boxscoreadvanced(games["resultSets"][0]["rowSet"][i][4])
+        ##boxScoreArray.append(box)
+    # Closing file
+    f.close()   
 
 def boxscoreadvanced(gameId):
 
@@ -189,7 +197,7 @@ def shotchartdetailfunction():
 	)
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("2022-2023.json", "w") as outfile:
+	with open("./juicystats/2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def playergamelogfunction(playerId, season):
@@ -703,7 +711,7 @@ def playerCareerStatsFunction(playerid):
 ##assiststracker()
 ##playergamelogfunction('153', '0021700807')
 ##leaguegames()
-##readLeagueGames()
+readLeagueGames()
 ##leaguehustlestats()
 ##leaguehustlestatsleaders()
 ##leaguedashlineupsfunction()
