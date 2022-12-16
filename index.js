@@ -180,6 +180,9 @@ app.get('/teamnames', db.getTeamNames);
 
 app.get(`/tablelength/:table`, db.getTableLength);
 
+app.get(`/tablelengthbox/:table`, db.getTableLengthBox);
+
+
 app.use(errorLogger);
 app.use(errorResponder);
 app.use(invalidPathHandler);

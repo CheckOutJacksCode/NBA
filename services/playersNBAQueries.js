@@ -16,7 +16,7 @@ const createPlayersNBA = async(request, response, next) => {
     //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKKKKKKKKKKKKKK');
     let body = request.body;
     db.query('INSERT INTO "playersNBA" (full_name, first_name, last_name, is_active, playerid) VALUES ($1, $2, $3, $4, $5)', 
-        [body.full_name, body.first_name, body.last_name, body.is_active, body.player_id], (error, results) => {
+        [body.full_name, body.first_name, body.last_name, body.is_active, body.playerid], (error, results) => {
         if (error) {
             return next(error);
         }
@@ -69,10 +69,20 @@ const getOfficialPlayerIdWithFullName = (request, response, next) => {
         if (error) {
             return next(error);
         }
-        if (results.rows.length === 0 || results.rows[0].count === '0') {
-            return next(new Error( 'Stats Do Not Exist' ));
+        response.status(200).json(results.rows)
+    })
+}
+
+const getPlayerIdWithShotTable = (request, response, next) => {
+    let {season, name} = request.params;
+    console.log(season);
+    console.log(name);
+    db.query(`SELECT DISTINCT player_id FROM "${season}" WHERE player_name = $1`, [name], (error, results) => {
+        if (error) {
+            return next(error);
         }
         response.status(200).json(results.rows)
+
     })
 }
 
@@ -82,4 +92,5 @@ module.exports = {
     getPlayersNBA,
     getPlayerByIdOfficial,
     getOfficialPlayerIdWithFullName,
+    getPlayerIdWithShotTable,   
 }

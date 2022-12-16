@@ -39,7 +39,7 @@ const boxScoreLoad = (request, response, next) => {
         .on("end", function async() {
         // 👇 log the result array
         console.log("parsed csv data:");
-        //console.log(data); 
+       
         response.status(201).send(data);
     })
 }

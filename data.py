@@ -6,7 +6,7 @@ from types import SimpleNamespace
 from unittest import result
 from urllib import response
 from xml.etree.ElementTree import tostring
-from nba_api.stats.endpoints import playercareerstats, leaguedashplayerstats, boxscoretraditionalv2, leaguedashplayershotlocations, leaguedashplayerptshot, leaguedashplayerclutch, assistleaders, assisttracker, leaguegamelog, leaguehustlestatsplayer, leaguehustlestatsplayerleaders, leaguedashlineups, leaguedashoppptshot, shotchartdetail, alltimeleadersgrids, boxscoreadvancedv2, playergamelog
+from nba_api.stats.endpoints import boxscoresummaryv2, playercareerstats, leaguedashplayerstats, boxscoretraditionalv2, leaguedashplayershotlocations, leaguedashplayerptshot, leaguedashplayerclutch, assistleaders, assisttracker, leaguegamelog, leaguehustlestatsplayer, leaguehustlestatsplayerleaders, leaguedashlineups, leaguedashoppptshot, shotchartdetail, alltimeleadersgrids, boxscoreadvancedv2, playergamelog
 from nba_api.stats.library.parameters import LeagueID, PerModeSimple, PlayerOrTeam, Season, SeasonType
 from nba_api.stats.library.parameters import ConferenceNullable, DivisionSimpleNullable, GameScopeSimpleNullable, LastNGamesNullable, LeagueIDNullable, LocationNullable, MonthNullable, OutcomeNullable, PerModeSimpleNullable, PlayerExperienceNullable, PlayerPositionAbbreviationNullable, SeasonNullable, SeasonSegmentNullable, SeasonTypeAllStarNullable, StarterBenchNullable, DivisionNullable
 from nba_api.stats.library.parameters import EndPeriod, EndRange, RangeType, StartPeriod, StartRange
@@ -113,10 +113,9 @@ def assiststracker():
 
 boxScoreArray = []
 def readLeagueGames():
-    URL = 'http://localhost:3001/tablelength/boxscores2022-2023'
+    URL = 'http://localhost:3001/tablelengthbox/boxscores2022-2023'
     response = requests.get(url = URL)
     data = response.json()
-    print(data)
     count = data[0]['count']
     f = open('./juicystats/leaguegames2022-2023.json')
 	# returns JSON object as 
@@ -129,15 +128,15 @@ def readLeagueGames():
     end = int(count) * 2
     print(start)
     print(end)
-    for i in range (start, end):
+    for i in range (start-1, end-1, -1):
         ##print(len(games["resultSets"][0]["rowSet"]))
         ##print(games["resultSets"][0]["rowSet"][i])
         print(i)
         if games["resultSets"][0]["rowSet"][i][4] in idList:
             continue
         idList.append(games["resultSets"][0]["rowSet"][i][4])
-        ##box = boxscoreadvanced(games["resultSets"][0]["rowSet"][i][4])
-        ##boxScoreArray.append(box)
+        box = boxscoreadvanced(games["resultSets"][0]["rowSet"][i][4])
+        boxScoreArray.append(box)
     # Closing file
     f.close()   
 
@@ -209,12 +208,12 @@ def playergamelogfunction(playerId, season):
 		outfile.write(jsonContent)
 
 def writeNBAplayers():
-	seasons = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022']
+	seasons = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
 	list = []
 	for player in player_dict:
 		print(player)
 		jsonContent = json.dumps(player)
-		list.append(jsonContent)
+		list.append(player)
 		jsonList = json.dumps(list)
 	with open("./juicystats/playersNBA.json", "w") as outfile:
 		outfile.write(jsonList)
@@ -574,13 +573,21 @@ def leaguedashplayershotlocationsfunction():
 
 boxScoreArrayTraditional = []
 def readLeagueGamesTraditional():
+    URL = 'http://localhost:3001/tablelengthbox/boxscorestraditional2022-2023'
+    response = requests.get(url = URL)
+    data = response.json()
+    print(data)
+    count = data[0]['count']
+
     f = open('./juicystats/leaguegames2022-2023.json')
     games = json.load(f)
     idList = []
-    for i in range (0, len(games["resultSets"][0]["rowSet"])):
-        time.sleep(1)
-        print(len(games["resultSets"][0]["rowSet"]))
-        print(games["resultSets"][0]["rowSet"][i])
+    start = len(games["resultSets"][0]["rowSet"])
+    end = int(count) * 2
+    print(start)
+    print(end)
+    for i in range (start-1, end-1, -1):
+
         if games["resultSets"][0]["rowSet"][i][4] in idList or games["resultSets"][0]["rowSet"][i][4] is None:
             print(games["resultSets"][0]["rowSet"][i][4])
             continue
@@ -706,12 +713,60 @@ def playerCareerStatsFunction(playerid):
     except ValueError:
         print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 
+boxScoreSummaryArray = []
+def readBoxScoreSummary():
+    URL = 'http://localhost:3001/tablelength/boxscoresummary2022-2023'
+    response = requests.get(url = URL)
+    data = response.json()
+    print(data)
+    count = data[0]['count']
+
+    f = open('./juicystats/leaguegames2022-2023.json')
+    games = json.load(f)
+    idList = []
+    start = len(games["resultSets"][0]["rowSet"])
+    end = int(count)
+    print(start)
+    print(end)
+    for i in range (start-1, end-1, -1):
+
+        if games["resultSets"][0]["rowSet"][i][4] in idList or games["resultSets"][0]["rowSet"][i][4] is None:
+            print(games["resultSets"][0]["rowSet"][i][4])
+            continue
+        idList.append(games["resultSets"][0]["rowSet"][i][4])
+        print(games["resultSets"][0]["rowSet"][i][4])
+        box = boxScoreSummaryFunction(games["resultSets"][0]["rowSet"][i][4])
+        boxScoreSummaryArray.append(box)
+    # Closing file
+    f.close()
+
+def boxScoreSummaryFunction(gameid):
+    response = boxscoresummaryv2.BoxScoreSummaryV2 (    
+        game_id=gameid,
+        proxy=None,
+        headers=None,
+        timeout=30,
+        get_request=True
+    )
+    content = json.loads(response.get_json())
+    jsonContent = json.dumps(content)
+    careerData = json.loads(jsonContent, object_hook=lambda d: SimpleNamespace(**d))
+
+    header = careerData.resultSets[0].headers
+    try:
+        with open('./juicystats/boxScoreSummary2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            writer.writerows(careerData.resultSets[0].rowSet)
+            f.close()
+    except ValueError:
+        print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 ##shotchartdetailfunction()
 ##allassists()
 ##assiststracker()
 ##playergamelogfunction('153', '0021700807')
 ##leaguegames()
-readLeagueGames()
+##readLeagueGames()
 ##leaguehustlestats()
 ##leaguehustlestatsleaders()
 ##leaguedashlineupsfunction()
@@ -724,3 +779,5 @@ readLeagueGames()
 ##leagueDashPlayerStatsFunction()
 ##playerCareerStatsFunction()
 ##getPlayerIds()
+##readBoxScoreSummary()
+writeNBAplayers()

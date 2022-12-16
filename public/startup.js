@@ -4,7 +4,7 @@ const deepStatSubmit = document.getElementById("submit-deep-stat");
 const clearButton = document.getElementById("clearButton");
 
 const loadUpLocal = document.getElementById("loadButton");
-
+const loadUpBoxScoresLocalButton = document.getElementById("loadUpBoxScoresLocalButton")
 const loadUpLocalPlayers = document.getElementById("loadPlayersButton");
 const loadUpLeagueGamesBySeasonButton = document.getElementById("LOADGAMES")
 const loadUpGamesLocal = document.getElementById("loadGamesButton");
@@ -336,11 +336,9 @@ const loadUpShotChartsBySeason = async() => {
     for (let i = 0; i < years.length; i++) {
         let shotsArray = await getJsonResponseStartup(`/shots/${years[i]}`);
         for (let j = 0; j < shotsArray.resultSets.length; j++) {
-            // m < shotsArray.resultSets[j].rowSet.length;
-            console.log(shotsArray.resultSets.length)
-            console.log(shotsArray.resultSets[j].rowSet.length)                
+            // m < shotsArray.resultSets[j].rowSet.length;               
 
-            for (let m = shotsArray.resultSets[j].rowSet.length; m > tableLength[0].count; m--) {
+            for (let m = shotsArray.resultSets[j].rowSet.length-1; m > tableLength[0].count-1; m--) {
                 console.log(shotsArray.resultSets[j].rowSet.length)                
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
                 let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
@@ -356,15 +354,14 @@ const loadUpAllTimeLeadersGrids = async() => {
 
 const loadUpNBAPlayers = async() => {
     let players = await getJsonResponseStartup('/playersNBA');
-    console.log(players.length); 
+    console.log(players); 
     for (i = 0; i < players.length; i++) {
         let player = {
-            id: players[i][0],
-            full_name: players[i][1],
-            first_name: players[i][2],
-            last_name: players[i][3],
-            is_active: players[i][4],
-            player_id: players[i][5]
+            playerid: players[i].id.toString(),
+            full_name: players[i].full_name,
+            first_name: players[i].first_name,
+            last_name: players[i].last_name,
+            is_active: players[i].is_active,
         }
         console.log(player);
         let results = await postPlayersNBA(player);
@@ -394,8 +391,12 @@ const loadUpLeagueGamesBySeason = async() => {
 
 const loadUpBoxScoresLocalFunction = async() => {
     let season = "2022-2023";
+    let tablelength = await getJsonResponseStartup(`/tablelength/boxscores2022-2023`)
+    console.log(tablelength)
+    tablelength = tablelength[0].count
     let data = await getJsonResponseStartup(`/box/read/${season}`);
-    for (let i = 0; i < data.length; i++) {
+    for (let i = data.length-1; i > tablelength-1; i--) {
+        console.log(data[i]);
         await postBoxScoresBySeason(data[i], season);
     } 
 
@@ -403,10 +404,14 @@ const loadUpBoxScoresLocalFunction = async() => {
 
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
     let season = "2022-2023";
+    let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional2022-2023`)
+    tablelength = tablelength[0].count
     let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
-    for (let i = 0; i < data.length; i++) {
+    for (let i = data.length-1; i > tablelength-1; i--) {
+        console.log(data[i]);
         await postBoxScoresTraditionalBySeason(data[i], season);
     } 
+
 }
 
 const loadUpLeagueHustleStatsPlayerFunction = async() => {
@@ -604,10 +609,12 @@ const loadUpBoxScoreScoringTeamsFunction = async() => {
 
 const loadUpBoxScoreSummaryFunction = async() => {
     let season = "2022-2023";
+    let tablelength = await getJsonResponseStartup(`/tablelength/boxscoresummary2022-2023`)
+    tablelength = tablelength[0].count
     let results = await getJsonResponseStartup(`/boxScoreSummary/read/${season}`);
     console.log(results);
 
-    for (let i = 0; i < results.length; i++) {
+    for (let i = results.length-1; i > tablelength-1; i--) {
         console.log(results[i])
         let postedResults = await postBoxScoreSummary(results[i], season);
         console.log(postedResults);

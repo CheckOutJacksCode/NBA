@@ -103,6 +103,7 @@ const Dropdown = (props) => {
       let isSubscribed = true;
         const getShots = async() => {
             let shots = await axios.get(`/shots/${selectedPlayer}/${selectedSeason}`)
+            console.log(shots.data);
             if (isSubscribed) {
                 setShotsData(shots.data);
             }
@@ -137,7 +138,7 @@ const Dropdown = (props) => {
         let isSubscribed = true;
             const getPlayerId = async() => {
             
-                let playerid = await axios.get(`/playersNBA/${selectedPlayer}`)
+                let playerid = await axios.get(`/playersNBA/${selectedSeason}/${selectedPlayer}`)
                 console.log(playerid.data);
                 if (isSubscribed) {
                     setPlayerId(playerid.data[0]);
@@ -154,7 +155,7 @@ const Dropdown = (props) => {
         let isSubscribed = true;
             const getAverages = async() => {
             
-                let boxScore = await axios.get(`/boxScoresTraditional/averages/${playerid.playerid}/${selectedSeason}`)
+                let boxScore = await axios.get(`/boxScoresTraditional/averages/${playerid.player_id}/${selectedSeason}`)
                 if (isSubscribed) {
                     setBoxScore(boxScore.data);
                 }

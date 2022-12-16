@@ -119,6 +119,8 @@ router.get('/', checkAuthenticated, playersNBA.getPlayersNBA);
  */
 router.get('/:name', playersNBA.getOfficialPlayerIdWithFullName);
 
+router.get('/:season/:name', playersNBA.getPlayerIdWithShotTable);
+
 /**
  * @swagger
  * /playersNBA/official/players/playerid/{lastName}/{firstName}:

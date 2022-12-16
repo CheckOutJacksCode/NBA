@@ -74,9 +74,6 @@ const getShotsByPlayerBySeasonLocal = async(request, response, next) => {
         if (error) {
             return next(error);
         }
-        if (results.rows.length === 0 || results.rows[0].count === '0') {
-            return next(new Error( 'Stats Do Not Exist' ));
-        }
         response.status(200).json(results.rows)
     })
 }

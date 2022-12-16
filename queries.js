@@ -115,29 +115,30 @@ const getStatsHeadersFromTable = (request, response) => {
   })
 }
 
-const getTableLength = (request, response) => {
+const getTableLengthBox = (request, response) => {
     const table = request.params;
-    console.log(table)
-    if (table.table.subString(0, 3) === 'box') {
-        db.query(`SELECT COUNT(DISTINCT game_id) FROM "${table.table}"`, (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(200).json(results.rows)
-        })
-    } else {
-        db.query(`SELECT COUNT(id) FROM "${table.table}"`, (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(200).json(results.rows)
-        })
-    }
+    db.query(`SELECT COUNT(DISTINCT game_id) FROM "${table.table}"`, (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getTableLength = (request, response) => {
+  const table = request.params;
+  db.query(`SELECT COUNT(id) FROM "${table.table}"`, (error, results) => {
+      if (error) {
+          throw error
+      }
+      response.status(200).json(results.rows)
+  })
 }
 
 module.exports = {
     deleteDatabase,
     getStatsHeadersFromTable,
     getTeamNames,
-    getTableLength
+    getTableLength,
+    getTableLengthBox
 }
