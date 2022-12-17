@@ -25,6 +25,24 @@ const getGamesBySeasonLocal = async(request, response, next) => {
         response.status(200).json(results.rows)
     })
 }
+
+const getGamesBySeasonJackarithm = async(request, response, next) => {
+    let season = request.params;
+    season = season["season"];
+    console.log('ya')
+    db.query(`SELECT "leagueGames${season}".*, "boxscoresummary${season}".home_team_id, "boxscoresummary${season}".visitor_team_id
+                FROM "leagueGames${season}"
+                INNER JOIN "boxscoresummary${season}"
+                ON "boxscoresummary${season}".game_id = "leagueGames${season}".game_id`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
   
 const getGameIdGameDateMatchupBySeasonDropDownLocal = async(request, response, next) => {
     let { player, season } = request.params;
@@ -132,6 +150,7 @@ const getActualGameResultsByMatchupBySeason = (request, response, next) => {
         response.status(200).json(results.rows)
     })
 }
+
   
 const getAbbreviationFromTeamName = (request, response, next) => {
     const {team_name} = request.params;
@@ -193,4 +212,5 @@ module.exports = {
     getGamesBySeasonLocal,
     getGamesBySeason,
     getFrontSchedule,
+    getGamesBySeasonJackarithm,
 }

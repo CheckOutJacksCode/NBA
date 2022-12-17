@@ -1277,7 +1277,7 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     visitor team. 
     
     If you call this function by through clicking of the 'compareP240ResultsBySeasonTotalsButton', it will trigger a 
-    nested loop, in which it will call this function with every combination of hometeam and visitor team. I will start with
+    nested loop, in which it will call this function with every combination of hometeam and visitor team. It will start with
     the first home team in the drop down list (Charlotte Hornets) and call this function 29 times to get every single matchup
     with the 29 possible visitor teams. After retreiving every Hornets home matchup, (29) function calls, it will move on to
     the next home team and loop through all 29 possible visitor teams... and so on until all 30 home teams have each cycled through

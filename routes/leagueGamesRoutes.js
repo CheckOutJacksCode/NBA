@@ -305,6 +305,8 @@ router.get('/:season', checkAuthenticated, leagueGames.getGamesBySeason);
  */
 router.get('/local/leaguegames/:season', leagueGames.getGamesBySeasonLocal);
 
+router.get('/withboxscoresummary/:season', leagueGames.getGamesBySeasonJackarithm);
+
 /**
  * @swagger
  * /leagueGames/{season}:
