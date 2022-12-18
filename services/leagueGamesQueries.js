@@ -33,7 +33,8 @@ const getGamesBySeasonJackarithm = async(request, response, next) => {
     db.query(`SELECT "leagueGames${season}".*, "boxscoresummary${season}".home_team_id, "boxscoresummary${season}".visitor_team_id
                 FROM "leagueGames${season}"
                 INNER JOIN "boxscoresummary${season}"
-                ON "boxscoresummary${season}".game_id = "leagueGames${season}".game_id`, (error, results) => {
+                ON "boxscoresummary${season}".game_id = "leagueGames${season}".game_id
+                WHERE matchup LIKE '%vs.%'`, (error, results) => {
         if (error) {
             return next(error);
         }

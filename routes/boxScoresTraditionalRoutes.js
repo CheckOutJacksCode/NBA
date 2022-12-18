@@ -157,6 +157,11 @@ router.get('/home/:playerid/:season', boxScoreTraditional.getBoxScoreTraditional
 
 router.get('/averages/:playerid/:season', boxScoreTraditional.getBoxScoreTraditionalAverages);
 
+router.get('/averages/82games/:playerid/:season/:H_or_V', boxScoreTraditional.getBoxScoreTraditional82GameAveragesWholeSeason);
+
+router.get('/averages/82games/:gameId/:playerid/:season/:H_or_V', boxScoreTraditional.getBoxScoreTraditional82GameAverages);
+
+router.get('/previousgameid/:gameId/:season/:teamid', boxScoreTraditional.getPreviousGameIdByGameIdTeamId);
 
  /** 
  * @swagger

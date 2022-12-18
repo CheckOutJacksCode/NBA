@@ -5,14 +5,15 @@ import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import ExpectedResults from "./ExpectedResults";
 
-const GameResults = ({ expectedResults, setExpectedResults, gameResults, setGameResults, selectedSeason, setSelectedSeason }) => {
+const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults, setExpectedResults, gameResults, setGameResults, selectedSeason, setSelectedSeason }) => {
     
     
     useEffect(() => {
         const getGameResults = async() => {
             let results = await axios.get(`/leagueGames/withboxscoresummary/${selectedSeason}`)
-            console.log(results.data);
-            setGameResults(results.data);
+            console.log(results.data.length);
+            let data = results.data.slice(0, 11)
+            setGameResults(data);
         }
         if (selectedSeason) {
             getGameResults();

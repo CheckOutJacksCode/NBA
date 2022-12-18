@@ -62,7 +62,93 @@ const getBoxScoreTraditionalAverages = async(request, response, next) => {
         response.status(200).json(results.rows)
     })
 }
-  
+
+const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
+    console.log('poof')
+    let { gameId, playerid, season, H_or_V } = request.params;
+    console.log(playerid)
+    console.log(season)
+    console.log(H_or_V)
+    console.log(gameId)
+    db.query(`SELECT player_id, player_name, team_id, team_abbreviation,
+                AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
+                AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,
+                AVG(COALESCE(CAST(fga AS NUMERIC), 0.0)) AS FGA,
+                sum(cast(fgm as NUMERIC)) / NULLIF(sum(cast(fga as NUMERIC)), 0) AS FG_PCT,
+                AVG(COALESCE(CAST(fg3m AS NUMERIC), 0.0)) AS FG3M,
+                AVG(COALESCE(CAST(fg3a AS NUMERIC), 0.0)) AS FG3A,
+                sum(cast(fg3m as NUMERIC)) / NULLIF(sum(cast(fg3a as NUMERIC)), 0) AS FG3_PCT,
+                AVG(COALESCE(CAST(ftm AS NUMERIC), 0.0)) AS FTM,
+                AVG(COALESCE(CAST(fta AS NUMERIC), 0.0)) AS FTA,
+                sum(cast(ftm as NUMERIC)) / NULLIF(sum(cast(fta as NUMERIC)), 0) AS FT_PCT,
+                AVG(COALESCE(CAST(oreb AS NUMERIC), 0.0)) AS OREB,
+                AVG(COALESCE(CAST(dreb AS NUMERIC), 0.0)) AS DREB, 
+                AVG(COALESCE(CAST(reb AS NUMERIC), 0.0)) AS REB, 
+                AVG(COALESCE(CAST(ast AS NUMERIC), 0.0)) AS AST, 
+                AVG(COALESCE(CAST(stl AS NUMERIC), 0.0)) AS STL, 
+                AVG(COALESCE(CAST(blk AS NUMERIC), 0.0)) AS BLK, 
+                AVG(COALESCE(CAST(turnovers AS NUMERIC), 0.0)) AS TO, 
+                AVG(COALESCE(CAST(pf AS NUMERIC), 0.0)) AS PF, 
+                AVG(COALESCE(CAST(pts AS NUMERIC), 0.0)) AS PTS, 
+                AVG(COALESCE(CAST(plus_minus AS NUMERIC), 0.0)) AS "+/-"
+                FROM "boxscorestraditional${season}"
+                INNER JOIN "boxscoresummary${season}"
+                ON "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
+                WHERE player_id = $1
+                AND "boxscorestraditional${season}".game_id < $2
+                GROUP BY player_id, player_name, team_id, team_abbreviation`, [playerid, gameId], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0) {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+ 
+const getBoxScoreTraditional82GameAveragesWholeSeason = async(request, response, next) => {
+    console.log('party')
+    let { playerid, season, H_or_V } = request.params;
+    console.log(playerid)
+    console.log(season)
+    console.log(H_or_V)
+    db.query(`SELECT player_id, player_name, team_id, team_abbreviation,
+                AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
+                AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,
+                AVG(COALESCE(CAST(fga AS NUMERIC), 0.0)) AS FGA,
+                sum(cast(fgm as NUMERIC)) / NULLIF(sum(cast(fga as NUMERIC)), 0) AS FG_PCT,
+                AVG(COALESCE(CAST(fg3m AS NUMERIC), 0.0)) AS FG3M,
+                AVG(COALESCE(CAST(fg3a AS NUMERIC), 0.0)) AS FG3A,
+                sum(cast(fg3m as NUMERIC)) / NULLIF(sum(cast(fg3a as NUMERIC)), 0) AS FG3_PCT,
+                AVG(COALESCE(CAST(ftm AS NUMERIC), 0.0)) AS FTM,
+                AVG(COALESCE(CAST(fta AS NUMERIC), 0.0)) AS FTA,
+                sum(cast(ftm as NUMERIC)) / NULLIF(sum(cast(fta as NUMERIC)), 0) AS FT_PCT,
+                AVG(COALESCE(CAST(oreb AS NUMERIC), 0.0)) AS OREB,
+                AVG(COALESCE(CAST(dreb AS NUMERIC), 0.0)) AS DREB, 
+                AVG(COALESCE(CAST(reb AS NUMERIC), 0.0)) AS REB, 
+                AVG(COALESCE(CAST(ast AS NUMERIC), 0.0)) AS AST, 
+                AVG(COALESCE(CAST(stl AS NUMERIC), 0.0)) AS STL, 
+                AVG(COALESCE(CAST(blk AS NUMERIC), 0.0)) AS BLK, 
+                AVG(COALESCE(CAST(turnovers AS NUMERIC), 0.0)) AS TO, 
+                AVG(COALESCE(CAST(pf AS NUMERIC), 0.0)) AS PF, 
+                AVG(COALESCE(CAST(pts AS NUMERIC), 0.0)) AS PTS, 
+                AVG(COALESCE(CAST(plus_minus AS NUMERIC), 0.0)) AS "+/-"
+                FROM "boxscorestraditional${season}"
+                INNER JOIN "boxscoresummary${season}"
+                ON "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
+                WHERE player_id = $1
+                GROUP BY player_id, player_name, team_id, team_abbreviation`, [playerid], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0) {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 const createBoxScoresTraditional = (request, response, next) => {
     const body = request.body;
     let season = request.params;
@@ -194,6 +280,23 @@ const getBoxNumFromGameIdSeason = (request, response, next) => {
     })
 }
 
+  
+const getPreviousGameIdByGameIdTeamId = (request, response, next) => {
+    const {gameId, season, teamid} = request.params;
+    console.log(gameId)
+    console.log(season)
+    console.log(teamid)
+    db.query(`SELECT game_id FROM "boxscorestraditional${season}"
+                WHERE team_id = $1
+                AND game_id < $2
+                ORDER BY game_id DESC LIMIT 1`, [teamid, gameId], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getBoxScorePlayer,
     getBoxScorePlayer,
@@ -205,4 +308,7 @@ module.exports = {
     boxScoreTraditionalLoad,
     createBoxScoresTraditional,  
     getBoxScoreTraditionalAverages,
+    getPreviousGameIdByGameIdTeamId,
+    getBoxScoreTraditional82GameAverages,
+    getBoxScoreTraditional82GameAveragesWholeSeason,
 }
