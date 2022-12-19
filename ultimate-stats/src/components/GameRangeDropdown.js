@@ -13,7 +13,7 @@ const GameRangeDropdown = ({ gameRange, setGameRange, selectedGameRange, setSele
             }
             getGameRange();
             return () => isSubscribed = false;
-      }, [])
+      }, [setGameRange])
 
     function handleGameRangeChange(event) {
         setSelectedGameRange(event.target.value);

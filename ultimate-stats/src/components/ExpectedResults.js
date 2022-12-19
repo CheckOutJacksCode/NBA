@@ -17,7 +17,6 @@ const ExpectedResults = ({ game, index, expectedResults, setExpectedResults, gam
     const [visitorPreviousGameId, setVisitorPreviousGameId] = useState('');
     const [H_or_V, setH_or_V] = useState('');
 
-
     useEffect(() => {
         const getPreviousGameIds = async() => {
             console.log(game.game_id)
@@ -40,7 +39,7 @@ const ExpectedResults = ({ game, index, expectedResults, setExpectedResults, gam
         if (homeTeamId && visitorTeamId) {
             getPreviousGameIds();
         }
-    }, [homeTeamId])
+    }, [game, homeTeamId, visitorTeamId, selectedSeason])
 
     useEffect(() => {
         const getTeamIds = async() => {

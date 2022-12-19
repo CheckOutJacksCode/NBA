@@ -163,6 +163,8 @@ router.get('/averages/82games/:gameId/:playerid/:season/:H_or_V', boxScoreTradit
 
 router.get('/previousgameid/:gameId/:season/:teamid', boxScoreTraditional.getPreviousGameIdByGameIdTeamId);
 
+router.get(`/sumstat/:season/:teamId/:gameId/:stat`, boxScoreTraditional.getSumStat);
+
  /** 
  * @swagger
  * /boxScoresTraditional/visitor/{playerid}/{season}:

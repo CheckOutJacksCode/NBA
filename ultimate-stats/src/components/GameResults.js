@@ -12,13 +12,13 @@ const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults,
         const getGameResults = async() => {
             let results = await axios.get(`/leagueGames/withboxscoresummary/${selectedSeason}`)
             console.log(results.data.length);
-            let data = results.data.slice(0, 11)
+            let data = results.data.slice(0, 2)
             setGameResults(data);
         }
         if (selectedSeason) {
             getGameResults();
         }
-    }, [selectedSeason])
+    }, [selectedSeason, setGameResults])
 
     return (
         <div>

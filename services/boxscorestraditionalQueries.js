@@ -56,9 +56,6 @@ const getBoxScoreTraditionalAverages = async(request, response, next) => {
         if (error) {
             return next(error);
         }
-        if (results.rows.length === 0) {
-            return next(new Error( 'Stats Do Not Exist' ));
-        }
         response.status(200).json(results.rows)
     })
 }
@@ -139,6 +136,20 @@ const getBoxScoreTraditional82GameAveragesWholeSeason = async(request, response,
                 ON "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
                 WHERE player_id = $1
                 GROUP BY player_id, player_name, team_id, team_abbreviation`, [playerid], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getSumStat = async(request, response, next) => {
+
+    let { season, teamId, gameId, stat } = request.params;
+    db.query(`SELECT SUM(COALESCE(CAST(${stat} AS NUMERIC), 0.0))
+                FROM "boxscorestraditional${season}"
+                WHERE team_id = $1
+                AND game_id < $2`, [teamId, gameId], (error, results) => {
         if (error) {
             return next(error);
         }
@@ -311,4 +322,5 @@ module.exports = {
     getPreviousGameIdByGameIdTeamId,
     getBoxScoreTraditional82GameAverages,
     getBoxScoreTraditional82GameAveragesWholeSeason,
+    getSumStat,
 }
