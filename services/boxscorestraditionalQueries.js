@@ -26,7 +26,7 @@ const getBoxScoreTraditionalAverages = async(request, response, next) => {
     let { playerid, season } = request.params;
     console.log(playerid)
     console.log(season)
-    db.query(`SELECT player_id, player_name, team_id, team_abbreviation,
+    db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(CAST(min AS FLOAT)) AS MIN, 
                 AVG(CAST(fgm AS FLOAT)) AS FGM,
                 AVG(CAST(fga AS FLOAT)) AS FGA,
@@ -67,7 +67,7 @@ const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
     console.log(season)
     console.log(H_or_V)
     console.log(gameId)
-    db.query(`SELECT player_id, player_name, team_id, team_abbreviation,
+    db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
                 AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,
                 AVG(COALESCE(CAST(fga AS NUMERIC), 0.0)) AS FGA,
@@ -110,7 +110,7 @@ const getBoxScoreTraditional82GameAveragesWholeSeason = async(request, response,
     console.log(playerid)
     console.log(season)
     console.log(H_or_V)
-    db.query(`SELECT player_id, player_name, team_id, team_abbreviation,
+    db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
                 AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,
                 AVG(COALESCE(CAST(fga AS NUMERIC), 0.0)) AS FGA,

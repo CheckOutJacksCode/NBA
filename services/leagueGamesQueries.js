@@ -44,7 +44,38 @@ const getGamesBySeasonJackarithm = async(request, response, next) => {
         response.status(200).json(results.rows)
     })
 }
-  
+ 
+const getAveragePointTotal = async(request, response, next) => {
+    let { gameId, season } = request.params;
+    console.log('ya')
+    db.query(`SELECT AVG(CAST(pts AS FLOAT))
+                FROM "leagueGames${season}"
+                WHERE game_id < $1`, [gameId], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getAveragePointTotalWholeSeason = async(request, response, next) => {
+    let { season } = request.params;
+    console.log('ya')
+    db.query(`SELECT AVG(CAST(pts AS FLOAT))
+                FROM "leagueGames${season}"`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 const getGameIdGameDateMatchupBySeasonDropDownLocal = async(request, response, next) => {
     let { player, season } = request.params;
     //console.log(player);
@@ -214,4 +245,6 @@ module.exports = {
     getGamesBySeason,
     getFrontSchedule,
     getGamesBySeasonJackarithm,
+    getAveragePointTotal,
+    getAveragePointTotalWholeSeason,
 }

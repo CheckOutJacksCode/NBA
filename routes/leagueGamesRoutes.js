@@ -307,6 +307,11 @@ router.get('/local/leaguegames/:season', leagueGames.getGamesBySeasonLocal);
 
 router.get('/withboxscoresummary/:season', leagueGames.getGamesBySeasonJackarithm);
 
+router.get('/averageScore/:season', leagueGames.getAveragePointTotalWholeSeason);
+
+
+router.get('/averageScore/:gameId/:season', leagueGames.getAveragePointTotal);
+
 /**
  * @swagger
  * /leagueGames/{season}:

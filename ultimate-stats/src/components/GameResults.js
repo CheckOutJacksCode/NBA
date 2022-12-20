@@ -7,7 +7,7 @@ import ExpectedResults from "./ExpectedResults";
 
 const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults, setExpectedResults, gameResults, setGameResults, selectedSeason, setSelectedSeason }) => {
     
-    
+
     useEffect(() => {
         const getGameResults = async() => {
             let results = await axios.get(`/leagueGames/withboxscoresummary/${selectedSeason}`)
