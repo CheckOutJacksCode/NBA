@@ -56,13 +56,24 @@ const ExpectedResults = ({ game, index, expectedResults, setExpectedResults, gam
     
     //FOR UPCOMING PREDICTIONS, PASS IN SOME STRING AS GAME TO GETROSTERFROMPREVIOUSGAME AND SET HOMEPREVIOUSGAMEID = LAST GAME_ID IN THE TABLE
     return (
-        <div className="jack-o-rithm">
+        <div className="row">
             {game.game_date}
             <br></br>
             {game.matchup}
-            <br></br>
-            {game.matchup.substring(0,4)} {homePreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={homePreviousGameId} roster={homeRoster} setRoster={setHomeRoster} teamId={homeTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'home'} setH_or_V={setH_or_V}/> : 'loading'}
-            {game.matchup.substring(8, 11)} {visitorPreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={visitorPreviousGameId} roster={visitorRoster} setRoster={setVisitorRoster} teamId={visitorTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'visitor'} setH_or_V={setH_or_V}/> : 'loading'}
+            <div className="row">
+                <div className="column">
+                <h6>Expected</h6>
+                {game.matchup.substring(0,4)} {homePreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={homePreviousGameId} roster={homeRoster} setRoster={setHomeRoster} teamId={homeTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'home'} setH_or_V={setH_or_V}/> : 'loading'}
+                <br></br>
+                {game.matchup.substring(8, 11)} {visitorPreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={visitorPreviousGameId} roster={visitorRoster} setRoster={setVisitorRoster} teamId={visitorTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'visitor'} setH_or_V={setH_or_V}/> : 'loading'}
+                </div>
+                <div className="column">
+                <h6>Actual</h6>
+                {game.matchup.substring(0,4)} {homePreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={homePreviousGameId} roster={homeRoster} setRoster={setHomeRoster} teamId={homeTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'home'} setH_or_V={setH_or_V}/> : 'loading'}
+                <br></br>
+                {game.matchup.substring(8, 11)} {visitorPreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={visitorPreviousGameId} roster={visitorRoster} setRoster={setVisitorRoster} teamId={visitorTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'visitor'} setH_or_V={setH_or_V}/> : 'loading'}
+                </div>
+            </div>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 # NBA MVP App
 
-Node/Express API and scripts with front end initially just utiziling the NBA's public api, but now have accumulated a massive Postgres database and developed my own API. Users can access any stat for any player within the years of available data provided by the database. Users also can access shot chart visualizations equipped with box scores for any player in any season/game. The 'deep stats are custom, weighted, accumulative stats for any player for any of the given years.
+Node/Express API and scripts with front end initially just utiziling the NBA's public api, but now have accumulated a massive Postgres database and developed my own API. Users can access any stat for any player within the years of available data provided by the database. Stats are grouped; Users also can access shot chart visualizations equipped with box scores for any player in any season/game. The 'deep stats are custom, weighted, accumulative stats for any player for any of the given years.
 
 MVP Points - Custom weights of most major stat categories added together to create an accumulative statistic.  
 

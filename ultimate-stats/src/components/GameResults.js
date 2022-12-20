@@ -21,9 +21,9 @@ const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults,
     }, [selectedSeason, setGameResults])
 
     return (
-        <div>
+        <div className="row">
             {gameResults.map((game, index) => (
-                <h6 key={index}>{game.matchup} {<ExpectedResults game={game} index={index} expectedResults={expectedResults} setExpectedResults={setExpectedResults} gameResults={gameResults} setGameResults={setGameResults} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>}</h6>
+                <div className="column" key={index}>{<ExpectedResults game={game} index={index} expectedResults={expectedResults} setExpectedResults={setExpectedResults} gameResults={gameResults} setGameResults={setGameResults} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>}</div>
             ))}
         </div>
     )
