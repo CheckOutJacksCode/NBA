@@ -22,10 +22,8 @@ const getBoxScorePlayer = async(request, response, next) => {
 }
 
 const getBoxScoreTraditionalAverages = async(request, response, next) => {
-    console.log('woooof')
     let { playerid, season } = request.params;
-    console.log(playerid)
-    console.log(season)
+   
     db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(CAST(min AS FLOAT)) AS MIN, 
                 AVG(CAST(fgm AS FLOAT)) AS FGM,
@@ -61,12 +59,8 @@ const getBoxScoreTraditionalAverages = async(request, response, next) => {
 }
 
 const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
-    console.log('poof')
     let { gameId, playerid, season, H_or_V } = request.params;
-    console.log(playerid)
-    console.log(season)
-    console.log(H_or_V)
-    console.log(gameId)
+
     db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
                 AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,
@@ -105,11 +99,8 @@ const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
 }
  
 const getBoxScoreTraditional82GameAveragesWholeSeason = async(request, response, next) => {
-    console.log('party')
     let { playerid, season, H_or_V } = request.params;
-    console.log(playerid)
-    console.log(season)
-    console.log(H_or_V)
+
     db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
                 AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,
@@ -163,8 +154,7 @@ const getSumStat = async(request, response, next) => {
 const createBoxScoresTraditional = (request, response, next) => {
     const body = request.body;
     let season = request.params;
-    console.log(season.season)
-    console.log(body);
+  
     let minutes = body.MIN.substring(0, 5)
     db.query(`INSERT INTO "boxscorestraditional${season.season}" (game_id, team_id, team_abbreviation, team_city, player_id, player_name, nickname, start_position, comment, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, stl, blk, turnovers, pf, pts, plus_minus) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`,
     [body.GAME_ID, body.TEAM_ID, body.TEAM_ABBREVIATION, body.TEAM_CITY, body.PLAYER_ID, body.PLAYER_NAME, body.NICKNAME, body.START_POSITION, body.COMMENT, minutes, body.FGM, body.FGA, body.FG_PCT, body.FG3M, body.FG3A, body.FG3_PCT, body.FTM, body.FTA, body.FT_PCT, body.OREB, body.DREB, body.REB, body.AST, body.STL, body.BLK, body.TO, body.PF, body.PTS, body.PLUS_MINUS], (error, results) => {
@@ -178,7 +168,6 @@ const createBoxScoresTraditional = (request, response, next) => {
 const boxScoreTraditionalLoad = (request, response, next) => {
 
     let season = request.params;
-    console.log(season);
     const data = [];
     fs.createReadStream(`../nba/juicystats/boxscorestraditional${season.season}.csv`)
         .pipe(
@@ -203,7 +192,6 @@ const boxScoreTraditionalLoad = (request, response, next) => {
 }
 
 const getBoxScoresTraditional = async(request, response, next) => {
-    console.log('nooooooo')
     let { season, gameid, playerid } = request.params;
     db.query(`SELECT * FROM "boxscorestraditional${season}" WHERE game_id = $1 AND player_id = $2`, [gameid, playerid], (error, results) => {
         if (error) {
@@ -294,9 +282,7 @@ const getBoxNumFromGameIdSeason = (request, response, next) => {
   
 const getPreviousGameIdByGameIdTeamId = (request, response, next) => {
     const {gameId, season, teamid} = request.params;
-    console.log(gameId)
-    console.log(season)
-    console.log(teamid)
+
     db.query(`SELECT game_id FROM "boxscorestraditional${season}"
                 WHERE team_id = $1
                 AND game_id < $2

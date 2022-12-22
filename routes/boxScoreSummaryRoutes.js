@@ -139,7 +139,7 @@ router.get('/read/:season', checkAuthenticated, boxScoreSummary.getBoxScoreSumma
  */
 router.post(`/:season`, checkAuthenticated, boxScoreSummary.createBoxScoreSummary);
 
-
+router.get(`/teamname/:teamId`, boxScoreSummary.getTeamNameFromTeamId);
 //router.get(`/boxscoresummary/:season`, boxScoreSummary.createBoxScoreSummary);
 
 /**

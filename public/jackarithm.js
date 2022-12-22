@@ -1742,13 +1742,14 @@ const getSports = async() => {
     })
     if (odds.ok) {
         let jsonOdds = odds.json();
+        console.log(jsonOdds)
         return jsonOdds;
     }
 }
 
 const postOdds = async(odds, season) => {
 
-    const url = `/odds/${season}`;
+    const url = `/gambling/odds/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -1780,7 +1781,7 @@ const writeOddsToDatabase = async(season) => {
 }
 
 writeOddsToDatabaseButton.onclick = async() => {
-    let season = '2020-2021';
+    let season = '2022-2023';
     await writeOddsToDatabase(season);
 }
 
@@ -1808,6 +1809,7 @@ const getAverageMvpPointsBySeason = async(season) => {
     let average = total / points.length;
     console.log(average);
 }
-teamsDropDown();
-p240StatDropDownFunction();
+//teamsDropDown();
+//p240StatDropDownFunction();
 //getAverageMvpPointsBySeason('2016-2017');
+//getSports()

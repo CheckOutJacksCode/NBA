@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
+import ActualResults from "./ActualResults";
+import Odds from "./Odds";
 
 const ExpectedResults = ({ game, index, expectedResults, setExpectedResults, gameResults, setGameResults, selectedSeason, setSelectedSeason }) => {
 
@@ -59,19 +61,32 @@ const ExpectedResults = ({ game, index, expectedResults, setExpectedResults, gam
         <div className="row">
             {game.game_date}
             <br></br>
-            {game.matchup}
-            <div className="row">
+            <div className="rowOdds">
+                <div className="column">
+                <h6>Matchup</h6>
+                {game.matchup.substring(0,4)}
+                <br></br>
+                vs.
+                <br></br>
+                {game.matchup.substring(8, 11)}
+                </div>
                 <div className="column">
                 <h6>Expected</h6>
-                {game.matchup.substring(0,4)} {homePreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={homePreviousGameId} roster={homeRoster} setRoster={setHomeRoster} teamId={homeTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'home'} setH_or_V={setH_or_V}/> : 'loading'}
+                {homePreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={homePreviousGameId} roster={homeRoster} setRoster={setHomeRoster} teamId={homeTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'home'} setH_or_V={setH_or_V}/> : 'loading'}
                 <br></br>
-                {game.matchup.substring(8, 11)} {visitorPreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={visitorPreviousGameId} roster={visitorRoster} setRoster={setVisitorRoster} teamId={visitorTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'visitor'} setH_or_V={setH_or_V}/> : 'loading'}
+                {visitorPreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={visitorPreviousGameId} roster={visitorRoster} setRoster={setVisitorRoster} teamId={visitorTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'visitor'} setH_or_V={setH_or_V}/> : 'loading'}
                 </div>
                 <div className="column">
                 <h6>Actual</h6>
-                {game.matchup.substring(0,4)} {homePreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={homePreviousGameId} roster={homeRoster} setRoster={setHomeRoster} teamId={homeTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'home'} setH_or_V={setH_or_V}/> : 'loading'}
+                {<ActualResults game={game} H_or_V={'home'}/>}
                 <br></br>
-                {game.matchup.substring(8, 11)} {visitorPreviousGameId ? <GetRosterFromPreviousGame game={game} previousGameId={visitorPreviousGameId} roster={visitorRoster} setRoster={setVisitorRoster} teamId={visitorTeamId} setTeamId={setTeamId} gameDate={gameDate} setGameDate={setGameDate} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} H_or_V={'visitor'} setH_or_V={setH_or_V}/> : 'loading'}
+                {<ActualResults game={game} H_or_V={'visitor'}/>}
+                </div>
+                <div className="column">
+                <h6>Odds</h6>
+                {<Odds selectedSeason={selectedSeason} game={game} homeTeamId={homeTeamId} visitorTeamId={visitorTeamId} H_or_V={'home'}/>}
+                <br></br>
+                {<Odds selectedSeason={selectedSeason} game={game} homeTeamId={homeTeamId} visitorTeamId={visitorTeamId} H_or_V={'visitor'}/>}
                 </div>
             </div>
         </div>

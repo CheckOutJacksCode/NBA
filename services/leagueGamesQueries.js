@@ -29,7 +29,6 @@ const getGamesBySeasonLocal = async(request, response, next) => {
 const getGamesBySeasonJackarithm = async(request, response, next) => {
     let season = request.params;
     season = season["season"];
-    console.log('ya')
     db.query(`SELECT "leagueGames${season}".*, "boxscoresummary${season}".home_team_id, "boxscoresummary${season}".visitor_team_id
                 FROM "leagueGames${season}"
                 INNER JOIN "boxscoresummary${season}"
@@ -47,7 +46,6 @@ const getGamesBySeasonJackarithm = async(request, response, next) => {
  
 const getAveragePointTotal = async(request, response, next) => {
     let { gameId, season } = request.params;
-    console.log('ya')
     db.query(`SELECT AVG(CAST(pts AS FLOAT))
                 FROM "leagueGames${season}"
                 WHERE game_id < $1`, [gameId], (error, results) => {
@@ -63,7 +61,6 @@ const getAveragePointTotal = async(request, response, next) => {
 
 const getAveragePointTotalWholeSeason = async(request, response, next) => {
     let { season } = request.params;
-    console.log('ya')
     db.query(`SELECT AVG(CAST(pts AS FLOAT))
                 FROM "leagueGames${season}"`, (error, results) => {
         if (error) {
@@ -112,7 +109,6 @@ const createGamesBySeason = (request, response, next) => {
     let season = request.params;
     //console.log(season);
     const body = request.body;
-    console.log(body);
     db.query(`INSERT INTO "leagueGames${season['season']}" (season_id, team_id, team_abbreviation, team_name, game_id, game_date, matchup, wl, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, stl, blk, tov, pf, pts, plus_minus, video_available) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)`, 
     [body[0], body[1].toString(), body[2], body[3], body[4], body[5], body[6], body[7], body[8].toString(), body[9].toString(), body[10].toString(), body[11].toString(), body[12].toString(), body[13].toString(), body[14].toString(), body[15].toString(), body[16].toString(), body[17].toString(), body[18].toString(), body[19].toString(), body[20].toString(), body[21].toString(), body[22].toString(), body[23].toString(), body[24].toString(), body[25].toString(), body[26].toString(), body[27].toString(), body[28].toString()], (error, results) => {
         if (error) {
@@ -125,7 +121,7 @@ const createGamesBySeason = (request, response, next) => {
   
 const getTeamIdFromName = async(request, response, next) => {
     let teamname = request.params;
-    console.log(teamname);
+
     db.query('SELECT DISTINCT team_id FROM "leagueGames2021-2022" WHERE team_name = $1', [teamname.teamname], (error, results) => {
         if (error) {
             return next(error);
@@ -169,8 +165,7 @@ const getGameResultsByVisitorTeamSeason = (request, response, next) => {
 
 const getActualGameResultsByMatchupBySeason = (request, response, next) => {
     const {matchup1, season} = request.params;
-    console.log(matchup1)
-    console.log(season)
+
     db.query(`SELECT * FROM "leagueGames${season}"
               WHERE matchup = $1`, [matchup1], (error, results) => {
         if (error) {
@@ -201,9 +196,7 @@ const getAbbreviationFromTeamName = (request, response, next) => {
 
 const getPreviousGameIdBySeasonByTeamByGameDate = (request, response, next) => {
     const {season, teamId, gamedate} = request.params;
-    console.log(gamedate);
-    console.log(season);
-    console.log(teamId);
+
     db.query(`SELECT DISTINCT game_id FROM "leagueGames${season}"
               WHERE team_id = $1
               AND game_date = $2`, [teamId, gamedate], (error, results) => {

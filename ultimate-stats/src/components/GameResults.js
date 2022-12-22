@@ -23,7 +23,7 @@ const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults,
     return (
         <div className="row">
             {gameResults.map((game, index) => (
-                <div className="column" key={index}>{<ExpectedResults game={game} index={index} expectedResults={expectedResults} setExpectedResults={setExpectedResults} gameResults={gameResults} setGameResults={setGameResults} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>}</div>
+                <div className="columnOdds" key={index}>{<ExpectedResults game={game} index={index} expectedResults={expectedResults} setExpectedResults={setExpectedResults} gameResults={gameResults} setGameResults={setGameResults} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>}</div>
             ))}
         </div>
     )

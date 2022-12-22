@@ -14,19 +14,42 @@ div.jack-o-rithm {
   text-align: center;
 }
 
+
 /* Create three equal columns that floats next to each other */
-.column {
+.columnOdds {
   float: left;
-  width: 33.33%;
+  width: 25.00%;
   padding: 10px;
+  border: #61dafb;
+  border-style: solid;
+  text-align: center;
+
   /*height: 300px; Should be removed. Only for demonstration */
 }
+
+.column {
+  float: left;
+  width: 25.00%;
+  padding: 10px;
+  text-align: center;
+
+  /*height: 300px; Should be removed. Only for demonstration */
+}
+
 
 /* Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
   clear: both;
+}
+
+.rowOdds {
+  content: "";
+  display: inline;
+  clear: both;
+  font-size: small;
+  text-align: center;
 }
 
 li {

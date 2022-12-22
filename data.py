@@ -761,6 +761,42 @@ def boxScoreSummaryFunction(gameid):
             f.close()
     except ValueError:
         print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
+
+def getOdds():
+    URL = 'https://api.the-odds-api.com/v4/sports/basketball_nba/odds/?apiKey=f8d80068fa8107d46ae62e3a3f15092f&regions=us&markets=h2h&oddsFormat=american&bookmakers=draftkings'
+    response = requests.get(url = URL)
+    data = response.json()
+    rows = []
+    for i in range (0, len(data)):
+        if len(data[i]['bookmakers']) > 0:
+            rowSet = [
+                data[i]['commence_time'] + ' ' + data[i]['home_team'],
+                data[i]['home_team'],
+                data[i]['away_team'],
+                data[i]['bookmakers'][0]['markets'][0]['outcomes'][0]['name'] + ' ' + str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][0]['price']),
+                data[i]['bookmakers'][0]['markets'][0]['outcomes'][1]['name'] + ' ' + str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][1]['price'])
+            ]
+            rows.append(rowSet)
+        else:
+            rowSet = [
+                data[i]['commence_time'] + ' ' + data[i]['home_team'],
+                data[i]['home_team'],
+                data[i]['away_team'],
+                'no odds available',
+                'no odds available'
+            ]
+            rows.append(rowSet)
+
+    header = ['commence_time', 'home_team', 'away_team', 'home_odds', 'away_odds']
+    try:
+        with open('./juicystats/newOdds2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            writer.writerows(rows)
+            f.close()
+    except ValueError:
+        print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
+
 ##shotchartdetailfunction()
 ##allassists()
 ##assiststracker()
@@ -780,4 +816,5 @@ def boxScoreSummaryFunction(gameid):
 ##playerCareerStatsFunction()
 ##getPlayerIds()
 ##readBoxScoreSummary()
-writeNBAplayers()
+##writeNBAplayers()
+getOdds()

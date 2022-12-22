@@ -31,11 +31,52 @@ const getOddsFromCSV = (request, response, next) => {
     })
 }
   
+const getNewOddsFromCSV = (request, response, next) => {
+    let season = request.params;
+    const data = [];
+    fs.createReadStream(`./juicystats/newOdds${season.season}.csv`)
+        .pipe(
+          parse({
+            delimiter: ",",
+            columns: true,
+            relax_column_count: true,
+            ltrim: true,
+          })
+        )
+        .on("data", function async(row) {
+          // 👇 push the object row into the array
+            data.push(row);
+            console.log(row);
+        })
+        .on("error", function async(error) {
+            return next(error);
+        })
+        .on("end", function async() {
+        // 👇 log the result array
+        console.log("parsed csv data:"); 
+        console.log(data);
+        response.status(201).send(data);
+    })
+}
+
 const createOddsBySeason = (request, response, next) => {
     const body = request.body;
     const season = request.params;
     db.query(`INSERT INTO "odds${season.season}" (date, rot, vh, team, first, second, third, fourth, final, open, close, ml, h2h) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`, 
     [body[0], body[1], body[2], body[3], body[4], body[5], body[6], body[7], body[8], body[9], body[10], body[11], body[12]], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(201).send(body);
+    })
+}
+
+const createNewOddsBySeason = (request, response, next) => {
+    const body = request.body;
+    console.log(body)
+    const season = request.params;
+    db.query(`INSERT INTO "newOdds${season.season}" (commence_time, home_team, away_team, home_odds, away_odds) VALUES ($1, $2, $3, $4, $5)`, 
+    [body.commence_time, body.home_team, body.away_team, body.home_odds, body.away_odds], (error, results) => {
         if (error) {
             return next(error);
         }
@@ -77,5 +118,7 @@ module.exports = {
     getVisitorMoneyline,
     getHomeMoneyline,
     getOddsFromCSV,
-    createOddsBySeason,   
+    createOddsBySeason,
+    createNewOddsBySeason,
+    getNewOddsFromCSV,  
 }

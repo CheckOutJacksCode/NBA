@@ -115,7 +115,7 @@ const Table = (props) => {
      <>
       <table className="ultimate">
        <caption>
-        Developers currently enrolled in this course, column headers are sortable.
+        Click on a stat header to sort all players by stat
        </caption>
        <TableHead columns={columns} handleSorting={handleSorting}/>
        <TableBody columns={columns} tableData={tableData} />

@@ -127,7 +127,7 @@ const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, te
             {roster.map((player, index) => (
             <ExpectedFromRoster key={index} totalStat={totalStat} setTotalStat={setTotalStat} totalMins={totalMins} setTotalMins={setTotalMins} gameId={previousGameId} previousSeason={previousSeason} selectedSeason={selectedSeason} playerId={player.player_id} H_or_V={H_or_V} teamId={teamId} />
             ))}
-            {averageScore[0].avg + (totalStat / totalMins * 240)}
+            {(averageScore[0].avg + (totalStat / totalMins * 240)).toFixed(0)}
         </div>
     )
 }

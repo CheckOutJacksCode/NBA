@@ -32,6 +32,7 @@ const loadUpLeagueDashPlayerShotLocationButton = document.getElementById("loadUp
 const loadUpBoxScoreScoringButton = document.getElementById("loadUpBoxScoreScoring");
 const loadUpBoxScoreScoringTeamsButton = document.getElementById("loadUpBoxScoreScoringTeams")
 const loadUpBoxScoreSummaryButton = document.getElementById("loadUpBoxScoreSummary");
+const loadUpNewOddsButton = document.getElementById("loadUpNewOdds");
 
 
 const getJsonResponseStartup = async (url) => {
@@ -263,6 +264,9 @@ const onStartUp = async() => {
     loadUpBoxScoreSummaryButton.onclick = async() => {
         await loadUpBoxScoreSummaryFunction();
     }
+    loadUpNewOddsButton.onclick = async() => {
+        await loadUpNewOddsFunction();
+    }
 }
 
 
@@ -400,6 +404,16 @@ const loadUpBoxScoresLocalFunction = async() => {
         await postBoxScoresBySeason(data[i], season);
     } 
 
+}
+
+const loadUpNewOddsFunction = async() => {
+    let season = "2022-2023";
+
+    let data = await getJsonResponseStartup(`/gambling/newOdds/${season}`);
+    for (let i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        await postNewOdds(data[i], season);
+    } 
 }
 
 const loadUpBoxScoresTraditionalLocalFunction = async() => {

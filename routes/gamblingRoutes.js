@@ -58,6 +58,11 @@ router.get('/odds/:season', checkAuthenticated, gambling.getOddsFromCSV);
 
 router.post('/odds/:season', checkAuthenticated, gambling.createOddsBySeason);
 
+router.get('/newOdds/:season', gambling.getNewOddsFromCSV)
+
+router.post('/newOdds/:season', gambling.createNewOddsBySeason);
+
+
 /**
  * @swagger
  * /gambling/moneyline/home/{season}/{homeTeam}/{gamedate}:

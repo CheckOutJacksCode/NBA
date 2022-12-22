@@ -85,10 +85,27 @@ const getLengthOfSeason = (request, response, next) => {
     })
 }
 
+const getTeamNameFromTeamId = (request, response, next) => {
+    const { teamId } = request.params;
+    console.log(teamId)
+    db.query(`SELECT DISTINCT team_name
+                FROM "leagueGames2022-2023"
+                WHERE team_id = $1`, [teamId], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getLengthOfSeason,
     getVisitorGameIdsBySeason,
     getHomeGameIdsBySeason,
     getBoxScoreSummaryFromCSV,
-    createBoxScoreSummary,   
+    createBoxScoreSummary,
+    getTeamNameFromTeamId,   
 }

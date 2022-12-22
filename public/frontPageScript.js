@@ -274,6 +274,28 @@ const postBoxScoresBySeason = async(obj, season) => {
     } 
 }
 
+const postNewOdds = async(odds, season) => {
+
+    const url = `/gambling/newOdds/${season}`;
+    try{
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(odds),
+        })
+        if (response.ok) {
+            const jsonResponse = response.json();
+            return jsonResponse;
+        }
+    } catch (error) {
+        console.log('error!');
+        console.log(error);
+    }
+}
+
 const postBoxScoresTraditionalBySeason = async(obj, season) => {
     console.log(season);
     const url = `/boxScoresTraditional/${season}`;
