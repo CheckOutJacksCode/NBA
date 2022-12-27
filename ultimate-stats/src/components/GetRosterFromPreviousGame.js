@@ -2,15 +2,33 @@ import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState, useRef } from "react";
 import ShotChartSVG from "./ShotChartSVG";
-import ShotChartGameSVG from "./ShotChartGameSVG";
 import ExpectedResults from "./ExpectedResults";
 import ExpectedFromRoster from "./ExpectedFromRoster";
 
-const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, teamId, setTeamId, gameDate, setGameDate, selectedSeason, setSelectedSeason, H_or_V, setH_or_V}) => {
+const GetRosterFromPreviousGame = ({ averageScore, 
+                                        previousSeason, 
+                                        homeExpectedResults, 
+                                        setHomeExpectedResults, 
+                                        visitorExpectedResults, 
+                                        setVisitorExpectedResults, 
+                                        matchup, 
+                                        game, 
+                                        previousGameId, 
+                                        roster, 
+                                        setRoster, 
+                                        teamId, 
+                                        setTeamId, 
+                                        gameDate, 
+                                        setGameDate, 
+                                        selectedSeason, 
+                                        setSelectedSeason, 
+                                        H_or_V, 
+                                        setH_or_V}) => {
     
     const [totalMins, setTotalMins] = useState(0);
     const [totalStat, setTotalStat] = useState(0);
-    const [averageScore, setAverageScore] = useState([{avg: 0}]);
+    //const [postObj, setPostObj] = useState({});
+    //const [averageScore, setAverageScore] = useState([{avg: 0}]);
 
     /*useEffect(() => {
         const getExpectedTotals = async() => {
@@ -28,7 +46,7 @@ const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, te
         }
     }, [previousGameId])*/
 
-    const [previousSeason, setPreviousSeason] = useState('');
+    //const [previousSeason, setPreviousSeason] = useState('');
 /*    const [totalStat, setTotalStat] = useState(0);
     const [totalMins, setTotalMins] = useState(0);
     const [expected, setExpected] = useState(0);*/
@@ -64,7 +82,7 @@ const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, te
         }
     }, [totalMins, playerAverages.length, totalStat])*/
 
-
+/*
     useEffect(() => {
         const getAverageScore = async() => {
             if (previousGameId !== '1') {
@@ -84,7 +102,8 @@ const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, te
             getAverageScore();
         }
     }, [roster])
-
+*/
+/*
     useEffect(() => {
         const getPreviousSeason = async() => {
             let split = selectedSeason.split('-')
@@ -97,7 +116,7 @@ const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, te
             getPreviousSeason();
         }
     }, [selectedSeason])
-
+*/
 
     useEffect(() => {
         const getRoster = async() => {
@@ -117,17 +136,16 @@ const GetRosterFromPreviousGame = ({ game, previousGameId, roster, setRoster, te
             getRoster();
         }
     }, [game, previousGameId, selectedSeason, setRoster, teamId])
-    
+
 
 
 //{<ExpectedFromRoster totalStat={totalStat} setTotalStat={setTotalStat} totalMins={totalMins} setTotalMins={setTotalMins} gameId={previousGameId} previousSeason={previousSeason} selectedSeason={selectedSeason} playerId={player.player_id} H_or_V={H_or_V} teamId={teamId} />}
 
     return (
         <div>
-            {roster.map((player, index) => (
-            <ExpectedFromRoster key={index} totalStat={totalStat} setTotalStat={setTotalStat} totalMins={totalMins} setTotalMins={setTotalMins} gameId={previousGameId} previousSeason={previousSeason} selectedSeason={selectedSeason} playerId={player.player_id} H_or_V={H_or_V} teamId={teamId} />
+            {roster.map((player, index, roster) => (
+                <ExpectedFromRoster key={index} gameDate={gameDate} matchup={matchup} averageScore={averageScore} previousSeason={previousSeason} H_or_V={H_or_V} roster={roster} homeExpectedResults={homeExpectedResults} setHomeExpectedResults={setHomeExpectedResults} visitorExpectedResults={visitorExpectedResults} setVisitorExpectedResults={setVisitorExpectedResults} index={index} totalStat={totalStat} setTotalStat={setTotalStat} totalMins={totalMins} setTotalMins={setTotalMins} gameId={previousGameId} selectedSeason={selectedSeason} playerId={player.player_id} teamId={teamId} />
             ))}
-            {(averageScore[0].avg + (totalStat / totalMins * 240)).toFixed(0)}
         </div>
     )
 }

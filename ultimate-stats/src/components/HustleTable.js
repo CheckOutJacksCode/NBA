@@ -6,42 +6,45 @@ import axios from "axios";
 import '../App.css';
 
 
-const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
+const HustleTable = ({selectedSeason}) => {
     const [tableData, setTableData] = useState([]);
+    
     
     let columns = [];
     useEffect(() => {
-        axios.get(`/statranked/boxScores/${selectedSeason}`) // your url may look different
-        .then(data => setTableData(data.data)) // set data to state
+        axios.get(`/statranked/hustleStats/${selectedSeason}`) // your url may look different
+        .then(data => 
+            setTableData(data.data)) // set data to state
     }, [selectedSeason]);
     console.log(tableData);
 
     columns = [
         { label: "NAME", accessor: "player_name" },
         { label: "TEAM", accessor: "team_abbreviation" },
+        { label: "AGE", accessor: "age" },
+        { label: "GAMES", accessor: "g" },
         { label: "MIN", accessor: "min" },
-        { label: "E_OFF_RATING", accessor: "e_off_rating" },
-        { label: "OFF_RATING", accessor: "off_rating" },
-        { label: "E_DEF_RATING", accessor: "e_def_rating" },
-        { label: "DEF_RATING", accessor: "def_rating" },
-        { label: "E_NET_RATING", accessor: "e_net_rating" },
-        { label: "NET_RATING", accessor: "net_rating" },
-        { label: "AST_PCT", accessor: "ast_pct" },
-        { label: "AST_TOV", accessor: "ast_tov" },
-        { label: "AST_RATIO", accessor: "ast_ratio" },
-        { label: "OREB_PCT", accessor: "oreb_pct" },
-        { label: "DREB_PCT", accessor: "dreb_pct" },
-        { label: "REB_PCT", accessor: "reb_pct" },
-        { label: "TM_TOV_PCT", accessor: "tm_tov_pct" },
-        { label: "EFG_PCT", accessor: "efg_pct" },
-        { label: "TS_PCT", accessor: "ts_pct" },
-        { label: "USG_PCT", accessor: "usg_pct" },
-        { label: "E_USG_PCT", accessor: "e_usg_pct" },
-        { label: "E_PACE", accessor: "e_pace" },
-        { label: "PACE", accessor: "pace" },
-        { label: "PACE_PER40", accessor: "pace_per40" },
-        { label: "POSS", accessor: "poss" },
-        { label: "PIE", accessor: "pie" }
+        { label: "CONTESTED SHOTS", accessor: "contested_shots" },
+        { label: "CONTESTED 2PT", accessor: "contested_shots_2pt" },
+        { label: "CONTESTED 3PT", accessor: "contested_shots_3pt" },
+        { label: "DEFLECTIONS", accessor: "deflections" },
+        { label: "CHARGES DRAWN", accessor: "charges_drawn" },
+        { label: "SCREEN ASSISTS", accessor: "screen_assists" },
+        { label: "SCREEN AST PTS", accessor: "screen_ast_pts" },
+        { label: "OFF LOOSE BALL RECOVERED", accessor: "off_loose_balls_recovered" },
+        { label: "DEF LOOSE BALL RECOVERED", accessor: "def_loose_balls_recovered" },
+        { label: "LOOSE BALLS RECOVERED", accessor: "loose_balls_recovered" },
+        { label: "PCT LOOSE BALL REC OFF", accessor: "pct_loose_balls_recovered_off" },
+        { label: "PCT LOOSE BALL REC DEF", accessor: "pct_loose_balls_recovered_def" },
+        { label: "OFF BOXOUTS", accessor: "off_boxouts" },
+        { label: "DEF BOXOUTS", accessor: "def_boxouts" },
+        { label: "BOX OUT PLAYER TEAM REBS", accessor: "box_out_player_team_rebs" },
+        { label: "BOX OUT PLAYER REBS", accessor: "box_out_player_rebs" },
+        { label: "BOX OUTS", accessor: "box_outs" },
+        { label: "PCT BOX OUTS OFF", accessor: "pct_box_outs_off" },
+        { label: "PCT BOX OUTS DEF", accessor: "pct_box_outs_def" },
+        { label: "PCT BOX OUTS TEAM REB", accessor: "pct_box_outs_team_reb" },
+        { label: "PCT BOX OUTS REB", accessor: "pct_box_outs_reb" }
     ];
 /*
     const columns = [
@@ -80,7 +83,7 @@ const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
      <>
       <table className="ultimate">
        <caption>
-        Please allow a moment for advanced stats to load...
+        Click on a column header to sort by stat.
        </caption>
        <TableHead columns={columns} handleSorting={handleSorting} smallHeaders={true}/>
        <TableBody columns={columns} tableData={tableData} />
@@ -89,4 +92,4 @@ const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
     );
 };
 
-export default TableAdvanced;
+export default HustleTable;

@@ -7,7 +7,10 @@ import Schedule from "../components/Schedule";
 import PredictionResultsTable from "../components/JackODropDown";
 import GameResults from "../components/GameResults";
 import GameRangeDropdown from "../components/GameRangeDropdown";
-
+import Upcoming from "../components/Upcoming";
+import '../App.css'
+import PostMatchups from "../components/PostMatchups";
+import HistoricalResults from "../components/HistoricalResults";
 
 const Jackarithm = () => {
     
@@ -15,35 +18,47 @@ const Jackarithm = () => {
     const [seasonsData, setSeasonsData] = useState([]);
     const [scheduleData, setScheduleData] = useState([]);
     const [gameResults, setGameResults] = useState([]);
-    const [expectedResults, setExpectedResults] = useState([]);
 
     const [gameRange, setGameRange] = useState([]);
 
     const [selectedHomeTeam, setSelectedHomeTeam] = useState('');
     const [selectedVisitorTeam, setSelectedVisitorTeam] = useState('');
-    const [selectedSeason, setSelectedSeason] = useState('');
+    const [selectedSeason, setSelectedSeason] = useState('2022-2023');
     const [selectedGameRange, setSelectedGameRange] = useState(0);
+
+
 
     const [teamsH, setTeamsH] = useState([]);
     const [teamsV, setTeamsV] = useState([]);
-
+/*
     useEffect(() => {
-        const getGamesRange = async() => {
-
+        const postMatchups = async() => {
+            <PostMatchups selectedSeason={selectedSeason}
+                          setSelectedSeason={setSelectedSeason}
+                          homeExpectedResults={homeExpectedResults}
+                          setHomeExpectedResults={setHomeExpectedResults}
+                          visitorExpectedResults={setVisitorExpectedResults}
+                          setVisitorExpectedResults={setVisitorExpectedResults}/>
         }
-    })
+        postMatchups()
+    }, [])*/
     //<Schedule selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} scheduleData={scheduleData} setScheduleData={setScheduleData}/>
 
     return (
-        <div>
-        <h1>
-          <TeamsDropdown teamsData={teamsData} setTeamsData={setTeamsData} selectedTeam={selectedHomeTeam} setSelectedTeam={setSelectedHomeTeam} H_or_V={'home'}/>
-          <TeamsDropdown teamsData={teamsData} setTeamsData={setTeamsData} selectedTeam={selectedVisitorTeam} setSelectedTeam={setSelectedVisitorTeam} H_or_V={'visitor'}/>
-          <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
-          <PredictionResultsTable teamsH={teamsH} setTeamsH={setTeamsH} teamsV={teamsV} setTeamsV={setTeamsV}/>
-          <GameRangeDropdown gameRange={gameRange} setGameRange={setGameRange} selectedGameRange={selectedGameRange} setSelectedGameRange={setSelectedGameRange}/>
-          <GameResults expectedResults={expectedResults} setExpectedResults={setExpectedResults} gameResults={gameResults} setGameResults={setGameResults} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
-        </h1>
+      <div>
+        <div className="column66">
+          <h1>
+            <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
+          </h1>
+            <HistoricalResults selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
+        </div>
+        <div className="column33Page">
+          <Upcoming //homeExpectedResults={homeExpectedResults}
+                    //setHomeExpectedResults={setHomeExpectedResults}
+                    //visitorExpectedResults={visitorExpectedResults}
+                    //setVisitorExpectedResults={setVisitorExpectedResults}
+                    />
+        </div>
       </div>         
     )
 }

@@ -5,7 +5,14 @@ import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import ExpectedResults from "./ExpectedResults";
 
-const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults, setExpectedResults, gameResults, setGameResults, selectedSeason, setSelectedSeason }) => {
+const GameResults = ({ homeExpectedResults, 
+                       setHomeExpectedResults, 
+                       visitorExpectedResults, 
+                       setVisitorExpectedResults, 
+                       gameResults, 
+                       setGameResults, 
+                       selectedSeason, 
+                       setSelectedSeason }) => {
     
 
     useEffect(() => {
@@ -21,9 +28,16 @@ const GameResults = ({ selectedGameRange, setSelectedGameRange, expectedResults,
     }, [selectedSeason, setGameResults])
 
     return (
-        <div className="row">
+        <div>
             {gameResults.map((game, index) => (
-                <div className="columnOdds" key={index}>{<ExpectedResults game={game} index={index} expectedResults={expectedResults} setExpectedResults={setExpectedResults} gameResults={gameResults} setGameResults={setGameResults} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>}</div>
+                <div className="columnOdds" key={index}>{<ExpectedResults homeExpectedResults={homeExpectedResults} 
+                                                                          setHomeExpectedResults={setHomeExpectedResults} 
+                                                                          visitorExpectedResults={visitorExpectedResults} 
+                                                                          setVisitorExpectedResults={setVisitorExpectedResults} 
+                                                                          game={game} 
+                                                                          selectedSeason={selectedSeason} 
+                                                                          setSelectedSeason={setSelectedSeason} 
+                                                                        />}</div>
             ))}
         </div>
     )

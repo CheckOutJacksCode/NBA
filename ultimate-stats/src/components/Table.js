@@ -6,14 +6,14 @@ import axios from "axios";
 import '../App.css';
 
 
-const Table = (props) => {
+const Table = ({ selectedSeason }) => {
     const [tableData, setTableData] = useState([]);
-    
+    console.log(selectedSeason)
     let columns = [];
     useEffect(() => {
-        axios.get(`/statranked/${props.season}`) // your url may look different
+        axios.get(`/statranked/${selectedSeason}`) // your url may look different
         .then(data => setTableData(data.data)) // set data to state
-    }, []);
+    }, [selectedSeason]);
     console.log(tableData);
     //let headers = await fetch(`/statsheaders/${props.table}`);
     //let tableData1 = await fetch(`/statsranked/${headers[9]}/${props.season}`);
@@ -21,6 +21,7 @@ const Table = (props) => {
         { label: "NAME", accessor: "player_name" },
         { label: "TEAM", accessor: "team_abbreviation" },
         { label: "MIN", accessor: "min" },
+        { label: "PTS", accessor: "pts" },
         { label: "FGM", accessor: "fgm" },
         { label: "FGA", accessor: "fga" },
         { label: "FG PCT", accessor: "fg_pct" },
@@ -37,7 +38,7 @@ const Table = (props) => {
         { label: "STL", accessor: "stl" },
         { label: "BLK", accessor: "blk" },
         { label: "TO", accessor: "to" },
-        { label: "+/-", accessor: "plus_minus" },
+        { label: "+/-", accessor: "+/-" },
     ];
     /*} else if (props.table === 'boxScores') {
         useEffect(() => {

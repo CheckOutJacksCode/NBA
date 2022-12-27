@@ -112,8 +112,22 @@ const getRankedBoxScores = (request, response, next) => {
     })
 }
 
+const getRankedHustleStats = (request, response, next) => {
+    const {season} = request.params;
+    console.log(season)
+    db.query(`SELECT * FROM "leagueHustleStatsPlayer${season}"`, (error, results) => {
+        if (error) {
+            throw error;
+        }
+        console.log(results);
+
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     getRankedPlayersByStat,
     getRankedStats,
     getRankedBoxScores,
+    getRankedHustleStats,
 }

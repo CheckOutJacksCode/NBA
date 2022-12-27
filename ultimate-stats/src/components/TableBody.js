@@ -1,6 +1,6 @@
 const TableBody = ({ tableData, columns }) => {
     return (
-     <tbody>
+     <tbody className="ultimateBody">
       {tableData.map((data, index) => {
        return (
         <tr key={index}>

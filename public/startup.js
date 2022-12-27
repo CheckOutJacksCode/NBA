@@ -415,7 +415,7 @@ const loadUpNewOddsFunction = async() => {
         await postNewOdds(data[i], season);
     } 
 }
-
+/*
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
     let season = "2022-2023";
     let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional2022-2023`)
@@ -426,6 +426,17 @@ const loadUpBoxScoresTraditionalLocalFunction = async() => {
         await postBoxScoresTraditionalBySeason(data[i], season);
     } 
 
+}*/
+
+const loadUpBoxScoresTraditionalLocalFunction = async() => {
+    let season = "2015-2016";
+    //let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional2022-2023`)
+    //tablelength = tablelength[0].count
+    let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
+    for (let i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        await postBoxScoresTraditionalBySeason(data[i], season);
+    } 
 }
 
 const loadUpLeagueHustleStatsPlayerFunction = async() => {

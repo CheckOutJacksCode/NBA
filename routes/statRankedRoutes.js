@@ -3,6 +3,9 @@ const router = express.Router();
 const statRanked = require('../services/statRankedQueries');
 const { checkAuthenticated } = require('./userRouter');
 
+
+router.get(`/hustleStats/:season`, statRanked.getRankedHustleStats);
+
 router.get(`/:season`, statRanked.getRankedStats);
 
 router.get(`/boxScores/:season`, statRanked.getRankedBoxScores);

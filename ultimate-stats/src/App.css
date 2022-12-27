@@ -1,3 +1,8 @@
+body {
+    background-color: #030b1b;
+
+}
+
 .App {
   width: 100%;
   height: 100vh;
@@ -14,26 +19,119 @@ div.jack-o-rithm {
   text-align: center;
 }
 
+.smallHeaders {
+  font-size: x-small;
+  color:#867e05;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.regularHeaders {
+  font-size: medium;
+  color:#867e05;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.ultimateBody {
+  color:#219bbd
+}
+
 
 /* Create three equal columns that floats next to each other */
 .columnOdds {
   float: left;
   width: 25.00%;
-  padding: 10px;
-  border: #61dafb;
-  border-style: solid;
+  
+  border: #034d56;
+  border-style: groove;
   text-align: center;
+  color:black;
+  background-color: rgb(85, 149, 213);
+  padding: 10px;
+  font-weight: 600;
+}
 
-  /*height: 300px; Should be removed. Only for demonstration */
+.upcoming {
+  float: left;
+  width: 100%;
+  
+  border: #034d56;
+  border-style: groove;
+  text-align: center;
+  color:black;
+  background-color: rgb(85, 149, 213);
+  padding: 10px;
+  font-weight: 600;
+}
+
+.column66 {
+  float: left;
+  width: 66.67%;
+  text-align: center;
 }
 
 .column {
   float: left;
   width: 25.00%;
-  padding: 10px;
   text-align: center;
+  resize:both 
+}
 
-  /*height: 300px; Should be removed. Only for demonstration */
+.historicalGreen {
+  border-style: ridge;
+  border-color: rgb(1, 2, 25);
+  background-color: #84f879;
+  float: left;
+  width: 25.00%;
+  text-align: center;
+  overflow: hidden;
+  color: black
+}
+
+.historicalRed {
+  border-style: ridge;
+  border-color: rgb(1, 2, 25);
+  background-color: #ff9d9d;
+  float: left;
+  width: 25.00%;
+  text-align: center;
+  overflow: hidden;
+  color: black
+}
+
+.column25 {
+  font-size: small;
+  float: left;
+  width: 25.00%;
+  text-align: center;
+  overflow: hidden;
+}
+.column33 {
+  float: left;
+  width: 33.33%;
+  text-align: center;
+  font-size: medium;
+}
+
+.container {
+  columns: 5 auto;
+}
+
+.column33Page {
+  float: left;
+  width: 20%;
+  text-align: center;
+  font-size: medium;
+  padding-left: 20px;
+}
+
+.upcoming {
+  border: #034d56;
+  border-style: groove;
+  text-align: center;
+  color:black;
+  background-color: rgb(85, 149, 213);
+  padding: 10px;
+  font-weight: 600;
 }
 
 
@@ -42,14 +140,13 @@ div.jack-o-rithm {
   content: "";
   display: table;
   clear: both;
+  text-align: center;
+
 }
 
-.rowOdds {
-  content: "";
-  display: inline;
-  clear: both;
-  font-size: small;
+.header {
   text-align: center;
+  font-size: large;
 }
 
 li {
@@ -68,7 +165,7 @@ nav {
 }
 
 h1 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color:chartreuse;
   text-align: center;
 

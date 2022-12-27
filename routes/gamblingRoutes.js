@@ -62,6 +62,11 @@ router.get('/newOdds/:season', gambling.getNewOddsFromCSV)
 
 router.post('/newOdds/:season', gambling.createNewOddsBySeason);
 
+router.get('/upcominggames/:season', gambling.getUpcomingGames);
+
+router.post('/matchupResults/:season', gambling.createMatchupResults)
+
+router.post(`/jackorithm/:season`, gambling.createExpected);
 
 /**
  * @swagger
@@ -103,6 +108,10 @@ router.post('/newOdds/:season', gambling.createNewOddsBySeason);
  *         description: Invalid Path
  */
 router.get(`/moneyline/home/:season/:homeTeam/:gamedate`, gambling.getHomeMoneyline);
+
+router.get(`/newOdds/:season/:team/:gamedate/:H_or_V`, gambling.getNewOddsByGameByTeam);
+
+router.get(`/historicalResults/:season`, gambling.getHistoricalResults);
 
 /**
  * @swagger

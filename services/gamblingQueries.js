@@ -75,8 +75,8 @@ const createNewOddsBySeason = (request, response, next) => {
     const body = request.body;
     console.log(body)
     const season = request.params;
-    db.query(`INSERT INTO "newOdds${season.season}" (commence_time, home_team, away_team, home_odds, away_odds) VALUES ($1, $2, $3, $4, $5)`, 
-    [body.commence_time, body.home_team, body.away_team, body.home_odds, body.away_odds], (error, results) => {
+    db.query(`INSERT INTO "newOdds${season.season}" (game_id, commence_time, home_team, away_team, home_odds, away_odds) VALUES ($1, $2, $3, $4, $5, $6)`, 
+    [body.game_id, body.commence_time, body.home_team, body.away_team, body.home_odds, body.away_odds], (error, results) => {
         if (error) {
             return next(error);
         }
@@ -86,14 +86,14 @@ const createNewOddsBySeason = (request, response, next) => {
   
 const getHomeMoneyline = (request, response, next) => {
     const {season, homeTeam, gamedate} = request.params;
+    console.log(season)
+    console.log(homeTeam)
+    console.log(gamedate)
     db.query(`SELECT ml FROM "odds${season}"
               WHERE team = $1
               AND date = $2`, [homeTeam, gamedate], (error, results) => {
         if (error) {
             return next(error);
-        }
-        if (results.rows.length === 0 || results.rows[0].count === '0') {
-            return next(new Error( 'Stats Do Not Exist' ));
         }
         response.status(200).json(results.rows)
     })
@@ -114,11 +114,89 @@ const getVisitorMoneyline = (request, response, next) => {
     })
 }
 
+const getNewOddsByGameByTeam = (request, response, next) => {
+    const {season, team, gamedate, H_or_V} = request.params;
+    console.log('booger')
+    db.query(`SELECT ${H_or_V}_odds FROM "newOdds${season}"
+                WHERE ${H_or_V}_team = $1
+                AND SUBSTRING(commence_time, 1, 10) = $2`, [team, gamedate], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+
+const getUpcomingGames = (request, response, next) => {
+    const {season} = request.params;
+    db.query(`SELECT * from "newOdds${season}"
+                WHERE commence_time != $1
+                ORDER BY id DESC LIMIT 2`, ['commence_time'], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const createMatchupResults = (request, response, next) => {
+    const {season} = request.params;
+    const body = request.body;
+    console.log(season)
+    db.query(`INSERT INTO "matchupresults2022-2023" (game_date, matchup, actual_home, actual_visitor, expected_home, expected_visitor, odds_home, odds_visitor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+                [body.game_date, body.matchup, body.actual_home, body.actual_visitor, body.expected_home, body.expected_visitor, body.odds_home, body.odds_visitor],
+                (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).send(body);
+    })
+}
+
+const createExpected = (request, response, next) => {
+    console.log('bark')
+    const {season} = request.params;
+    const body = request.body;
+    console.log(body.home_expected)
+    db.query(`INSERT INTO "matchupresults${season}" (game_date, matchup, home_team, home_team_id, home_expected, visitor_team, visitor_team_id, visitor_expected, home_actual, visitor_actual, home_odds, visitor_odds, green_red) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
+                [body.game_date, body.matchup, body.home_team, body.home_team_id, body.home_expected, body.visitor_team, body.visitor_team_id, body.visitor_expected, body.home_actual, body.visitor_actual, body.home_odds, body.visitor_odds, body.green_red],
+                (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).send(body);
+    })
+}
+
+const getHistoricalResults = (request, response, next) => {
+    console.log('boom');
+    const {season} = request.params;
+    console.log(season)
+    db.query(`SELECT * FROM "matchupresults${season}"
+                ORDER BY id DESC`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
 module.exports = {
     getVisitorMoneyline,
     getHomeMoneyline,
     getOddsFromCSV,
     createOddsBySeason,
     createNewOddsBySeason,
-    getNewOddsFromCSV,  
+    getNewOddsFromCSV,
+    getUpcomingGames, 
+    createMatchupResults,
+    createExpected,
+    getNewOddsByGameByTeam,
+    getHistoricalResults,
 }

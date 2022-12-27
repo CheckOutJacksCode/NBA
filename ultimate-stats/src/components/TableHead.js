@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TableHead = ({ columns, handleSorting }) => {
+const TableHead = ({ columns, handleSorting, smallHeaders }) => {
     const [sortField, setSortField] = useState("");
     const [order, setOrder] = useState("asc");
     const handleSortingChange = (accessor) => {
@@ -10,19 +10,36 @@ const TableHead = ({ columns, handleSorting }) => {
         setOrder(sortOrder);
         handleSorting(accessor, sortOrder);
     };
-    return (
-        <thead>
-         <tr>
-          {columns.map(({ label, accessor }) => {
-           return (
-            <th key={accessor} onClick={() => handleSortingChange(accessor)}>
-             {label}
-            </th>
-           );
-          })}
-         </tr>
-        </thead>
-    );
+    if (smallHeaders) {
+        console.log(smallHeaders)
+        return (
+            <thead className="smallHeaders">
+             <tr>
+              {columns.map(({ label, accessor }) => {
+               return (
+                <th key={accessor} onClick={() => handleSortingChange(accessor)}>
+                 {label}
+                </th>
+               );
+              })}
+             </tr>
+            </thead>
+        );
+    } else {
+        return (
+            <thead className="regularHeaders">
+             <tr>
+              {columns.map(({ label, accessor }) => {
+               return (
+                <th key={accessor} onClick={() => handleSortingChange(accessor)}>
+                 {label}
+                </th>
+               );
+              })}
+             </tr>
+            </thead>
+        );
+    }
 };
       
 export default TableHead;

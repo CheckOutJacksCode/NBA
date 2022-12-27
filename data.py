@@ -768,18 +768,22 @@ def getOdds():
     data = response.json()
     rows = []
     for i in range (0, len(data)):
+
         if len(data[i]['bookmakers']) > 0:
+            print(i)
             rowSet = [
-                data[i]['commence_time'] + ' ' + data[i]['home_team'],
+                'upcoming',
+                data[i]['commence_time'][0:10] + ' ' + data[i]['home_team'],
                 data[i]['home_team'],
                 data[i]['away_team'],
-                data[i]['bookmakers'][0]['markets'][0]['outcomes'][0]['name'] + ' ' + str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][0]['price']),
-                data[i]['bookmakers'][0]['markets'][0]['outcomes'][1]['name'] + ' ' + str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][1]['price'])
+                str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][0]['price']),
+                str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][1]['price'])
             ]
             rows.append(rowSet)
         else:
             rowSet = [
-                data[i]['commence_time'] + ' ' + data[i]['home_team'],
+                'upcoming',
+                data[i]['commence_time'][0:10] + ' ' + data[i]['home_team'],
                 data[i]['home_team'],
                 data[i]['away_team'],
                 'no odds available',
@@ -787,7 +791,7 @@ def getOdds():
             ]
             rows.append(rowSet)
 
-    header = ['commence_time', 'home_team', 'away_team', 'home_odds', 'away_odds']
+    header = ['game_id', 'commence_time', 'home_team', 'away_team', 'home_odds', 'away_odds']
     try:
         with open('./juicystats/newOdds2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
