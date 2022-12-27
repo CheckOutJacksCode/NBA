@@ -67,8 +67,9 @@ const PlayerCareerStats = ({ playerId, selectedPlayer, selectedSeason, seasonsDa
     ];
 
     const handleSorting = (sortField, sortOrder) => {
+        console.log('fart')
         if (sortField) {
-         const sorted = [...tableData].sort((a, b) => {
+         const sorted = [...careerArray].sort((a, b) => {
           if (a[sortField] === null) return 1;
           if (b[sortField] === null) return -1;
           if (a[sortField] === null && b[sortField] === null) return 0;
