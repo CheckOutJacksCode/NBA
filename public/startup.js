@@ -33,6 +33,7 @@ const loadUpBoxScoreScoringButton = document.getElementById("loadUpBoxScoreScori
 const loadUpBoxScoreScoringTeamsButton = document.getElementById("loadUpBoxScoreScoringTeams")
 const loadUpBoxScoreSummaryButton = document.getElementById("loadUpBoxScoreSummary");
 const loadUpNewOddsButton = document.getElementById("loadUpNewOdds");
+const loadUpLeagueHustleStatsButton = document.getElementById("loadUpLeagueHustleStatsButton");
 
 
 const getJsonResponseStartup = async (url) => {

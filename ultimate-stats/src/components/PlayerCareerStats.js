@@ -67,7 +67,6 @@ const PlayerCareerStats = ({ playerId, selectedPlayer, selectedSeason, seasonsDa
     ];
 
     const handleSorting = (sortField, sortOrder) => {
-        console.log('fart')
         if (sortField) {
          const sorted = [...careerArray].sort((a, b) => {
           if (a[sortField] === null) return 1;
@@ -97,7 +96,7 @@ const PlayerCareerStats = ({ playerId, selectedPlayer, selectedSeason, seasonsDa
     return (
         <table className="ultimate">
         <caption>
-         Click on a stat header to sort all players by stat
+         Please allow a moment for stats to load...
         </caption>
             <TableHead columns={columns} handleSorting={handleSorting} smallHeaders={true}/>
             <TableBody columns={columns} tableData={careerArray} />

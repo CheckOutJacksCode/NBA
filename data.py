@@ -582,11 +582,11 @@ def readLeagueGamesTraditional():
     f = open('./juicystats/leaguegames2022-2023.json')
     games = json.load(f)
     idList = []
-    start = len(games["resultSets"][0]["rowSet"])
-    end = int(count) * 2
+    end = len(games["resultSets"][0]["rowSet"])
+    start = int(count) * 2
     print(start)
     print(end)
-    for i in range (start-1, end-1, -1):
+    for i in range (start-1, end-1):
 
         if games["resultSets"][0]["rowSet"][i][4] in idList or games["resultSets"][0]["rowSet"][i][4] is None:
             print(games["resultSets"][0]["rowSet"][i][4])
@@ -724,11 +724,11 @@ def readBoxScoreSummary():
     f = open('./juicystats/leaguegames2022-2023.json')
     games = json.load(f)
     idList = []
-    start = len(games["resultSets"][0]["rowSet"])
-    end = int(count)
+    end = len(games["resultSets"][0]["rowSet"])
+    start = int(count)
     print(start)
     print(end)
-    for i in range (start-1, end-1, -1):
+    for i in range (start-1, end-1):
 
         if games["resultSets"][0]["rowSet"][i][4] in idList or games["resultSets"][0]["rowSet"][i][4] is None:
             print(games["resultSets"][0]["rowSet"][i][4])
@@ -815,10 +815,10 @@ def getOdds():
 ##leaguedashplayerclutchfunction()
 ##leaguedashplayerptshotfunction()
 ##leaguedashplayershotlocationsfunction()
-##readLeagueGamesTraditional()
+readLeagueGamesTraditional()
 ##leagueDashPlayerStatsFunction()
 ##playerCareerStatsFunction()
 ##getPlayerIds()
 ##readBoxScoreSummary()
 ##writeNBAplayers()
-getOdds()
+##getOdds()

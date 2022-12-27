@@ -119,5 +119,7 @@ router.post('/', checkAuthenticated, carmelo.createPlayerCarmeloPoints);
  *         description: Invalid Path
  */
 router.get('/getLocalCarmeloPointsInSeason/:season', carmelo.getAllFirstLastCarmeloPointsInSeason);
+
+router.get('/newCarmelo/:season', carmelo.getNewCarmeloFactor);
  
 module.exports = router;
