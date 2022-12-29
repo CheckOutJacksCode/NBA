@@ -1,5 +1,5 @@
 const Pool = require('pg').Pool
-const pool = new Pool({
+const pool = new Pool(process.env.DATABASE_URL, {
   user: "petejackerson",
   host: "localhost",
   database: "NBAstatistics",
