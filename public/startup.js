@@ -384,7 +384,7 @@ const loadUpLeagueGamesBySeason = async() => {
         let gamesArray = await getJsonResponseStartup(`/leagueGames/${years[i]}`);
         for (let j = 0; j < gamesArray.resultSets.length; j++) {
             console.log(gamesArray.resultSets[j].rowSet.length)
-            for (let m = gamesArray.resultSets[j].rowSet.length; m > tableLength; m--) {
+            for (let m = tableLength - 1; m < gamesArray.resultSets[j].rowSet.length; m++) {
                 
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
                 let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);
@@ -396,11 +396,11 @@ const loadUpLeagueGamesBySeason = async() => {
 
 const loadUpBoxScoresLocalFunction = async() => {
     let season = "2022-2023";
-    let tablelength = await getJsonResponseStartup(`/tablelength/boxscores2022-2023`)
+    let tablelength = await getJsonResponseStartup(`/tablelength/boxscores${season}`)
     console.log(tablelength)
     tablelength = tablelength[0].count
     let data = await getJsonResponseStartup(`/box/read/${season}`);
-    for (let i = data.length-1; i > tablelength-1; i--) {
+    for (let i = tablelength - 1; i < data.length; i++) {
         console.log(data[i]);
         await postBoxScoresBySeason(data[i], season);
     } 
@@ -430,12 +430,11 @@ const loadUpBoxScoresTraditionalLocalFunction = async() => {
 }*/
 
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
-    let season = "2015-2016";
-    //let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional2022-2023`)
-    //tablelength = tablelength[0].count
+    let season = "2022-2023";
+    let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional${season}`)
+    tablelength = tablelength[0].count
     let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
-    for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
+    for (let i = tablelength - 1; i < data.length; i++) {
         await postBoxScoresTraditionalBySeason(data[i], season);
     } 
 }
@@ -640,10 +639,9 @@ const loadUpBoxScoreSummaryFunction = async() => {
     let results = await getJsonResponseStartup(`/boxScoreSummary/read/${season}`);
     console.log(results);
 
-    for (let i = results.length-1; i > tablelength-1; i--) {
+    for (let i = tablelength - 1; i < results.length; i++) {
         console.log(results[i])
         let postedResults = await postBoxScoreSummary(results[i], season);
-        console.log(postedResults);
     }
 }
 
