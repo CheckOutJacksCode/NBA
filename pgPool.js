@@ -1,11 +1,7 @@
 const Pool = require('pg').Pool
-const pool = new Pool({
-  user: "petejackerson",
-  host: "localhost",
-  database: "NBAstatistics",
-  password: "redsox45",
-  port: 5432
-})
+const pool = new Pool(
+  process.env.DATABASE_URL
+)
 
 module.exports = {
     query: (text, params, callback) => {
