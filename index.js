@@ -195,7 +195,7 @@ app.use(invalidPathHandler);
 main();*/
 
 app.listen(port, async() => {
-    //await sequelize.authenticate();
+    await sequelize.authenticate();
     console.log(`App running on port ${port}.`)
 })
 module.exports = app;
