@@ -195,7 +195,22 @@ app.use(invalidPathHandler);
 main();*/
 
 app.listen(port, async() => {
+    let Sequelize = require("sequelize");
+    let sequelize = new Sequelize(process.env.POSTGRES_ADDON_URI, {
+        username: "petejackerson",
+        host: "localhost",
+        dialect: "postgres",
+        port: 5432,
+        operatorsAliases: false,
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        }
+    });
     await sequelize.authenticate();
+    sequelize.close();
     console.log(`App running on port ${port}.`)
 })
 module.exports = app;
