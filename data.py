@@ -790,7 +790,6 @@ def getOdds():
                 'no odds available'
             ]
             rows.append(rowSet)
-    print('hello')
     header = ['game_id', 'commence_time', 'home_team', 'away_team', 'home_odds', 'away_odds']
     try:
         with open('./juicystats/newOdds2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
