@@ -7,6 +7,18 @@ const pool = new Pool({
   port: process.env.POSTGRESQL_ADDON_PORT
 })
 
+let Sequelize = require("sequelize");
+let seq = new Sequelize(process.env.POSTGRESQL_ADDON_URI, {
+    host: "localhost",
+    dialect: "postgres",
+    operatorsAliases: false,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
+});
 
 module.exports = {
     query: (text, params, callback) => {
