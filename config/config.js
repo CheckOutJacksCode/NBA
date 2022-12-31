@@ -16,6 +16,12 @@ module.exports = {
   },
   "production": {
     "use_env_variable": process.env.POSTGRESQL_ADDON_URI,
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
