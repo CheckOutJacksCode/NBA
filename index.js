@@ -17,7 +17,7 @@ const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3001;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const { sequelize } = require('./models');
+//const { sequelize } = require('./models');
 /*app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' http://d3js.org");
     return next();
@@ -195,7 +195,7 @@ app.use(invalidPathHandler);
 main();*/
 
 app.listen(port, async() => {
-    await sequelize.authenticate();
+    //await sequelize.authenticate();
     console.log(`App running on port ${port}.`)
 })
 module.exports = app;

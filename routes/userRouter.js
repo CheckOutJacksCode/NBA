@@ -1,15 +1,17 @@
 const express = require('express');
 const router = express.Router();
 //const Redis = require('redis');
-const { sequelize, User } = require('../models');
+//const { sequelize, User } = require('../models');
 const passport = require('passport');
 const initializePassport = require('../config/passport');
 initializePassport(passport);
 const bcrypt = require('bcrypt');
 
-const Redis = require('ioredis');
+//const Redis = require('ioredis');
 
-const redisClient = new Redis(process.env.REDIS_URL);
+//const redisClient = new Redis(process.env.REDIS_URL);
+const users = require('../services/userQueries');
+
 
 /*router.get('../script.js.', function(req, res) {
     res.sendFile("C:/Users/jackp/desktop/coding/photocaption/views/script.js");
@@ -388,8 +390,11 @@ router.delete('/:uuid', async (req, res) => {
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
     function(req, res) {
       res.send('ya man')
-      console.log('butthole')
       console.log(req.session.passport)
 });
+
+router.get('/:email', users.getUserByEmail);
+
+router.get('/:id', users.getUserById);
 
 module.exports = { router, checkAuthenticated };
