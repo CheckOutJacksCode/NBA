@@ -15,13 +15,10 @@ module.exports = {
     "dialect": "mysql"
   },
   "production": {
-    "use_env_variable": process.env.POSTGRESQL_ADDON_URI,
+    "username": process.env.POSTGRESQL_ADDON_USER,
+    "host": process.env.POSTGRESQL_ADDON_HOST,
+    "database": process.env.POSTGRESQL_ADDON_DB,
+    "password": process.env.POSTGRESQL_ADDON_PASSWORD,
     "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
   }
 }
