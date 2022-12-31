@@ -1,3 +1,4 @@
+
 const mvpSubmit = document.getElementById("submit-mvp");
 const statSubmit = document.getElementById("submit-stat");
 const deepStatSubmit = document.getElementById("submit-deep-stat");
@@ -430,11 +431,16 @@ const loadUpBoxScoresTraditionalLocalFunction = async() => {
 }*/
 
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
-    let season = "2022-2023";
-    let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional${season}`)
+    let season = "2015-2016";
+    /*let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional${season}`)
     tablelength = tablelength[0].count
     let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
     for (let i = tablelength - 1; i < data.length; i++) {
+        await postBoxScoresTraditionalBySeason(data[i], season);
+    }*/
+    let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
+
+    for (let i = 0; i < data.length; i++) {
         await postBoxScoresTraditionalBySeason(data[i], season);
     } 
 }

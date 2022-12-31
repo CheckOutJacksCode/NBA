@@ -124,11 +124,11 @@ def readLeagueGames():
 	# Iterating through the json
 	# list
     idList = []
-    start = len(games["resultSets"][0]["rowSet"])
-    end = int(count) * 2
+    end = len(games["resultSets"][0]["rowSet"])
+    start = int(count) * 2
     print(start)
     print(end)
-    for i in range (start-1, end-1, -1):
+    for i in range (start-1, end-1):
         ##print(len(games["resultSets"][0]["rowSet"]))
         ##print(games["resultSets"][0]["rowSet"][i])
         print(i)
@@ -820,4 +820,4 @@ def getOdds():
 ##getPlayerIds()
 ##readBoxScoreSummary()
 ##writeNBAplayers()
-getOdds()
+##getOdds()
