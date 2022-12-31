@@ -65,7 +65,7 @@ app.use(
 );
 
 app.use(cors({
-    origin: "http:///localhost:3000",
+    origin: ["http:///localhost:3000", "http://app-146e2b0b-abe6-4e5f-b8c2-89d39a573bfa.cleverapps.io"],
     credentials: true
 }))
 
