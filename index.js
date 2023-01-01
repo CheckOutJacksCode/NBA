@@ -80,6 +80,10 @@ app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
+app.use(cors({
+    origin: ["http:///localhost:3000", "http:///localhost:3001", "http://app-146e2b0b-abe6-4e5f-b8c2-89d39a573bfa.cleverapps.io"],
+    credentials: true
+}))
 const helmet = require('helmet')
 app.use(
     helmet.contentSecurityPolicy({
