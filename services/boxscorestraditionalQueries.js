@@ -173,7 +173,7 @@ const boxScoreTraditionalLoad = (request, response, next) => {
 
     let season = request.params;
     const data = [];
-    fs.createReadStream(`../nba/boxscorestraditional${season.season}.csv`)
+    fs.createReadStream(`../boxscorestraditional${season.season}.csv`)
         .pipe(
           parse({
             delimiter: ",",
