@@ -33,7 +33,7 @@ const swaggerOptions = {
             contact: {
                 name: "Jack Petersen"
             },
-            servers: ["http://localhost:3001"]
+            servers: ["http://localhost:3001", "http://app-146e2b0b-abe6-4e5f-b8c2-89d39a573bfa.cleverapps.io"]
         }
     },
     apis: ["index.js", "./routes/boxPlayersRoutes.js", "./routes/boxRoutes.js", "./routes/boxScoreMiscRoutes.js",
@@ -64,10 +64,6 @@ app.use(
     })
 );
 
-app.use(cors({
-    origin: ["http:///localhost:3000", "http://app-146e2b0b-abe6-4e5f-b8c2-89d39a573bfa.cleverapps.io"],
-    credentials: true
-}))
 
 app.use(session({
     secret: 'secret',
@@ -88,7 +84,7 @@ const helmet = require('helmet')
 app.use(
     helmet.contentSecurityPolicy({
       directives: {
-        "script-src": ["'self'", "https://d3js.org/d3.v6.min.js"],
+        "script-src": ["'self'", "https://d3js.org/d3.v6.min.js", "http://app-146e2b0b-abe6-4e5f-b8c2-89d39a573bfa.cleverapps.io"],
       },
     })
   );
