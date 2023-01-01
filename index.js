@@ -80,19 +80,19 @@ app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
-app.use(cors());
+//app.use(cors());
 /*app.use(cors({
     origin: ["http://localhost:3001"],
     credentials: true
 }))*/
-const helmet = require('helmet')
-app.use(
+//const helmet = require('helmet')
+/*app.use(
     helmet.contentSecurityPolicy({
       directives: {
         "script-src": ["'self'", "https://d3js.org/d3.v6.min.js"],
       },
     })
-  );
+  );*/
 app.use(cookieParser());
 
 const boxPlayersRouter = require('./routes/boxPlayersRoutes');
