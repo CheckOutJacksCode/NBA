@@ -263,7 +263,7 @@ router.post('/:season', boxScoreTraditional.createBoxScoresTraditional);
  *       '404':
  *         description: Invalid Path
  */
-router.get('/read/:season', boxScoreTraditional.boxScoreTraditionalLoad);
+router.get('/read/:season', checkAuthenticated, boxScoreTraditional.boxScoreTraditionalLoad);
 
  /** 
  * @swagger
