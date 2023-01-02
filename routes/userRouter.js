@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 
 //const redisClient = new Redis(process.env.REDIS_URL);
 const users = require('../services/userQueries');
-
+const db = require('../pgPool')
 
 /*router.get('../script.js.', function(req, res) {
     res.sendFile("C:/Users/jackp/desktop/coding/photocaption/views/script.js");
@@ -84,7 +84,7 @@ router.get('/register', (req, res) => {
     res.render("register");
 });
 
-router.post('/register', async(req, res) => {
+router.post('/register', async(req, res, next) => {
     let { name, email, password, password2 } = req.body;
     console.log({
         name,
@@ -94,7 +94,8 @@ router.post('/register', async(req, res) => {
     });
     let role = 'user';
     let errors = [];
-
+    let createdAt = "2020-03-23 00:00";
+    let updatedAt = "2020-03-23 00:00";
     if (!name || !email || !password || !password2) {
         errors.push({message: 'please enter all fields'})
     }
@@ -108,21 +109,29 @@ router.post('/register', async(req, res) => {
         res.render('register', { errors });
     } else {
         let hashedPassword = await bcrypt.hash(password, 10);
-        if (await User.findOne({
-            where: { email: email }
-        })) {
-            errors.push({message: 'user with that email already exists!!!'});
-            res.render('register', { errors });
-        } else {
-            try {
-                const user = await User.create({ name: name, email: email, role: role, password: hashedPassword });
-                req.flash('success_msg', "you are now registered, please log in");
-                res.redirect("/users/login")
-            } catch (err) {
-                console.log(err);
-                return res.status(500).json(err);
+        let user = db.query(`SELECT * FROM users WHERE email = $1`, [email], (error, results) => {
+            if (error) {
+                return next(error);
             }
-        }    
+            if (results.rows[0]) {
+                res.send('user with that email already exists!!!');
+                res.render('register', { errors });
+            } else {
+                try {
+                    db.query(`INSERT INTO users ( name, email, role, password, createdAt, updatedAt ) VALUES ($1, $2, $3, $4, $5, $6 )`,
+                    [name, email, role, hashedPassword, createdAt, updatedAt], (error, results) => {
+                        if (error) {
+                            return next(error);
+                        }                    
+                        req.flash('success_msg', "you are now registered, please log in");
+                        res.redirect("/users/login")
+                    })
+                } catch (err) {
+                    console.log(err);
+                    return res.status(500).json(err);
+                }
+            }
+        })    
     }
 });
 
@@ -173,7 +182,7 @@ router.get('/dashboard', (req, res) => {
  *                password:
  *                  type: string
  */
-router.post('/', async(req, res) => {
+/*router.post('/', async(req, res) => {
     console.log(req.body.password);
     const name = req.body.name;
     const email = req.body.email;
@@ -193,6 +202,38 @@ router.post('/', async(req, res) => {
             return res.status(500).json(err);
         }
     }
+})*/
+
+router.post('/', async(req, res, next) => {
+    console.log(req.body.password);
+    const name = req.body.name;
+    const email = req.body.email;
+    const role = req.body.role;
+    const password = await hashPassword(req.body.password);
+    const createdAt = req.body.createdAt;
+    const updatedAt = req.body.updatedAt;
+    let user = db.query(`SELECT * FROM users WHERE email = $1`, [email], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows[0]) {
+            res.send('user with that email already exists!!!');
+        } else {
+            console.log('post user function');
+            try {
+                let newUser = db.query(`INSERT INTO users ( name, email, role, password, createdAt, updatedAt ) VALUES ($1, $2, $3, $4, $5, $6 )`,
+                [name, email, role, password, createdAt, updatedAt], (error, results) => {
+                    if (error) {
+                        return next(error);
+                    }
+                    return res.json(results.rows[0]);
+                })
+            } catch (err) {
+                console.log(err);
+                return res.status(500).json(err);
+            }
+        }
+    })
 })
 
 /**
