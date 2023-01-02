@@ -431,7 +431,7 @@ const loadUpBoxScoresTraditionalLocalFunction = async() => {
 }*/
 
 const loadUpBoxScoresTraditionalLocalFunction = async() => {
-    let season = "2016-2017";
+    let season = "2017-2018";
     /*let tablelength = await getJsonResponseStartup(`/tablelength/boxscorestraditional${season}`)
     tablelength = tablelength[0].count
     let data = await getJsonResponseStartup(`/boxScoresTraditional/read/${season}`);
