@@ -158,7 +158,12 @@ const createBoxScoresTraditional = (request, response, next) => {
     
     let minutes = body.MIN.substring(0, 5)
     let splitMins = minutes.split(':');
-    let finalMins = splitMins[0] + '.' + splitMins[1];
+    let finalMins;
+    if (splitMins[1]) {
+        finalMins = splitMins[0] + '.' + splitMins[1];
+    } else {
+        finalMins = minutes;
+    }
     console.log(finalMins)
     db.query(`INSERT INTO "boxscorestraditional${season.season}" (game_id, team_id, team_abbreviation, team_city, player_id, player_name, nickname, start_position, comment, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, oreb, dreb, reb, ast, stl, blk, turnovers, pf, pts, plus_minus) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NULLIF($10, ''), NULLIF($11, ''), 
                 NULLIF($12, ''), NULLIF($13, ''), NULLIF($14, ''), NULLIF($15, ''), NULLIF($16, ''), NULLIF($17, ''), NULLIF($18, ''), NULLIF($19, ''),
