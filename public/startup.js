@@ -396,7 +396,7 @@ const loadUpLeagueGamesBySeason = async() => {
 }
 
 const loadUpBoxScoresLocalFunction = async() => {
-    let season = "2016-2017";
+    let season = "2017-2018";
     /*let tablelength = await getJsonResponseStartup(`/tablelength/boxscores${season}`)
     console.log(tablelength)
     tablelength = tablelength[0].count
@@ -407,7 +407,6 @@ const loadUpBoxScoresLocalFunction = async() => {
         await postBoxScoresBySeason(data[i], season);
     } */
     for (let i = 0; i < data.length; i++) {
-        console.log(data[i])
         await postBoxScoresBySeason(data[i], season);
     }
 }
