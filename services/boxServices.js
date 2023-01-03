@@ -7,7 +7,7 @@ const createBoxScores = (request, response) => {
     const body = request.body;
     let season = request.params;
     console.log(season.season)
-        
+    console.log(season)
     let minutes = body.MIN.substring(0, 5)
     let splitMins = minutes.split(':');
     let finalMins;
