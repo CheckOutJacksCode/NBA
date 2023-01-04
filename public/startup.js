@@ -398,7 +398,6 @@ const loadUpLeagueGamesBySeason = async() => {
 const loadUpBoxScoresLocalFunction = async() => {
     let season = "2018-2019";
     /*let tablelength = await getJsonResponseStartup(`/tablelength/boxscores${season}`)
-    console.log(tablelength)
     tablelength = tablelength[0].count
 */ 
     let data = await getJsonResponseStartup(`/box/read/${season}`);
@@ -416,7 +415,6 @@ const loadUpNewOddsFunction = async() => {
 
     let data = await getJsonResponseStartup(`/gambling/newOdds/${season}`);
     for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
         await postNewOdds(data[i], season);
     } 
 }
