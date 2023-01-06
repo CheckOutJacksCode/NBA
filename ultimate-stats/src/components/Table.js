@@ -100,13 +100,16 @@ const Table = ({ selectedSeason }) => {
                 b[sortField] = parseFloat(b[sortField]);
             }
             a[sortField] = a[sortField].toFixed(2);
-            b[sortField] = b[sortField].toFixed(2);            
+            b[sortField] = b[sortField].toFixed(2); 
+            return (a[sortField] - b[sortField]) * (sortOrder === "desc" ? 1 : -1);           
           }
+          
           return (
            a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
             numeric: true,
            }) * (sortOrder === "desc" ? 1 : -1)
           );
+
          });
          setTableData(sorted);
         }

@@ -171,7 +171,6 @@ const ExpectedFromRoster = ({   gameDate,
 
     if (index === roster.length - 1) {
         if (averageScore > 0 && totalMins > 0) {
-            console.log('butt')
             let postObj = {
                 gameDate: gameDate,
                 matchup: matchup,
