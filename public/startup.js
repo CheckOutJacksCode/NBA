@@ -396,7 +396,7 @@ const loadUpLeagueGamesBySeason = async() => {
 }
 
 const loadUpBoxScoresLocalFunction = async() => {
-    let season = "2019-2020";
+    let season = "2020-2021";
     /*let tablelength = await getJsonResponseStartup(`/tablelength/boxscores${season}`)
     tablelength = tablelength[0].count
 */ 
