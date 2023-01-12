@@ -7,10 +7,10 @@ const createCsvWriter = require('csv-writer');
 const getShots = async(request, response, next) => {
     let shotsArray = [];
     //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
-    let years = ['2022-2023'];
+    let years = ['2015-2016'];
     try {
         for (let i = 0; i < years.length; i++) {
-            let shots = await require(`../juicystats/${years[i]}.json`);
+            let shots = await require(`./${years[i]}TEST.json`);
             shotsArray.push(shots);
         }
         response.status(200).send(shotsArray);
