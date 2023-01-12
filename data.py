@@ -191,12 +191,14 @@ def shotchartdetailfunction():
 		team_id=0,
 		player_id=0,
 		context_measure_simple='FGA',
-		season_nullable='2022-23',
-		season_type_all_star='Regular Season'
+		season_nullable='2015-16',
+		season_type_all_star='Regular Season',
+        date_from_nullable='2015-10-27',
+        date_to_nullable='2016-01-01',
 	)
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("./juicystats/2022-2023.json", "w") as outfile:
+	with open("./juicystats/2015-2016TEST.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def playergamelogfunction(playerId, season):
@@ -800,7 +802,7 @@ def getOdds():
     except ValueError:
         print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 
-##shotchartdetailfunction()
+shotchartdetailfunction()
 ##allassists()
 ##assiststracker()
 ##playergamelogfunction('153', '0021700807')
