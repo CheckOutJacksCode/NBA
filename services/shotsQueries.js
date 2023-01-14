@@ -32,7 +32,7 @@ const getShotsBySeason = async(request, response, next) => {
     let season = request.params;
     //console.log(season['season']);
     try {
-        let shots = await require(`../${season['season']}TEST.json`);
+        let shots = await require(`../${season['season']}TEST2.json`);
         response.status(200).send(shots);
     } catch (error) {
         return next(error);
