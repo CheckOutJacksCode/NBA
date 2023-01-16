@@ -653,7 +653,6 @@ const loadUpBoxScoreSummaryFunction = async() => {
             console.log(results[i])
             let postedResults = await postBoxScoreSummary(results[i], season[j]);
         }
+    }
 }
-
-
 onStartUp();
