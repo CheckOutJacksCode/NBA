@@ -377,16 +377,16 @@ const loadUpNBAPlayers = async() => {
 }
 
 const loadUpLeagueGamesBySeason = async() => {
-    //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
-    let years = ['2022-2023'];
-    let tableLength = await getJsonResponseStartup(`/tablelength/leagueGames2022-2023`);
-    tableLength = (tableLength[0].count)
-    console.log(tableLength)
+    let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
+    //let years = ['2022-2023'];
+    //let tableLength = await getJsonResponseStartup(`/tablelength/leagueGames2022-2023`);
+    //tableLength = (tableLength[0].count)
+    //console.log(tableLength)
     for (let i = 0; i < years.length; i++) {
         let gamesArray = await getJsonResponseStartup(`/leagueGames/${years[i]}`);
         for (let j = 0; j < gamesArray.resultSets.length; j++) {
             console.log(gamesArray.resultSets[j].rowSet.length)
-            for (let m = tableLength - 1; m < gamesArray.resultSets[j].rowSet.length; m++) {
+            for (let m = 0; m < gamesArray.resultSets[j].rowSet.length; m++) {
                 
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
                 let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);
