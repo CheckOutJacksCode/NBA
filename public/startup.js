@@ -641,16 +641,18 @@ const loadUpBoxScoreScoringTeamsFunction = async() => {
 }
 
 const loadUpBoxScoreSummaryFunction = async() => {
-    let season = "2022-2023";
-    let tablelength = await getJsonResponseStartup(`/tablelength/boxscoresummary2022-2023`)
-    tablelength = tablelength[0].count
-    let results = await getJsonResponseStartup(`/boxScoreSummary/read/${season}`);
-    console.log(results);
+    //let season = "2022-2023";
+    let season = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
+    //let tablelength = await getJsonResponseStartup(`/tablelength/boxscoresummary2022-2023`)
+    //tablelength = tablelength[0].count
+    for (let j = 0; j < years.length; j++) {
+        let results = await getJsonResponseStartup(`/boxScoreSummary/read/${season[j]}`);
+        console.log(results);
 
-    for (let i = tablelength - 1; i < results.length; i++) {
-        console.log(results[i])
-        let postedResults = await postBoxScoreSummary(results[i], season);
-    }
+        for (let i = 0; i < results.length; i++) {
+            console.log(results[i])
+            let postedResults = await postBoxScoreSummary(results[i], season[j]);
+        }
 }
 
 

@@ -7,7 +7,7 @@ const createCsvWriter = require('csv-writer');
 const getBoxScoreSummaryFromCSV = (request, response, next) => {
     let {season} = request.params;
     const data = [];
-    fs.createReadStream(`./juicystats/boxscoresummary${season}.csv`)
+    fs.createReadStream(`./boxscoresummary${season}.csv`)
         .pipe(
           parse({
             delimiter: ",",
