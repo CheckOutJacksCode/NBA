@@ -645,7 +645,7 @@ const loadUpBoxScoreSummaryFunction = async() => {
     let season = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
     //let tablelength = await getJsonResponseStartup(`/tablelength/boxscoresummary2022-2023`)
     //tablelength = tablelength[0].count
-    for (let j = 0; j < years.length; j++) {
+    for (let j = 0; j < season.length; j++) {
         let results = await getJsonResponseStartup(`/boxScoreSummary/read/${season[j]}`);
         console.log(results);
 
