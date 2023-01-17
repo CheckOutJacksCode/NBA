@@ -121,8 +121,8 @@ const createGamesBySeason = (request, response, next) => {
   
 const getTeamIdFromName = async(request, response, next) => {
     let teamname = request.params;
-    if (teamname === 'Los Angeles Clippers') {
-        teamname = 'LA Clippers';
+    if (teamname.teamname === 'Los Angeles Clippers') {
+        teamname.teamname = 'LA Clippers';
     }
     db.query('SELECT DISTINCT team_id FROM "leagueGames2021-2022" WHERE team_name = $1', [teamname.teamname], (error, results) => {
         if (error) {
