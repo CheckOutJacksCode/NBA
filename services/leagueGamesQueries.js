@@ -183,6 +183,7 @@ const getActualGameResultsByMatchupBySeason = (request, response, next) => {
   
 const getAbbreviationFromTeamName = (request, response, next) => {
     const {team_name} = request.params;
+    console.log(team_name)
     if (team_name === 'Los Angeles Clippers') {
         team_name = 'LA Clippers'
     }
