@@ -815,6 +815,6 @@ def getOdds():
 ##leagueDashPlayerStatsFunction()
 ##playerCareerStatsFunction()
 ##getPlayerIds()
-##readBoxScoreSummary()
+readBoxScoreSummary()
 ##writeNBAplayers()
-getOdds()
+##getOdds()
