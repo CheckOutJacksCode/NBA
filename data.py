@@ -588,12 +588,9 @@ def readLeagueGamesTraditional():
     print(start)
     print(end)
     for i in range (start-1, end-1):
-
         if games["resultSets"][0]["rowSet"][i][4] in idList or games["resultSets"][0]["rowSet"][i][4] is None:
-            print(games["resultSets"][0]["rowSet"][i][4])
             continue
         idList.append(games["resultSets"][0]["rowSet"][i][4])
-        print(games["resultSets"][0]["rowSet"][i][4])
         box = boxScoreTraditional(games["resultSets"][0]["rowSet"][i][4])
         boxScoreArrayTraditional.append(box)
     # Closing file
@@ -617,7 +614,6 @@ def boxScoreTraditional(gameId):
     content = json.loads(response.get_json())
     jsonContent = json.dumps(content)
     boxData = json.loads(jsonContent, object_hook=lambda d: SimpleNamespace(**d))
-    print(boxData.resultSets[0].headers)
     header = boxData.resultSets[0].headers
     try:
         with open('./juicystats/boxscorestraditional2022-2023.csv', 'a', encoding='UTF8', newline='') as f:
@@ -801,7 +797,7 @@ def getOdds():
     except ValueError:
         print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 
-shotchartdetailfunction()
+##shotchartdetailfunction()
 ##allassists()
 ##assiststracker()
 ##playergamelogfunction('153', '0021700807')
@@ -821,4 +817,4 @@ shotchartdetailfunction()
 ##getPlayerIds()
 ##readBoxScoreSummary()
 ##writeNBAplayers()
-##getOdds()
+getOdds()

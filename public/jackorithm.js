@@ -23,16 +23,12 @@ const getPreviousYear = async(season) => {
 
 const getAverageScore = async(season, previousGameId, previousSeason) => {
     console.log(season)
-    console.log(previousGameId)
-    console.log(previousSeason)
-    console.log(previousGameId.slice(-2));
+
     let averageScore;
     if (previousGameId !== '1' && previousGameId.slice(-2) !== '01') {
         averageScore = await getJsonResponseJackorithm(`/leagueGames/averageScore/${previousGameId}/${season}`);
-        console.log(averageScore)
     } else {
         averageScore = await getJsonResponseJackorithm(`/leagueGames/averageScore/${previousSeason}`);
-        console.log(averageScore)
     }
     return averageScore;
 }
@@ -104,15 +100,11 @@ const fixTheGameDate = async(date) => {
 }
 
 const getOdds = async(season, oddsTeam, fullTeam, oddsDate, fullDate, H_or_V) => {
-    console.log(season)
-    console.log(oddsTeam)
-    console.log(oddsDate)
+
     let moneyline = await getJsonResponseJackorithm(`/gambling/moneyline/home/${season}/${oddsTeam}/${oddsDate}`)
-    console.log(moneyline);
     if (moneyline.length < 1) {
         if (season === '2022-2023') {
             moneyline = await getJsonResponseJackorithm(`/gambling/newOdds/${season}/${fullTeam}/${fullDate}/${H_or_V}`)
-            console.log(moneyline)
             if (moneyline.length > 0) {
                 if (H_or_V === 'home') {
                     moneyline = moneyline[0].home_odds;
@@ -132,10 +124,7 @@ const getOdds = async(season, oddsTeam, fullTeam, oddsDate, fullDate, H_or_V) =>
 }
 
 const getGreenRed = async(home_expected, visitor_expected, home_actual, visitor_actual) => {
-    console.log(home_expected)
-    console.log(visitor_expected)
-    console.log(home_actual)
-    console.log(visitor_actual)
+
     /*if (home_expected === visitor_expected) {
         return 'green';
     }*/
@@ -155,9 +144,7 @@ const getGreenRed = async(home_expected, visitor_expected, home_actual, visitor_
 }
 
 const getPostObject = async(game, season, previousSeason) => {
-    console.log(game)
     let expected = await getExpected(game, season, previousSeason);
-    console.log(expected);
     let home_team = await getJsonResponseJackorithm(`/boxScoreSummary/teamname/${game.home_team_id}`)
     let visitor_team = await getJsonResponseJackorithm(`/boxScoreSummary/teamname/${game.visitor_team_id}`)
     

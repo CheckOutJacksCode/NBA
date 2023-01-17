@@ -1775,7 +1775,7 @@ const writeOddsToDatabase = async(season) => {
     let tableLength = await getJsonResponseJackarithm(`/tablelength/odds2022-2023`)
     console.log(tableLength)
     //date rot vh team 1 2 3 4 final open close ml 2h
-    for (let i = odds.length - 1; i >= tableLength[0].count; i--) {
+    for (let i = tableLength[0].count; i < odds.length; i++) {
         let oddsValues = Object.values(odds[i])[0];
         let splitValues = oddsValues.split(" ");
         let x = splitValues[0].split('\t');
