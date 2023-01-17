@@ -1775,16 +1775,18 @@ const writeOddsToDatabase = async(season) => {
     let tableLength = await getJsonResponseJackarithm(`/tablelength/odds2022-2023`)
     console.log(tableLength)
     //date rot vh team 1 2 3 4 final open close ml 2h
-    for (let i = tableLength[0].count; i < odds.length; i++) {
-        let oddsValues = Object.values(odds[i])[0];
-        let splitValues = oddsValues.split(" ");
-        let x = splitValues[0].split('\t');
-        let results = await postOdds(x, season);
+    for(let j = 0; j < season.length; j++) {
+        for (let i = tableLength[0].count; i < odds.length; i++) {
+            let oddsValues = Object.values(odds[i])[0];
+            let splitValues = oddsValues.split(" ");
+            let x = splitValues[0].split('\t');
+            let results = await postOdds(x, season[j]);
+        }
     }
 }
 
 writeOddsToDatabaseButton.onclick = async() => {
-    let season = '2022-2023';
+    let season = ["2015-2016", "2016-2017", "2017-2018", "2018-2019", "2019-2020", "2020-2021", "2021-2022"];
     await writeOddsToDatabase(season);
 }
 

@@ -304,6 +304,7 @@ const getGames = async(season) => {
     let previousSeason = await getPreviousYear(season);
     let games = await getJsonResponseJackorithm(`/leagueGames/withboxscoresummary/${season}`)
     for (let i = 0; i < games.length; i++) {
+        console.log(i)
         await getPostObject(games[i], season, previousSeason)
     }
 }

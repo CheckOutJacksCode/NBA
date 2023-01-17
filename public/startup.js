@@ -414,8 +414,8 @@ const loadUpNewOddsFunction = async() => {
     let season = "2022-2023";
 
     let data = await getJsonResponseStartup(`/gambling/newOdds/${season}`);
-    console.log
     for (let i = 0; i < data.length; i++) {
+        console.log(i)
         await postNewOdds(data[i], season);
     } 
 }
