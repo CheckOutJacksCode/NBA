@@ -183,6 +183,9 @@ const getActualGameResultsByMatchupBySeason = (request, response, next) => {
   
 const getAbbreviationFromTeamName = (request, response, next) => {
     const {team_name} = request.params;
+    if (team_name === 'Los Angeles Clippers') {
+        team_name = 'LA Clippers'
+    }
     db.query(`SELECT team_abbreviation FROM "leagueGames2021-2022"
               WHERE team_name = $1 limit 1`, [team_name], (error, results) => {
         if (error) {
