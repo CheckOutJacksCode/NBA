@@ -56,10 +56,7 @@ const getRankedStats = (request, response, next) => {
                 AND CAST(min AS FLOAT) > 0
                 AND player_id != 'PLAYER_ID'
                 GROUP BY player_id, player_name, team_id, team_abbreviation`, (error, results) => {
-        if (error) {
-            throw error;
-        }
-        console.log(results);
+      
         if (results.rows.length === 0 || results.rows[0].count === '0') {
             return next(new Error( 'Stats Do Not Exist' ));
         }

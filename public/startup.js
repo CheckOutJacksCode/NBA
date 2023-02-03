@@ -338,20 +338,17 @@ const loadUpShotChartsBySeason = async() => {
     //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];
     let tableLength = await getJsonResponseStartup(`/tablelength/2022-2023`);
     console.log(tableLength);
-    let years = ['2015-2016'];
-    for (let i = 0; i < years.length; i++) {
-        let shotsArray = await getJsonResponseStartup(`/shots/${years[i]}`);
-        for (let j = 0; j < shotsArray.resultSets.length; j++) {
-            // m < shotsArray.resultSets[j].rowSet.length;               
+    let years = ['2022-2023'];
+    let shotsArray = await getJsonResponseStartup(`/shots/${years[0]}`);
+    console.log(shotsArray.resultSets[0].rowSet.length)        
 
-            for (let m = 0; m < shotsArray.resultSets[j].rowSet.length; m++) {
-                console.log(shotsArray.resultSets[j].rowSet.length)        
-                console.log(m)        
-                //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
-                let results = await postShotBySeason(shotsArray.resultSets[j].rowSet[m], years[i]);
-            }
-        }
+    for (let m = tableLength[0].count - 1; m < shotsArray.resultSets[0].rowSet.length; m++) {
+        console.log(m)        
+        //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
+        let results = await postShotBySeason(shotsArray.resultSets[0].rowSet[m], years[0]);
     }
+    
+    
     console.log('FINISHED!!!!!!!!!!!!!!!!!!!!!!1');
 }
 
@@ -451,12 +448,8 @@ const loadUpLeagueHustleStatsPlayerFunction = async() => {
     //let years = ['2015-2016', '2016-2017', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
     let years = ['2022-2023'];
     for (let i = 0; i < years.length; i++) {
-        console.log(years[i])
-        console.log(`/hustleStats/leaguehustlestats/${years[i]}`);
         let hustleArray = await getJsonResponseStartup(`/hustleStats/leaguehustlestats/${years[i]}`);
-        console.log(hustleArray)
         for (let j = 0; j < hustleArray.resultSets.length; j++) {
-            console.log(hustleArray.resultSets.length);
             for (let m = 0; m < hustleArray.resultSets[j].rowSet.length; m++) {
                 console.log(hustleArray.resultSets[j].rowSet[m]);
                 
@@ -508,11 +501,14 @@ const loadUpBoxScoreFourFactorsTeamsFunction = async() => {
 
 const loadUpBoxScoreMiscFunction = async() => {
     let season = "2022-2023";
+    let tablelength = await getJsonResponseStartup(`/tablelength/boxscoremisc${season}`)
+    tablelength = tablelength[0].count
     let results = await getJsonResponseStartup(`/boxScoreMisc/read/${season}`);
     console.log(results);
-    for (let i = 0; i < results.length; i++) {
+    console.log(tablelength)
+    console.log(results.length)
+    for (let i = tablelength; i < results.length; i++) {
         let postedResults = await postBoxScoreMisc(results[i], season);
-        console.log(postedResults);
     }
 }
 

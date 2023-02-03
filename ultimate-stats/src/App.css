@@ -1,8 +1,3 @@
-body {
-    background-color: #030b1b;
-
-}
-
 .App {
   width: 100%;
   height: 100vh;
@@ -11,8 +6,14 @@ body {
   align-items: center;
 }
 
-div.dropdown {
+body {
+  background-color: rgb(230, 204, 170);
+}
+
+.matchupResults {
   text-align: center;
+  font-size: xx-large;
+  font-family:fantasy;
 }
 
 div.jack-o-rithm {
@@ -21,13 +22,11 @@ div.jack-o-rithm {
 
 .smallHeaders {
   font-size: x-small;
-  color:#867e05;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
 .regularHeaders {
   font-size: medium;
-  color:#867e05;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
@@ -151,7 +150,6 @@ div.jack-o-rithm {
 
 li {
   font-size: x-large;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   display: inline;
   margin-inline: 10px;
 }
@@ -165,60 +163,157 @@ nav {
 }
 
 h1 {
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color:chartreuse;
   text-align: center;
 
 }
 
-body {
-  background-color: #030b1b;
+.caption {
+  text-align: center;
+  max-width: 700px;
+  margin-left:auto; 
+  margin-right:auto;
 }
 
-table {
-  border: 2px solid rgb(175, 254, 6);
-  width: 100%;
+
+.roster {
+  text-align: center;
+  font-size: small;
+  margin: 12px;
+  display: block;
 }
-  
-th {
-  border-bottom: 1px solid black;
+
+.centered {
+  text-align: center;
+  font-size: small;
+  display: block;
 }
-  
-td {
+
+
+.leftJustified {
+  text-align: left;
+}
+
+.deletePlayer {
+  float: right;
+  clear: both;  
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.list-container {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.smallHeaders {
+  font-size: x-small;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.list-container-item {
+    display: grid;
+    grid-template-columns: 100px 100px 300px 300px 150px;
+    gap: 15px;
+    align-items: center;
+}
+.handle {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.column33 {
+  float: left;
+  width: 33.33%;
+  text-align: center;
+  font-size: medium;
+  border-style: solid;
+  border-color: black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.errorMessage {
+  text-align: center;
+  font-size: x-small;
+  color: red;
+  resize:both; 
+  max-width: fit-content;
+}
+
+
+
+.column25 {
+  float: left;
+  width: 25.00%;
+  text-align: center;
+  font-size: medium; 
+  overflow: auto;
+}
+
+.column25Salary {
+  float: left;
+  width: 25.00%;
+  text-align: center;
+  font-size: medium;
+  overflow: auto;
+}
+
+
+span {
+  font-size: small;
+}
+.teamSalary {
+  text-align: center;
+  font-size: xx-large;
+  margin: 50px;
+}
+
+.teamName {
+  font-size: x-large;
+  font-weight: '900';
+}
+
+.ultimateTable {
+  text-align: center;
+  margin-left:auto; 
+  margin-right:auto;
+  padding: 8;
+}
+
+table.center {
+  text-align: center;
+  margin-left:auto; 
+  margin-right:auto;
+  width: 250px;
+  padding: 8;
+}
+
+
+table.body {
+  text-align: center;
+}
+
+.centerText {
+  text-align: center;
+}
+
+.centerImg {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.priceMenus {
+  text-align: center;
+}
+
+table.resultsTable {
+  text-align: center;
+  margin-left:auto; 
+  margin-right:auto;
+  
 }

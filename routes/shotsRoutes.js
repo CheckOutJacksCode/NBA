@@ -268,6 +268,15 @@ router.get('/:season', checkAuthenticated, shots.getShotsBySeason);
  */
 router.get('/:player/:season', shots.getShotsByPlayerBySeasonLocal);
 
+
+router.get('/finishing/:season/:idString', shots.getFinishingStats);
+
+router.get('/shooting/:season/:idString', shots.getShootingStats);
+
+router.get('/reboundingdefense/:season/:idString', shots.getReboundingDefenseStats);
+
+router.get('/playmaking/:season/:idString', shots.getPlaymakingStats);
+
 //TOO BIG IN POSTMAN, CAN'T FIND USAGE OF ROUTE IN CODE
 router.get('/local/shots/:season', shots.getShotsBySeasonLocal);
 
@@ -354,5 +363,6 @@ router.post('/', checkAuthenticated, shots.createShot);
  *          description: Invalid Path
  */
 router.post('/:season', checkAuthenticated, shots.createShotBySeason);
+
 
 module.exports = router;

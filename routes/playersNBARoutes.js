@@ -92,6 +92,8 @@ router.post('/', checkAuthenticated, playersNBA.createPlayersNBA);
  */
 router.get('/', checkAuthenticated, playersNBA.getPlayersNBA);
 
+router.get('/priceAllPlayers/:season', playersNBA.getPriceAllPlayers);
+
 /**
  * @swagger
  * /playersNBA/{name}:

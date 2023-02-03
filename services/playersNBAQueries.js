@@ -86,11 +86,34 @@ const getPlayerIdWithShotTable = (request, response, next) => {
     })
 }
 
+const getPriceAllPlayers = (request, response, next) => {
+    const { season } = request.params;
+   
+    db.query(`SELECT player_name, player_id,
+                AVG(CAST(pts AS NUMERIC)) AS pts, 
+                AVG(CAST(ast AS NUMERIC)) AS ast, 
+                AVG(CAST(reb AS NUMERIC)) AS reb, 
+                AVG(CAST(min AS NUMERIC)) AS min
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(200).json(results.rows)
+
+    })
+}
+
 module.exports = {
     createPlayersNBA,
     getOfficialPlayerIdWithLastFirst,
     getPlayersNBA,
     getPlayerByIdOfficial,
     getOfficialPlayerIdWithFullName,
-    getPlayerIdWithShotTable,   
+    getPlayerIdWithShotTable,
+    getPriceAllPlayers,
 }

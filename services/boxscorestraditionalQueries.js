@@ -61,10 +61,6 @@ const getBoxScoreTraditionalAverages = async(request, response, next) => {
 const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
     let { gameId, playerid, season, H_or_V } = request.params;
 
-    console.log(gameId)
-    console.log(playerid)
-    console.log(season)
-    console.log(H_or_V)
     db.query(`SELECT player_id, player_name AS NAME, team_id, team_abbreviation AS TEAM,
                 AVG(COALESCE(CAST(min AS NUMERIC), 0.0)) AS MIN, 
                 AVG(COALESCE(CAST(fgm AS NUMERIC), 0.0)) AS FGM,

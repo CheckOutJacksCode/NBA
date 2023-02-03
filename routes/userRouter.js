@@ -71,6 +71,10 @@ router.get('/', (req, res, next) =>{
     res.sendFile(__dirname + "/views/index");
 })
 */
+router.get('/ballers', users.getBallers);
+
+router.post('/ballers', users.postBallers);
+
 router.get('/login', (req, res) => {
     res.render("login");
 });

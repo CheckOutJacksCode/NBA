@@ -5,7 +5,6 @@ const createCsvWriter = require('csv-writer');
 
 const getBoxScoreMiscFromCSV = (request, response, next) => {
     let {season} = request.params;
-    console.log(season);
     const data = [];
     fs.createReadStream(`./juicystats/boxscoremisc${season}.csv`)
         .pipe(

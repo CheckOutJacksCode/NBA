@@ -117,7 +117,7 @@ const Table = ({ selectedSeason }) => {
 
     return (
      <>
-      <table className="ultimate">
+      <table className='ultimateTable'>
        <caption>
         Click on a stat header to sort all players by stat
        </caption>

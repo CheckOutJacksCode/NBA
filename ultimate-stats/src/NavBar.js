@@ -8,22 +8,21 @@ function Navbar() {
     <nav>
       <div>
         <a href="/">
-            <div id="headtag"><img src="hoopgreen.webp" alt="Home"/></div>
-            <div id="tagline"><img src="chucker.webp" alt="Home"/></div>
+            <div id="headtag"><img src="hoopscoop.png" alt="Home"/></div>
         </a>
       </div>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">$35 Fantasy Baller</Link>
         </li>
         <li>
-          <Link to="/deepStats">Deep Stats</Link>
+          <Link to="/deepStats">Cumulative Stats</Link>
         </li>
         <li>
           <Link to="/shotCharts">Shot Charts</Link>
         </li>
         <li>
-          <Link to="/jackarithm">Jack-O-Rithm</Link>
+          <Link to="/jackarithm">Predictions</Link>
         </li>
       </ul>
     </nav>

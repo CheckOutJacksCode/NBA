@@ -3,6 +3,7 @@ const fs = require("fs");
 const { parse } = require("csv-parse");
 const createCsvWriter = require('csv-writer');
 const bcrypt = require('bcrypt');
+const { dequeue } = require("jquery");
 
 
 const getUserByEmail = async(request, response, next) => {
@@ -72,8 +73,36 @@ const createUser = async(request, response, next) => {
     }
 }
 
+const getBallers = async(request, response, next) => {
+    console.log('made it')
+    db.query(`SELECT * FROM ballers
+                ORDER BY score DESC`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        console.log(results.rows)
+        console.log(results)
+        response.status(200).json(results.rows)
+    })
+}
+
+const postBallers = async(request, response, next) => {
+    const {body} = request.body;
+    console.log(body)
+    db.query(`INSERT INTO ballers (name, score, salary) VALUES ($1, $2, $3)`,
+                [body.name, body.score, body.salary], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(201).send(body);
+    })
+}
+
+
 module.exports = {
     getUserByEmail,
     getUserById,
     createUser,
+    getBallers,
+    postBallers,
 }
