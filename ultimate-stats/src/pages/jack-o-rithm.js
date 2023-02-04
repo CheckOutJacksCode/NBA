@@ -11,6 +11,7 @@ import Upcoming from "../components/Upcoming";
 import '../App.css'
 import PostMatchups from "../components/PostMatchups";
 import HistoricalResults from "../components/HistoricalResults";
+import WinPct from "../components/WinPct";
 
 const Jackarithm = () => {
     
@@ -46,13 +47,15 @@ const Jackarithm = () => {
 
     return (
       <div>
-        <div className="column66">
+        <div className="column80">
           <h1>
             <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
           </h1>
             <HistoricalResults selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
         </div>
-        <div className="column33Page">
+        <div className="col20ballers">
+          <WinPct selectedSeason={selectedSeason} />
+          <br></br>
           <Upcoming //homeExpectedResults={homeExpectedResults}
                     //setHomeExpectedResults={setHomeExpectedResults}
                     //visitorExpectedResults={visitorExpectedResults}

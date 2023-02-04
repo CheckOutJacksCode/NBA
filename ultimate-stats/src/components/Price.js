@@ -214,7 +214,7 @@ const Price = ({ selectedSeason,
 
     return (
      <>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$7 Players</option>
 
           {sevenDollarPlayers.map((player, index) => (
@@ -222,7 +222,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$6 Players</option>
 
           {sixDollarPlayers.map((player, index) => (
@@ -230,7 +230,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$5 Players</option>
 
           {fiveDollarPlayers.map((player, index) => (
@@ -238,7 +238,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$4 Players</option>
 
           {fourDollarPlayers.map((player, index) => (
@@ -246,7 +246,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$3 Players</option>
 
           {threeDollarPlayers.map((player, index) => (
@@ -254,7 +254,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$2 Players</option>
 
           {twoDollarPlayers.map((player, index) => (
@@ -262,7 +262,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-        <select value="0" onChange={handlePlayerChange}>
+        <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$1 Players</option>
 
           {oneDollarPlayers.map((player, index) => (

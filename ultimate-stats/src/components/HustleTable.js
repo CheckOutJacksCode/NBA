@@ -81,7 +81,7 @@ const HustleTable = ({selectedSeason}) => {
 
     return (
      <>
-      <table className="ultimate">
+      <table className="ultimateTable">
        <caption>
         Click on a column header to sort by stat.
        </caption>

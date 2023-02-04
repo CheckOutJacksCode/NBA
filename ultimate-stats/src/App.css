@@ -34,11 +34,16 @@ div.jack-o-rithm {
   color:#219bbd
 }
 
+div.predictionsHistorical {
+  background-color: rgb(249, 222, 188);
+  
+}
+
 
 /* Create three equal columns that floats next to each other */
 .columnOdds {
   float: left;
-  width: 25.00%;
+  width: 20.00%;
   
   border: #034d56;
   border-style: groove;
@@ -51,22 +56,46 @@ div.jack-o-rithm {
 
 .upcoming {
   float: left;
-  width: 100%;
-  
-  border: #034d56;
-  border-style: groove;
+  width: 96%;
+  margin: 2%;
   text-align: center;
   color:black;
   background-color: rgb(85, 149, 213);
   padding: 10px;
   font-weight: 600;
+  border-radius: 5px;
+
+}
+
+.column80 {
+  width: 80%;
+  text-align: center;
+  float: left;
+  overflow-x: auto;
+}
+
+.graph-svg-component {
+  width: 45%;
+  margin: 2.5%;
+  text-align: center;
+  float: left;
+  overflow-x: auto;
+  background-color: rgb(147, 166, 224);
+  border-radius: 10px;
+}
+
+.court {
+  background-color: red;
 }
 
 .column66 {
-  float: left;
   width: 66.67%;
   text-align: center;
+  float: left;
+  overflow-x: auto;
 }
+
+
 
 .column {
   float: left;
@@ -75,40 +104,43 @@ div.jack-o-rithm {
   resize:both 
 }
 
+.winPct {
+  text-align: center;
+  background-color: rgb(249, 222, 188);
+  border-radius: 5px;
+  font-size: x-large;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
 .historicalGreen {
-  border-style: ridge;
-  border-color: rgb(1, 2, 25);
   background-color: #84f879;
   float: left;
-  width: 25.00%;
+  width: 19.00%;
+  margin: .5%;
   text-align: center;
   overflow: hidden;
-  color: black
+  color: black;
+  border-radius: 5px;
 }
 
 .historicalRed {
-  border-style: ridge;
-  border-color: rgb(1, 2, 25);
   background-color: #ff9d9d;
   float: left;
-  width: 25.00%;
+  width: 19.00%;
+  margin: .5%;
   text-align: center;
   overflow: hidden;
-  color: black
+  color: black;
+  border-radius: 5px;
 }
 
 .column25 {
   font-size: small;
   float: left;
-  width: 25.00%;
+  width: 23.00%;
+  margin: 1%;
   text-align: center;
   overflow: hidden;
-}
-.column33 {
-  float: left;
-  width: 33.33%;
-  text-align: center;
-  font-size: medium;
 }
 
 .container {
@@ -116,20 +148,17 @@ div.jack-o-rithm {
 }
 
 .column33Page {
-  float: left;
-  width: 20%;
+  float: right;
+  width: 30.33%;
+  margin: 1.5%;
   text-align: center;
   font-size: medium;
-  padding-left: 20px;
 }
 
 .upcoming {
-  border: #034d56;
-  border-style: groove;
   text-align: center;
   color:black;
   background-color: rgb(85, 149, 213);
-  padding: 10px;
   font-weight: 600;
 }
 
@@ -182,6 +211,22 @@ h1 {
   display: block;
 }
 
+.starterRoster {
+  text-align: center;
+  font-size: small;
+  margin: 12px;
+  display: block;
+  background-color: rgb(180, 253, 120);
+}
+
+.benchRoster {
+  text-align: center;
+  font-size: small;
+  margin: 12px;
+  display: block;
+  background-color: rgb(213, 196, 176);
+}
+
 .centered {
   text-align: center;
   font-size: small;
@@ -232,26 +277,20 @@ h1 {
   width: 33.33%;
   text-align: center;
   font-size: medium;
-  border-style: solid;
-  border-color: black;
+}
+
+.col20ballers {
+  float: right;  
+  width: 17%;
+  margin: 1.5%;
+  text-align: center;
+  font-size: medium;
 }
 
 .errorMessage {
   text-align: center;
   font-size: x-small;
   color: red;
-  resize:both; 
-  max-width: fit-content;
-}
-
-
-
-.column25 {
-  float: left;
-  width: 25.00%;
-  text-align: center;
-  font-size: medium; 
-  overflow: auto;
 }
 
 .column25Salary {
@@ -262,6 +301,16 @@ h1 {
   overflow: auto;
 }
 
+button.lockButton {
+  font-size: 20px;
+  background-color: orangered;
+  color: rgb(249, 222, 188);
+  border-radius: 5px;
+}
+
+button.lockButton:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
 
 span {
   font-size: small;
@@ -270,11 +319,12 @@ span {
   text-align: center;
   font-size: xx-large;
   margin: 50px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .teamName {
   font-size: x-large;
-  font-weight: '900';
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .ultimateTable {
@@ -282,6 +332,20 @@ span {
   margin-left:auto; 
   margin-right:auto;
   padding: 8;
+  height: 500px;
+  max-width: fit-content;
+  overflow-y: scroll;
+  display: block;
+  background-color: rgb(249, 222, 188);
+  border-radius: 5px;
+}
+
+table.ultimateTable tr:nth-child(even){
+  background-color: rgb(238, 204, 159);
+}
+
+table.ultimateTable th {
+  background-color: rgb(238, 204, 159);
 }
 
 table.center {
@@ -290,6 +354,8 @@ table.center {
   margin-right:auto;
   width: 250px;
   padding: 8;
+  background-color: rgb(249, 222, 188);
+  border-radius: 5px;
 }
 
 
@@ -311,9 +377,40 @@ table.body {
   text-align: center;
 }
 
+select.priceSelect {
+  text-align: center;
+}
+
 table.resultsTable {
+  font-size: x-large;
   text-align: center;
   margin-left:auto; 
   margin-right:auto;
-  
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-color: rgb(249, 222, 188);
+  border-radius: 5px;
+}
+
+table.resultsTable td {
+  padding: 10px;
+}
+
+table.ballers {
+  text-align: center;
+  margin-left:auto; 
+  margin-right:auto; 
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 500px;
+  display: block;
+  background-color: rgb(249, 222, 188);
+  border-radius: 5px;
+}
+
+table.ballers tr:nth-child(even){
+  background-color: rgb(238, 204, 159);
+}
+
+table.ballers th {
+  background-color: rgb(238, 204, 159);
 }

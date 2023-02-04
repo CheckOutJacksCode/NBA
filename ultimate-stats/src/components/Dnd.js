@@ -47,11 +47,12 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
     }
 
     const getListStyle = (isDraggingOver) => ({
-      background: isDraggingOver ? 'lightblue' : 'white',
+      background: isDraggingOver ? 'lightblue' : 'rgb(249, 222, 188)',
       padding: 8,
       width: 250,
       marginLeft: 'auto',
-      marginRight: 'auto'
+      marginRight: 'auto',
+      borderRadius: '5px'
     })
 
     const onDragEnd = (result) => {
@@ -114,7 +115,7 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       userSelect: 'none',
       padding: 0,
       margin: '10px',
-      background: isDragging ? 'lightgreen' : 'white',
+      background: isDragging ? 'lightgreen' : 'rgb(180, 253, 120)',
       ...draggableStyle
     })
 
@@ -122,7 +123,7 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       userSelect: 'none',
       padding: 0,
       margin: '10px',
-      background: isDragging ? 'lightblue' : 'white',
+      background: isDragging ? 'lightblue' : 'rgb(213, 196, 176)',
       ...draggableStyle
     })
 

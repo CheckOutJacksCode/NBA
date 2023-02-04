@@ -9,10 +9,6 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
     const [baller, setBaller] = useState([]);
     const [postBaller, setPostBaller] = useState(false);
     const [ballers, setBallers] = useState([]);
-
-    console.log(teamName)
-    console.log(teamSalary)
-    console.log(totalRatingUser)
     
     let highscore = { name: teamName.value, score: totalRatingUser, salary: teamSalary };
     
@@ -38,7 +34,6 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
                 console.log(error);
             }
             let results = await axios.get('/users/ballers');
-            console.log(results.data)
             setBallers(results.data);
         }
         if (baller && totalRatingUser > 0) {
@@ -53,7 +48,6 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
     useEffect(() => {
         const getBallers = async() => {
             let results = await axios.get('/users/ballers');
-            console.log(results.data)
             setBallers(results.data);
         }
         getBallers();
@@ -69,7 +63,7 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
         <div>
             <button onClick={handleClick}>Submit High Score</button>
             { ballers.length > 0 ? 
-            <table>
+            <table className="ballers">
                 <TableHead columns={columns}/>
                 <BallerTableBody columns={columns} tableData={ballers} />
             </table> : null }

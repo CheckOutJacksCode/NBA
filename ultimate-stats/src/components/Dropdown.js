@@ -18,6 +18,7 @@ const Dropdown = (props) => {
 
     const [playerid, setPlayerId] = useState('');
     const [boxScore, setBoxScore] = useState([]);
+    const [gameBox, setGameBox] = useState([]);
 
     let [selectedTeam, setSelectedTeam] = useState('');
     let [selectedSeason, setSelectedSeason] = useState('');
@@ -75,7 +76,7 @@ const Dropdown = (props) => {
                 setRosterData(response.data);
             }
         }
-        if (selectedTeam) {
+        if (selectedTeam && selectedSeason) {
             getRoster()
         }
         return () => isSubscribed = false;
@@ -167,23 +168,21 @@ const Dropdown = (props) => {
             return () => isSubscribed = false;
     }, [playerid])  
   
-   /* useEffect(() => {
+    useEffect(() => {
         
       let isSubscribed = true;
           const getGameStats = async() => {
           
-
-              let boxScore = await axios.get(`/boxScoresTraditional/${selectedSeason}/${game_id}/${playerid}`);
+              let boxScore = await axios.get(`/boxScoresTraditional/${selectedSeason}/${selectedGame.substring(0,10)}/${playerid.player_id}`);
               if (isSubscribed) {
-                  setBoxScore(boxScore.data);
+                  setGameBox(boxScore.data);
               }
           }
-          if (playerid) {
-
-              getAverages();
+          if (playerid && selectedGame) {
+              getGameStats();
           }
           return () => isSubscribed = false;
-    }, [playerid])  */
+    }, [playerid, selectedGame])
 
 
     function handleTeamChange(event) {
@@ -260,11 +259,8 @@ const Dropdown = (props) => {
         </select>
         <br></br>
         <br></br>
-        <div>{shotsData.length > 0 ? <ShotChartSVG shotsData={shotsData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>: 'select season, team, and player to display season shot chart'}</div>
-        <br></br>
-        <br></br>
-
-        <div>{shotsGameData.length > 0 ? <ShotChartGameSVG shotsData={shotsGameData} playerid={playerid} boxData={boxScore} season={selectedSeason}/> : 'once season and player are selected, select individual game shot chart'}</div>
+        <div className="graph-svg-component">{shotsData.length > 0 ? <ShotChartSVG shotsData={shotsData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>: 'select season, team, and player to display season shot chart'}</div>
+        <div className="graph-svg-component">{shotsGameData.length > 0 && gameBox.length > 0 ? <ShotChartGameSVG shotsData={shotsGameData} playerid={playerid} boxData={gameBox} season={selectedSeason}/> : 'once season and player are selected, select individual game shot chart'}</div>
       </label>
     );
         

@@ -16,7 +16,7 @@ const LockButton = ({ lockFlag, setLockFlag, roster, errorMessage, setErrorMessa
     }
 
     return (
-        <button onClick={roster.length === 10 ? toggleLockFlag : sendError}>Lock In Roster</button>
+        <button className="lockButton" onClick={roster.length === 10 ? toggleLockFlag : sendError}>LOCK IN ROSTER</button>
     )
 }
 

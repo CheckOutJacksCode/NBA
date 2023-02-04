@@ -52,7 +52,7 @@ const Home = () => {
     const [totalRatingCpu, setTotalRatingCpu] = useState(0);
 
 
-    let columns = ['Finishing', 'Shooting', 'Rebound/Defense', 'Playmaking'];
+    let columns = ['Finishing', 'Shooting', 'Reb/Def', 'Playmaking'];
 
 
     const deletePlayer = (player) => {
@@ -188,7 +188,7 @@ const Home = () => {
                 <LockButton lockFlag={lockFlag} setLockFlag={setLockFlag} roster={roster} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
             </div>
             <div className='row'>
-                <div className='column66'>
+                <div className='column80'>
                     <br>
                     </br>
                     <SeasonsDropdown seasonsData={seasonsData} 
@@ -205,7 +205,7 @@ const Home = () => {
                     <br></br>
                     {selectedSeason ? tableChoice : 'loading'}
                 </div>
-                <div className='column33'>
+                <div className='col20ballers'>
                     <$35Ballers teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
                 </div>
             </div>

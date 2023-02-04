@@ -80,14 +80,10 @@ const ExpectedFromRoster = ({   gameDate,
             } else {
                 let results = await axios.get(`/boxScoresTraditional/averages/82games/${playerId}/${previousSeason}/${H_or_V}`)
                 if (results.data.length > 0) {
-                    console.log(results.data[0].min)
-                    console.log(results.data)
+                    
                     setPlayerAverages(results.data);
                     setTotalMins((currentMins) => currentMins + parseFloat(results.data[0].min))
                     setTotalStat((currentStat) => currentStat + parseFloat(results.data[0]['+/-']))
-                    if (playerAverages.length > 0) {
-                        console.log(typeof playerAverages[0]['min'])
-                    }
                 } else {
                     setPlayerAverages([{
                         "+/-": 0,
@@ -165,7 +161,7 @@ const ExpectedFromRoster = ({   gameDate,
 
                 
     const postThePostObj = async(obj) => {
-        console.log(obj)
+        //console.log(obj)
     }
 
 

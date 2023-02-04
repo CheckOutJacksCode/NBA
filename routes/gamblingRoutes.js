@@ -68,6 +68,8 @@ router.post('/matchupResults/:season', gambling.createMatchupResults)
 
 router.post(`/jackorithm/:season`, gambling.createExpected);
 
+router.get('/winPct/:season', gambling.getWinPercentage);
+
 /**
  * @swagger
  * /gambling/moneyline/home/{season}/{homeTeam}/{gamedate}:

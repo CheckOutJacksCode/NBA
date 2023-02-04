@@ -128,7 +128,7 @@ const getUpcomingGames = (request, response, next) => {
     const {season} = request.params;
     db.query(`SELECT * from "newOdds${season}"
                 WHERE commence_time != $1
-                ORDER BY id DESC LIMIT 2`, ['commence_time'], (error, results) => {
+                ORDER BY id DESC LIMIT 10`, ['commence_time'], (error, results) => {
         if (error) {
             return next(error);
         }
@@ -142,8 +142,7 @@ const getUpcomingGames = (request, response, next) => {
 const createMatchupResults = (request, response, next) => {
     const {season} = request.params;
     const body = request.body;
-    console.log(season)
-    db.query(`INSERT INTO "matchupresults2022-2023" (game_date, matchup, actual_home, actual_visitor, expected_home, expected_visitor, odds_home, odds_visitor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    db.query(`INSERT INTO "matchupresults${season}" (game_date, matchup, actual_home, actual_visitor, expected_home, expected_visitor, odds_home, odds_visitor) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
                 [body.game_date, body.matchup, body.actual_home, body.actual_visitor, body.expected_home, body.expected_visitor, body.odds_home, body.odds_visitor],
                 (error, results) => {
         if (error) {
@@ -154,10 +153,8 @@ const createMatchupResults = (request, response, next) => {
 }
 
 const createExpected = (request, response, next) => {
-    console.log('bark')
     const {season} = request.params;
     const body = request.body;
-    console.log(body.home_expected)
     db.query(`INSERT INTO "matchupresults${season}" (game_date, matchup, home_team, home_team_id, home_expected, visitor_team, visitor_team_id, visitor_expected, home_actual, visitor_actual, home_odds, visitor_odds, green_red) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
                 [body.game_date, body.matchup, body.home_team, body.home_team_id, body.home_expected, body.visitor_team, body.visitor_team_id, body.visitor_expected, body.home_actual, body.visitor_actual, body.home_odds, body.visitor_odds, body.green_red],
                 (error, results) => {
@@ -169,9 +166,7 @@ const createExpected = (request, response, next) => {
 }
 
 const getHistoricalResults = (request, response, next) => {
-    console.log('boom');
     const {season} = request.params;
-    console.log(season)
     db.query(`SELECT * FROM "matchupresults${season}"
                 ORDER BY id DESC`, (error, results) => {
         if (error) {
@@ -180,6 +175,24 @@ const getHistoricalResults = (request, response, next) => {
         if (results.rows.length === 0 || results.rows[0].count === '0') {
             return next(new Error( 'Stats Do Not Exist' ));
         }
+        response.status(200).json(results.rows)
+    })
+}
+
+const getWinPercentage = (request, response, next) => {
+    let { season } = request.params;
+    console.log(season)
+    db.query(`SELECT green_red, COUNT(*)
+                FROM "matchupresults${season}"
+                GROUP BY green_red`,
+                (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        console.log(results.rows)
         response.status(200).json(results.rows)
     })
 }
@@ -195,4 +208,5 @@ module.exports = {
     createExpected,
     getNewOddsByGameByTeam,
     getHistoricalResults,
+    getWinPercentage,
 }

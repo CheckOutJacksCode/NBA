@@ -11,8 +11,10 @@ const CpuTableBody = ({ columns, tableData, deletePlayer }) => {
     return (
         <tbody>
          {tableData.map((data, index) => {
+          let classname;
+          index < 5 ? classname = 'starterRoster' : classname = 'benchRoster';
           return (
-           <tr key={index} className='roster'>
+           <tr key={index} className={classname}>
             {columns.map(({ accessor }) => {
              let tData;
              if (accessor === 'player_name') {

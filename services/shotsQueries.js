@@ -66,11 +66,8 @@ const getShotsByPlayerBySeason = async(request, response, next) => {
 
 const getFinishingStats = (request, response, next) => {
     let { season, idString } = request.params;
-    console.log('shithole')
-    console.log(idString)
-    console.log(typeof idString)
+
     let split = idString.split(',')
-    console.log(typeof split[0])
     db.query(`SELECT player_name, player_id, COUNT(DISTINCT id)
                 FROM "${season}"
                 WHERE action_type = ANY(ARRAY['Driving Layup Shot', 'Running Reverse Dunk Shot', 'Putback Dunk Shot', 'Layup Shot',
@@ -91,12 +88,9 @@ const getFinishingStats = (request, response, next) => {
 
 const getShootingStats = (request, response, next) => {
     let { season, idString } = request.params;
-    console.log('shitsandwich')
-    console.log(idString)
-    console.log(typeof idString)
+
     let split = idString.split(',')
-    console.log(typeof split[0])
-    console.log(season)
+
     db.query(`SELECT "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".player_id,
                 SUM(CAST("boxscorestraditional${season}".fga AS NUMERIC)) / SUM(CAST("boxscorestraditional${season}".min AS NUMERIC)) AS fga,
                 SUM(CAST("boxscorestraditional${season}".fg3a AS NUMERIC)) / SUM(CAST("boxscorestraditional${season}".min AS NUMERIC)) AS fg3a,
@@ -124,12 +118,9 @@ const getShootingStats = (request, response, next) => {
 
 const getPlaymakingStats = (request, response, next) => {
     let { season, idString } = request.params;
-    console.log('shitsandwich')
-    console.log(idString)
-    console.log(typeof idString)
+
     let split = idString.split(',')
-    console.log(typeof split[0])
-    console.log(season)
+ 
     db.query(`SELECT "boxscorestraditional${season}".player_name,
                 "boxscorestraditional${season}".player_id,
                 SUM(CAST(ast AS NUMERIC)) / SUM(CAST("boxscorestraditional${season}".min AS NUMERIC)) AS ast,
@@ -158,11 +149,9 @@ const getPlaymakingStats = (request, response, next) => {
 
 const getReboundingDefenseStats = (request, response, next) => {
     let { season, idString } = request.params;
-    console.log(idString)
-    console.log(typeof idString)
+
     let split = idString.split(',')
-    console.log(typeof split[0])
-    console.log(season)
+
     db.query(`SELECT "leagueHustleStatsPlayer${season}".player_name, "leagueHustleStatsPlayer${season}".player_id,
                 SUM(CAST(stl AS NUMERIC)) / CAST("leagueHustleStatsPlayer${season}".min AS NUMERIC) AS stl,
                 SUM(CAST(oreb AS NUMERIC)) / CAST("leagueHustleStatsPlayer${season}".min AS NUMERIC) AS oreb,
@@ -224,10 +213,6 @@ const getShotsByPlayerBySeasonLocal = async(request, response, next) => {
 const getShotsByPlayerBySeasonByGameLocal = async(request, response, next) => {
   let { player, season, game_id } = request.params;
   let playerid = player.player_id;
-  console.log('fuck you')
-  console.log(season);
-  console.log(player);
-  console.log(game_id);
   db.query(`SELECT * FROM "${season}" WHERE player_name = $1 AND game_id = $2`, [player, game_id], (error, results) => {
         if (error) {
             return next(error);

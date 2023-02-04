@@ -6,7 +6,6 @@ const createCsvWriter = require('csv-writer');
 const getRankedPlayersByStat = (request, response, next) => {
 
     let { stat, season } = request.params;
-    console.log(stat)
 
     db.query(`SELECT AVG(CAST(${stat} AS FLOAT)), player_id, player_name
                 FROM "boxscorestraditional${season}"
@@ -101,7 +100,6 @@ const getRankedBoxScores = (request, response, next) => {
         if (error) {
             throw error;
         }
-        console.log(results);
         if (results.rows.length === 0 || results.rows[0].count === '0') {
             return next(new Error( 'Stats Do Not Exist' ));
         }
@@ -111,12 +109,10 @@ const getRankedBoxScores = (request, response, next) => {
 
 const getRankedHustleStats = (request, response, next) => {
     const {season} = request.params;
-    console.log(season)
     db.query(`SELECT * FROM "leagueHustleStatsPlayer${season}"`, (error, results) => {
         if (error) {
             throw error;
         }
-        console.log(results);
 
         response.status(200).json(results.rows)
     })

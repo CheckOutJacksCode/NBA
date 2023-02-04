@@ -5,6 +5,7 @@ import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import Price from "./Price";
 import CpuTableBody from "./CpuTableBody";
+import { orderBy } from "lodash";
 
 const ComputerRoster = ({ selectedSeason, 
                             usedPlayer,
@@ -167,7 +168,9 @@ const ComputerRoster = ({ selectedSeason,
             console.log(roster)
             console.log(compRoster)
             console.log(compNameRoster)
-            setCpuRoster(compRoster)
+            let orderedCpu = orderBy(compRoster, "salary", "desc");
+
+            setCpuRoster(orderedCpu);
         }
         if (priceArray.length === 10 && roster.length === 10) {
             getComputerRoster();

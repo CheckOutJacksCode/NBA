@@ -20,26 +20,26 @@ const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
         { label: "NAME", accessor: "player_name" },
         { label: "TEAM", accessor: "team_abbreviation" },
         { label: "MIN", accessor: "min" },
-        { label: "E_OFF_RATING", accessor: "e_off_rating" },
-        { label: "OFF_RATING", accessor: "off_rating" },
-        { label: "E_DEF_RATING", accessor: "e_def_rating" },
-        { label: "DEF_RATING", accessor: "def_rating" },
-        { label: "E_NET_RATING", accessor: "e_net_rating" },
-        { label: "NET_RATING", accessor: "net_rating" },
-        { label: "AST_PCT", accessor: "ast_pct" },
-        { label: "AST_TOV", accessor: "ast_tov" },
-        { label: "AST_RATIO", accessor: "ast_ratio" },
-        { label: "OREB_PCT", accessor: "oreb_pct" },
-        { label: "DREB_PCT", accessor: "dreb_pct" },
-        { label: "REB_PCT", accessor: "reb_pct" },
-        { label: "TM_TOV_PCT", accessor: "tm_tov_pct" },
-        { label: "EFG_PCT", accessor: "efg_pct" },
-        { label: "TS_PCT", accessor: "ts_pct" },
-        { label: "USG_PCT", accessor: "usg_pct" },
-        { label: "E_USG_PCT", accessor: "e_usg_pct" },
-        { label: "E_PACE", accessor: "e_pace" },
+        { label: "E OFF RATING", accessor: "e_off_rating" },
+        { label: "OFF RATING", accessor: "off_rating" },
+        { label: "E DEF RATING", accessor: "e_def_rating" },
+        { label: "DEF RATING", accessor: "def_rating" },
+        { label: "E NET RATING", accessor: "e_net_rating" },
+        { label: "NET RATING", accessor: "net_rating" },
+        { label: "AST PCT", accessor: "ast_pct" },
+        { label: "AST TOV", accessor: "ast_tov" },
+        { label: "AST RATIO", accessor: "ast_ratio" },
+        { label: "OREB PCT", accessor: "oreb_pct" },
+        { label: "DREB PCT", accessor: "dreb_pct" },
+        { label: "REB PCT", accessor: "reb_pct" },
+        { label: "TM TOV PCT", accessor: "tm_tov_pct" },
+        { label: "EFG PCT", accessor: "efg_pct" },
+        { label: "TS PCT", accessor: "ts_pct" },
+        { label: "USG PCT", accessor: "usg_pct" },
+        { label: "E USG PCT", accessor: "e_usg_pct" },
+        { label: "E PACE", accessor: "e_pace" },
         { label: "PACE", accessor: "pace" },
-        { label: "PACE_PER40", accessor: "pace_per40" },
+        { label: "PACE PER40", accessor: "pace_per40" },
         { label: "POSS", accessor: "poss" },
         { label: "PIE", accessor: "pie" }
     ];
@@ -78,7 +78,7 @@ const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
 
     return (
      <>
-      <table className="ultimate">
+      <table className="ultimateTable">
        <caption>
         Please allow a moment for advanced stats to load...
        </caption>
