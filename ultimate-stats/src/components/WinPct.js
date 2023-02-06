@@ -21,9 +21,9 @@ const WinPct = ({ selectedSeason }) => {
             {selectedSeason}
             <br></br>
             Win Pct
-            <br></br>
+            <br>
+            </br>
             {winPct}%
-            <br></br>
         </div>
     )
 }
