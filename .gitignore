@@ -1,4 +1,5 @@
-
+.gitignore
+.elasticbeanstalk/
 node_modules/
 *.txt
 .env
