@@ -5,11 +5,11 @@ const params = url.parse(process.env.DATABASE_URL);
 const auth = params.auth.split(':');
 
 const config = {
-  user: auth[0],
-  password: auth[1],
-  host: params.hostname,
-  port: params.port,
-  database: params.pathname.split('/')[1]
+  user: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+  host: process.env.RDS_HOSTNAME,
+  port: process.env.RDS_PORT,
+  database: process.env.RDS_DB_NAME
 };
 
 const pool = new Pool(config);
