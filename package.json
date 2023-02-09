@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "node server.compiled.js",
-    "build": "babel server.js --out-file server.compiled.js"
+    "start": "node server.js"
   },
   "engines": {
     "node": ">15 <17"

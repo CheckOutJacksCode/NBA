@@ -1,15 +1,12 @@
 const Pool = require('pg-pool');
-const url = require('url')
-
-const params = url.parse(process.env.DATABASE_URL);
-const auth = params.auth.split(':');
+const url = require('url');
 
 const config = {
-  user: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
-  host: process.env.RDS_HOSTNAME,
-  port: process.env.RDS_PORT,
-  database: process.env.RDS_DB_NAME
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE
 };
 
 const pool = new Pool(config);

@@ -20,7 +20,6 @@ const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3001;
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
-const path = require('path');
 //const { sequelize } = require('./models');
 /*app.use(function(req, res, next) {
     res.setHeader("Content-Security-Policy", "script-src 'self' http://d3js.org");
@@ -79,7 +78,7 @@ app.use(cookieParser('secret'))
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(express.static(path.join(__dirname, 'ultimate-stats', 'build')));
+app.use(express.static('public'));
 
 
 app.set('view engine', 'ejs');
