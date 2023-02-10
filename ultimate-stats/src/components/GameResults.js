@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import ExpectedResults from "./ExpectedResults";
+import hoop from "../apis/hoop";
+
 
 const GameResults = ({ homeExpectedResults, 
                        setHomeExpectedResults, 
@@ -17,7 +19,7 @@ const GameResults = ({ homeExpectedResults,
 
     useEffect(() => {
         const getGameResults = async() => {
-            let results = await axios.get(`/leagueGames/withboxscoresummary/${selectedSeason}`)
+            let results = await hoop.get(`/api/leagueGames/withboxscoresummary/${selectedSeason}`)
             console.log(results.data.length);
             let data = results.data.slice(0, 2)
             setGameResults(data);

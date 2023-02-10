@@ -4,6 +4,8 @@ import React, { useEffect, useState, useRef } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ExpectedResults from "./ExpectedResults";
 import ExpectedFromRoster from "./ExpectedFromRoster";
+import hoop from "../apis/hoop";
+
 
 const GetRosterFromPreviousGame = ({ averageScore, 
                                         previousSeason, 
@@ -32,11 +34,11 @@ const GetRosterFromPreviousGame = ({ averageScore,
 
     /*useEffect(() => {
         const getExpectedTotals = async() => {
-            let results1 = await axios.get(`boxScoresTraditional/sumstat/${selectedSeason}/${teamId}/${previousGameId}/min`)
+            let results1 = await hoop.get(`boxScoresTraditional/sumstat/${selectedSeason}/${teamId}/${previousGameId}/min`)
             if (results1.data.length > 0) {
                 setTotalMins(results1.data[0].sum)
             }
-            let results2 = await axios.get(`boxScoresTraditional/sumstat/${selectedSeason}/${teamId}/${previousGameId}/plus_minus`)
+            let results2 = await hoop.get(`boxScoresTraditional/sumstat/${selectedSeason}/${teamId}/${previousGameId}/plus_minus`)
             if (results2.data.length > 0) {
                 setTotalStat(results2.data[0].sum)
             }
@@ -86,13 +88,13 @@ const GetRosterFromPreviousGame = ({ averageScore,
     useEffect(() => {
         const getAverageScore = async() => {
             if (previousGameId !== '1') {
-                let results = await axios.get(`/leagueGames/averageScore/${previousGameId}/${selectedSeason}`);
+                let results = await hoop.get(`/leagueGames/averageScore/${previousGameId}/${selectedSeason}`);
                 console.log(results.data)
 
                 setAverageScore(results.data);
                 console.log(averageScore)
             } else {
-                let results = await axios.get(`/leagueGames/averageScore/${previousSeason}`);
+                let results = await hoop.get(`/leagueGames/averageScore/${previousSeason}`);
                 setAverageScore(results.data);
                 console.log(results.data)
                 console.log(averageScore)
@@ -123,11 +125,11 @@ const GetRosterFromPreviousGame = ({ averageScore,
 
             if (previousGameId === '1') {
            
-                let results = await axios.get(`/boxPlayers/getroster/${selectedSeason}/${teamId}`)
+                let results = await hoop.get(`/api/boxPlayers/getroster/${selectedSeason}/${teamId}`)
                 let data = results.data;
                 setRoster(data);
             } else {
-                let results = await axios.get(`/boxPlayers/previousgame/gameid/${selectedSeason}/${teamId}/${previousGameId}`);
+                let results = await hoop.get(`/api/boxPlayers/previousgame/gameid/${selectedSeason}/${teamId}/${previousGameId}`);
                 let data = results.data;
                 setRoster(data);
             }

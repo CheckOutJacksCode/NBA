@@ -91,14 +91,14 @@ const letsGo = async(url, game_id) => {
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
       //let playerId = await getJsonResponseShotCharts(`/local/players/playerid/${splitName[1]}/${splitName[0]}`);
-      let playerId = await getJsonResponseShotCharts(`/playersNBA/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playerId = await getJsonResponseShotCharts(`/api/playersNBA/official/players/playerid/${splitName[1]}/${splitName[0]}`);
       playerId = playerId[0].playerid.toString();
       
       year = shotsSeason.value;
       console.log(year);
       let splitYear = year.split('-');
       let realYear = splitYear[0] + '-' + splitYear[1].substring(2, 4);
-      let statlines = await getJsonResponseShotCharts(`/regularSeasonStats/getregularseasonstatlines/${realYear}/${playerId}`);
+      let statlines = await getJsonResponseShotCharts(`/api/regularSeasonStats/getregularseasonstatlines/${realYear}/${playerId}`);
       console.log(statlines);
 
       /*for (let j = 0; j < statlines.length; j++) {
@@ -159,7 +159,7 @@ const letsGo = async(url, game_id) => {
       player_name = totalShotsArray[0].player_name;
       splitName = player_name.split(" ");
 
-      let playerId = await getJsonResponseShotCharts(`/playersNBA/official/players/playerid/${splitName[1]}/${splitName[0]}`);
+      let playerId = await getJsonResponseShotCharts(`/api/playersNBA/official/players/playerid/${splitName[1]}/${splitName[0]}`);
       console.log(playerId);
       let playerid = playerId[0].playerid.toString();
       let season = shotsSeason.value;
@@ -209,7 +209,7 @@ const letsGo = async(url, game_id) => {
       console.log('KDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD')
       //CATCH THE ERROR HERE IF THE PLAYER DIDNT PLAY IN THE GAME
       //let boxScore = await getJsonResponseShotCharts(`/games/${gameid}/${playerid}`);
-      let boxScore = await getJsonResponseShotCharts(`/boxScoresTraditional/${season}/${game_id}/${playerid}`);
+      let boxScore = await getJsonResponseShotCharts(`/api/boxScoresTraditional/${season}/${game_id}/${playerid}`);
 
 
       console.log(boxScore);
@@ -670,7 +670,7 @@ const letsGo = async(url, game_id) => {
 const getGameIdGameDateMatchupBySeason = async(player, season) => {
   console.log(player);
   console.log(season);
-  let matchupArray = await getJsonResponseShotCharts(`/leagueGames/gameidgamedatematchup/${player}/${season}`);
+  let matchupArray = await getJsonResponseShotCharts(`/api/leagueGames/gameidgamedatematchup/${player}/${season}`);
   return matchupArray;
 }
 
@@ -707,7 +707,7 @@ const submitShots = async() => {
 
 const showForm = async() => {
   await gameDropDown();
-  let url = `/shots/${shotsPlayer.value}/${shotsSeason.value}`;
+  let url = `/api/shots/${shotsPlayer.value}/${shotsSeason.value}`;
   await letsGo(url, 'season chart');
   document.getElementById("f1").style.display = "block";
 }
@@ -715,7 +715,7 @@ const showForm = async() => {
 let teamArray = [];
 const teamsShotsDropDown = async() => {
 
-  let teams = await getJsonResponseShotCharts('/teamnames');
+  let teams = await getJsonResponseShotCharts('/api/teamnames');
   var str = '<option value="none" selected disabled hidden>Select an Option</option>';
   document.getElementById("teamsshots").innerHTML = str;
 
@@ -733,8 +733,8 @@ const teamsShotsDropDown = async() => {
 let teamPlayersArray = [];
 const teamPlayersShotsDropDown = async() => {
 
-    let teamId = await getJsonResponseShotCharts(`/leagueGames/teamid/${teamChosenShots.value}`)
-    let teamPlayers = await getJsonResponseShotCharts(`/boxPlayers/teamplayers/${teamId[0].team_id}`);
+    let teamId = await getJsonResponseShotCharts(`/api/leagueGames/teamid/${teamChosenShots.value}`)
+    let teamPlayers = await getJsonResponseShotCharts(`/api/boxPlayers/teamplayers/${teamId[0].team_id}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("shots_player").innerHTML = str;
     try {
@@ -758,13 +758,13 @@ let playerShotsSeasonArray = [];
 const getShotSeasons = async() => {
     let player = shotsPlayer.value;
 
-    let playerid = await getJsonResponseShotCharts(`/playersNBA/${player}`)
+    let playerid = await getJsonResponseShotCharts(`/api/playersNBA/${player}`)
     
     if (!playerid) {
         await appendStatsUnavailable(shotsUnavailable, 'Stats Unavailable');
         return;
     }
-    let results = await getJsonResponseShotCharts(`/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
+    let results = await getJsonResponseShotCharts(`/api/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("shots_season").innerHTML = str;
     let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022'];

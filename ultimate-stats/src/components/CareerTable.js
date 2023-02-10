@@ -4,6 +4,7 @@ import TableHead from "./TableHead";
 //import tableData1 from "../data.json";
 import axios from "axios";
 import '../App.css';
+import hoop from "../apis/hoop";
 
 
 const CareerTable = (props) => {
@@ -11,7 +12,7 @@ const CareerTable = (props) => {
     
     let columns = [];
     useEffect(() => {
-        axios.get(`/statranked/${props.season}`) // your url may look different
+        hoop.get(`/api/statranked/${props.season}`) // your url may look different
         .then(data => setTableData(data.data)) // set data to state
     }, []);
     console.log(tableData);

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import '../App.css';
 import BallerTableBody from "./BallerTableBody";
 import TableHead from "./TableHead";
+import hoop from "../apis/hoop";
 
 const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
     
@@ -16,7 +17,7 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
     useEffect(() => {
         const postBaller = async() => {
             try {
-                let response = await axios.post(`/users/ballers`, {
+                let response = await hoop.post(`/api/users/ballers`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -33,7 +34,7 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
             } catch (error) {
                 console.log(error);
             }
-            let results = await axios.get('/users/ballers');
+            let results = await hoop.get('/api/users/ballers');
             setBallers(results.data);
         }
         if (baller && totalRatingUser > 0) {
@@ -47,7 +48,7 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
 
     useEffect(() => {
         const getBallers = async() => {
-            let results = await axios.get('/users/ballers');
+            let results = await hoop.get('/api/users/ballers');
             setBallers(results.data);
         }
         getBallers();

@@ -1,6 +1,8 @@
 import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState } from "react";
+import hoop from "../apis/hoop";
+
 
 const TeamsDropdown = ({teamsData, setTeamsData, selectedTeam, setSelectedTeam, H_or_V}) => {
 
@@ -8,7 +10,7 @@ const TeamsDropdown = ({teamsData, setTeamsData, selectedTeam, setSelectedTeam, 
     useEffect(() => {
         let isSubscribed = true;
         const getTeams = async() => {
-            let teams = await axios.get(`/teamnames`);
+            let teams = await hoop.get(`/api/teamnames`);
             setTeamsData(teams.data);
         } 
         getTeams();   

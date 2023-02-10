@@ -113,7 +113,7 @@ def assiststracker():
 
 boxScoreArray = []
 def readLeagueGames():
-    URL = 'http://localhost:3001/tablelengthbox/boxscores2022-2023'
+    URL = 'http://localhost:3001/api/tablelengthbox/boxscores2022-2023'
     response = requests.get(url = URL)
     data = response.json()
     count = data[0]['count']
@@ -572,7 +572,7 @@ def leaguedashplayershotlocationsfunction():
 
 boxScoreArrayTraditional = []
 def readLeagueGamesTraditional():
-    URL = 'http://localhost:3001/tablelengthbox/boxscorestraditional2022-2023'
+    URL = 'http://localhost:3001/api/tablelengthbox/boxscorestraditional2022-2023'
     response = requests.get(url = URL)
     data = response.json()
     print(data)
@@ -710,7 +710,7 @@ def playerCareerStatsFunction(playerid):
 
 boxScoreSummaryArray = []
 def readBoxScoreSummary():
-    URL = 'http://localhost:3001/tablelength/boxscoresummary2022-2023'
+    URL = 'http://localhost:3001/api/tablelength/boxscoresummary2022-2023'
     response = requests.get(url = URL)
     data = response.json()
     print(data)
@@ -798,7 +798,7 @@ def getOdds():
 boxScoreArrayMisc = []
 def readLeagueMisc():
 
-    URL = 'http://localhost:3001/tablelengthbox/boxscoremisc2022-2023'
+    URL = 'http://localhost:3001/api/tablelengthbox/boxscoremisc2022-2023'
     response = requests.get(url = URL)
     data = response.json()
     print(data)
@@ -847,7 +847,7 @@ def boxScoreMiscFunction(gameid):
     except ValueError:
         print("VALUE ERROR?!?!?!!?!!??!?!??!??!?!!?")
 
-shotchartdetailfunction()
+##shotchartdetailfunction()
 ##allassists()
 ##assiststracker()
 ##playergamelogfunction('153', '0021700807')

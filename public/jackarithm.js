@@ -179,23 +179,23 @@ const getRosterFromPreviousGame = async(teamId, gameDate) => {
     table, as there will only be the current amount of games available.*/
     let roster;
     for (let j = 0; j < gameDateArray.length; j++) {
-        let recentGameId = await getJsonResponseJackarithm(`/leagueGames/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDateArray[j]}`);
+        let recentGameId = await getJsonResponseJackarithm(`/api/leagueGames/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDateArray[j]}`);
         if (recentGameId) {
             recentGameId = recentGameId[0].game_id;
-            roster = await getJsonResponseJackarithm(`/boxPlayers/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${recentGameId}`);
+            roster = await getJsonResponseJackarithm(`/api/boxPlayers/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${recentGameId}`);
             return roster;
         }
     }
     /* If you don't get a 'recentgameid' from the loop above, use overall roster from current season.*/
-    roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`)
+    roster = await getJsonResponseJackarithm(`/api/boxPlayers/getroster/${seasonDropChoice.value}/${teamId[0].team_id}`)
     return roster;
 }
 
 const getRosterNoParams = async(H_or_V) => {
     let team = document.getElementById(`${H_or_V}TeamJackarithm`);
-    let teamId = await getJsonResponse(`/leagueGames/teamid/${team.value}`)
+    let teamId = await getJsonResponse(`/api/leagueGames/teamid/${team.value}`)
     let season = '2017-2018';
-    let roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/api/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
     for (let i = 0; i < roster.length; i++) {
         let appendedPlayer = await appendPlayerRosterTable(roster[i].player_id, roster[i].player_name, H_or_V);
     }
@@ -205,13 +205,13 @@ getBoxTraditionalButtonHome.onclick = async() => {
     let HorV = 'home';
 
     let team = document.getElementById(`${HorV}TeamJackarithm`);
-    let teamId = await getJsonResponse(`/leagueGames/teamid/${team.value}`)
+    let teamId = await getJsonResponse(`/api/leagueGames/teamid/${team.value}`)
     let season = '2017-2018';
-    let roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/api/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
 
     let table = "boxscorestraditional2021-2022"
 
-    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
+    let stats = await getJsonResponseJackarithm(`/api/statsheaders/${table}`)
 
     await appendBoxTraditionalHeaders(HorV, stats);
 
@@ -225,13 +225,13 @@ getBoxTraditionalButtonVisitor.onclick = async() => {
     let HorV = 'visitor';
 
     let team = document.getElementById(`${HorV}TeamJackarithm`);
-    let teamId = await getJsonResponse(`/leagueGames/teamid/${team.value}`)
+    let teamId = await getJsonResponse(`/api/leagueGames/teamid/${team.value}`)
     let season = '2017-2018';
-    let roster = await getJsonResponseJackarithm(`/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/api/boxPlayers/getroster/${season}/${teamId[0].team_id}`);
 
     let table = "boxscorestraditional2021-2022"
 
-    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
+    let stats = await getJsonResponseJackarithm(`/api/statsheaders/${table}`)
 
     await appendBoxTraditionalHeaders(HorV, stats);
 
@@ -354,7 +354,7 @@ getBoxTraditionalButtonVisitor.onclick = async() => {
 }
 */
 const getStatsFromBoxTraditional = async(season, playerid) => {
-    let stats = await getJsonResponseJackarithm(`/boxScoresTraditional/jackarithm/${playerid}/${season}`);
+    let stats = await getJsonResponseJackarithm(`/api/boxScoresTraditional/jackarithm/${playerid}/${season}`);
     return stats;
 }
 
@@ -463,7 +463,7 @@ const appendPlayerBoxTraditionalSeasonAverageTable = async(objArray, player_name
 let teamArray = [];
 const teamsDropDown = async() => {
 
-    let teams = await getJsonResponseJackarithm('/teamnames');
+    let teams = await getJsonResponseJackarithm('/api/teamnames');
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     homeTeam.innerHTML = str;
     visitorTeam.innerHTML = str;
@@ -494,7 +494,7 @@ const getSeasonGameResultsByTeamHome = async() => {
     let season = seasonGameResults.value;
     //get league games
 
-    let results = await getJsonResponseJackarithm(`/leagueGames/gameResults/home/${homeTeam.value}/${season}`)
+    let results = await getJsonResponseJackarithm(`/api/leagueGames/gameResults/home/${homeTeam.value}/${season}`)
 
     let headers = homeTeamSeasonGameResultsTable.insertRow();
     for (let j = 0; j < Object.keys(results[0]).length; j++) {
@@ -522,7 +522,7 @@ const getSeasonGameResultsByTeamVisitor = async() => {
     let season = seasonGameResults.value;
     //get league games
 
-    let results = await getJsonResponseJackarithm(`/leagueGames/gameResults/visitor/${visitorTeam.value}/${season}`)
+    let results = await getJsonResponseJackarithm(`/api/leagueGames/gameResults/visitor/${visitorTeam.value}/${season}`)
 
     let headers = visitorTeamSeasonGameResultsTable.insertRow();
     for (let j = 0; j < Object.keys(results[0]).length; j++) {
@@ -574,16 +574,16 @@ const appendExpectedStat = async(team, pp240expected) => {
 
 
 const getStatP240Expected = async(stat) => {
-    let teams = await getJsonResponseJackarithm('/teamnames');
+    let teams = await getJsonResponseJackarithm('/api/teamnames');
     let season = '2018-2019';
     let previousSeason = '2017-2018';
     for (let x = 0; x < teams.length; x++) {
-        let teamId = await getJsonResponseJackarithm(`/leagueGames/teamid/${teams[x].team_name}`)
+        let teamId = await getJsonResponseJackarithm(`/api/leagueGames/teamid/${teams[x].team_name}`)
         let totalMinutes = 0;
         let totalMinutes_82 = 0;
         let totalStat = 0;
         let totalStat_82 = 0;
-        let roster = await getJsonResponseJackarithm(`/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
+        let roster = await getJsonResponseJackarithm(`/api/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
         for (let i = 0; i < roster.length; i++) {
             let playerStats = await getPlayerSeasonOffensiveStatAveragesTraditional(previousSeason, roster[i].player_id);
             totalMinutes += playerStats[0].min;
@@ -610,12 +610,12 @@ const getStatP240Expected_HorV = async(stat, H_or_V) => {
 
     let season = '2017-2018';
     let previousSeason = '2016-2017';
-    let teamId = await getJsonResponseJackarithm(`/leagueGames/teamid/${team}`)
+    let teamId = await getJsonResponseJackarithm(`/api/leagueGames/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
     let totalStat = 0;
     let totalStat_82 = 0;
-    let roster = await getJsonResponseJackarithm(`/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
+    let roster = await getJsonResponseJackarithm(`/api/boxScoresTraditional/getroster/${season}/${teamId[0].team_id}`);
 
     for (let i = 0; i < roster.length; i++) {
         let playerStats = await getPlayerHorVOffensiveStatAveragesTraditional(previousSeason, roster[i].player_id, H_or_V);
@@ -680,7 +680,7 @@ const getStatExpectedNoAppend = async(stat, H_or_V, gameDate, visitorteam) => {
     }
 
     let season = '2017-2018';
-    let teamId = await getJsonResponseJackarithm(`/leagueGames/teamid/${team}`)
+    let teamId = await getJsonResponseJackarithm(`/api/leagueGames/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
     let totalStat = 0.0;
@@ -746,7 +746,7 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     }
     /* This selection of the season is the season used to get boxscorestraditional from, as well as the roster.*/
     let season = seasonDropChoice.value;
-    let teamId = await getJsonResponseJackarithm(`/leagueGames/teamid/${team}`)
+    let teamId = await getJsonResponseJackarithm(`/api/leagueGames/teamid/${team}`)
     let totalMinutes = 0;
     let totalMinutes_82 = 0;
     let totalStat1 = 0;
@@ -761,10 +761,10 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
     /* This call to the database retreives the previous game id given the season (current season), team id, and the current gameDate
     DURING THE CURRENT SEASON/PRODUCTION, YOU WILL NOT NEED THIS NEXT CHUNK OF CODE, ALREADY HAVE RECENT GAMEID, ROSTER.*/
     //===================================================================================================================
-    let recentGameId = await getJsonResponseJackarithm(`/leagueGames/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDate}`);
+    let recentGameId = await getJsonResponseJackarithm(`/api/leagueGames/testing/previousgame/gameid/${seasonDropChoice.value}/${teamId[0].team_id}/${gameDate}`);
     recentGameId = recentGameId[0].game_id.substring(2)
     let gameid = parseInt(recentGameId);
-    let boxNum = await getJsonResponseJackarithm(`/boxScoresTraditional/boxnum/${gameid}/${season}/${teamId[0].team_id}/${H_or_V}`);
+    let boxNum = await getJsonResponseJackarithm(`/api/boxScoresTraditional/boxnum/${gameid}/${season}/${teamId[0].team_id}/${H_or_V}`);
     if (!boxNum) {
         boxNum = [{ count: 0 }];
     }
@@ -838,12 +838,12 @@ const getStatP240ExpectedNoAppend = async(stat, H_or_V, gameDate, hometeam, visi
 
 compareP240ResultsBySeasonTotalsButton.onclick = async() => {
     let stat = 'plus_minus';
-    let teamsH = await getJsonResponseJackarithm('/teamnames');
+    let teamsH = await getJsonResponseJackarithm('/api/teamnames');
     
     for (let i = 0; i < teamsH.length; i++) {
         let hometeam = teamsH[i];
         hometeam = hometeam.team_name;
-        let teamsV = await getJsonResponseJackarithm('/teamnames');
+        let teamsV = await getJsonResponseJackarithm('/api/teamnames');
         for (let j = 0; j < teamsV.length; j++) {
             if (teamsV[j].team_name === hometeam) {
                 let index = teamsV.indexOf(teamsV[j]);
@@ -868,7 +868,7 @@ compareP240ResultsBySeasonTotalsButton.onclick = async() => {
 compareStatResultsBySeasonButton.onclick = async() => {
     let stat = 'plus_minus';
     let hometeam = homeTeam.value;
-    let teams = await getJsonResponseJackarithm('/teamnames');
+    let teams = await getJsonResponseJackarithm('/api/teamnames');
     for (let j = 0; j < teams.length; j++) {
         if (teams[j].team_name === hometeam) {
             let index = teams.indexOf(teams[j]);
@@ -886,7 +886,7 @@ compareStatResultsBySeasonButton.onclick = async() => {
 compareP240ResultsBySeasonButton.onclick = async() => {
     let stat = 'plus_minus';
     let hometeam = homeTeam.value;
-    let teams = await getJsonResponseJackarithm('/teamnames');
+    let teams = await getJsonResponseJackarithm('/api/teamnames');
     for (let j = 0; j < teams.length; j++) {
         if (teams[j].team_name === hometeam) {
             let index = teams.indexOf(teams[j]);
@@ -1031,8 +1031,8 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
         }
     }
 
-    let moneylineHome = await getJsonResponseJackarithm(`/gambling/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate}`);
-    let moneylineVisitor = await getJsonResponseJackarithm(`/gambling/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate}`);
+    let moneylineHome = await getJsonResponseJackarithm(`/api/gambling/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate}`);
+    let moneylineVisitor = await getJsonResponseJackarithm(`/api/gambling/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate}`);
     if (moneylineHome.length < 1) {
         moneylineHome = [{ml: '0'}];
         moneylineVisitor = [{ml: '0'}];
@@ -1050,8 +1050,8 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
     let moneylineVisitor2;
     
     if (parseInt(gamedate2) >= 0) {
-        moneylineHome2 = await getJsonResponseJackarithm(`/gambling/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate2}`);
-        moneylineVisitor2 = await getJsonResponseJackarithm(`/gambling/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate2}`);
+        moneylineHome2 = await getJsonResponseJackarithm(`/api/gambling/moneyline/home/${seasonDropChoice.value}/${home_name}/${gamedate2}`);
+        moneylineVisitor2 = await getJsonResponseJackarithm(`/api/gambling/moneyline/visitor/${seasonDropChoice.value}/${visitor_name}/${gamedate2}`);
         if (moneylineHome2.length < 1) {
             moneylineHome2 = [{ml: '0'}];
             moneylineVisitor2 = [{ml: '0'}];
@@ -1153,22 +1153,22 @@ const oddStuff = async(stuff, stat, hometeam, visitorteam) => {
 let greenCountRegStat = 0;
 const compareStatExpectedResultsToGameResults = async(stat, hometeam, visitorteam) => {
     let table = 'boxscorestraditional2021-2022';
-    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
+    let stats = await getJsonResponseJackarithm(`/api/statsheaders/${table}`)
 
     let abbreviationHome;
     let abbreviationVisitor;
 
     if (hometeam) {
-        abbreviationHome = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${hometeam}`)
-        abbreviationVisitor = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${visitorteam}`)
+        abbreviationHome = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${hometeam}`)
+        abbreviationVisitor = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${visitorteam}`)
     } else {
-        abbreviationHome = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${homeTeam.value}`)
-        abbreviationVisitor = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${visitorTeam.value}`)
+        abbreviationHome = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${homeTeam.value}`)
+        abbreviationVisitor = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${visitorTeam.value}`)
     }
 
     let matchup1 = `${abbreviationHome[0].team_abbreviation} vs. ${abbreviationVisitor[0].team_abbreviation}`
     //get all games by game id, home team and visitor team
-    let actualResults = await getJsonResponseJackarithm(`/leagueGames/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
+    let actualResults = await getJsonResponseJackarithm(`/api/leagueGames/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
   
     let row1 = compareResultsTable.insertRow();
     let row2;
@@ -1283,16 +1283,16 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     the next home team and loop through all 29 possible visitor teams... and so on until all 30 home teams have each cycled through
     their 29 possible matchups */
     if (hometeam) {
-        abbreviationHome = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${hometeam}`)
-        abbreviationVisitor = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${visitorteam}`)
+        abbreviationHome = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${hometeam}`)
+        abbreviationVisitor = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${visitorteam}`)
 
     /*hometeam parameter not passed in, must use values from the drop down boxes, if you are here that means
     you are getting the comparison of only one specific matchup in one specific season*/
     } else {
         hometeam = homeTeam.value;
         visitorteam = visitorTeam.value;
-        abbreviationHome = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${homeTeam.value}`)
-        abbreviationVisitor = await getJsonResponseJackarithm(`/leagueGames/teamabbreviation/${visitorTeam.value}`)
+        abbreviationHome = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${homeTeam.value}`)
+        abbreviationVisitor = await getJsonResponseJackarithm(`/api/leagueGames/teamabbreviation/${visitorTeam.value}`)
     }
 
     //matchup1 will look like => 'CHA vs. PHI', or 'PHI vs. WAS'...
@@ -1306,7 +1306,7 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
     the array will be empty. If the home team only plays the given visitor once at home, it will be of length 1. 
     If the home team plays the given visitor team at home twice (normal season), the array will be of length 2.
     TABLE CALLED => leagueGames${season} */
-    let actualResults = await getJsonResponseJackarithm(`/leagueGames/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
+    let actualResults = await getJsonResponseJackarithm(`/api/leagueGames/actual/gameresult/${matchup1}/${seasonGameResults.value}`);
     /*EXAMPLE 'actualResults' =>
     (2) [{…}, {…}]
         0: 
@@ -1449,9 +1449,9 @@ const compareP240ExpectedResultsToGameResults = async(stat, hometeam, visitortea
         }
     }
     let H_or_V = 'home';
-    let teamId = await getJsonResponseJackarithm(`/leagueGames/teamid/${hometeam}`)
+    let teamId = await getJsonResponseJackarithm(`/api/leagueGames/teamid/${hometeam}`)
 
-    let gamesInSeasonCount = await getJsonResponseJackarithm(`/boxScoreSummary/lengthofseason/${seasonDropChoice.value}/${teamId[0].team_id}/${H_or_V}`);
+    let gamesInSeasonCount = await getJsonResponseJackarithm(`/api/boxScoreSummary/lengthofseason/${seasonDropChoice.value}/${teamId[0].team_id}/${H_or_V}`);
     gamesInSeasonCount = gamesInSeasonCount[0].count;
     let percentage = greenCount / gamesInSeasonCount;
 
@@ -1490,7 +1490,7 @@ const appendExpectedToComparisonTable = async(p240Home0, p240Visitor0, p240Home1
 let statsArray = [];
 const p240StatDropDownFunction = async() => {
     let table = 'boxscorestraditional2021-2022';
-    let stats = await getJsonResponseJackarithm(`/statsheaders/${table}`)
+    let stats = await getJsonResponseJackarithm(`/api/statsheaders/${table}`)
 
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("p240StatDropDown").innerHTML = str;
@@ -1510,13 +1510,13 @@ const p240StatDropDownFunction = async() => {
 const getStatsFromBoxTraditionalHorV = async(season, playerid, H_or_V, table) => {
     let stats;
     if (table === 'mvpPoints') { 
-        stats = await getJsonResponseJackarithm(`/mvpPoints/${playerid}/${season}/${H_or_V}`);
+        stats = await getJsonResponseJackarithm(`/api/mvpPoints/${playerid}/${season}/${H_or_V}`);
     } else {
         if (H_or_V === 'home') {
             //HEEERRRREEEE
-            stats = await getJsonResponseJackarithm(`/boxScoresTraditional/jackarithm/home/${playerid}/${season}`);
+            stats = await getJsonResponseJackarithm(`/api/boxScoresTraditional/jackarithm/home/${playerid}/${season}`);
         } else {
-            stats = await getJsonResponseJackarithm(`/boxScoresTraditional/jackarithm/visitor/${playerid}/${season}`);
+            stats = await getJsonResponseJackarithm(`/api/boxScoresTraditional/jackarithm/visitor/${playerid}/${season}`);
             console.log(stats);
         }
     }
@@ -1552,8 +1552,8 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
      * With this information, we are able to loop through each stat in the given box score, and provide a stat average for every
      * single stat within the given table.
      */
-    let stats1 = await getJsonResponseJackarithm(`/statsheaders/${table1}`)
-    let stats2 = await getJsonResponseJackarithm(`/statsheaders/${table2}`)
+    let stats1 = await getJsonResponseJackarithm(`/api/statsheaders/${table1}`)
+    let stats2 = await getJsonResponseJackarithm(`/api/statsheaders/${table2}`)
 
     /** season2 is just the backup season, if you are using a different stat table of the same season, just set this variable to the
      * given season (seasonDropDown.value);
@@ -1686,7 +1686,7 @@ const getPlayerHorVOffensiveStatAveragesTraditional = async(season, playerid, H_
     teamid = teamid[0].team_id;
     
     //*******DURING THE SEASON/PRODUCTION, YOU'LL JUST HAVE TO CHANGE 'GAMESINSEASONCOUNT' TO 82, OR 41, DOUBLE CHECK.
-    let gamesInSeasonCount = await getJsonResponseJackarithm(`/boxScoreSummary/lengthofseason/${seasonDropChoice.value}/${teamid}/${H_or_V}`);
+    let gamesInSeasonCount = await getJsonResponseJackarithm(`/api/boxScoreSummary/lengthofseason/${seasonDropChoice.value}/${teamid}/${H_or_V}`);
 
     gamesInSeasonCount = gamesInSeasonCount[0].count;
 
@@ -1749,7 +1749,7 @@ const getSports = async() => {
 
 const postOdds = async(odds, season) => {
 
-    const url = `/gambling/odds/${season}`;
+    const url = `/api/gambling/odds/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -1770,9 +1770,9 @@ const postOdds = async(odds, season) => {
 }
 
 const writeOddsToDatabase = async(season) => {
-    let odds = await getJsonResponseJackarithm(`/gambling/odds/${season}`);
+    let odds = await getJsonResponseJackarithm(`/api/gambling/odds/${season}`);
     
-    let tableLength = await getJsonResponseJackarithm(`/tablelength/odds2022-2023`)
+    let tableLength = await getJsonResponseJackarithm(`/api/tablelength/odds2022-2023`)
     console.log(tableLength)
     //date rot vh team 1 2 3 4 final open close ml 2h
     for(let j = 0; j < season.length; j++) {
@@ -1801,7 +1801,7 @@ visitorTeam.onchange = async() => {
 const getAverageMvpPointsBySeason = async(season) => {
    
     let total = 0;
-    let points = await getJsonResponseJackarithm(`/mvpPoints/getAllMvpPoints/${season}`);
+    let points = await getJsonResponseJackarithm(`/api/mvpPoints/getAllMvpPoints/${season}`);
     console.log(points)
     for (let i = 0; i < points.length; i++) {
         let pts = parseFloat(points[i].mvppoints)

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import ExpectedResults from "./ExpectedResults";
+import hoop from "../apis/hoop";
+
 
 const Upcoming = ({homeExpectedResults, 
                     setHomeExpectedResults, 
@@ -15,7 +17,7 @@ const Upcoming = ({homeExpectedResults,
 
     useEffect(() => {
         const getUpcoming = async() => {
-            const results = await axios.get(`/gambling/upcominggames/${selectedSeason}`)
+            const results = await hoop.get(`/api/gambling/upcominggames/${selectedSeason}`)
             setUpcomingGames(results.data);
             setSelectedSeason('2022-2023')
         }

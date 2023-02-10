@@ -4,6 +4,8 @@ import TableHead from "./TableHead";
 //import tableData1 from "../data.json";
 import axios from "axios";
 import '../App.css';
+import hoop from "../apis/hoop";
+
 
 //add up hustle totals, divide by minutes to get hustle factor.
 //def_rating
@@ -14,7 +16,7 @@ const CarmeloFactor = ({ selectedSeason }) => {
     let columns = [];
     useEffect(() => {
         const getCarmeloFactor = async() => {
-            let results = await axios.get(`/carmelo/newCarmelo/${selectedSeason}`)
+            let results = await hoop.get(`/api/carmelo/newCarmelo/${selectedSeason}`)
             if (results.data.length > 0) {
                 setTableData(results.data);
             }

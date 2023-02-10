@@ -5,12 +5,14 @@ import TeamsDropdown from "../components/TeamsDropdown";
 import Jackarithm from "../pages/jack-o-rithm";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
+import hoop from "../apis/hoop";
+
 
 const Schedule = ({ selectedSeason, setSelectedSeason, scheduleData, setScheduleData}) => {
 
     useEffect(() => {
         const getSchedule = async() => {
-            let schedule = await axios.get(`/leagueGames/frontSchedule/${selectedSeason}`)
+            let schedule = await hoop.get(`/api/leagueGames/frontSchedule/${selectedSeason}`)
             console.log(schedule.data)
             setScheduleData(schedule.data);
         }

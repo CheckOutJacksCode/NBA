@@ -6,6 +6,8 @@ import TeamName from "./TeamName";
 import ComputerTeamName from "./ComputerTeamName";
 import ResultsTableBody from "./ResultsTableBody";
 import TableHead from "./TableHead";
+import hoop from "../apis/hoop";
+
 
 const MatchupResults = ({ lockFlag, 
                           setLockFlag, 
@@ -62,10 +64,10 @@ const MatchupResults = ({ lockFlag,
              * TURNOVERS
              */
 
-            //let shooting = await axios.get(`/shooting/${selectedSeason}/${playerIdString}`);
+            //let shooting = await hoop.get(`/shooting/${selectedSeason}/${playerIdString}`);
             //console.log(shooting.data.players)
 
-            //let defense = await axios.get(`/defense/${selectedSeason}/${playerIdString}`);
+            //let defense = await hoop.get(`/defense/${selectedSeason}/${playerIdString}`);
             //console.log(defense.data.players)
 
             let arr = dragRoster.map(player => player.rosterPlayer.substring(1, player.rosterPlayer.indexOf('|')));
@@ -82,22 +84,22 @@ const MatchupResults = ({ lockFlag,
             let benchIdStringCpu = benchCpu.join(',');
 
             const getFinishing = async(idString) => {
-                let finishing = await axios.get(`/shots/finishing/${selectedSeason}/${idString}`)
+                let finishing = await hoop.get(`/api/shots/finishing/${selectedSeason}/${idString}`)
                 return finishing.data;
             }
 
             const getShooting = async(idString) => {
-                let shooting = await axios.get(`/shots/shooting/${selectedSeason}/${idString}`)
+                let shooting = await hoop.get(`/api/shots/shooting/${selectedSeason}/${idString}`)
                 return shooting.data;
             }
 
             const getReboundingDefense = async(idString) => {
-                let reboundingDefense = await axios.get(`/shots/reboundingdefense/${selectedSeason}/${idString}`)
+                let reboundingDefense = await hoop.get(`/api/shots/reboundingdefense/${selectedSeason}/${idString}`)
                 return reboundingDefense.data;
             }
 
             const getPlaymaking = async(idString) => {
-                let playmaking = await axios.get(`/shots/playmaking/${selectedSeason}/${idString}`)
+                let playmaking = await hoop.get(`/api/shots/playmaking/${selectedSeason}/${idString}`)
                 return playmaking.data;
             }
 

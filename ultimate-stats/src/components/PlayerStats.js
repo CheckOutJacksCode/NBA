@@ -2,6 +2,7 @@ import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState } from "react";
 import PlayerCareerStats from "./PlayerCareerStats";
+import hoop from "../apis/hoop";
 
 
 const PlayerStats = ({}) => {
@@ -24,7 +25,7 @@ const PlayerStats = ({}) => {
         let isSubscribed = true;
 
         const getTeams = async() => {
-            let response = await axios.get(`/teamnames`);
+            let response = await hoop.get(`/api/teamnames`);
             if (isSubscribed) {
                 setTeamsData(response.data);
             }
@@ -58,8 +59,8 @@ const PlayerStats = ({}) => {
         
       let isSubscribed = true;
         const getRoster = async() => {
-            let teamid = await axios.get(`/leagueGames/teamid/${selectedTeam}`)
-            let response = await axios.get(`/boxPlayers/getroster/${selectedSeason}/${teamid.data[0].team_id}`)
+            let teamid = await hoop.get(`/api/leagueGames/teamid/${selectedTeam}`)
+            let response = await hoop.get(`/api/boxPlayers/getroster/${selectedSeason}/${teamid.data[0].team_id}`)
             if (isSubscribed) {
                 setRosterData(response.data);
             }
@@ -75,7 +76,7 @@ const PlayerStats = ({}) => {
         let isSubscribed = true;
             const getPlayerId = async() => {
             
-                let playerid = await axios.get(`/playersNBA/${selectedSeason}/${selectedPlayer}`)
+                let playerid = await hoop.get(`/api/playersNBA/${selectedSeason}/${selectedPlayer}`)
                 console.log(playerid.data);
                 if (isSubscribed) {
                     setPlayerId(playerid.data[0]);
@@ -92,7 +93,7 @@ const PlayerStats = ({}) => {
         let isSubscribed = true;
             const getAverages = async() => {
             
-                let boxScore = await axios.get(`/boxScoresTraditional/averages/${playerId.player_id}/${selectedSeason}`)
+                let boxScore = await hoop.get(`/api/boxScoresTraditional/averages/${playerId.player_id}/${selectedSeason}`)
                 if (isSubscribed) {
                     setBoxScore(boxScore.data);
                 }
@@ -110,7 +111,7 @@ const PlayerStats = ({}) => {
           const getGameStats = async() => {
           
 
-              let boxScore = await axios.get(`/boxScoresTraditional/${selectedSeason}/${game_id}/${playerid}`);
+              let boxScore = await hoop.get(`/boxScoresTraditional/${selectedSeason}/${game_id}/${playerid}`);
               if (isSubscribed) {
                   setBoxScore(boxScore.data);
               }

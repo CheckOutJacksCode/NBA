@@ -83,7 +83,7 @@ app.use(express.static('public'));
 
 app.set('view engine', 'ejs');
 
-//app.use(cors());
+app.use(cors());
 /*app.use(cors({
     origin: ["http://localhost:3001"],
     credentials: true
@@ -123,30 +123,33 @@ const shotsRouter = require('./routes/shotsRoutes');
 const userRouter = require("./routes/userRouter");
 const statRankedRouter = require("./routes/statRankedRoutes");
 
-app.use("/boxPlayers", boxPlayersRouter)
-app.use("/box", boxRouter);
-app.use("/boxScoreMisc", boxScoreMiscRouter);
-app.use("/boxScoreScoring", boxScoreScoringRouter);
-app.use("/boxScoresTraditional", boxScoresTraditionalRouter);
-app.use("/boxScoreSummary", boxScoreSummaryRouter);
-app.use("/carmelo", carmeloRouter);
-app.use("/fourFactors", fourFactorsRouter);
-app.use("/gambling", gamblingRouter);
-app.use("/hustleStats", hustleStatsRouter);
-app.use("/leagueDashLineups", leagueDashLineupsRouter);
-app.use("/leagueDashOppPtShot", leagueDashOppPtShotRouter);
-app.use("/leagueDashPlayerClutch", leagueDashPlayerClutchRouter);
-app.use("/leagueDashPlayerPtShot", leagueDashPlayerPtShotRouter);
-app.use("/leagueGames", leagueGamesRouter);
-app.use("/mvpPoints", mvpPointsRouter);
-app.use("/playersNBA", playersNBARouter);
-app.use("/playerTracker", playerTrackerRouter);
-app.use("/publicApiPlayers", publicApiPlayersRouter);
-app.use("/publicGames", publicGamesRouter);
-app.use("/regularSeasonStats", regularSeasonStatsRouter);
-app.use("/shots", shotsRouter);
-app.use("/users", userRouter.router);
-app.use("/statranked", statRankedRouter)
+const apiRouter = express.Router()
+app.use("/api", apiRouter);
+
+apiRouter.use("/boxPlayers", boxPlayersRouter);
+apiRouter.use("/box", boxRouter);
+apiRouter.use("/boxScoreMisc", boxScoreMiscRouter);
+apiRouter.use("/boxScoreScoring", boxScoreScoringRouter);
+apiRouter.use("/boxScoresTraditional", boxScoresTraditionalRouter);
+apiRouter.use("/boxScoreSummary", boxScoreSummaryRouter);
+apiRouter.use("/carmelo", carmeloRouter);
+apiRouter.use("/fourFactors", fourFactorsRouter);
+apiRouter.use("/gambling", gamblingRouter);
+apiRouter.use("/hustleStats", hustleStatsRouter);
+apiRouter.use("/leagueDashLineups", leagueDashLineupsRouter);
+apiRouter.use("/leagueDashOppPtShot", leagueDashOppPtShotRouter);
+apiRouter.use("/leagueDashPlayerClutch", leagueDashPlayerClutchRouter);
+apiRouter.use("/leagueDashPlayerPtShot", leagueDashPlayerPtShotRouter);
+apiRouter.use("/leagueGames", leagueGamesRouter);
+apiRouter.use("/mvpPoints", mvpPointsRouter);
+apiRouter.use("/playersNBA", playersNBARouter);
+apiRouter.use("/playerTracker", playerTrackerRouter);
+apiRouter.use("/publicApiPlayers", publicApiPlayersRouter);
+apiRouter.use("/publicGames", publicGamesRouter);
+apiRouter.use("/regularSeasonStats", regularSeasonStatsRouter);
+apiRouter.use("/shots", shotsRouter);
+apiRouter.use("/users", userRouter.router);
+apiRouter.use("/statranked", statRankedRouter)
 
 
 app.get('/front', (req, res, next) => {
@@ -177,16 +180,16 @@ app.get('/jackarithm', (req, res, next) => {
     res.sendFile(__dirname + "/public/jackarithm.html");
 });
 
-app.delete('/database/delete', db.deleteDatabase);
+app.delete('/api/database/delete', db.deleteDatabase);
 
 
-app.get(`/statsheaders/:table`, db.getStatsHeadersFromTable);
+app.get(`/api/statsheaders/:table`, db.getStatsHeadersFromTable);
 
-app.get('/teamnames', db.getTeamNames);
+app.get('/api/teamnames', db.getTeamNames);
 
-app.get(`/tablelength/:table`, db.getTableLength);
+app.get(`/api/tablelength/:table`, db.getTableLength);
 
-app.get(`/tablelengthbox/:table`, db.getTableLengthBox);
+app.get(`/api/tablelengthbox/:table`, db.getTableLengthBox);
 
 
 app.use(errorLogger);

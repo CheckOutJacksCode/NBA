@@ -4,6 +4,8 @@ import '../App.css';
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import RosterTable from "./RosterTable";
+import hoop from "../apis/hoop";
+
 
 const Price = ({ selectedSeason, 
                 roster, 
@@ -39,7 +41,7 @@ const Price = ({ selectedSeason,
     useEffect(() => {
         const getPriceAllPlayers = async() => {
             try {
-                let results = await axios.get(`/playersNBA/priceAllPlayers/${selectedSeason}`);
+                let results = await hoop.get(`/api/playersNBA/priceAllPlayers/${selectedSeason}`);
                 if (results.data.length > 0) {
                     setPlayerData(results.data)
                 }

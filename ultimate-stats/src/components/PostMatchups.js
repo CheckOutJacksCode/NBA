@@ -7,6 +7,8 @@ import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
 import ActualResults from "./ActualResults";
 import Odds from "./Odds";
 import ExpectedResults from "./ExpectedResults";
+import hoop from "../apis/hoop";
+
 
 const PostMatchups = ({//homeExpectedResults, 
                        //setHomeExpectedResults, 
@@ -23,7 +25,7 @@ const PostMatchups = ({//homeExpectedResults,
 
     useEffect(() => {
         const getGames = async() => {
-            let results = await axios.get(`/leagueGames/withboxscoresummary/${selectedSeason}`)
+            let results = await hoop.get(`/api/leagueGames/withboxscoresummary/${selectedSeason}`)
             let data = results.data.slice(0, 2)
             setGames(data);
         }
@@ -49,7 +51,7 @@ const PostMatchups = ({//homeExpectedResults,
                                  setSelectedSeason={setSelectedSeason} 
                                  />
             })
-            /*let results = await axios.post(`/gambling/matchupResults/${selectedSeason}`,
+            /*let results = await hoop.post(`/gambling/matchupResults/${selectedSeason}`,
             {
 
             })

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import ExpectedResults from "./ExpectedResults";
+import hoop from "../apis/hoop";
+
 
 const HistoricalResults = ({selectedSeason, setSelectedSeason}) => {
 
@@ -13,7 +15,7 @@ const HistoricalResults = ({selectedSeason, setSelectedSeason}) => {
 
         const getHistoricalResults = async() => {
 
-            let results = await axios.get(`/gambling/historicalResults/${selectedSeason}`);
+            let results = await hoop.get(`/api/gambling/historicalResults/${selectedSeason}`);
             console.log(results.data);
             setHistoricalResults(results.data);
         }

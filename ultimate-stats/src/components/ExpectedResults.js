@@ -6,6 +6,8 @@ import ShotChartGameSVG from "./ShotChartGameSVG";
 import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
 import ActualResults from "./ActualResults";
 import Odds from "./Odds";
+import hoop from "../apis/hoop";
+
 
 const ExpectedResults = ({ homeExpectedResults, 
                            setHomeExpectedResults, 
@@ -46,12 +48,12 @@ const ExpectedResults = ({ homeExpectedResults,
     useEffect(() => {
         const getAverageScore = async() => {
             if (homePreviousGameId !== '1') {
-                let results = await axios.get(`/leagueGames/averageScore/${homePreviousGameId}/${selectedSeason}`);
+                let results = await hoop.get(`/api/leagueGames/averageScore/${homePreviousGameId}/${selectedSeason}`);
                 console.log(results.data[0])
                 setAverageScore(results.data[0].avg);
                 console.log(averageScore)
             } else {
-                let results = await axios.get(`/leagueGames/averageScore/${previousSeason}`);
+                let results = await hoop.get(`/api/leagueGames/averageScore/${previousSeason}`);
                 setAverageScore(results.data[0].avg);
                 console.log(results.data[0])
                 console.log(averageScore)
@@ -67,7 +69,7 @@ const ExpectedResults = ({ homeExpectedResults,
             console.log(game.game_id)
             console.log(selectedSeason)
             if (game.game_id === 'upcoming') {
-                let homePrevious = await axios.get(`/boxScoresTraditional/previousgame/gameid/${selectedSeason}/${homeTeamId}`)
+                let homePrevious = await hoop.get(`/api/boxScoresTraditional/previousgame/gameid/${selectedSeason}/${homeTeamId}`)
                 console.log(homePrevious.data);
                 if (homePrevious.data.length > 0) {
                     setHomePreviousGameId(homePrevious.data[0].game_id)
@@ -76,7 +78,7 @@ const ExpectedResults = ({ homeExpectedResults,
                 }
             } else {
                 
-                let homePrevious = await axios.get(`/boxScoresTraditional/previousgameid/${game.game_id}/${selectedSeason}/${homeTeamId}`)
+                let homePrevious = await hoop.get(`/api/boxScoresTraditional/previousgameid/${game.game_id}/${selectedSeason}/${homeTeamId}`)
                 console.log(homePrevious.data);
                 if (homePrevious.data.length > 0) {
                     setHomePreviousGameId(homePrevious.data[0].game_id)
@@ -85,14 +87,14 @@ const ExpectedResults = ({ homeExpectedResults,
                 }
             }
             if (game.game_id === 'upcoming') {
-                let visitorPrevious = await axios.get(`/boxScoresTraditional/previousgame/gameid/${selectedSeason}/${visitorTeamId}`)
+                let visitorPrevious = await hoop.get(`/api/boxScoresTraditional/previousgame/gameid/${selectedSeason}/${visitorTeamId}`)
                 if (visitorPrevious.data.length > 0) {
                     setVisitorPreviousGameId(visitorPrevious.data[0].game_id)
                 } else {
                     setVisitorPreviousGameId('1')
                 }
             } else {
-                let visitorPrevious = await axios.get(`/boxScoresTraditional/previousgameid/${game.game_id}/${selectedSeason}/${visitorTeamId}`)
+                let visitorPrevious = await hoop.get(`/api/boxScoresTraditional/previousgameid/${game.game_id}/${selectedSeason}/${visitorTeamId}`)
                 if (visitorPrevious.data.length > 0) {
                     setVisitorPreviousGameId(visitorPrevious.data[0].game_id)
                 } else {
@@ -109,16 +111,16 @@ const ExpectedResults = ({ homeExpectedResults,
         const getTeamIds = async() => {
             if (game.game_id === 'upcoming') {
                 console.log(game);
-                let results = await axios.get(`/leagueGames/teamid/${game.home_team}`)
+                let results = await hoop.get(`/api/leagueGames/teamid/${game.home_team}`)
                 console.log(results.data);
                 setHomeTeamId(results.data[0].team_id)
-                let results2 = await axios.get(`/leagueGames/teamid/${game.away_team}`)
+                let results2 = await hoop.get(`/api/leagueGames/teamid/${game.away_team}`)
                 console.log(results2.data);
                 setVisitorTeamId(results2.data[0].team_id)
                 setGameDate(game.commence_time.substring(0, 10));
-                let results3 = await axios.get(`/leagueGames/teamabbreviation/${game.home_team}`)
+                let results3 = await hoop.get(`/api/leagueGames/teamabbreviation/${game.home_team}`)
                 console.log(results3.data)
-                let results4 = await axios.get(`/leagueGames/teamabbreviation/${game.away_team}`)
+                let results4 = await hoop.get(`/api/leagueGames/teamabbreviation/${game.away_team}`)
                 console.log(results4.data)
                 setMatchup(results3.data[0].team_abbreviation + ' vs. ' + results4.data[0].team_abbreviation)
             } else {

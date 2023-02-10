@@ -4,6 +4,7 @@ import TableHead from "./TableHead";
 //import tableData1 from "../data.json";
 import axios from "axios";
 import '../App.css';
+import hoop from "../apis/hoop";
 
 
 const BoxScoresAdvancedTable = ({ selectedSeason, setSelectedSeason }) => {
@@ -15,7 +16,7 @@ const BoxScoresAdvancedTable = ({ selectedSeason, setSelectedSeason }) => {
 
         const getAdvanced = async() => {
             try {
-                let data = await axios.get(`/advancedPerGame/${selectedSeason}`)
+                let data = await hoop.get(`/api/advancedPerGame/${selectedSeason}`)
                 console.log(data.data)
 
                 setTableData(data.data)

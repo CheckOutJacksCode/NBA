@@ -3,6 +3,8 @@ import '../App.css';
 import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
+import hoop from "../apis/hoop";
+
 
 const Dropdown = (props) => {
     let idSeasonCount = 0;
@@ -36,7 +38,7 @@ const Dropdown = (props) => {
         let isSubscribed = true;
 
         const getTeams = async() => {
-            let response = await axios.get(`/teamnames`);
+            let response = await hoop.get(`/api/teamnames`);
             if (isSubscribed) {
                 setTeamsData(response.data);
             }
@@ -70,8 +72,8 @@ const Dropdown = (props) => {
         
       let isSubscribed = true;
         const getRoster = async() => {
-            let teamid = await axios.get(`/leagueGames/teamid/${selectedTeam}`)
-            let response = await axios.get(`/boxPlayers/getroster/${selectedSeason}/${teamid.data[0].team_id}`)
+            let teamid = await hoop.get(`/api/leagueGames/teamid/${selectedTeam}`)
+            let response = await hoop.get(`/api/boxPlayers/getroster/${selectedSeason}/${teamid.data[0].team_id}`)
             if (isSubscribed) {
                 setRosterData(response.data);
             }
@@ -86,7 +88,7 @@ const Dropdown = (props) => {
         
       let isSubscribed = true;
         const getGames = async() => {
-            let games = await axios.get(`/leagueGames/gameidgamedatematchup/${selectedPlayer}/${selectedSeason}`)
+            let games = await hoop.get(`/api/leagueGames/gameidgamedatematchup/${selectedPlayer}/${selectedSeason}`)
             if (isSubscribed) {
                 setGameData(games.data);
             }
@@ -103,7 +105,7 @@ const Dropdown = (props) => {
         
       let isSubscribed = true;
         const getShots = async() => {
-            let shots = await axios.get(`/shots/${selectedPlayer}/${selectedSeason}`)
+            let shots = await hoop.get(`/api/shots/${selectedPlayer}/${selectedSeason}`)
             console.log(shots.data);
             if (isSubscribed) {
                 setShotsData(shots.data);
@@ -121,7 +123,7 @@ const Dropdown = (props) => {
         
       let isSubscribed = true;
         const getShotsGame = async() => {
-            let shots = await axios.get(`/shots/${selectedPlayer}/${selectedSeason}/${selectedGame.substring(0,10)}`)
+            let shots = await hoop.get(`/api/shots/${selectedPlayer}/${selectedSeason}/${selectedGame.substring(0,10)}`)
             if (isSubscribed) {
                 setShotsGameData(shots.data);
             }
@@ -139,7 +141,7 @@ const Dropdown = (props) => {
         let isSubscribed = true;
             const getPlayerId = async() => {
             
-                let playerid = await axios.get(`/playersNBA/${selectedSeason}/${selectedPlayer}`)
+                let playerid = await hoop.get(`/api/playersNBA/${selectedSeason}/${selectedPlayer}`)
                 console.log(playerid.data);
                 if (isSubscribed) {
                     setPlayerId(playerid.data[0]);
@@ -156,7 +158,7 @@ const Dropdown = (props) => {
         let isSubscribed = true;
             const getAverages = async() => {
             
-                let boxScore = await axios.get(`/boxScoresTraditional/averages/${playerid.player_id}/${selectedSeason}`)
+                let boxScore = await hoop.get(`/api/boxScoresTraditional/averages/${playerid.player_id}/${selectedSeason}`)
                 if (isSubscribed) {
                     setBoxScore(boxScore.data);
                 }
@@ -173,7 +175,7 @@ const Dropdown = (props) => {
       let isSubscribed = true;
           const getGameStats = async() => {
           
-              let boxScore = await axios.get(`/boxScoresTraditional/${selectedSeason}/${selectedGame.substring(0,10)}/${playerid.player_id}`);
+              let boxScore = await hoop.get(`/api/boxScoresTraditional/${selectedSeason}/${selectedGame.substring(0,10)}/${playerid.player_id}`);
               if (isSubscribed) {
                   setGameBox(boxScore.data);
               }

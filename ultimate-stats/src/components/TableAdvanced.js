@@ -4,6 +4,7 @@ import TableHead from "./TableHead";
 //import tableData1 from "../data.json";
 import axios from "axios";
 import '../App.css';
+import hoop from "../apis/hoop";
 
 
 const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
@@ -11,7 +12,7 @@ const TableAdvanced = ({ selectedSeason, setSelectedSeason }) => {
     
     let columns = [];
     useEffect(() => {
-        axios.get(`/statranked/boxScores/${selectedSeason}`) // your url may look different
+        hoop.get(`/api/statranked/boxScores/${selectedSeason}`) // your url may look different
         .then(data => setTableData(data.data)) // set data to state
     }, [selectedSeason]);
     console.log(tableData);

@@ -5,6 +5,8 @@ import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
 import ExpectedResults from "./ExpectedResults";
+import hoop from "../apis/hoop";
+
 
 const ExpectedFromRoster = ({   gameDate,
                                 matchup,
@@ -35,14 +37,14 @@ const ExpectedFromRoster = ({   gameDate,
         const getStats = async() => {
         
             if (gameId !== '1') {
-                let results = await axios.get(`/boxScoresTraditional/averages/82games/${gameId}/${playerId}/${selectedSeason}/${H_or_V}`)
+                let results = await hoop.get(`/api/boxScoresTraditional/averages/82games/${gameId}/${playerId}/${selectedSeason}/${H_or_V}`)
                 if (results.data.length > 0) {
                     setPlayerAverages(results.data);
                     setTotalMins((currentMins) => currentMins + parseFloat(results.data[0].min))
                     setTotalStat((currentStat) => currentStat + parseFloat(results.data[0]['+/-']))
                 
                 } else {
-                    let results = await axios.get(`/boxScoresTraditional/averages/82games/${playerId}/${previousSeason}/${H_or_V}`)
+                    let results = await hoop.get(`/api/boxScoresTraditional/averages/82games/${playerId}/${previousSeason}/${H_or_V}`)
                     if (results.data.length > 0) {
                         setPlayerAverages(results.data);
                         setTotalMins((currentMins) => currentMins + parseFloat(results.data[0].min))
@@ -78,7 +80,7 @@ const ExpectedFromRoster = ({   gameDate,
                     }
                 }
             } else {
-                let results = await axios.get(`/boxScoresTraditional/averages/82games/${playerId}/${previousSeason}/${H_or_V}`)
+                let results = await hoop.get(`/api/boxScoresTraditional/averages/82games/${playerId}/${previousSeason}/${H_or_V}`)
                 if (results.data.length > 0) {
                     
                     setPlayerAverages(results.data);

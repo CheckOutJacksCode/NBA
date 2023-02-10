@@ -3,6 +3,8 @@ import '../App.css';
 import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
+import hoop from "../apis/hoop";
+
 
 const PredictionResultsTable = ({teamsH, setTeamsH, teamsV,
 setTeamsV}) => {
@@ -10,7 +12,7 @@ setTeamsV}) => {
     useEffect(() => {
         
         const getTeamsH = async() => {
-            let results = await axios.get(`/teamnames`);
+            let results = await hoop.get(`/api/teamnames`);
             console.log(results.data);
             setTeamsH(results.data);
         }
@@ -19,7 +21,7 @@ setTeamsV}) => {
 
     useEffect(() => {
         const getTeamsV = async() => {
-            let results = await axios.get(`/teamnames`);
+            let results = await hoop.get(`/api/teamnames`);
             let data = results.data
             setTeamsV(data);
         }

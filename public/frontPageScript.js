@@ -60,7 +60,7 @@ const getPlayer = async() => {
 */
 const postPlayer = async(obj) => {
     console.log('wwwwwwwwwwwww');
-    const url = '/publicApiPlayers';
+    const url = '/api/publicApiPlayers';
     console.log(obj);
     try{
         const response = await fetch(url, {
@@ -84,7 +84,7 @@ const postWriteJsonPlayers = async(obj) => {
     console.log('wwwwwwwwwwwww');
     console.log(obj);
     console.log(obj.length);
-    const url = '/publicApiPlayers/playerscloud';
+    const url = '/api/publicApiPlayers/playerscloud';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -107,7 +107,7 @@ const postPlayersNBA = async(obj) => {
     console.log('skittttttttlllllllllllleeeeeeeeeeeesssssssssssssssssssssssssssssssssssssssssssssssss');
     console.log(obj);
     
-    const url = '/playersNBA';
+    const url = '/api/playersNBA';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -128,7 +128,7 @@ const postPlayersNBA = async(obj) => {
 
 const postGame = async(obj) => {
     console.log('tttttttttt');
-    const url = '/publicGames';
+    const url = '/api/publicGames';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -149,7 +149,7 @@ const postGame = async(obj) => {
 
 const postGameCloud = async(obj) => {
     console.log('tttttttttt');
-    const url = '/publicGames/gamescloud';
+    const url = '/api/publicGames/gamescloud';
     console.log(obj);
     try{
         const response = await fetch(url, {
@@ -171,7 +171,7 @@ const postGameCloud = async(obj) => {
 
 const postGameInfoCloud = async(obj) => {
     console.log('wwwwwwwwwww');
-    const url = '/publicGames/gameinfocloud';
+    const url = '/api/publicGames/gameinfocloud';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -192,7 +192,7 @@ const postGameInfoCloud = async(obj) => {
 
 const postGameInfo = async(obj, year) => {
     console.log('wwwwwwwwwww');
-    const url = '/publicGames/seasonyear/' + year;
+    const url = '/api/publicGames/seasonyear/' + year;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -213,7 +213,7 @@ const postGameInfo = async(obj, year) => {
 
 const postShot = async(obj) => {
     console.log('wwwwwwooooooooooooooooooooooooooooooooooooooooooowwwww');
-    const url = '/shots';
+    const url = '/api/shots';
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -234,7 +234,7 @@ const postShot = async(obj) => {
 
 const postShotBySeason = async(obj, season) => {
     console.log('cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc');
-    const url = `/shots/${season}`;
+    const url = `/api/shots/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -255,7 +255,7 @@ const postShotBySeason = async(obj, season) => {
 
 const postBoxScoresBySeason = async(obj, season) => {
     console.log(season);
-    const url = `/box/${season}`;
+    const url = `/api/box/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -276,7 +276,7 @@ const postBoxScoresBySeason = async(obj, season) => {
 
 const postNewOdds = async(odds, season) => {
 
-    const url = `/gambling/newOdds/${season}`;
+    const url = `/api/gambling/newOdds/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -298,7 +298,7 @@ const postNewOdds = async(odds, season) => {
 
 const postBoxScoresTraditionalBySeason = async(obj, season) => {
     console.log(season);
-    const url = `/boxScoresTraditional/${season}`;
+    const url = `/api/boxScoresTraditional/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -319,7 +319,7 @@ const postBoxScoresTraditionalBySeason = async(obj, season) => {
 
 const postLeagueGamesBySeason = async(obj, season) => {
     console.log(season);
-    const url = `/leagueGames/${season}`;
+    const url = `/api/leagueGames/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -340,7 +340,7 @@ const postLeagueGamesBySeason = async(obj, season) => {
 
 const postLeagueHustleStatsBySeason = async(obj, season) => {
     console.log(season);
-    const url = `/hustleStats/${season}`;
+    const url = `/api/hustleStats/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -361,7 +361,7 @@ const postLeagueHustleStatsBySeason = async(obj, season) => {
 
 
 const deleteDatabase = async() => {
-    const url = '/database/delete';
+    const url = '/api/database/delete';
     try {
         const response = await fetch(url, {
             method: 'DELETE',
@@ -382,7 +382,7 @@ const deleteDatabase = async() => {
 
 const postSeasonRegularPlayerStatsTotals = async(obj) => {
     console.log(obj);
-    const url = `/regularSeasonStats`;
+    const url = `/api/regularSeasonStats`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -404,7 +404,7 @@ const postSeasonRegularPlayerStatsTotals = async(obj) => {
 
 const postBoxScoreFourFactors = async(obj, season) => {
     console.log(obj);
-    const url = `/fourFactors/${season}`;
+    const url = `/api/fourFactors/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -426,7 +426,7 @@ const postBoxScoreFourFactors = async(obj, season) => {
 
 const postBoxScoreFourFactorsTeams = async(obj, season) => {
     console.log(obj);
-    const url = `/fourFactors/teams/${season}`;
+    const url = `/api/fourFactors/teams/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -448,7 +448,7 @@ const postBoxScoreFourFactorsTeams = async(obj, season) => {
 
 const postBoxScoreMisc = async(obj, season) => {
     console.log(obj);
-    const url = `/boxScoreMisc/${season}`;
+    const url = `/api/boxScoreMisc/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -470,7 +470,7 @@ const postBoxScoreMisc = async(obj, season) => {
 
 const postBoxScoreMiscTeams = async(obj, season) => {
     console.log(obj);
-    const url = `/boxScoreMisc/teams/${season}`;
+    const url = `/api/boxScoreMisc/teams/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -492,7 +492,7 @@ const postBoxScoreMiscTeams = async(obj, season) => {
 
 const postBoxScorePlayerTracker = async(obj, season) => {
     console.log(obj);
-    const url = `/playerTracker/${season}`;
+    const url = `/api/playerTracker/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -514,7 +514,7 @@ const postBoxScorePlayerTracker = async(obj, season) => {
 
 const postBoxScorePlayerTrackerTeams = async(obj, season) => {
     console.log(obj);
-    const url = `/playerTracker/teams/${season}`;
+    const url = `/api/playerTracker/teams/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -536,7 +536,7 @@ const postBoxScorePlayerTrackerTeams = async(obj, season) => {
 
 const postLeagueDashLineups = async(obj, season) => {
     console.log(obj);
-    const url = `/leagueDashLineups/${season}`;
+    const url = `/api/leagueDashLineups/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -558,7 +558,7 @@ const postLeagueDashLineups = async(obj, season) => {
 
 const postLeagueDashOppPtShot = async(obj, season) => {
     console.log(obj);
-    const url = `/leagueDashOppPtShot/${season}`;
+    const url = `/api/leagueDashOppPtShot/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -580,7 +580,7 @@ const postLeagueDashOppPtShot = async(obj, season) => {
 
 const postLeagueDashPlayerClutch = async(obj, season) => {
     console.log(obj);
-    const url = `/leagueDashPlayerClutch/${season}`;
+    const url = `/api/leagueDashPlayerClutch/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -602,7 +602,7 @@ const postLeagueDashPlayerClutch = async(obj, season) => {
 
 const postLeagueDashPlayerPtShot = async(obj, season) => {
     console.log(obj);
-    const url = `/leagueDashPlayerPtShot/${season}`;
+    const url = `/api/leagueDashPlayerPtShot/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -624,7 +624,7 @@ const postLeagueDashPlayerPtShot = async(obj, season) => {
 
 const postLeagueDashPlayerShotLocations = async(obj, season) => {
     console.log(obj);
-    const url = `/leagueDashPlayerPtShot/leaguedashplayershotlocations/${season}`;
+    const url = `/api/leagueDashPlayerPtShot/leaguedashplayershotlocations/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -646,7 +646,7 @@ const postLeagueDashPlayerShotLocations = async(obj, season) => {
 
 const postBoxScoreScoring = async(obj, season) => {
     console.log(obj);
-    const url = `/boxScoreScoring/${season}`;
+    const url = `/api/boxScoreScoring/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -668,7 +668,7 @@ const postBoxScoreScoring = async(obj, season) => {
 
 const postBoxScoreScoringTeams = async(obj, season) => {
     console.log(obj);
-    const url = `/boxScoreScoring/teams/${season}`;
+    const url = `/api/boxScoreScoring/teams/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -690,7 +690,7 @@ const postBoxScoreScoringTeams = async(obj, season) => {
 
 const postBoxScoreSummary = async(obj, season) => {
     console.log(obj);
-    const url = `/boxScoreSummary/${season}`;
+    const url = `/api/boxScoreSummary/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -901,7 +901,7 @@ const getStatsArray = async(playerIdArray) => {
 let teamArray = [];
 const teamsDropDown = async() => {
 
-    let teams = await getJsonResponseFront('/teamnames');
+    let teams = await getJsonResponseFront('/api/teamnames');
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("teams").innerHTML = str;
     try {
@@ -923,9 +923,9 @@ teamChosen.onchange = async() => {
 
 const teamPlayersDropDown = async() => {
 
-    let teamId = await getJsonResponseFront(`/leagueGames/teamid/${teamChosen.value}`)
+    let teamId = await getJsonResponseFront(`/api/leagueGames/teamid/${teamChosen.value}`)
     console.log(teamId);
-    let teamPlayers = await getJsonResponseFront(`/boxPlayers/teamplayers/${teamId[0].team_id}`);
+    let teamPlayers = await getJsonResponseFront(`/api/boxPlayers/teamplayers/${teamId[0].team_id}`);
     console.log(teamPlayers);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("teamplayers").innerHTML = str;
@@ -977,13 +977,13 @@ let playerSeasonArray = [];
 const getPlayerSeasons = async() => {
     let player = teamPlayerChosen.value;
 
-    let playerid = await getJsonResponseFront(`/playersNBA/${player}`)
+    let playerid = await getJsonResponseFront(`/api/playersNBA/${player}`)
     
     if (!playerid) {
         await appendStatsUnavailable(seasonAveragesRegularSeasonsTable, 'Stats Unavailable');
         return;
     }
-    let results = await getJsonResponseFront(`/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
+    let results = await getJsonResponseFront(`/api/regularSeasonStats/shotseasons/${playerid[0].playerid}`);
     var str = '<option value="none" selected disabled hidden>Select an Option</option>';
     document.getElementById("season").innerHTML = str;
     let seasonsArr = ['2015-2016', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2021-2022', '2022-2023'];
@@ -1025,20 +1025,20 @@ const splitNameFunction = async(fullName) => {
 }
 
 const displayPlayerCareerStats = async() => {
-    let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`);
+    let playerid = await getJsonResponseFront(`/api/playersNBA/${teamPlayerChosen.value}`);
     if (!playerid) {
         await appendStatsUnavailable(seasonAveragesRegularSeasonsTable, 'Stats Unavailable');
         return;
     }
-    let statLines = await getJsonResponseFront(`/regularSeasonStats/getregularseasonstatlines/${playerid[0].playerid}`);
+    let statLines = await getJsonResponseFront(`/api/regularSeasonStats/getregularseasonstatlines/${playerid[0].playerid}`);
     let appended = await appendPlayerRegularSeasonStatLines(statLines);
     seasonAveragesRegularSeasonsTable.style.border = "1px solid rgb(117, 255, 4)";
 
 }
 
 const displayPlayerSplitStats = async() => {
-    let playerid = await getJsonResponseFront(`/playersNBA/${teamPlayerChosen.value}`)
-    let headers = await getJsonResponseFront(`/statsheaders/boxscorestraditional2015-2016`);
+    let playerid = await getJsonResponseFront(`/api/playersNBA/${teamPlayerChosen.value}`)
+    let headers = await getJsonResponseFront(`/api/statsheaders/boxscorestraditional2015-2016`);
     let stat;
     let average;
     let averageObj = {};
@@ -1147,7 +1147,7 @@ const appendPlayerRegularSeasonStatLines = async(statlines, isSplitLine) => {
 const getSchedule = async() => {
     let season = scheduleSeason.value;
     let copies = [];
-    let results = await getJsonResponseFront(`/leagueGames/frontSchedule/${season}`);
+    let results = await getJsonResponseFront(`/api/leagueGames/frontSchedule/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         if (copies.includes(results[i].game_id)) {
@@ -1179,7 +1179,7 @@ const getAnyStatEveryPlayerRanked = async(stat) => {
     if (!season) {
         season = '2015-2016';
     }
-    let results = await getJsonResponseFront(`/statranked/${stat}/${season}`);
+    let results = await getJsonResponseFront(`/api/statranked/${stat}/${season}`);
     console.log(results);
     for (let i = 0; i < results.length; i++) {
         let appended = await appendStatRankingTable(results[i], stat, season);

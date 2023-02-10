@@ -26,9 +26,9 @@ const getAverageScore = async(season, previousGameId, previousSeason) => {
 
     let averageScore;
     if (previousGameId !== '1' && previousGameId.slice(-2) !== '01') {
-        averageScore = await getJsonResponseJackorithm(`/leagueGames/averageScore/${previousGameId}/${season}`);
+        averageScore = await getJsonResponseJackorithm(`/api/leagueGames/averageScore/${previousGameId}/${season}`);
     } else {
-        averageScore = await getJsonResponseJackorithm(`/leagueGames/averageScore/${previousSeason}`);
+        averageScore = await getJsonResponseJackorithm(`/api/leagueGames/averageScore/${previousSeason}`);
     }
     return averageScore;
 }
@@ -37,17 +37,17 @@ const getAverageScore = async(season, previousGameId, previousSeason) => {
 const getRoster = async(season, teamId, previousGameId) => {
     if (previousGameId === '1' || previousGameId.slice(-2) === '01') {
            
-        let roster = await getJsonResponseJackorithm(`/boxPlayers/getroster/${season}/${teamId}`)
+        let roster = await getJsonResponseJackorithm(`/api/boxPlayers/getroster/${season}/${teamId}`)
         return roster;
     } else {
-        let roster = await getJsonResponseJackorithm(`/boxPlayers/previousgame/gameid/${season}/${teamId}/${previousGameId}`);
+        let roster = await getJsonResponseJackorithm(`/api/boxPlayers/previousgame/gameid/${season}/${teamId}/${previousGameId}`);
         return roster;
     }
 }
         
 
 const postExpectedMatchup = async(obj, season) => {
-    const url = `/gambling/jackorithm/${season}`;
+    const url = `/api/gambling/jackorithm/${season}`;
     try{
         const response = await fetch(url, {
             method: 'POST',
@@ -101,10 +101,10 @@ const fixTheGameDate = async(date) => {
 
 const getOdds = async(season, oddsTeam, fullTeam, oddsDate, fullDate, H_or_V) => {
 
-    let moneyline = await getJsonResponseJackorithm(`/gambling/moneyline/home/${season}/${oddsTeam}/${oddsDate}`)
+    let moneyline = await getJsonResponseJackorithm(`/api/gambling/moneyline/home/${season}/${oddsTeam}/${oddsDate}`)
     if (moneyline.length < 1) {
         if (season === '2022-2023') {
-            moneyline = await getJsonResponseJackorithm(`/gambling/newOdds/${season}/${fullTeam}/${fullDate}/${H_or_V}`)
+            moneyline = await getJsonResponseJackorithm(`/api/gambling/newOdds/${season}/${fullTeam}/${fullDate}/${H_or_V}`)
             if (moneyline.length > 0) {
                 if (H_or_V === 'home') {
                     moneyline = moneyline[0].home_odds;
@@ -145,8 +145,8 @@ const getGreenRed = async(home_expected, visitor_expected, home_actual, visitor_
 
 const getPostObject = async(game, season, previousSeason) => {
     let expected = await getExpected(game, season, previousSeason);
-    let home_team = await getJsonResponseJackorithm(`/boxScoreSummary/teamname/${game.home_team_id}`)
-    let visitor_team = await getJsonResponseJackorithm(`/boxScoreSummary/teamname/${game.visitor_team_id}`)
+    let home_team = await getJsonResponseJackorithm(`/api/boxScoreSummary/teamname/${game.home_team_id}`)
+    let visitor_team = await getJsonResponseJackorithm(`/api/boxScoreSummary/teamname/${game.visitor_team_id}`)
     
     let newHome = await fixTheName(home_team[0].team_name)
     let newVisitor = await fixTheName(visitor_team[0].team_name)
@@ -183,7 +183,7 @@ const getExpected = async(game, season, previousSeason) => {
     let stat = "+/-";
     let homeTeamId = game.home_team_id;
 
-    let homePrevious = await getJsonResponseJackorithm(`/boxScoresTraditional/previousgameid/${game.game_id}/${season}/${homeTeamId}`)
+    let homePrevious = await getJsonResponseJackorithm(`/api/boxScoresTraditional/previousgameid/${game.game_id}/${season}/${homeTeamId}`)
     if (homePrevious.length < 1) {
         homePrevious = '1';
     } else {
@@ -192,7 +192,7 @@ const getExpected = async(game, season, previousSeason) => {
 
     let homeRoster = await getRoster(season, homeTeamId, homePrevious);
     let visitorTeamId = game.visitor_team_id;
-    let visitorPrevious = await getJsonResponseJackorithm(`/boxScoresTraditional/previousgameid/${game.game_id}/${season}/${visitorTeamId}`)
+    let visitorPrevious = await getJsonResponseJackorithm(`/api/boxScoresTraditional/previousgameid/${game.game_id}/${season}/${visitorTeamId}`)
     
     if (visitorPrevious.length < 1) {
         visitorPrevious = '1';
@@ -218,13 +218,13 @@ const getExpectedFromRoster = async(season, H_or_V, roster, previousGameId, stat
         
         let averages;
         if (previousGameId !== '1') {
-            averages = await getJsonResponseJackorithm(`/boxScoresTraditional/averages/82games/${previousGameId}/${roster[i].player_id}/${season}/${H_or_V}`)
+            averages = await getJsonResponseJackorithm(`/api/boxScoresTraditional/averages/82games/${previousGameId}/${roster[i].player_id}/${season}/${H_or_V}`)
             if (averages.length > 0) {
                 totalMins += parseFloat(averages[0].min);
                 totalStat += parseFloat(averages[0][stat]);
 
             } else {
-                averages = await getJsonResponseJackorithm(`/boxScoresTraditional/averages/82games/${roster[i].player_id}/${previousSeason}/${H_or_V}`)
+                averages = await getJsonResponseJackorithm(`/api/boxScoresTraditional/averages/82games/${roster[i].player_id}/${previousSeason}/${H_or_V}`)
                 if (averages.length > 0) {
                     totalMins += parseFloat(averages[0].min);
                     totalStat += parseFloat(averages[0][stat]);
@@ -258,7 +258,7 @@ const getExpectedFromRoster = async(season, H_or_V, roster, previousGameId, stat
                 }
             }
         } else {
-            averages = await getJsonResponseJackorithm(`/boxScoresTraditional/averages/82games/${roster[i].player_id}/${previousSeason}/${H_or_V}`);
+            averages = await getJsonResponseJackorithm(`/api/boxScoresTraditional/averages/82games/${roster[i].player_id}/${previousSeason}/${H_or_V}`);
             if (averages.length > 0) {
         
                 totalMins += parseFloat(averages[0].min);
@@ -302,7 +302,7 @@ const getExpectedFromRoster = async(season, H_or_V, roster, previousGameId, stat
 
 const getGames = async(season) => {
     let previousSeason = await getPreviousYear(season);
-    let games = await getJsonResponseJackorithm(`/leagueGames/withboxscoresummary/${season}`)
+    let games = await getJsonResponseJackorithm(`/api/leagueGames/withboxscoresummary/${season}`)
     for (let i = 540; i < games.length; i++) {
         console.log(i)
         await getPostObject(games[i], season, previousSeason)

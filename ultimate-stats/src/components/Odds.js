@@ -6,6 +6,8 @@ import ShotChartGameSVG from "./ShotChartGameSVG";
 import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
 import ExpectedResults from "./ExpectedResults";
 import ActualResults from "./ActualResults";
+import hoop from "../apis/hoop";
+
 
 const Odds = ({selectedSeason, game, homeTeamId, visitorTeamId, H_or_V}) => {
 
@@ -16,7 +18,7 @@ const Odds = ({selectedSeason, game, homeTeamId, visitorTeamId, H_or_V}) => {
     useEffect(() => {
         const getTeamName = async() => {
             if (H_or_V === 'home') {
-                let results = await axios.get(`/boxScoreSummary/teamname/${homeTeamId}`);
+                let results = await hoop.get(`/api/boxScoreSummary/teamname/${homeTeamId}`);
                 let name = results.data[0].team_name;
                 if (name === 'Los Angeles Lakers') {
                     name = 'LALakers'
@@ -36,7 +38,7 @@ const Odds = ({selectedSeason, game, homeTeamId, visitorTeamId, H_or_V}) => {
                 }
                 setTeamName(name);
             } else {
-                let results = await axios.get(`/boxScoreSummary/teamname/${visitorTeamId}`);
+                let results = await hoop.get(`/api/boxScoreSummary/teamname/${visitorTeamId}`);
                 let name = results.data[0].team_name;
                 if (name === 'Los Angeles Lakers') {
                     name = 'LALakers'
@@ -81,7 +83,7 @@ const Odds = ({selectedSeason, game, homeTeamId, visitorTeamId, H_or_V}) => {
     useEffect(() => {
         const getMoneyLine = async() => {
 
-            let results = await axios.get(`/gambling/moneyline/home/${selectedSeason}/${teamName}/${gameDate}`);
+            let results = await hoop.get(`/api/gambling/moneyline/home/${selectedSeason}/${teamName}/${gameDate}`);
             console.log(results.data);
             setMoneyLine(results.data[0].ml);
         }

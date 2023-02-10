@@ -4,13 +4,15 @@ import TableHead from "./TableHead";
 //import tableData1 from "../data.json";
 import axios from "axios";
 import '../App.css';
+import hoop from "../apis/hoop";
+
 
 const BoxScoresTraditionalTable = ({ selectedSeason }) => {
     const [tableData, setTableData] = useState([]);
     let columns = [];
     useEffect(() => {
         const getBoxTraditionalPerGame = async() => {
-            let results = await axios.get(`/traditionalPerGame/${selectedSeason}`) // your url may look different
+            let results = await hoop.get(`/api/traditionalPerGame/${selectedSeason}`) // your url may look different
             let data = results.data;
             setTableData(data)
         }

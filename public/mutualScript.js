@@ -34,7 +34,7 @@ catch (err) {
 */
 //GET PLAYER IDS FROM LOCAL DATABASE
 const getArrayOfPlayerIdsInEastandWestConferences = async() => {
-    const players = await getJsonResponse('/publicApiPlayers/playerIds');
+    const players = await getJsonResponse('/api/publicApiPlayers/playerIds');
     console.log(players);
     return players;
 }
@@ -270,7 +270,7 @@ const getAssistsAverage = async(year, playerId) => {
 
 const postMvpPoints = async(obj) => {
     console.log('wweeeeeeeeeeeeeeeeeeeewwwwwwwwwww');
-    const url = '/mvpPoints';
+    const url = '/api/mvpPoints';
     console.log(obj);
     try{
         const response = await fetch(url, {
@@ -291,7 +291,7 @@ const postMvpPoints = async(obj) => {
 }
 
 const loadUpMvpPoints = async(season, H_or_V) => {
-    let idNameList = await getJsonResponse(`/boxScoresTraditional/playernameidlist/${season}`);
+    let idNameList = await getJsonResponse(`/api/boxScoresTraditional/playernameidlist/${season}`);
     for (let i = 0; i < idNameList.length; i++) {
         let points = await getMvpPoints(season, idNameList[i].player_id, H_or_V);
         let obj = {playerid: idNameList[i].player_id, player_name: idNameList[i].player_name, mvppoints: points, season: season, H_or_V: H_or_V}
@@ -332,7 +332,7 @@ const getHustleFactor = async(year, playerId) => {
     let plusMinus = await getSeasonStatAvgLocal('plus_minus', year, playerId);
     //let games = await getPlayerStandardGameDetails(playerId);
     //let gamesPlayed = games.length;
-    let player = await getJsonResponse(`/playersNBA/playerNBA/${playerId}`)
+    let player = await getJsonResponse(`/api/playersNBA/playerNBA/${playerId}`)
     console.log(player);
     console.log(offRebPg);
     console.log(stl);
@@ -378,9 +378,9 @@ const getSeasonStatAvgFourFactorsLocal = async(stat, year, playerId, H_or_V) => 
     let url;
     console.log(year);
     if (H_or_V === 'home') {
-        url = '/fourFactors/home/' + playerId + '/' + year; 
+        url = '/api/fourFactors/home/' + playerId + '/' + year; 
     } else {
-        url = '/fourFactors/visitor/' + playerId + '/' + year; 
+        url = '/api/fourFactors/visitor/' + playerId + '/' + year; 
     }
     let gameDetailsArray = await getJsonResponse(url);
     console.log(gameDetailsArray);
@@ -406,11 +406,11 @@ const getSeasonStatAvgLocal = async(stat, year, playerId, H_or_V) => {
         year = '2021-2022'
     }
     if (H_or_V === 'home') {
-        url = '/boxScoresTraditional/home/' + playerId[0].playerid + '/' + year; 
+        url = '/api/boxScoresTraditional/home/' + playerId[0].playerid + '/' + year; 
     } else if (H_or_V === 'visitor') {
-        url = '/boxScoresTraditional/visitor/' + playerId[0].playerid + '/' + year; 
+        url = '/api/boxScoresTraditional/visitor/' + playerId[0].playerid + '/' + year; 
     } else {
-        url = '/boxScoresTraditional/' + playerId[0].playerid + '/' + year;
+        url = '/api/boxScoresTraditional/' + playerId[0].playerid + '/' + year;
     }
     console.log(stat);
     let gameDetailsArray = await getJsonResponse(url);
@@ -446,13 +446,13 @@ const getSeasonTotalOfStat = async(stat, gameDetailsArray) => {
 
 const getIndividualPlayerLocal = async(playerid) => {
     console.log(playerid);
-    const player = await getJsonResponse(`/publicApiPlayers/` + playerid);
+    const player = await getJsonResponse(`/api/publicApiPlayers/` + playerid);
     console.log(player);
     return player;
 }
 ///////////////////////////////////////////////////////////////////////////////
 const getPlayersByLastNameLocal = async(playerLastName) => {
-    let players = await getJsonResponse('/players/lastName/' + playerLastName);
+    let players = await getJsonResponse('/api/players/lastName/' + playerLastName);
     return players;
 }
 /*

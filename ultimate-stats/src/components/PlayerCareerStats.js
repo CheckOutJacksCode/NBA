@@ -3,6 +3,8 @@ import '../App.css';
 import React, { useEffect, useState } from "react";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
+import hoop from "../apis/hoop";
+
 
 const PlayerCareerStats = ({ playerId, selectedPlayer, selectedSeason, seasonsData }) => {
 
@@ -19,7 +21,7 @@ const PlayerCareerStats = ({ playerId, selectedPlayer, selectedSeason, seasonsDa
             console.log(seasonsData)
             let truefalse = false;
             for (let i = 0; i < seasonsData.length; i++) {
-                let results = await axios.get(`/boxScoresTraditional/averages/${playerId.player_id}/${seasonsData[i].season}`);
+                let results = await hoop.get(`/api/boxScoresTraditional/averages/${playerId.player_id}/${seasonsData[i].season}`);
                 console.log(results)
                 if (results.data.length > 0) {
                     results.data[0]["season"] = seasonsData[i].season;
