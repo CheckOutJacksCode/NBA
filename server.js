@@ -64,15 +64,15 @@ app.use(
 );
 
 
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}))
-
-app.use(cookieParser('secret'))
-app.use(passport.initialize())
-app.use(passport.session())
+//app.use(session({
+//    secret: 'secret',
+//    resave: true,
+//    saveUninitialized: true
+//}))
+//
+//app.use(cookieParser('secret'))
+//app.use(passport.initialize())
+//app.use(passport.session())
 
 app.use(express.static('public'));
 

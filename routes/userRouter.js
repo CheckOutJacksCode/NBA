@@ -19,7 +19,7 @@ const db = require('../pgPool')
 const { hashPassword } = require('../middleware/authMiddleware')
 
 let count = 1
-
+/*
 printData = (req, res, next) => {
     console.log("\n==============================")
     console.log(`------------>  ${count++}`)
@@ -44,7 +44,7 @@ printData = (req, res, next) => {
 }
 
 router.use(printData)
-
+*/
 const checkAuthenticated = async(req, res, next) => {
     console.log(req.isAuthenticated)
     console.log('CRAPPPPPPPPPPPPPPPPPPPP')
