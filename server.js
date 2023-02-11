@@ -74,8 +74,8 @@ app.use(
 //app.use(passport.initialize())
 //app.use(passport.session())
 
-app.use(express.static('public'));
-
+//app.use(express.static('public'));
+app.use(express.json());
 
 app.set('view engine', 'ejs');
 
