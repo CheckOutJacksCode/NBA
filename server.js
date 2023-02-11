@@ -75,7 +75,19 @@ app.use(
 //app.use(passport.session())
 
 //app.use(express.static('public'));
-app.use(express.json());
+if (process.env.NODE_ENV === "production") {
+
+    // Set static folder
+    // All the javascript and css files will be read and served from this folder
+    app.use(express.static("ultimate-stats/build"));
+  
+    // index.html for all page routes  html or routing and naviagtion
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname, "./ultimate-stats", "build", "index.html"));
+    });
+} else {
+    app.use(express.static('public'));
+}
 
 app.set('view engine', 'ejs');
 
