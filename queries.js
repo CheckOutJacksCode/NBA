@@ -99,7 +99,7 @@ const getTeamNames = async(request, response) => {
   console.log('inside getTeamNames in leagueGamesQueries')
   db.query('SELECT DISTINCT team_name FROM "leagueGames2021-2022"', (error, results) => {
       if (error) {
-          throw error
+          console.log(error)
       }
       response.status(200).json(results.rows)
   })
@@ -109,7 +109,7 @@ const getStatsHeadersFromTable = (request, response) => {
   const table = request.params;
   db.query(`SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'${table.table}'`, (error, results) => {
     if (error) {
-        throw error
+        console.log(error)
     }
     response.status(200).json(results.rows)
   })
@@ -119,7 +119,7 @@ const getTableLengthBox = (request, response) => {
     const table = request.params;
     db.query(`SELECT COUNT(DISTINCT game_id) FROM "${table.table}"`, (error, results) => {
         if (error) {
-            throw error
+            console.log(error)
         }
         response.status(200).json(results.rows)
     })
@@ -129,7 +129,7 @@ const getTableLength = (request, response) => {
   const table = request.params;
   db.query(`SELECT COUNT(id) FROM "${table.table}"`, (error, results) => {
       if (error) {
-          throw error
+          console.log(error)
       }
       response.status(200).json(results.rows)
   })

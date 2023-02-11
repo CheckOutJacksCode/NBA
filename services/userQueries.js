@@ -3,8 +3,16 @@ const fs = require("fs");
 const { parse } = require("csv-parse");
 const createCsvWriter = require('csv-writer');
 const bcrypt = require('bcrypt');
-const { dequeue } = require("jquery");
 
+
+const getFakeDb = async(request, response, next) => {
+    db.query(`SELECT * FROM users`, (error, results) => {
+        if (error) {
+            console.log(error);
+        }
+        response.status(200).json(results.rows);
+    })
+}
 
 const getUserByEmail = async(request, response, next) => {
     let { email } = request.params;
@@ -105,4 +113,5 @@ module.exports = {
     createUser,
     getBallers,
     postBallers,
+    getFakeDb
 }

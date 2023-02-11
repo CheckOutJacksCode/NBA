@@ -71,6 +71,8 @@ router.get('/', (req, res, next) =>{
     res.sendFile(__dirname + "/views/index");
 })
 */
+
+router.get('/fakedb', users.getFakeDb);
 router.get('/ballers', users.getBallers);
 
 router.post('/ballers', users.postBallers);

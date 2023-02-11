@@ -3,9 +3,17 @@ import '../App.css';
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 import Price from "./Price";
+import hoop from "../apis/hoop";
 
 const TeamName = ({ submitFlag, setSubmitFlag, teamName, setTeamName }) => {
 
+    useEffect(() => {
+      const getUsers = async() => {
+        let results = await hoop.get('/api/users/fakedb')
+        console.log(results.data);
+      }
+      getUsers();
+    }, [])
     function handleChange(e) {
         setTeamName({ value: e.target.value });
     }
