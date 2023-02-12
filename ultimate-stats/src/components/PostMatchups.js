@@ -1,11 +1,6 @@
-import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState } from "react";
-import ShotChartSVG from "./ShotChartSVG";
-import ShotChartGameSVG from "./ShotChartGameSVG";
-import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
-import ActualResults from "./ActualResults";
-import Odds from "./Odds";
+
 import ExpectedResults from "./ExpectedResults";
 import hoop from "../apis/hoop";
 

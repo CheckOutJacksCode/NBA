@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import '../App.css';
 import { orderBy } from "lodash";
-import TeamName from "./TeamName";
-import ComputerTeamName from "./ComputerTeamName";
-import ResultsTableBody from "./ResultsTableBody";
-import TableHead from "./TableHead";
+
 import hoop from "../apis/hoop";
 
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import TableBody from "./TableBody";
 import TableHead from "./TableHead";
 //import tableData1 from "../data.json";
-import axios from "axios";
 import '../App.css';
 import hoop from "../apis/hoop";
 

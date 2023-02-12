@@ -1,8 +1,6 @@
-import axios from "axios";
 import '../App.css';
 import React, { useEffect, useState, useRef } from "react";
-import ShotChartSVG from "./ShotChartSVG";
-import ExpectedResults from "./ExpectedResults";
+
 import ExpectedFromRoster from "./ExpectedFromRoster";
 import hoop from "../apis/hoop";
 

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import '../App.css';
-import TableBody from "./TableBody";
-import TableHead from "./TableHead";
-import Price from "./Price";
 import CpuTableBody from "./CpuTableBody";
 import { orderBy } from "lodash";
 

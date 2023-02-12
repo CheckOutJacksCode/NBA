@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import '../App.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 

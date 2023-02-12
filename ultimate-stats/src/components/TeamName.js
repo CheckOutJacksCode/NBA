@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import '../App.css';
-import TableBody from "./TableBody";
-import TableHead from "./TableHead";
-import Price from "./Price";
+
 import hoop from "../apis/hoop";
 
 const TeamName = ({ submitFlag, setSubmitFlag, teamName, setTeamName }) => {
