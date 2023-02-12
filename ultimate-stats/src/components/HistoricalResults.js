@@ -31,28 +31,28 @@ const HistoricalResults = ({selectedSeason, setSelectedSeason}) => {
                 game.green_red === 'green' ? 
                 <div className="historicalGreen" key={index}>
                     <p>{game.game_date}</p>
-                    <p className="column25">
+                    <p className="column25predictions">
                         H vs. V
                         <br></br>
                         {game.matchup.substring(0,3)}
                         <br></br>
                         {game.matchup.substring(8,11)}
                     </p>
-                    <p className="column25">
+                    <p className="column25predictions">
                         Exp.
                         <br></br>
                         {game.home_expected}
                         <br></br>
                         {game.visitor_expected}
                     </p>
-                    <p className="column25">
+                    <p className="column25predictions">
                         Act.
                         <br></br>
                         {game.home_actual}
                         <br></br>
                         {game.visitor_actual}
                     </p>
-                    <p className="column25">
+                    <p className="column25predictions">
                         Odds
                         <br></br>
                         {game.home_odds}

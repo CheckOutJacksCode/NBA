@@ -6,9 +6,9 @@ function Navbar() {
   return (
     
     <nav>
-      <div>
+      <div className="navdiv">
         <a href="/">
-            <div id="headtag"><img src="hoopscoop.png" alt="Home"/></div>
+            <div id="headtag"><img className="navdiv" src="hoopscoop.png" alt="Home"/></div>
         </a>
       </div>
       <ul>

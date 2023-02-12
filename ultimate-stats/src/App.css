@@ -72,6 +72,7 @@ div.predictionsHistorical {
   text-align: center;
   float: left;
   overflow-x: auto;
+  
 }
 
 .graph-svg-component {
@@ -112,13 +113,17 @@ div.predictionsHistorical {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
 .historicalGreen {
   background-color: #84f879;
   float: left;
   width: 19.00%;
   margin: .5%;
   text-align: center;
-  overflow: hidden;
   color: black;
   border-radius: 5px;
 }
@@ -129,9 +134,9 @@ div.predictionsHistorical {
   width: 19.00%;
   margin: .5%;
   text-align: center;
-  overflow: hidden;
   color: black;
   border-radius: 5px;
+
 }
 
 .column25 {
@@ -140,7 +145,15 @@ div.predictionsHistorical {
   width: 23.00%;
   margin: 1%;
   text-align: center;
-  overflow: hidden;
+  resize: both;
+}
+
+.column25predictions {
+  font-size: small;
+  float: left;
+  width: 23.00%;
+  margin: 1%;
+  text-align: center;
 }
 
 .container {
@@ -285,6 +298,7 @@ h1 {
   margin: 1.5%;
   text-align: center;
   font-size: medium;
+  max-width: 100%;
 }
 
 .errorMessage {
@@ -413,4 +427,8 @@ table.ballers tr:nth-child(even){
 
 table.ballers th {
   background-color: rgb(238, 204, 159);
+}
+
+.navdiv {
+  max-width: 100%;
 }
