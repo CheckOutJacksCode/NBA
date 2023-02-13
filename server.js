@@ -7,6 +7,7 @@ const passport = require('passport');
 const flash = require('express-flash');
 const initializePassport = require('./config/passport');
 initializePassport(passport);
+const path = require('path');
 
 const app = express();
 const bodyParser = require('body-parser')
