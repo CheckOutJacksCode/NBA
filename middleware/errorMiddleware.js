@@ -20,15 +20,15 @@ const errorResponder = (error, request, response, next) => {
           stack: error.stack
       })
   } else {
-      response.status(status).send(error.message)
+      response.status(status).send(error)
   }
 }
 
 // Fallback Middleware function for returning 
 // 404 error for undefined paths
-const invalidPathHandler = (request, response, next) => {
+const invalidPathHandler = (error, request, response, next) => {
   response.status(404)
-  response.send('invalid path')
+  response.send(error)
 }
 
 module.exports = { errorLogger, errorResponder, invalidPathHandler }
