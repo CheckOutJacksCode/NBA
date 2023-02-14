@@ -2,11 +2,11 @@ const Pool = require('pg-pool');
 const url = require('url');
 
 const config = {
-  user: process.env.PG_USERNAME,
-  password: process.env.PG_PASSWORD,
-  host: process.env.PG_HOST,
-  port: process.env.PG_PORT,
-  database: process.env.PG_DATABASE
+  user: "petejackerson",
+  host: "localhost",
+  database: "nbastatistics",
+  password: "redsox45",
+  port: 5432
 };
 
 const pool = new Pool(config);
