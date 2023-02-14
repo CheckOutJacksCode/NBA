@@ -22,72 +22,72 @@ const HistoricalResults = ({selectedSeason, setSelectedSeason}) => {
     }, [selectedSeason])
 
     return (
-        <div>
+        <div className='gridContainer'>
             {historicalResults.map((game, index) => (
                 
                 game.green_red === 'green' ? 
                 <div className="historicalGreen" key={index}>
-                    <p>{game.game_date}</p>
-                    <p className="column25predictions">
+                    <p className='gamedate'>{game.game_date}</p>
+                    <div className="column25predictions">
                         H vs. V
                         <br></br>
                         {game.matchup.substring(0,3)}
                         <br></br>
                         {game.matchup.substring(8,11)}
-                    </p>
-                    <p className="column25predictions">
+                    </div>
+                    <div className="column25predictions">
                         Exp.
                         <br></br>
                         {game.home_expected}
                         <br></br>
                         {game.visitor_expected}
-                    </p>
-                    <p className="column25predictions">
+                    </div>
+                    <div className="column25predictions">
                         Act.
                         <br></br>
                         {game.home_actual}
                         <br></br>
                         {game.visitor_actual}
-                    </p>
-                    <p className="column25predictions">
+                    </div>
+                    <div className="column25predictions">
                         Odds
                         <br></br>
                         {game.home_odds}
                         <br></br>
                         {game.visitor_odds}
-                    </p>
+                    </div>
                 </div>
                 :
                 <div className="historicalRed" key={index}>
-                    <p>{game.game_date}</p>
-                    <p className="column25">
+                    <p className='gamedate'>{game.game_date}</p>
+                    <div className="column25predictions">
                         H vs. V
                         <br></br>
                         {game.matchup.substring(0,3)}
                         <br></br>
                         {game.matchup.substring(8,11)}
-                    </p>
-                    <p className="column25">
+                    </div>
+                    <div className="column25predictions">
                         Exp.
                         <br></br>
                         {game.home_expected}
                         <br></br>
                         {game.visitor_expected}
-                    </p>
-                    <p className="column25">
+                    </div>
+                    <div className="column25predictions">
                         Act.
                         <br></br>
                         {game.home_actual}
                         <br></br>
                         {game.visitor_actual}
-                    </p>
-                    <p className="column25">
+                    </div>
+                    <div className="column25predictions">
                         Odds
                         <br></br>
                         {game.home_odds}
                         <br></br>
                         {game.visitor_odds}
-                    </p>
+                    </div>
                 </div>
             ))}
         </div>

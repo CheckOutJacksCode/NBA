@@ -21,9 +21,9 @@ const ActualResults = ({ game, H_or_V }) => {
     }, [game, H_or_V])
 
     return (
-        <div>
+        <>
             {actual}
-        </div>
+        </>
     )
 }
 

@@ -6,7 +6,7 @@ const UserCapSpace = ({ roster, teamSalary, setTeamSalary, deletePlayer }) => {
 
     return (
         <div className="teamSalary">
-            <span>Current Salary:</span>
+            <span>User:</span>
             <br></br>
             {"$" + teamSalary}
         </div>

@@ -6,8 +6,26 @@
   align-items: center;
 }
 
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
 body {
   background-color: rgb(230, 204, 170);
+  width: 100%;
+  min-height: 100vh;
+}
+
+.gridContainer {
+  display: grid;
+  gap: 10px;
+  max-height: 100vh;
+/*  Change the values     👇 to experiment */
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto;
+
 }
 
 .matchupResults {
@@ -54,17 +72,32 @@ div.predictionsHistorical {
   font-weight: 600;
 }
 
+.upcomingContainer {
+  display: grid;
+  gap: 10px;
+  max-height: 100vh;
+/*  Change the values     👇 to experiment */
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+
+
 .upcoming {
-  float: left;
-  width: 96%;
-  margin: 2%;
   text-align: center;
   color:black;
   background-color: rgb(85, 149, 213);
-  padding: 10px;
   font-weight: 600;
   border-radius: 5px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+}
 
+.column33predictions {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: medium;
 }
 
 .column80 {
@@ -115,28 +148,39 @@ div.predictionsHistorical {
 
 .grid {
   display: grid;
+  gap: 20px;
   grid-template-columns: repeat(5, 1fr);
 }
 
 .historicalGreen {
   background-color: #84f879;
-  float: left;
-  width: 19.00%;
-  margin: .5%;
   text-align: center;
   color: black;
   border-radius: 5px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(4, 1fr);
+
 }
 
 .historicalRed {
   background-color: #ff9d9d;
-  float: left;
-  width: 19.00%;
-  margin: .5%;
   text-align: center;
   color: black;
   border-radius: 5px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(4, 1fr);
 
+}
+
+.gamedate {
+  grid-column: span 4;
+}
+
+.upcomingGamedate {
+  grid-column: span 3;
+  text-align: center;
 }
 
 .column25 {
@@ -150,9 +194,8 @@ div.predictionsHistorical {
 
 .column25predictions {
   font-size: small;
-  float: left;
-  width: 23.00%;
-  margin: 1%;
+  display: grid;
+  place-items: center;
   text-align: center;
 }
 
@@ -167,14 +210,6 @@ div.predictionsHistorical {
   text-align: center;
   font-size: medium;
 }
-
-.upcoming {
-  text-align: center;
-  color:black;
-  background-color: rgb(85, 149, 213);
-  font-weight: 600;
-}
-
 
 /* Clear floats after the columns */
 .row:after {
@@ -366,7 +401,7 @@ table.center {
   text-align: center;
   margin-left:auto; 
   margin-right:auto;
-  width: 250px;
+  width: auto;
   padding: 8;
   background-color: rgb(249, 222, 188);
   border-radius: 5px;

@@ -175,9 +175,9 @@ const ExpectedFromRoster = ({   gameDate,
         }
         
         return (
-            <div>
+            <>
                 {averageScore > 0 && totalMins > 0 ? (averageScore + (totalStat / totalMins * 240)).toFixed(0) : 'loading'}
-            </div>
+            </>
         )
     }
     

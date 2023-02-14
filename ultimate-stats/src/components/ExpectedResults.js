@@ -148,7 +148,7 @@ const ExpectedResults = ({ homeExpectedResults,
                 {game.game_date}
                 <br></br>
                 <div>
-                    <div className="column25">
+                    <div className="column25predictions">
                     <p>H vs. V</p>
                     {matchup ? matchup.substring(0,4) : 'loading'}
                     <br></br>
@@ -156,7 +156,7 @@ const ExpectedResults = ({ homeExpectedResults,
                     <br></br>
                     {matchup ? matchup.substring(8, 11) : 'loading'}
                     </div>
-                    <div className="column25">
+                    <div className="column25predictions">
                     <p>Exp.</p>
                     {homePreviousGameId && averageScore > 0 ? <GetRosterFromPreviousGame averageScore={averageScore}
                                                                      previousSeason={previousSeason} 
@@ -198,13 +198,13 @@ const ExpectedResults = ({ homeExpectedResults,
                                                                         H_or_V={'visitor'} 
                                                                         setH_or_V={setH_or_V}/> : 'loading'}
                     </div>
-                    <div className="column25">
+                    <div className="column25predictions">
                     <p>Act.</p>
                     {<ActualResults game={game} H_or_V={'home'}/>}
                     <br></br>
                     {<ActualResults game={game} H_or_V={'visitor'}/>}
                     </div>
-                    <div className="column25">
+                    <div className="column25predictions">
                     <p>Odds</p>
                     {<Odds selectedSeason={selectedSeason} game={game} homeTeamId={homeTeamId} visitorTeamId={visitorTeamId} H_or_V={'home'}/>}
                     <br></br>
@@ -213,20 +213,20 @@ const ExpectedResults = ({ homeExpectedResults,
                 </div>
             </div>
             :
-            <div>
-                <span className="header">{game.commence_time.substring(0,10)}</span>
-                <br></br>
-                <div>
-                    <div className="column33">
-                    <p>H vs. V</p>
+            <div className='upcoming'>
+                <p className="upcomingGamedate">{game.commence_time.substring(0,10)}</p>                
+                <div className="column33predictions">
+                    H vs. V
+                    <br></br>
                     {matchup ? matchup.substring(0,4) : 'loading'}
                     <br></br>
                     vs.
                     <br></br>
                     {matchup ? matchup.substring(8, 11) : 'loading'}
-                    </div>
-                    <div className="column33">
-                    <p>Exp.</p>
+                </div>
+                <div className="column33predictions">
+                    Exp.
+                    <br></br>
                     {homePreviousGameId && averageScore > 0? <GetRosterFromPreviousGame averageScore={averageScore} 
                                                                                      previousSeason={previousSeason} 
                                                                                      homeExpectedResults={homeExpectedResults} 
@@ -266,15 +266,14 @@ const ExpectedResults = ({ homeExpectedResults,
                                                                                         setSelectedSeason={setSelectedSeason} 
                                                                                         H_or_V={'visitor'} 
                                                                                         setH_or_V={setH_or_V}/> : 'loading'}
-                    </div>
-                    <div className="column33">
-                    <p>Odds</p>
+                </div>
+                <div className="column33predictions">
+                    Odds
+                    <br></br>
                     {game.home_odds}
                     <br></br>
-                    <br></br>
                     {game.away_odds}
-                </div>
-            </div>
+                </div> 
         </div>}
     </div>
     )

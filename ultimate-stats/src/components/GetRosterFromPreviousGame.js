@@ -142,11 +142,11 @@ const GetRosterFromPreviousGame = ({ averageScore,
 //{<ExpectedFromRoster totalStat={totalStat} setTotalStat={setTotalStat} totalMins={totalMins} setTotalMins={setTotalMins} gameId={previousGameId} previousSeason={previousSeason} selectedSeason={selectedSeason} playerId={player.player_id} H_or_V={H_or_V} teamId={teamId} />}
 
     return (
-        <div>
+        <>
             {roster.map((player, index, roster) => (
                 <ExpectedFromRoster key={index} gameDate={gameDate} matchup={matchup} averageScore={averageScore} previousSeason={previousSeason} H_or_V={H_or_V} roster={roster} homeExpectedResults={homeExpectedResults} setHomeExpectedResults={setHomeExpectedResults} visitorExpectedResults={visitorExpectedResults} setVisitorExpectedResults={setVisitorExpectedResults} index={index} totalStat={totalStat} setTotalStat={setTotalStat} totalMins={totalMins} setTotalMins={setTotalMins} gameId={previousGameId} selectedSeason={selectedSeason} playerId={player.player_id} teamId={teamId} />
             ))}
-        </div>
+        </>
     )
 }
 

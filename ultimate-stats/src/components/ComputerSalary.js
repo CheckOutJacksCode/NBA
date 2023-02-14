@@ -7,7 +7,7 @@ const ComputerSalary = ({ cpuRoster }) => {
 
     return (
         <div className="teamSalary">
-            <span>Current Computer Salary:</span>
+            <span>Cpu:</span>
             <br></br>
             {cpuRoster.length === 10 ? "$35" : "$0"}
         </div>

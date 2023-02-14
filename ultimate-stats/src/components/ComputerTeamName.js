@@ -14,10 +14,12 @@ const ComputerTeamName = ({ cpuRoster, cpuName, setCpuName }) => {
     let names = [
         "Seattle Soggy Sox",
         "Louisville Daffodils",
-        "Las Vegas Knuckleheads",
+        "Las Vegas Waterparks",
         "Montreal Basketballs",
+        "Quebec Body-Surfers",
         "St. Louis Lagers",
-        "Mexico City Tenacious Kitties"
+        "Mexico City Glaciers",
+        "Albuquerque Mountain Goats"
     ]
 
     useEffect(() => {
