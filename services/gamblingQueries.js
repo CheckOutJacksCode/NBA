@@ -6,7 +6,7 @@ const createCsvWriter = require('csv-writer');
 const getOddsFromCSV = (request, response, next) => {
     let season = request.params;
     const data = [];
-    fs.createReadStream(`./odds${season.season}.csv`)
+    fs.createReadStream(`./juicystats/odds${season.season}.csv`)
         .pipe(
           parse({
             delimiter: " ",
@@ -34,7 +34,7 @@ const getOddsFromCSV = (request, response, next) => {
 const getNewOddsFromCSV = (request, response, next) => {
     let season = request.params;
     const data = [];
-    fs.createReadStream(`./newOdds${season.season}.csv`)
+    fs.createReadStream(`./juicystats/newOdds${season.season}.csv`)
         .pipe(
           parse({
             delimiter: ",",

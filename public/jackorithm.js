@@ -303,7 +303,7 @@ const getExpectedFromRoster = async(season, H_or_V, roster, previousGameId, stat
 const getGames = async(season) => {
     let previousSeason = await getPreviousYear(season);
     let games = await getJsonResponseJackorithm(`/api/leagueGames/withboxscoresummary/${season}`)
-    for (let i = 540; i < games.length; i++) {
+    for (let i = 412; i < games.length; i++) {
         console.log(i)
         await getPostObject(games[i], season, previousSeason)
     }

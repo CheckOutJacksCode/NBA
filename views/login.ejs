@@ -17,7 +17,7 @@
             <li><%= messages.error %></li>
             <% } %>
         </ul>
-        <form action="/users/login" method="POST" style="vertical-align:top;text-align:center;">
+        <form action="/api/users/login" method="POST" style="vertical-align:top;text-align:center;">
         <div>
             <input type="email" id="email" name="email" placeholder="email" required>
         </div>
@@ -27,7 +27,7 @@
         <div>
             <input type="submit" value="Login" />
         </div>
-        <a href="/users/register">Register</a>
+        <a href="/api/users/register">Register</a>
         </form>
     </body>
 </html>

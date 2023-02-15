@@ -1,14 +1,7 @@
 import React, {useState} from 'react';
-import logo from '../logo.svg';
-import Table from "../components/Table";
-import NavBar from '../NavBar';
-import StatTypeDropDown from '../components/StatTypeDropDown';
-import TableAdvanced from '../components/TableAdvanced';
 import '../App.css';
 import SeasonsDropdown from '../components/SeasonsDropdown';
-import HustleTable from '../components/HustleTable';
-import TableDropdown from '../components/TableDropDown';
-import PlayerStats from '../components/PlayerStats';
+
 import CarmeloFactor from '../components/CarmeloFactor';
 
 const Home = () => {
@@ -18,8 +11,11 @@ const Home = () => {
 
     return (
         <div>
-            <div className="dropdown">
+            <div className="centerText">
             <h1>CUMULATIVE STATS</h1>
+            CARMELO FACTOR: Player's hustle stats per minute * 100 + efg% - 100
+            <br></br>
+            MVP POINTS: sum of custom weights of player's traditional stats (MVP rankings)
             <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />
             <br></br>
             <CarmeloFactor selectedSeason={selectedSeason} />

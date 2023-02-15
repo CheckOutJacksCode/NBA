@@ -12,7 +12,6 @@ const bcrypt = require('bcrypt');
 //const redisClient = new Redis(process.env.REDIS_URL);
 const users = require('../services/userQueries');
 const db = require('../pgPool')
-
 /*router.get('../script.js.', function(req, res) {
     res.sendFile("C:/Users/jackp/desktop/coding/photocaption/views/script.js");
 });*/
@@ -48,8 +47,6 @@ router.use(printData)
 const checkAuthenticated = async(req, res, next) => {
     console.log(req.isAuthenticated)
     console.log('CRAPPPPPPPPPPPPPPPPPPPP')
-    console.log(req.session)
-    console.log(req.session.passport)
     if (req.isAuthenticated()) { 
         console.log(req.session.passport)
         return next() 

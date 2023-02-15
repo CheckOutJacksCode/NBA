@@ -867,5 +867,5 @@ def boxScoreMiscFunction(gameid):
 ##getPlayerIds()
 ##readBoxScoreSummary()
 ##writeNBAplayers()
-##getOdds()
+getOdds()
 ##readLeagueMisc()

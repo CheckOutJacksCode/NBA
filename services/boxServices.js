@@ -34,7 +34,7 @@ const boxScoreLoad = (request, response, next) => {
     let season = request.params;
     console.log(season);
     const data = [];
-    fs.createReadStream(`./boxscores${season.season}.csv`)
+    fs.createReadStream(`./juicystats/boxscores${season.season}.csv`)
         .pipe(
           parse({
             delimiter: ",",
