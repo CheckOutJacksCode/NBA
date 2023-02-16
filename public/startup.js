@@ -398,7 +398,7 @@ const loadUpBoxScoresLocalFunction = async() => {
     tablelength = tablelength[0].count
  
     let data = await getJsonResponseStartup(`/api/box/read/${season}`);
-    for (let i = tablelength; i < data.length; i++) {
+    for (let i = tablelength - 1; i < data.length; i++) {
         console.log(i);
         await postBoxScoresBySeason(data[i], season);
     }
@@ -509,7 +509,7 @@ const loadUpBoxScoreMiscFunction = async() => {
     console.log(results);
     console.log(tablelength)
     console.log(results.length)
-    for (let i = tablelength; i < results.length; i++) {
+    for (let i = tablelength - 1; i < results.length; i++) {
         let postedResults = await postBoxScoreMisc(results[i], season);
     }
 }
