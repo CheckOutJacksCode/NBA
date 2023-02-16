@@ -207,7 +207,7 @@ router.get('/dashboard', (req, res) => {
     }
 })*/
 
-router.post('/', async(req, res, next) => {
+router.post('/', checkAuthenticated, async(req, res, next) => {
     console.log(req.body.password);
     const name = req.body.name;
     const email = req.body.email;
@@ -260,28 +260,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
     }
 })
 
-/**
- * @swagger
- * /api/users/individual/{uuid}:
- *    get:
- *      summary: Get an individual user
- *      produces:
- *        - application/json
- *      tags:
- *        - User
- *      parameters:
- *        - name: uuid
- *          description: user uuid
- *          in: path
- *          type: string
- *          required: true
- *          example: "3ab88db9-5324-4a8a-8705-50dd2a9b8d93"
- *      responses:
- *        "200":
- *          description: returns a user
- *        "404":
- *          description: user not found
- */
+
 router.get('/individual/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     try {
@@ -297,59 +276,7 @@ router.get('/individual/:uuid', async (req, res) => {
     }
 })
 
-/**
- * @swagger
- * /api/users/{uuid}:
- *    put:
- *      summary: Updates a user
- *      produces:
- *        - application/json
- *      tags:
- *        - User
- *      security:
- *        - ApiKeyAuth: []
- *      parameters:
- *        - name: uuid
- *          description: user uuid to update
- *          in: path
- *          type: string
- *          required: true
- *          example: "f884d30e-9497-4690-823d-e1c4f2094905" 
- *      requestBody:
- *        description: Updated user
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                uuid:
- *                  type: string
- *                name:
- *                  type: string
- *                email:
- *                  type: string
- *      responses:
- *        "201":
- *          description: returns updated user
- *          schema:
- *            type: object
- *            properties:
- *              uuid:
- *                type: string
- *              name:
- *                type: string
- *              email:
- *                type: string
- *              password:
- *                type: string
- *        "401":
- *          description: User not authenticated
- *        "403":
- *          description: User not authorized to update this user
- *        "404":
- *          description: user not found
- */
+
 router.put('/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     const { name, email, password } = req.body;
@@ -367,28 +294,7 @@ router.put('/:uuid', async (req, res) => {
     }
 })
 
-/**
- * @swagger
- * /api/users/{uuid}:
- *    delete:
- *      summary: delete an individual user
- *      produces:
- *        - application/json
- *      tags:
- *        - User
- *      parameters:
- *        - name: uuid
- *          description: user uuid
- *          in: path
- *          type: integer
- *          required: true
- *          example: "9393939gnfde93494"
- *      responses:
- *        "200":
- *          description: returns a successful deletion
- *        "404":
- *          description: user not found
- */
+
 router.delete('/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     try {
@@ -401,35 +307,6 @@ router.delete('/:uuid', async (req, res) => {
     }
 })
 
-/**
- * @swagger
- * /api/users/login:
- *    post:
- *      summary: Login to get access to dashboard
- *      produces:
- *        - application/json
- *      tags:
- *        - User
- *      requestBody:
- *        description: User data for new user
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                email:
- *                  type: string
- *                  example: testuser@test.com
- *                password:
- *                  type: string
- *                  example: p@ssw0rd
- *      responses:
- *        "200":
- *          description: logs in user
- *        "401":
- *          description: incorrect username or password
- */
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
     function(req, res) {
