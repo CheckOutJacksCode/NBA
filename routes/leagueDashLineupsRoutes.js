@@ -141,6 +141,6 @@ router.get('/read/:season', dashLineups.getLeagueDashLineupsFromJson);
  *        '404':
  *          description: Invalid Path
  */
-router.post(`/:season`, dashLineups.createLeagueDashLineups);
+router.post(`/:season`, checkAuthenticated, dashLineups.createLeagueDashLineups);
 
 module.exports = router;

@@ -234,7 +234,7 @@ router.get('/visitor/:playerid/:season', boxScoreTraditional.getBoxScoreTraditio
  *        '404':
  *          description: Invalid Path
  */
-router.post('/:season', boxScoreTraditional.createBoxScoresTraditional);
+router.post('/:season', checkAuthenticated, boxScoreTraditional.createBoxScoresTraditional);
 
  /** 
  * @swagger

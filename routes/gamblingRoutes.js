@@ -56,7 +56,7 @@ const { checkAuthenticated } = require('./userRouter');
  */
 router.get('/odds/:season', checkAuthenticated, gambling.getOddsFromCSV);
 
-router.post('/odds/:season', checkAuthenticated, gambling.createOddsBySeason);
+router.post('/odds/:season', gambling.createOddsBySeason);
 
 router.get('/newOdds/:season', gambling.getNewOddsFromCSV)
 
