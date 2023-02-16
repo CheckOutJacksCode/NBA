@@ -83,7 +83,7 @@ const { checkAuthenticated } = require('./userRouter');
  *                   2,
  *                   20
  *               ]
- * /leagueDashLineups/read/{season}:
+ * /api/leagueDashLineups/read/{season}:
  *   get:
  *     summary: Read League Dash Lineups from CSV
  *     parameters:
@@ -109,7 +109,7 @@ router.get('/read/:season', dashLineups.getLeagueDashLineupsFromJson);
 
 /**
  * @swagger
- * /leagueDashLineups/{season}:
+ * /api/leagueDashLineups/{season}:
  *    post:
  *      summary: Creates a new league dash lineups row in database
  *      parameters:

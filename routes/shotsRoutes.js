@@ -209,7 +209,7 @@ router.get('/', checkAuthenticated, shots.getShots);
 
 /**
  * @swagger
- * /shots/{season}:
+ * /api/shots/{season}:
  *   get:
  *     summary: Get ShotsArray by season
  *     parameters:
@@ -236,7 +236,7 @@ router.get('/:season', checkAuthenticated, shots.getShotsBySeason);
 
 /**
  * @swagger
- * /shots/{player}/{season}:
+ * /api/shots/{player}/{season}:
  *   get:
  *     summary: Get ShotsArray by player season
  *     parameters:
@@ -286,7 +286,7 @@ router.get('/local/shots/:player', shots.getShotsByPlayerLocal);
 
 /**
  * @swagger
- * /shots/{player}/{season}/{game_id}:
+ * /api/shots/{player}/{season}/{game_id}:
  *   get:
  *     summary: Get ShotsArray by player season and game_id
  *     parameters:
@@ -330,7 +330,7 @@ router.post('/', checkAuthenticated, shots.createShot);
 
 /**
  * @swagger
- * /shots/{season}:
+ * /api/shots/{season}:
  *    post:
  *      summary: Creates a new shots row in database
  *      parameters:

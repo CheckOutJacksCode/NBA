@@ -123,7 +123,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         PF: '5'
  *         PTS: '10'
  *         PLUS_MINUS: '20.0'
- * /boxScoresTraditional/home/{playerid}/{season}:
+ * /api/boxScoresTraditional/home/{playerid}/{season}:
  *   get:
  *     summary: Get Home Box Score Traditional by player season
  *     parameters:
@@ -167,7 +167,7 @@ router.get(`/sumstat/:season/:teamId/:gameId/:stat`, boxScoreTraditional.getSumS
 
  /** 
  * @swagger
- * /boxScoresTraditional/visitor/{playerid}/{season}:
+ * /api/boxScoresTraditional/visitor/{playerid}/{season}:
  *   get:
  *     summary: Get Visitor Box Scores Traditional by player season
  *     parameters:
@@ -202,7 +202,7 @@ router.get('/visitor/:playerid/:season', boxScoreTraditional.getBoxScoreTraditio
 
 /**
  * @swagger
- * /boxScoresTraditional/{season}:
+ * /api/boxScoresTraditional/{season}:
  *    post:
  *      summary: Creates a new Box Score Traditional
  *      parameters:
@@ -238,7 +238,7 @@ router.post('/:season', boxScoreTraditional.createBoxScoresTraditional);
 
  /** 
  * @swagger
- * /boxScoresTraditional/read/{season}:
+ * /api/boxScoresTraditional/read/{season}:
  *   get:
  *     summary: Read Box Scores Traditional from CSV
  *     parameters:
@@ -267,7 +267,7 @@ router.get('/read/:season', checkAuthenticated, boxScoreTraditional.boxScoreTrad
 
  /** 
  * @swagger
- * /boxScoresTraditional/{playerid}/{season}:
+ * /api/boxScoresTraditional/{playerid}/{season}:
  *   get:
  *     summary: Get Box Scores Traditional by player season
  *     parameters:
@@ -301,7 +301,7 @@ router.get(`/:playerid/:season`, boxScoreTraditional.getBoxScorePlayer);
 
  /** 
  * @swagger
- * /boxScoresTraditional/{season}/{gameid}/{playerid}:
+ * /api/boxScoresTraditional/{season}/{gameid}/{playerid}:
  *   get:
  *     summary: Get Box Score Traditional by game player season
  *     parameters:
@@ -343,7 +343,7 @@ router.get('/:season/:gameid/:playerid', boxScoreTraditional.getBoxScoresTraditi
 
  /** 
  * @swagger
- * /boxScoresTraditional/boxnum/{gameid}/{season}/{teamid}/{H_or_V}:
+ * /api/boxScoresTraditional/boxnum/{gameid}/{season}/{teamid}/{H_or_V}:
  *   get:
  *     summary: Get number of home or visitor games played by team up until date of gameid in given season
  *     parameters:  
@@ -396,7 +396,7 @@ router.get(`/jackarithm/visitor/:playerid/:season`, boxScoreTraditional.getBoxSc
 
  /** 
  * @swagger
- * /boxScoresTraditional/previousgame/gameid/{season}/{teamId}:
+ * /api/boxScoresTraditional/previousgame/gameid/{season}/{teamId}:
  *   get:
  *     summary: Get previous game played gameid of team from "boxscorestraditional${season}" 
  *     parameters:

@@ -121,7 +121,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         OPP_FTA_RATE: "0.229"
  *         OPP_TOV_PCT: "0.191"
  *         OPP_OREB_PCT: "0.446"
- * /fourFactors/read/{season}:
+ * /api/fourFactors/read/{season}:
  *   get:
  *     summary: Read Box Scores Four Factors from CSV
  *     parameters:
@@ -146,7 +146,7 @@ router.get('/read/:season', checkAuthenticated, fourFactors.getBoxScoreFourFacto
 
 /**
  * @swagger
- * /fourFactors/{season}:
+ * /api/fourFactors/{season}:
  *    post:
  *      summary: Creates a new Box Score Four Factors
  *      parameters:
@@ -182,7 +182,7 @@ router.post(`/:season`, checkAuthenticated, fourFactors.createBoxScoreFourFactor
 
 /**
  * @swagger
- * /fourFactors/teams/read/{season}:
+ * /api/fourFactors/teams/read/{season}:
  *   get:
  *     summary: Read Box Scores Four Factors Teams from CSV
  *     parameters:
@@ -207,7 +207,7 @@ router.get('/teams/read/:season', checkAuthenticated, fourFactors.getBoxScoreFou
 
 /**
  * @swagger
- * /fourFactors/teams/{season}:
+ * /api/fourFactors/teams/{season}:
  *    post:
  *      summary: Creates a new Box Score Four Factors Teams
  *      parameters:
@@ -243,7 +243,7 @@ router.post(`/teams/:season`, checkAuthenticated, fourFactors.createBoxScoreFour
 
  /** 
  * @swagger
- * /fourFactors/home/{playerid}/{season}:
+ * /api/fourFactors/home/{playerid}/{season}:
  *   get:
  *     summary: Get Home Box Scores Four Factors by player season
  *     parameters:
@@ -278,7 +278,7 @@ router.get(`/home/:playerid/:season`, fourFactors.getBoxScoreFourFactorsVisitor)
 
  /** 
  * @swagger
- * /fourFactors/visitor/{playerid}/{season}:
+ * /api/fourFactors/visitor/{playerid}/{season}:
  *   get:
  *     summary: Get Visitor Box Scores Four Factors by player season
  *     parameters:

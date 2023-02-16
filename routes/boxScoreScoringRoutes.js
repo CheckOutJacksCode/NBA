@@ -162,7 +162,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         PCT_UAST_3PM: "0.333"
  *         PCT_AST_FGM: "0.6"
  *         PCT_UAST_FGM: "0.4"
- * /boxScoreScoring/read/{season}:
+ * /api/boxScoreScoring/read/{season}:
  *   get:
  *     summary: Read Box Scores Scoring from CSV
  *     parameters:
@@ -187,7 +187,7 @@ router.get('/read/:season', checkAuthenticated, boxScoreScoring.getBoxScoreScori
 
 /**
  * @swagger
- * /boxScoreScoring/{season}:
+ * /api/boxScoreScoring/{season}:
  *    post:
  *      summary: Creates a new Box Score Scoring
  *      parameters:
@@ -223,7 +223,7 @@ router.post(`/:season`, checkAuthenticated, boxScoreScoring.createBoxScoreScorin
 
 /**
  * @swagger
- * /boxScoreScoring/teams/read/{season}:
+ * /api/boxScoreScoring/teams/read/{season}:
  *   get:
  *     summary: Read Box Scores Scoring Teams from CSV
  *     parameters:
@@ -249,7 +249,7 @@ router.get('/teams/read/:season', checkAuthenticated, boxScoreScoring.getBoxScor
 
 /**
  * @swagger
- * /boxScoreScoring/teams/{season}:
+ * /api/boxScoreScoring/teams/{season}:
  *    post:
  *      summary: Creates a new Box Score Scoring Teams
  *      parameters:

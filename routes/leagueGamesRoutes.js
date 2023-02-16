@@ -252,7 +252,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         pts: "111"
  *         plus_minus: "16"
  *         video_available: "1"
- * /leagueGames/{season}:
+ * /api/leagueGames/{season}:
  *   get:
  *     summary: Read League Games from CSV
  *     parameters:
@@ -280,7 +280,7 @@ router.get('/:season', checkAuthenticated, leagueGames.getGamesBySeason);
 
 /**
  * @swagger
- * /leagueGames/local/leaguegames/{season}:
+ * /api/leagueGames/local/leaguegames/{season}:
  *   get:
  *     summary: Get Local League Games by season
  *     parameters:
@@ -314,7 +314,7 @@ router.get('/averageScore/:gameId/:season', leagueGames.getAveragePointTotal);
 
 /**
  * @swagger
- * /leagueGames/{season}:
+ * /api/leagueGames/{season}:
  *    post:
  *      summary: Creates a new league games row in database
  *      parameters:
@@ -350,7 +350,7 @@ router.post('/:season', checkAuthenticated, leagueGames.createGamesBySeason);
 
 /**
  * @swagger
- * /leagueGames/gameidgamedatematchup/{player}/{season}:
+ * /api/leagueGames/gameidgamedatematchup/{player}/{season}:
  *   get:
  *     summary: Get gameIdDateMatchupArray of games played by player in season
  *     parameters:
@@ -385,7 +385,7 @@ router.get('/gameidgamedatematchup/:player/:season', leagueGames.getGameIdGameDa
 
  /** 
  * @swagger
- * /leagueGames/teamid/{teamname}:
+ * /api/leagueGames/teamid/{teamname}:
  *   get:
  *     summary: Get team_id of team from "leagueGames2021-2022" 
  *     parameters:
@@ -412,7 +412,7 @@ router.get('/teamid/:teamname', leagueGames.getTeamIdFromName);
 
  /** 
  * @swagger
- * /leagueGames/gameResults/home/{team}/{season}:
+ * /api/leagueGames/gameResults/home/{team}/{season}:
  *   get:
  *     summary: Get home team gameResultsObject from "leagueGames${season}" 
  *     parameters:
@@ -446,7 +446,7 @@ router.get('/gameResults/home/:team/:season', leagueGames.getGameResultsByHomeTe
 
  /** 
  * @swagger
- * /leagueGames/gameResults/visitor/{team}/{season}:
+ * /api/leagueGames/gameResults/visitor/{team}/{season}:
  *   get:
  *     summary: Get home visitor gameResultsObject from "leagueGames${season}" 
  *     parameters:
@@ -480,7 +480,7 @@ router.get('/gameResults/visitor/:team/:season', leagueGames.getGameResultsByVis
 
  /** 
  * @swagger
- * /leagueGames/actual/gameresult/{matchup1}/{season}:
+ * /api/leagueGames/actual/gameresult/{matchup1}/{season}:
  *   get:
  *     summary: Get actual gameResultsObject from "leagueGames${season}" 
  *     parameters:
@@ -514,7 +514,7 @@ router.get(`/actual/gameresult/:matchup1/:season`, leagueGames.getActualGameResu
 
  /** 
  * @swagger
- * /leagueGames/teamabbreviation/{team_name}:
+ * /api/leagueGames/teamabbreviation/{team_name}:
  *   get:
  *     summary: Get team abbreviation from "leagueGames${season}" by team_name 
  *     parameters:
@@ -541,7 +541,7 @@ router.get(`/teamabbreviation/:team_name`, leagueGames.getAbbreviationFromTeamNa
 
  /** 
  * @swagger
- * /leagueGames/testing/previousgame/gameid/{season}/{teamId}/{gamedate}:
+ * /api/leagueGames/testing/previousgame/gameid/{season}/{teamId}/{gamedate}:
  *   get:
  *     summary: Get game_id by team_id, gamedate from leagueGames${season}
  *     parameters:

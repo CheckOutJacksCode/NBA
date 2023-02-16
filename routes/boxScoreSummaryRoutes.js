@@ -80,7 +80,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         NATL_TV_BROADCASTER_ABBREVIATION: "TNT"
  *         LIVE_PERIOD_TIME_BCAST: "Q4  - TNT"
  *         WH_STATUS: "1"
- * /boxScoreSummary/read/{season}:
+ * /api/boxScoreSummary/read/{season}:
  *   get:
  *     summary: Read Box Scores Summary from CSV
  *     parameters:
@@ -105,7 +105,7 @@ router.get('/read/:season', checkAuthenticated, boxScoreSummary.getBoxScoreSumma
 
 /**
  * @swagger
- * /boxScoreSummary/{season}:
+ * /api/boxScoreSummary/{season}:
  *    post:
  *      summary: Creates a new Box Score Summary
  *      parameters:
@@ -144,7 +144,7 @@ router.get(`/teamname/:teamId`, boxScoreSummary.getTeamNameFromTeamId);
 
 /**
  * @swagger
- * /boxScoreSummary/home/gameids/{season}/{teamid}:
+ * /api/boxScoreSummary/home/gameids/{season}/{teamid}:
  *   get:
  *     summary: Get array of home game_id's of team in given season
  *     parameters:
@@ -178,7 +178,7 @@ router.get(`/home/gameids/:season/:team_id`, boxScoreSummary.getHomeGameIdsBySea
 
 /**
  * @swagger
- * /boxScoreSummary/visitor/gameids/{season}/{teamid}:
+ * /api/boxScoreSummary/visitor/gameids/{season}/{teamid}:
  *   get:
  *     summary: Get array of visitor game_id's of team in given season
  *     parameters:
@@ -212,7 +212,7 @@ router.get(`/visitor/gameids/:season/:team_id`, boxScoreSummary.getVisitorGameId
 
 /**
  * @swagger
- * /boxScoreSummary/lengthofseason/{season}/{teamid}/{H_or_V}:
+ * /api/boxScoreSummary/lengthofseason/{season}/{teamid}/{H_or_V}:
  *   get:
  *     summary: Get array of length 1 containing object with property count of team's home or visitor games in given season
  *     parameters:

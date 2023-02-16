@@ -92,7 +92,7 @@ const { checkAuthenticated } = require('./userRouter');
  *                  16,
  *                  0.375
  *                ]
- * /leagueDashPlayerPtShot/read/{season}:
+ * /api/leagueDashPlayerPtShot/read/{season}:
  *   get:
  *     summary: Read League Dash Player Pt Shot from CSV
  *     parameters:
@@ -117,7 +117,7 @@ router.get('/read/:season', checkAuthenticated, dashPlayerPtShot.getLeagueDashPl
 
 /**
  * @swagger
- * /leagueDashPlayerPtShot/{season}:
+ * /api/leagueDashPlayerPtShot/{season}:
  *    post:
  *      summary: Creates a new league dash player pt shot row in database
  *      parameters:
@@ -154,7 +154,7 @@ router.post(`/:season`, checkAuthenticated, dashPlayerPtShot.createLeagueDashPla
 
 /**
  * @swagger
- * /leagueDashPlayerPtShot/read/leaguedashplayershotlocations/{season}:
+ * /api/leagueDashPlayerPtShot/read/leaguedashplayershotlocations/{season}:
  *   get:
  *     summary: Read League Dash Player shot locations from CSV
  *     parameters:
@@ -179,7 +179,7 @@ router.get('/read/leaguedashplayershotlocations/:season', checkAuthenticated, da
 
 /**
  * @swagger
- * /leagueDashPlayerPtShot/leaguedashplayershotlocations/{season}:
+ * /api/leagueDashPlayerPtShot/leaguedashplayershotlocations/{season}:
  *    post:
  *      summary: Creates a new league dash player shot locations row in database
  *      parameters:

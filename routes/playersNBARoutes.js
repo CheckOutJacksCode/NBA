@@ -49,7 +49,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         last_name: 'Green'
  *         is_active: 'true'
  *         player_id: '203110'
- * /playersNBA:
+ * /api/playersNBA:
  *    post:
  *      summary: Creates a new playersNBA row in database
  *      requestBody:
@@ -77,7 +77,7 @@ router.post('/', checkAuthenticated, playersNBA.createPlayersNBA);
 
 /**
  * @swagger
- * /playersNBA:
+ * /api/playersNBA:
  *   get:
  *     summary: Read playersNBA from JSON
  *     responses:
@@ -96,7 +96,7 @@ router.get('/priceAllPlayers/:season', playersNBA.getPriceAllPlayers);
 
 /**
  * @swagger
- * /playersNBA/{name}:
+ * /api/playersNBA/{name}:
  *   get:
  *     summary: Get player_id using full name from playersNBA
  *     parameters:
@@ -125,7 +125,7 @@ router.get('/:season/:name', playersNBA.getPlayerIdWithShotTable);
 
 /**
  * @swagger
- * /playersNBA/official/players/playerid/{lastName}/{firstName}:
+ * /api/playersNBA/official/players/playerid/{lastName}/{firstName}:
  *   get:
  *     summary: Get player_id using lastName firstName from playersNBA
  *     parameters:
@@ -159,7 +159,7 @@ router.get('/official/players/playerid/:lastName/:firstName', playersNBA.getOffi
 
 /**
  * @swagger
- * /playersNBA/playerNBA/{playerid}:
+ * /api/playersNBA/playerNBA/{playerid}:
  *   get:
  *     summary: Get player using player_id from playersNBA
  *     parameters:

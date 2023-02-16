@@ -94,7 +94,7 @@ const { checkAuthenticated } = require('./userRouter');
  *                  1,
  *                  "201166,1610612741"
  *               ]
- * /leagueDashPlayerClutch/read/{season}:
+ * /api/leagueDashPlayerClutch/read/{season}:
  *   get:
  *     summary: Read League Dash Player Clutch from CSV
  *     parameters:
@@ -119,7 +119,7 @@ router.get('/read/:season', checkAuthenticated, dashPlayerClutch.getLeagueDashPl
 
 /**
  * @swagger
- * /leagueDashPlayerClutch/{season}:
+ * /api/leagueDashPlayerClutch/{season}:
  *    post:
  *      summary: Creates a new league dash player clutch row in database
  *      parameters:

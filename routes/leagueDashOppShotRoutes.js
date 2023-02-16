@@ -42,7 +42,7 @@ const { checkAuthenticated } = require('./userRouter');
  *                  1867,
  *                  0.348
  *               ]
- * /leagueDashOppPtShot/read/{season}:
+ * /api/leagueDashOppPtShot/read/{season}:
  *   get:
  *     summary: Read League Dash Opp Pt Shot from CSV
  *     parameters:
@@ -68,7 +68,7 @@ router.get('/read/:season', checkAuthenticated, dashOppPtShot.getLeagueDashOppPt
 
 /**
  * @swagger
- * /leagueDashOppPtShot/{season}:
+ * /api/leagueDashOppPtShot/{season}:
  *    post:
  *      summary: Creates a new league dash opp pt shot row in database
  *      parameters:

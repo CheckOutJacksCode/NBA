@@ -83,7 +83,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         firstname: 'Nate'
  *         lastname: 'Robinson'
  *         hustlepts: '-1.82'
- * /hustleStats:
+ * /api/hustleStats:
  *    post:
  *      summary: Creates a new hustle stats player row in database
  *      requestBody:
@@ -111,7 +111,7 @@ router.post('/', checkAuthenticated, hustleStats.createPlayerHustlePoints);
 
 /**
  * @swagger
- * /hustleStats/getLocalHustlePointsInSeason/{season}:
+ * /api/hustleStats/getLocalHustlePointsInSeason/{season}:
  *   get:
  *     summary: Get All Hustle Pts Players by season
  *     parameters:
@@ -138,7 +138,7 @@ router.get('/getLocalHustlePointsInSeason/:season', hustleStats.getAllFirstLastH
 
 /**
  * @swagger
- * /hustleStats/{season}:
+ * /api/hustleStats/{season}:
  *    post:
  *      summary: Creates a new league hustle stats player row in database
  *      parameters:
@@ -174,7 +174,7 @@ router.post('/:season', checkAuthenticated, hustleStats.createLeagueHustleStatsB
 
 /**
  * @swagger
- * /hustleStats/leaguehustlestats/{season}:
+ * /api/hustleStats/leaguehustlestats/{season}:
  *   get:
  *     summary: Read League Hustle Stats from CSV
  *     parameters:

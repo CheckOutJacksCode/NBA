@@ -29,7 +29,7 @@ const { checkAuthenticated } = require('./userRouter');
  *           type: 'string'
  *       example:
  *         "Date\tRot\tVH\tTeam\t1st\t2nd\t3rd\t4th\tFinal\tOpen\tClose\tML\t2H": "1027\t501\tV\tCleveland\t17\t23\t28\t27\t95\t197.5\t198.5\t160\t97"
- * /gambling/odds/{season}:
+ * /api/gambling/odds/{season}:
  *   get:
  *     summary: Read Gambling Odds from CSV
  *     parameters:
@@ -72,7 +72,7 @@ router.get('/winPct/:season', gambling.getWinPercentage);
 
 /**
  * @swagger
- * /gambling/moneyline/home/{season}/{homeTeam}/{gamedate}:
+ * /api/gambling/moneyline/home/{season}/{homeTeam}/{gamedate}:
  *   get:
  *     summary: Get moneyline of home team of game corresponding to gamedate
  *     parameters:
@@ -117,7 +117,7 @@ router.get(`/historicalResults/:season`, gambling.getHistoricalResults);
 
 /**
  * @swagger
- * /gambling/moneyline/visitor/{season}/{visitorTeam}/{gamedate}:
+ * /api/gambling/moneyline/visitor/{season}/{visitorTeam}/{gamedate}:
  *   get:
  *     summary: Get moneyline of visitor team of game corresponding to gamedate
  *     parameters:

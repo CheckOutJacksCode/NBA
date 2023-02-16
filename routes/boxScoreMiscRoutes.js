@@ -144,7 +144,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         BLKA: "1"
  *         PF: "2"
  *         PFD: "1"
- * /boxScoreMisc/read/{season}:
+ * /api/boxScoreMisc/read/{season}:
  *   get:
  *     summary: Read Box Scores Misc from CSV
  *     parameters:
@@ -169,7 +169,7 @@ router.get('/read/:season', checkAuthenticated, boxScoreMisc.getBoxScoreMiscFrom
 
 /**
  * @swagger
- * /boxScoreMisc/{season}:
+ * /api/boxScoreMisc/{season}:
  *    post:
  *      summary: Creates a new Box Score Misc
  *      parameters:
@@ -204,7 +204,7 @@ router.get('/read/:season', checkAuthenticated, boxScoreMisc.getBoxScoreMiscFrom
 router.post(`/:season`, checkAuthenticated, boxScoreMisc.createBoxScoreMisc);
 /**
  * @swagger
- * /boxScoreMisc/teams/read/{season}:
+ * /api/boxScoreMisc/teams/read/{season}:
  *   get:
  *     summary: Read Box Scores Misc Teams from CSV
  *     parameters:
@@ -230,7 +230,7 @@ router.get('/teams/read/:season', checkAuthenticated, boxScoreMisc.getBoxScoreMi
 
 /**
  * @swagger
- * /boxScoreMisc/teams/{season}:
+ * /api/boxScoreMisc/teams/{season}:
  *    post:
  *      summary: Creates a new Box Score Misc Teams
  *      parameters:

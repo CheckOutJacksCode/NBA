@@ -111,7 +111,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         pace_per40: '85.62'
  *         poss: '63'
  *         pie: '0.046'
- * /box/{season}:
+ * /api/box/{season}:
  *   post:
  *     summary: Create a Box Score Advanced
  *     parameters:
@@ -147,7 +147,7 @@ router.post('/:season', checkAuthenticated, boxServices.createBoxScores);
 
  /** 
  * @swagger
- * /box/read/{season}:
+ * /api/box/read/{season}:
  *   get:
  *     summary: Read Box Scores Advanced from CSV
  *     parameters:

@@ -66,7 +66,7 @@ const { checkAuthenticated } = require('./userRouter');
  *         firstname: 'Draymond'
  *         lastname: 'Green'
  *         carmelopts: '-0.32'
- * /carmelo:
+ * /api/carmelo:
  *    post:
  *      summary: Creates a new carmelo pts player row in database
  *      requestBody:
@@ -95,7 +95,7 @@ router.post('/', checkAuthenticated, carmelo.createPlayerCarmeloPoints);
 
 /**
  * @swagger
- * /carmelo/getLocalCarmeloPointsInSeason/{season}:
+ * /api/carmelo/getLocalCarmeloPointsInSeason/{season}:
  *   get:
  *     summary: Get All Carmelo Pts Players by season
  *     parameters:

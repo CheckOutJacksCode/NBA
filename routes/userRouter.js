@@ -149,7 +149,7 @@ router.get('/dashboard', (req, res) => {
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *    post:
  *      summary: Creates a new user
  *      produces:
@@ -241,7 +241,7 @@ router.post('/', async(req, res, next) => {
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *  get:
  *      description: Use to request all users
  *      responses:
@@ -262,7 +262,7 @@ router.get('/', checkAuthenticated, async (req, res) => {
 
 /**
  * @swagger
- * /users/individual/{uuid}:
+ * /api/users/individual/{uuid}:
  *    get:
  *      summary: Get an individual user
  *      produces:
@@ -299,7 +299,7 @@ router.get('/individual/:uuid', async (req, res) => {
 
 /**
  * @swagger
- * /users/{uuid}:
+ * /api/users/{uuid}:
  *    put:
  *      summary: Updates a user
  *      produces:
@@ -369,7 +369,7 @@ router.put('/:uuid', async (req, res) => {
 
 /**
  * @swagger
- * /users/{uuid}:
+ * /api/users/{uuid}:
  *    delete:
  *      summary: delete an individual user
  *      produces:
@@ -403,7 +403,7 @@ router.delete('/:uuid', async (req, res) => {
 
 /**
  * @swagger
- * /users/login:
+ * /api/users/login:
  *    post:
  *      summary: Login to get access to dashboard
  *      produces:

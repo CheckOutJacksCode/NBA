@@ -43,7 +43,7 @@ const { checkAuthenticated } = require('./userRouter');
  *       example:
  *         player_id: '1626172'
  *         player_name: 'Kevin Looney'
- * /boxPlayers/getroster/{season}/{teamid}:
+ * /api/boxPlayers/getroster/{season}/{teamid}:
  *   get:
  *     summary: Get Team Roster by season, teamid
  *     parameters:
@@ -77,7 +77,7 @@ router.get(`/getroster/:season/:teamid`, boxPlayers.getRosterBySeasonByTeam);
 
 /**
  * @swagger
-* /boxPlayers/playeridlist/{season}:
+* /api/boxPlayers/playeridlist/{season}:
 *   get:
 *     summary: Get all playerid's from every team in the given season
 *     parameters:
@@ -105,7 +105,7 @@ router.get('/playeridlist/:season', boxPlayers.getOfficialPlayerIdList);
 
 /**
  * @swagger
-* /boxPlayers/playernameidlist/{season}:
+* /api/boxPlayers/playernameidlist/{season}:
 *   get:
 *     summary: Get all playerids and player names from every team in the given season
 *     parameters:
@@ -132,7 +132,7 @@ router.get('/playernameidlist/:season', boxPlayers.getOfficialPlayerIdNameList);
 
 /**
  * @swagger
-* /boxPlayers/teamplayers/{teamid}:
+* /api/boxPlayers/teamplayers/{teamid}:
 *   get:
 *     summary: Get all player names from given team in the latest season
 *     parameters:
@@ -160,7 +160,7 @@ router.get('/teamplayers/:teamid', boxPlayers.getTeamPlayersFromTeamId);
 
  /** 
  * @swagger
- * /boxPlayers/previousgame/gameid/{season}/{teamId}/{gameid}:
+ * /api/boxPlayers/previousgame/gameid/{season}/{teamId}/{gameid}:
  *   get:
  *     summary: Get previous game's roster by season, teamid, gameid
  *     parameters:  
