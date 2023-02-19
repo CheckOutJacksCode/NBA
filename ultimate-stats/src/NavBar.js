@@ -14,16 +14,16 @@ function Navbar() {
       <div className="navLinks">
       <ul>
         <li>
-          <Link className="link" to="/">$35 Fantasy Baller</Link>
+          <Link className="link" to="/">$35 FANTASY BALLER</Link>
         </li>
         <li>
-          <Link  className="link" to="/deepStats">Cumulative Stats</Link>
+          <Link  className="link" to="/deepStats">CUMULATIVE STATS</Link>
         </li>
         <li>
-          <Link  className="link" to="/shotCharts">Shot Charts</Link>
+          <Link  className="link" to="/shotCharts">SHOT CHARTS</Link>
         </li>
         <li>
-          <Link  className="link" to="/jackarithm">Predictions</Link>
+          <Link  className="link" to="/jackarithm">PREDICTIONS</Link>
         </li>
       </ul>
       </div>

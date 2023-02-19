@@ -186,26 +186,25 @@ const Home = () => {
             </br>
             <div className="centerText">
                 <LockButton lockFlag={lockFlag} setLockFlag={setLockFlag} roster={roster} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
+                <br></br>
+                <br></br>
+                <SeasonsDropdown seasonsData={seasonsData} 
+                                setSeasonsData={setSeasonsData} 
+                                selectedSeason={selectedSeason} 
+                                setSelectedSeason={setSelectedSeason} />
+                <TableDropdown tables={tables} 
+                                setTables={setTables} 
+                                tableChoice={tableChoice} 
+                                setTableChoice={setTableChoice} 
+                                selectedSeason={selectedSeason} 
+                                setSelectedSeason={setSelectedSeason} />
+                <br></br>
             </div>
-            <div className='row'>
-                <div className='column80'>
-                    <br>
-                    </br>
-                    <SeasonsDropdown seasonsData={seasonsData} 
-                                    setSeasonsData={setSeasonsData} 
-                                    selectedSeason={selectedSeason} 
-                                    setSelectedSeason={setSelectedSeason} />
-                    <TableDropdown tables={tables} 
-                                    setTables={setTables} 
-                                    tableChoice={tableChoice} 
-                                    setTableChoice={setTableChoice} 
-                                    selectedSeason={selectedSeason} 
-                                    setSelectedSeason={setSelectedSeason} />
-
-                    <br></br>
+            <div className='statContainer'>
+                <div className='grid80'>
                     {selectedSeason ? tableChoice : 'loading'}
                 </div>
-                <div className='col20ballers'>
+                <div className='grid20'>
                     <$35Ballers teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
                 </div>
             </div>

@@ -61,7 +61,9 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
 
     return (
         <div>
-            <button onClick={handleClick}>Submit High Score</button>
+            <div className="centerText">
+                <button onClick={handleClick}>Submit High Score</button>
+            </div>
             { ballers.length > 0 ? 
             <table className="ballers">
                 <TableHead columns={columns}/>

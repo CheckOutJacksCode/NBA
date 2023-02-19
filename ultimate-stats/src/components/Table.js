@@ -8,13 +8,11 @@ import hoop from "../apis/hoop";
 
 const Table = ({ selectedSeason }) => {
     const [tableData, setTableData] = useState([]);
-    console.log(selectedSeason)
     let columns = [];
     useEffect(() => {
         hoop.get(`/api/statranked/${selectedSeason}`) // your url may look different
         .then(data => setTableData(data.data)) // set data to state
     }, [selectedSeason]);
-    console.log(tableData);
     //let headers = await fetch(`/statsheaders/${props.table}`);
     //let tableData1 = await fetch(`/statsranked/${headers[9]}/${props.season}`);
     columns = [

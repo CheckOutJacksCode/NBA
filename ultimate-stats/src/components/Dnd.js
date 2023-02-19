@@ -52,7 +52,8 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       marginLeft: 'auto',
       marginRight: 'auto',
       borderRadius: '5px',
-      maxWidth: '100%'
+      maxWidth: '100%',
+      boxShadow: '3px 3px 5px rgb(56, 29, 0)'
     })
 
     const onDragEnd = (result) => {
@@ -120,6 +121,7 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       marginBottom: '10px',
       marginTop: '10px',
       background: isDragging ? 'lightgreen' : 'rgb(180, 253, 120)',
+      boxShadow: '3px 3px 5px rgb(56, 29, 0)',
       ...draggableStyle
     })
 
@@ -132,6 +134,7 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       marginBottom: '10px',
       marginTop: '10px',
       background: isDragging ? 'lightblue' : 'rgb(213, 196, 176)',
+      boxShadow: '3px 3px 5px rgb(56, 29, 0)',
       ...draggableStyle
     })
 

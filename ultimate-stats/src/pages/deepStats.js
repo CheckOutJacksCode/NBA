@@ -11,7 +11,7 @@ const Home = () => {
 
     return (
         <div>
-            <div className="centerText">
+            <div className="cumStats">
             <h1>CUMULATIVE STATS</h1>
             CARMELO FACTOR: Player's hustle stats per minute * 100 + efg% - 100
             <br></br>

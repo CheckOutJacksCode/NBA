@@ -49,11 +49,17 @@ const Jackarithm = () => {
       <div>
         <div className="column80">
           <h1>
+            Historical Results
+          </h1>
+          <h1>
             <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
           </h1>
             <HistoricalResults selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason}/>
         </div>
         <div className="col20ballers">
+          <h1>
+            Upcoming Predictions
+          </h1>
           <WinPct selectedSeason={selectedSeason} />
           <br></br>
           <Upcoming //homeExpectedResults={homeExpectedResults}

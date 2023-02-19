@@ -8,7 +8,6 @@ const TeamName = ({ submitFlag, setSubmitFlag, teamName, setTeamName }) => {
     useEffect(() => {
       const getUsers = async() => {
         let results = await hoop.get('/api/users/fakedb')
-        console.log(results.data);
       }
       getUsers();
     }, [])

@@ -67,7 +67,7 @@ const CarmeloFactor = ({ selectedSeason }) => {
 
     return (
      <>
-      <table className="ultimateTable">
+      <table className="cumTable">
        <caption>
         Click on a stat header to sort all players by stat
        </caption>
