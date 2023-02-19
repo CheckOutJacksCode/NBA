@@ -192,6 +192,13 @@ div.predictionsHistorical {
   resize: both;
 }
 
+.col25 {
+  font-size: small;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
 .column25predictions {
   font-size: small;
   display: grid;
@@ -291,6 +298,12 @@ h1 {
   clear: both;  
 }
 
+.fantasyGrid {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .row:after {
   content: "";
   display: table;
@@ -334,6 +347,31 @@ h1 {
   text-align: center;
   font-size: medium;
   max-width: 100%;
+  display: grid;
+  gap: 10px;
+  max-height: 100vh;
+/*  Change the values     👇 to experiment */
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+
+.navLinks {
+  background-color: rgb(249, 222, 188);
+  max-width: fit-content;
+  margin: auto;
+  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+  border-radius: 5px;
+}
+
+.link {
+  text-decoration: none;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 100;
+  color: rgb(0, 0, 0);
+}
+
+.teamNameLabel {
+  font-weight: 500;
 }
 
 .errorMessage {
@@ -346,8 +384,15 @@ h1 {
   float: left;
   width: 25.00%;
   text-align: center;
-  font-size: medium;
-  overflow: auto;
+  margin-left: auto;
+  margin-right: 'auto';
+}
+
+.salary {
+  font-size: small;
+  display: grid;
+  place-items: center;
+  text-align: center;
 }
 
 button.lockButton {
@@ -365,9 +410,7 @@ span {
   font-size: small;
 }
 .teamSalary {
-  text-align: center;
   font-size: xx-large;
-  margin: 50px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
@@ -431,17 +474,10 @@ select.priceSelect {
 }
 
 table.resultsTable {
-  font-size: x-large;
   text-align: center;
-  margin-left:auto; 
-  margin-right:auto;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background-color: rgb(249, 222, 188);
   border-radius: 5px;
-}
-
-table.resultsTable td {
-  padding: 10px;
 }
 
 table.ballers {
@@ -466,4 +502,6 @@ table.ballers th {
 
 .navdiv {
   max-width: 100%;
+  margin: auto;
+  
 }

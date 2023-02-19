@@ -51,7 +51,8 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       width: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
-      borderRadius: '5px'
+      borderRadius: '5px',
+      maxWidth: '100%'
     })
 
     const onDragEnd = (result) => {
@@ -113,7 +114,11 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
     const getStarterStyle = (isDragging, draggableStyle) => ({
       userSelect: 'none',
       padding: 0,
-      margin: '10px',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      maxWidth: '100%',
+      marginBottom: '10px',
+      marginTop: '10px',
       background: isDragging ? 'lightgreen' : 'rgb(180, 253, 120)',
       ...draggableStyle
     })
@@ -121,7 +126,11 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
     const getBenchStyle = (isDragging, draggableStyle) => ({
       userSelect: 'none',
       padding: 0,
-      margin: '10px',
+      maxWidth: '100%',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      marginBottom: '10px',
+      marginTop: '10px',
       background: isDragging ? 'lightblue' : 'rgb(213, 196, 176)',
       ...draggableStyle
     })

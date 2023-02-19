@@ -8,23 +8,25 @@ function Navbar() {
     <nav>
       <div className="navdiv">
         <a href="/">
-            <div id="headtag"><img className="navdiv" src="hoopscoop.png" alt="Home"/></div>
+            <div id="headtag"><img className="navdiv" src="hoopscoop12.png" alt="Home"/></div>
         </a>
       </div>
+      <div className="navLinks">
       <ul>
         <li>
-          <Link to="/">$35 Fantasy Baller</Link>
+          <Link className="link" to="/">$35 Fantasy Baller</Link>
         </li>
         <li>
-          <Link to="/deepStats">Cumulative Stats</Link>
+          <Link  className="link" to="/deepStats">Cumulative Stats</Link>
         </li>
         <li>
-          <Link to="/shotCharts">Shot Charts</Link>
+          <Link  className="link" to="/shotCharts">Shot Charts</Link>
         </li>
         <li>
-          <Link to="/jackarithm">Predictions</Link>
+          <Link  className="link" to="/jackarithm">Predictions</Link>
         </li>
       </ul>
+      </div>
     </nav>
   );
 }

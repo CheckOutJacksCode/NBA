@@ -24,10 +24,8 @@ const TeamName = ({ submitFlag, setSubmitFlag, teamName, setTeamName }) => {
         <>
           {submitFlag ? '' : 
             <>
-              <label>
-                Team Name:
-                <input type="text" value={teamName.value} onChange={handleChange} maxLength="50"/>
-              </label>
+              <div className="teamNameLabel">Enter Team Name:</div>
+              <input type="text" value={teamName.value} onChange={handleChange} maxLength="50"/>
               <input type="submit" value="Submit" onClick={handleSubmit} />
             </>
           }

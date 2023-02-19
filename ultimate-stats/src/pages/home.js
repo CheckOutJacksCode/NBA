@@ -114,12 +114,12 @@ const Home = () => {
             </div>
             <br>
             </br>
-            <div className="row">
-                <div className="column25">
+            <div className="fantasyGrid">
+                <div className="col25">
                     <TeamName submitFlag={submitFlag} setSubmitFlag={setSubmitFlag} teamName={teamName} setTeamName={setTeamName} />
                     {roster.length > 0 ? <Dnd dragRoster={dragRoster} setDragRoster={setDragRoster} roster={roster} setRoster={setRoster} deletePlayer={deletePlayer} /> : ''}
                 </div>
-                <div className="column25Salary">
+                <div className="col25">
                     <br>
                     </br>
                     <ErrorMessages errorMessage={errorMessage} setErrorMessage={setErrorMessage} roster={roster} />
@@ -128,7 +128,7 @@ const Home = () => {
                       { gameResultsUser.length > 0 ? <ResultsTableBody columns={columns} tableData={gameResultsUser} /> : null }
                     </table>
                 </div>
-                <div className="column25Salary">
+                <div className="col25">
                     <br>
                     </br>
                     <ComputerSalary cpuRoster={cpuRoster} />
@@ -136,7 +136,7 @@ const Home = () => {
                       { gameResultsCpu.length > 0 ? <ResultsTableBody columns={columns} tableData={gameResultsCpu} /> : null }
                     </table>
                 </div>
-                <div className="column25">
+                <div className="col25">
                     <ComputerTeamName cpuRoster={cpuRoster} cpuName={cpuName} setCpuName={setCpuName} />
                     <ComputerRoster selectedSeason={selectedSeason}
                                     usedPlayers={usedPlayers}
