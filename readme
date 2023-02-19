@@ -82,7 +82,7 @@ Predictions:
     "url": "^0.11.0"
 },
 ## Testing with Swagger
-Swagger documentation and testing available at `https://www.thehoopscoop.org/api-docs`
+Swagger documentation and testing available at https://www.thehoopscoop.org/api-docs
 
 ## Resources
 - https://www.codecademy.com
