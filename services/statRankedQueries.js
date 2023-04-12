@@ -7,7 +7,7 @@ const getRankedPlayersByStat = (request, response, next) => {
 
     let { stat, season } = request.params;
 
-    db.query(`SELECT AVG(CAST(${stat} AS FLOAT)), player_id, player_name
+    db.query(`SELECT AVG(CAST(${stat} AS FLOAT)), player_id, player_name, team_abbreviation
                 FROM "boxscorestraditional${season}"
                 WHERE ${stat} IS NOT NULL
                 AND ${stat} != ''
@@ -107,6 +107,255 @@ const getRankedBoxScores = (request, response, next) => {
     })
 }
 
+const getPtsLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                AVG(CAST(pts AS FLOAT)) AS PTS, 
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING COUNT(game_id) > 57
+                ORDER BY AVG(CAST(pts AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getRebLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                AVG(CAST(reb AS FLOAT)) AS REB, 
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING COUNT(game_id) > 57
+                ORDER BY AVG(CAST(reb AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getAstLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                AVG(CAST(ast AS FLOAT)) AS AST,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING COUNT(game_id) > 57
+                ORDER BY AVG(CAST(ast AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getStlLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                AVG(CAST(stl AS FLOAT)) AS STL, 
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING COUNT(game_id) > 57
+                ORDER BY AVG(CAST(stl AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getBlkLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                AVG(CAST(blk AS FLOAT)) AS BLK,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING COUNT(game_id) > 57
+                ORDER BY AVG(CAST(blk AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getFgPctLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                sum(cast(fgm as float)) / NULLIF(sum(cast(fga as float)), 0) * 100 AS FG_PCT,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING SUM(CAST(fgm AS FLOAT)) > 300
+                ORDER BY sum(cast(fgm as float)) / NULLIF(sum(cast(fga as float)), 0) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getPlusMinusLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                SUM(CAST(plus_minus AS FLOAT)) AS PLUS_MINUS,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING COUNT(game_id) > 57
+                ORDER BY SUM(CAST(plus_minus AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getFg3mLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                SUM(CAST(fg3m AS FLOAT)) AS FG3M,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING SUM(CAST(fg3m AS FLOAT)) > 81
+                ORDER BY SUM(CAST(fg3m AS FLOAT)) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getFg3PctLeaders = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                sum(cast(fg3m as float)) / NULLIF(sum(cast(fg3a as float)), 0) * 100 AS FG3_PCT,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                HAVING SUM(CAST(fg3m AS FLOAT)) > 81
+                ORDER BY sum(cast(fgm as float)) / NULLIF(sum(cast(fga as float)), 0) DESC LIMIT 5`, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+const getQualifiedPlayers = (request, response, next) => {
+
+    let { season } = request.params;
+    db.query(`SELECT "boxscorestraditional${season}".player_id, "boxscorestraditional${season}".player_name, "boxscorestraditional${season}".team_abbreviation,
+                COUNT(id)
+                FROM "boxscorestraditional${season}"
+                WHERE min IS NOT NULL
+                AND ft_pct IS NOT NULL
+                AND CAST(min AS FLOAT) > 0
+                AND player_id != 'PLAYER_ID'
+                GROUP BY player_id, player_name, team_id, team_abbreviation
+                `, (error, results) => {
+
+    if (error) {
+        throw error;
+    }
+    if (results.rows.length === 0 || results.rows[0].count === '0') {
+        return next(new Error( 'Stats Do Not Exist' ));
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
+
 const getRankedHustleStats = (request, response, next) => {
     const {season} = request.params;
     db.query(`SELECT * FROM "leagueHustleStatsPlayer${season}"`, (error, results) => {
@@ -123,4 +372,14 @@ module.exports = {
     getRankedStats,
     getRankedBoxScores,
     getRankedHustleStats,
+    getPtsLeaders,
+    getQualifiedPlayers,
+    getAstLeaders,
+    getRebLeaders,
+    getStlLeaders,
+    getBlkLeaders,
+    getFg3PctLeaders,
+    getFg3mLeaders,
+    getFgPctLeaders,
+    getPlusMinusLeaders, 
 }

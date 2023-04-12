@@ -10,7 +10,19 @@ router.get(`/:season`, statRanked.getRankedStats);
 
 router.get(`/boxScores/:season`, statRanked.getRankedBoxScores);
 
-router.get(`/:stat/:season`, statRanked.getRankedPlayersByStat);
+router.get(`/ptsLeaders/:season`, statRanked.getPtsLeaders);
 
+router.get(`/rebLeaders/:season`, statRanked.getRebLeaders);
+router.get(`/astLeaders/:season`, statRanked.getAstLeaders);
+router.get(`/stlLeaders/:season`, statRanked.getStlLeaders);
+router.get(`/blkLeaders/:season`, statRanked.getBlkLeaders);
+router.get(`/plusMinusLeaders/:season`, statRanked.getPlusMinusLeaders);
+router.get(`/fgPctLeaders/:season`, statRanked.getFgPctLeaders);
+router.get(`/fg3mLeaders/:season`, statRanked.getFg3mLeaders);
+router.get(`/fg3PctLeaders/:season`, statRanked.getFg3PctLeaders);
+
+router.get(`/qualifiedPlayers/:season`, statRanked.getQualifiedPlayers);
+
+router.get(`/:stat/:season`, statRanked.getRankedPlayersByStat);
 
 module.exports = router;

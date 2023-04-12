@@ -13,7 +13,7 @@
 }
 
 body {
-  background-color: rgb(230, 204, 170);
+  background-color: rgb(255, 255, 255);
   width: 100%;
   min-height: 100vh;
 }
@@ -40,12 +40,18 @@ div.jack-o-rithm {
 
 .smallHeaders {
   font-size: x-small;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .regularHeaders {
-  font-size: medium;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+  font-size: small;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: white;
+}
+
+.header-item {
+  padding: 3px;
+
 }
 
 .ultimateBody {
@@ -378,7 +384,7 @@ h1 {
   text-decoration: none;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-size: medium;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 .teamNameLabel {
@@ -432,8 +438,11 @@ span {
 
 .ultimateTable {
   text-align: center;
-  background-color: rgb(249, 222, 188);
+  background-color: rgb(255, 255, 255);
   border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
 }
 
 .cumTable {
@@ -446,11 +455,11 @@ span {
 }
 
 table.ultimateTable tr:nth-child(even){
-  background-color: rgb(238, 204, 159);
+  background-color: rgb(223, 223, 223);
 }
 
 table.ultimateTable th {
-  background-color: rgb(238, 204, 159);
+  background-color: rgb(47, 47, 47);
 }
 
 table.cumTable tr:nth-child(even){
@@ -535,7 +544,30 @@ table.ballers th {
 }
 
 .navdiv {
+  display: flex;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+}
+
+.nav-item {
+  display: flex;
+  padding: 10px;
   width: 100%;
+  text-align: center;
+  justify-content: center; 
+}
+
+.ball {
+  height: 120px;
+  width: 122px;
+}
+
+.court {  
+  text-align: center;
+}
+
+.court-container {
+  box-shadow: inset 5em 2em black;
 
 }
 
@@ -549,6 +581,13 @@ table.ballers th {
   position: relative;
 }
 
+.table-container {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
 .grid20 {
   display: grid;
   place-items: top;
@@ -560,5 +599,36 @@ table.ballers th {
   overflow: auto;
   max-height: 100vh;
   box-shadow: 3px 3px 5px rgb(56, 29, 0);
+}
 
+.leaders-stat {
+  display: grid;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.leaders-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  justify-content: center;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.individual-leader td {
+  text-align: left;
+}
+.individual-leader {
+  text-align: left;
+}
+
+.leaders-header-line {
+  height: 2px;
+  background-color: rgb(4, 146, 164, 0.2);
+}
+
+.stat-label {
+  font-weight: 600;
 }

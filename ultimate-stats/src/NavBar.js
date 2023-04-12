@@ -2,30 +2,36 @@ import React from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import './App.css';
 
+
 function Navbar() {
   return (
     
     <nav>
-      <div className="navdiv">
-        <a href="/">
-            <div id="headtag"><img className="navdiv" src="hoopscoop12.png" alt="Home"/></div>
-        </a>
-      </div>
-      <div className="navLinks">
-      <ul>
-        <li>
-          <Link className="link" to="/">$35 FANTASY BALLER</Link>
-        </li>
-        <li>
-          <Link  className="link" to="/deepStats">CUMULATIVE STATS</Link>
-        </li>
-        <li>
-          <Link  className="link" to="/shotCharts">SHOT CHARTS</Link>
-        </li>
-        <li>
-          <Link  className="link" to="/jackarithm">PREDICTIONS</Link>
-        </li>
-      </ul>
+      <div id="headtag" className="navdiv">
+        <div className="nav-item">
+          <Link to="/">
+            <img src="ball7.png" className="ball" alt="Home"/>
+          </Link>
+        </div>
+        <div className="court-container">
+          <img src="court5.png" className="court" alt="court"/>
+        </div>
+        <div className="nav-item">
+          <Link className="link" to="/fantasy">
+                                        FANTASY DRAFT
+                                        <br></br>
+                                        MINI GAME</Link>
+        </div>
+        <div className="nav-item">
+          <Link  className="link" to="/shotCharts">SHOT
+                                                    <br></br>
+                                                    CHARTS</Link>
+        </div>
+        <div className="nav-item">
+          <Link  className="link" to="/jackarithm">ODDS &
+                                                    <br></br>
+                                                    PREDICTIONS</Link>
+        </div> 
       </div>
     </nav>
   );

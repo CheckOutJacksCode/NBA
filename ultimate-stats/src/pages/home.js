@@ -1,23 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../App.css';
-import SeasonsDropdown from '../components/SeasonsDropdown';
-import BoxScoresTraditionalTable from '../components/BoxScoresTraditionalTable';
-import TableDropdown from '../components/TableDropDown';
-import Price from '../components/Price';
-import RosterTable from '../components/RosterTable';
-import TeamName from '../components/TeamName';
-import UserCapSpace from '../components/UserCapSpace';
-import ErrorMessages from '../components/ErrorMessages';
-import ComputerRoster from '../components/ComputerRoster';
-import ComputerTeamName from '../components/ComputerTeamName';
-import ComputerSalary from '../components/ComputerSalary';
-import LockButton from '../components/LockButton';
-import MatchupResults from '../components/MatchupResults';
-import Dnd from '../components/Dnd';
 import Table from '../components/Table';
-import ResultsTableBody from '../components/ResultsTableBody';
-import ResultsTableHead from '../components/ResultsTableHead';
-import $35Ballers from '../components/$35Ballers';
+import SeasonsDropdown from '../components/SeasonsDropdown';
+import TableDropdown from '../components/TableDropDown';
+import hoop from '../apis/hoop';
+import LeadersStatTable from '../components/LeadersStatTable';
 
 const Home = () => {
 
@@ -25,191 +12,76 @@ const Home = () => {
     const [seasonsData, setSeasonsData] = useState([]);
     const [tableChoice, setTableChoice] = useState(<Table selectedSeason={selectedSeason}/>);
     const [tables, setTables] = useState([]);
-    const [roster, setRoster] = useState([]);
-    const [dragRoster, setDragRoster] = useState([]);
-    const [cpuRoster, setCpuRoster] = useState([]);
-    const [teamSalary, setTeamSalary] = useState(0);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [usedPlayers, setUsedPlayers] = useState([]);
-    const [selectedPlayer, setSelectedPlayer] = useState('');
+    const [stats, setStats] = useState([]);
+    
+    const statLabels = [
+        {label: "POINTS PER GAME", accessor: "pts"},
+        {label: "REBOUNDS PER GAME", accessor: "reb"},
+        {label: "ASSISTS PER GAME", accessor: "ast"},
+        {label: "STEALS PER GAME", accessor: "stl"},
+        {label: "BLOCKS PER GAME", accessor: "blk"},
+        {label: "FIELD GOAL PERCENTAGE", accessor: "fg_pct"},
+        {label: "THREE POINTERS MADE", accessor: "fg3m"},
+        {label: "THREE POINT PERCENTAGE", accessor: "fg3_pct"},
+        {label: "PLUS-MINUS", accessor: "plus_minus"}
+    ]
 
-    const [oneDollarPlayers, setOneDollarPlayers] = useState([]);
-    const [twoDollarPlayers, setTwoDollarPlayers] = useState([]);
-    const [threeDollarPlayers, setThreeDollarPlayers] = useState([]);
-    const [fourDollarPlayers, setFourDollarPlayers] = useState([]);
-    const [fiveDollarPlayers, setFiveDollarPlayers] = useState([]);
-    const [sixDollarPlayers, setSixDollarPlayers] = useState([]);
-    const [sevenDollarPlayers, setSevenDollarPlayers] = useState([]);
+    useEffect(() => {
 
-    const [starters, setStarters] = useState([]);
-    const [lockFlag, setLockFlag] = useState(false);
-    const [gameResultsUser, setGameResultsUser] = useState([]);
-    const [gameResultsCpu, setGameResultsCpu] = useState([]);
-    const [submitFlag, setSubmitFlag] = useState(false);
-    const [teamName, setTeamName] = useState({ value: '' });
-    const [cpuName, setCpuName] = useState('');
-    const [totalRatingUser, setTotalRatingUser] = useState(0);
-    const [totalRatingCpu, setTotalRatingCpu] = useState(0);
-
-
-    let columns = ['Finishing', 'Shooting', 'Reb/Def', 'Playmaking'];
-
-
-    const deletePlayer = (player) => {
-        let rows = [...roster];
-        let newRows = rows.filter(eachPlayer =>
-            eachPlayer !== player.rosterPlayer
-        )
-        setRoster(newRows);
-        setTeamSalary((teamSalary) => teamSalary - parseInt(player.salary))
-        setUsedPlayers(usedPlayers.filter(eachPlayer => eachPlayer !== player.rosterPlayer))
-        setSelectedPlayer('');
-        setErrorMessage('');
-    }
-
-    const makeStarter = (index) => {
-        if (starters.length < 5) {
-            setStarters([
-                ...starters,
-                roster[index]
-            ])
-        } else {
-            setErrorMessage('Select 5 players for starting lineup')
+        const getAllQualified = async() => {
+            let pts = await hoop.get(`/api/statranked/ptsLeaders/${selectedSeason}`);
+            console.log(pts.data)
+            let reb = await hoop.get(`/api/statranked/rebLeaders/${selectedSeason}`);
+            console.log(reb.data)
+            let ast = await hoop.get(`/api/statranked/astLeaders/${selectedSeason}`);
+            console.log(ast.data)
+            let stl = await hoop.get(`/api/statranked/stlLeaders/${selectedSeason}`);
+            console.log(stl.data)
+            let blk = await hoop.get(`/api/statranked/blkLeaders/${selectedSeason}`);
+            console.log(blk.data)
+            let fg_pct = await hoop.get(`/api/statranked/fgPctLeaders/${selectedSeason}`);
+            console.log(fg_pct.data)
+            let fg3m = await hoop.get(`/api/statranked/fg3mLeaders/${selectedSeason}`);
+            console.log(fg3m.data)
+            let fg3_pct = await hoop.get(`/api/statranked/fg3PctLeaders/${selectedSeason}`);
+            console.log(fg3_pct.data)
+            let plus_minus = await hoop.get(`/api/statranked/plusMinusLeaders/${selectedSeason}`);
+            console.log(plus_minus.data)
+            setStats([pts.data, reb.data, ast.data, stl.data, blk.data, fg_pct.data, fg3m.data, fg3_pct.data, plus_minus.data])
         }
-    }
+        getAllQualified();
+    }, [selectedSeason])
+
+
 
     return (
         <div>
-
-            <h4 className='caption'>Draft your team from the drop down menus, then click 'Lock in Roster' to
-                face off against the computer. Must draft 10 players, with a total salary
-                of $35 or less.
-            </h4>
-            <div className='priceMenus'>
-                <Price selectedSeason={selectedSeason} 
-                        roster={roster} setRoster={setRoster} 
-                        teamSalary={teamSalary} 
-                        setTeamSalary={setTeamSalary}
-                        errorMessage={errorMessage}
-                        setErrorMessage={setErrorMessage}
-                        usedPlayers={usedPlayers}
-                        setUsedPlayers={setUsedPlayers}
-                        selectedPlayer={selectedPlayer}
-                        setSelectedPlayer={setSelectedPlayer}
-                        oneDollarPlayers={oneDollarPlayers}
-                        setOneDollarPlayers={setOneDollarPlayers}
-                        twoDollarPlayers={twoDollarPlayers}
-                        setTwoDollarPlayers={setTwoDollarPlayers}
-                        threeDollarPlayers={threeDollarPlayers}
-                        setThreeDollarPlayers={setThreeDollarPlayers}
-                        fourDollarPlayers={fourDollarPlayers}
-                        setFourDollarPlayers={setFourDollarPlayers}
-                        fiveDollarPlayers={fiveDollarPlayers}
-                        setFiveDollarPlayers={setFiveDollarPlayers}
-                        sixDollarPlayers={sixDollarPlayers}
-                        setSixDollarPlayers={setSixDollarPlayers}
-                        sevenDollarPlayers={sevenDollarPlayers}
-                        setSevenDollarPlayers={setSevenDollarPlayers}
-                         />
-            </div>
-            <br>
-            </br>
-            <div className="fantasyGrid">
-                <div className="col25">
-                    <TeamName submitFlag={submitFlag} setSubmitFlag={setSubmitFlag} teamName={teamName} setTeamName={setTeamName} />
-                    {roster.length > 0 ? <Dnd dragRoster={dragRoster} setDragRoster={setDragRoster} roster={roster} setRoster={setRoster} deletePlayer={deletePlayer} /> : ''}
+      
+          <div className="leaders-grid">
+            {stats.length > 0 ? stats.map((stat, index) => (
+                <div key={index} className="leaders-stat">
+                    <LeadersStatTable stat={stat} index={index} statLabels={statLabels} />
                 </div>
-                <div className="col25">
-                    <br>
-                    </br>
-                    <ErrorMessages errorMessage={errorMessage} setErrorMessage={setErrorMessage} roster={roster} />
-                    <UserCapSpace teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
-                    <table className='resultsTable'>
-                      { gameResultsUser.length > 0 ? <ResultsTableBody columns={columns} tableData={gameResultsUser} /> : null }
-                    </table>
-                </div>
-                <div className="col25">
-                    <br>
-                    </br>
-                    <ComputerSalary cpuRoster={cpuRoster} />
-                    <table className='resultsTable'>
-                      { gameResultsCpu.length > 0 ? <ResultsTableBody columns={columns} tableData={gameResultsCpu} /> : null }
-                    </table>
-                </div>
-                <div className="col25">
-                    <ComputerTeamName cpuRoster={cpuRoster} cpuName={cpuName} setCpuName={setCpuName} />
-                    <ComputerRoster selectedSeason={selectedSeason}
-                                    usedPlayers={usedPlayers}
-                                    setUsedPlayers={setUsedPlayers}
-                                    selectedPlayer={selectedPlayer}
-                                    setSelectedPlayer={setSelectedPlayer}
-                                    oneDollarPlayers={oneDollarPlayers}
-                                    setOneDollarPlayers={setOneDollarPlayers}
-                                    twoDollarPlayers={twoDollarPlayers}
-                                    setTwoDollarPlayers={setTwoDollarPlayers}
-                                    threeDollarPlayers={threeDollarPlayers}
-                                    setThreeDollarPlayers={setThreeDollarPlayers}
-                                    fourDollarPlayers={fourDollarPlayers}
-                                    setFourDollarPlayers={setFourDollarPlayers}
-                                    fiveDollarPlayers={fiveDollarPlayers}
-                                    setFiveDollarPlayers={setFiveDollarPlayers}
-                                    sixDollarPlayers={sixDollarPlayers}
-                                    setSixDollarPlayers={setSixDollarPlayers}
-                                    sevenDollarPlayers={sevenDollarPlayers}
-                                    setSevenDollarPlayers={setSevenDollarPlayers}
-                                    roster={roster}
-                                    cpuRoster={cpuRoster}
-                                    setCpuRoster={setCpuRoster}
-                                    lockFlag={lockFlag}
-                                    setLockFlag={setLockFlag} />
-                </div>
-            </div>
-            
-            <br>
-            </br>
-            <MatchupResults lockFlag={lockFlag} 
-                            setLockFlag={setLockFlag}
-                            dragRoster={dragRoster} 
-                            selectedSeason={selectedSeason} 
-                            roster={roster} 
-                            cpuRoster={cpuRoster} 
-                            setCpuRoster={setCpuRoster}
-                            gameResultsUser={gameResultsUser}
-                            setGameResultsUser={setGameResultsUser}
-                            gameResultsCpu={gameResultsCpu}
-                            setGameResultsCpu={setGameResultsCpu}
-                            totalRatingUser={totalRatingUser}
-                            setTotalRatingUser={setTotalRatingUser}
-                            totalRatingCpu={totalRatingCpu}
-                            setTotalRatingCpu={setTotalRatingCpu} />
-            <br>
-            </br>
-            <div className="centerText">
-                <LockButton lockFlag={lockFlag} setLockFlag={setLockFlag} roster={roster} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
-                <br></br>
-                <br></br>
-                <SeasonsDropdown seasonsData={seasonsData} 
-                                setSeasonsData={setSeasonsData} 
-                                selectedSeason={selectedSeason} 
-                                setSelectedSeason={setSelectedSeason} />
-                <TableDropdown tables={tables} 
-                                setTables={setTables} 
-                                tableChoice={tableChoice} 
-                                setTableChoice={setTableChoice} 
-                                selectedSeason={selectedSeason} 
-                                setSelectedSeason={setSelectedSeason} />
-                <br></br>
-            </div>
-            <div className='statContainer'>
-                <div className='grid80'>
-                    {selectedSeason ? tableChoice : 'loading'}
-                </div>
-                <div className='grid20'>
-                    <$35Ballers teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
-                </div>
-            </div>
+            )) : 'loading'}
+          </div>
+          <div className="table-container">
+              <SeasonsDropdown seasonsData={seasonsData} 
+                                  setSeasonsData={setSeasonsData} 
+                                  selectedSeason={selectedSeason} 
+                                  setSelectedSeason={setSelectedSeason} />
+              <TableDropdown tables={tables} 
+                                  setTables={setTables} 
+                                  tableChoice={tableChoice} 
+                                  setTableChoice={setTableChoice} 
+                                  selectedSeason={selectedSeason} 
+                                  setSelectedSeason={setSelectedSeason} />
+              <br></br>
+              <div>
+                  {selectedSeason ? tableChoice : 'loading'}
+              </div>
+          </div>
         </div>
-    );
-};
+    )
+}
 
 export default Home;

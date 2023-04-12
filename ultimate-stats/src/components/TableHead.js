@@ -45,7 +45,7 @@ const TableHead = ({ columns, handleSorting, smallHeaders }) => {
                  <tr>
                   {columns.map(({ label, accessor }) => {
                    return (
-                    <th key={accessor} onClick={() => handleSortingChange(accessor)}>
+                    <th key={accessor} className="header-item" onClick={() => handleSortingChange(accessor)}>
                      {label}
                     </th>
                    );
