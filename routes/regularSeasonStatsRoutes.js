@@ -12,4 +12,7 @@ router.get('/getregularseasonstatlines/:season/:playerid', regularSeasonStats.ge
 
 router.get('/shotseasons/:playerid', regularSeasonStats.getShotSeasonsFromPlayerId);
 
+
+
+
 module.exports = router;

@@ -198,4 +198,6 @@ router.get('/teamplayers/:teamid', boxPlayers.getTeamPlayersFromTeamId);
  *         description: Invalid Path
  */
 router.get(`/previousgame/gameid/:season/:teamId/:gameid`, boxPlayers.getPreviousRosterBySeasonByTeamByGameId);
+
+router.get(`/:season/:name`, boxPlayers.getPlayerIdWithName);
 module.exports = router;

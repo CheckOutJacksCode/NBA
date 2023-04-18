@@ -77,10 +77,25 @@ const getPreviousRosterBySeasonByTeamByGameId = (request, response, next) => {
     })
 }
 
+const getPlayerIdWithName = (request, response, next) => {
+    let {season, name} = request.params;
+    console.log(season);
+    console.log(name);
+    db.query(`SELECT DISTINCT player_id FROM "boxscorestraditional${season}" WHERE player_name = $1`, [name], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(200).json(results.rows)
+
+    })
+}
+
+
 module.exports = {
     getPreviousRosterBySeasonByTeamByGameId,
     getRosterBySeasonByTeam,         
     getTeamPlayersFromTeamId,
     getOfficialPlayerIdNameList,
-    getOfficialPlayerIdList,  
+    getOfficialPlayerIdList,
+    getPlayerIdWithName,  
 }

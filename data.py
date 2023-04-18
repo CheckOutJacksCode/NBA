@@ -146,7 +146,7 @@ def boxscoreadvanced(gameId):
 		game_id=gameId,
 		end_period=EndPeriod.default,
 		end_range=EndRange.default,
-		range_type=RangeType.default,
+		range_type=Season,
 		start_period=StartPeriod.default,
 		start_range=StartRange.default,
 		proxy=None,
@@ -676,9 +676,8 @@ def leagueDashPlayerStatsFunction():
 def getPlayerIds():
     f = open('./juicystats/playersNBA.json')
     players = json.load(f)
-
     for i in range(0, len(players)):
-        playerid = str(players[i][5])
+        playerid = str(players[i]['id'])
         playerCareerStatsFunction(playerid)
 
     f.close()
@@ -687,7 +686,7 @@ def playerCareerStatsFunction(playerid):
     print(playerid)
     response = playercareerstats.PlayerCareerStats(
         player_id = playerid,
-        per_mode36=PerMode36.default,
+        per_mode36='PerGame',
         league_id_nullable=LeagueIDNullable.default,
         proxy=None,
         headers=None,
@@ -700,7 +699,7 @@ def playerCareerStatsFunction(playerid):
 
     header = careerData.resultSets[0].headers
     try:
-        with open('./juicystats/seasonregularplayerstats.csv', 'a', encoding='UTF8', newline='') as f:
+        with open('./juicystats/seasonregularplayerstatsTEST2.csv', 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
             writer.writerow(header)
             writer.writerows(careerData.resultSets[0].rowSet)

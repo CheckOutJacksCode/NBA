@@ -3,10 +3,10 @@ const url = require('url');
 require('dotenv').config();
 
 const config = {
-  user: 'petejackerson',
-  host: 'localhost',
-  database: 'nbastatistics',
-  password: 'redsox45',
+  user: PG_USER,
+  host: PG_HOST,
+  database: PG_DATABASE,
+  password: PG_PASSWORD,
   port: 5432
 };
 

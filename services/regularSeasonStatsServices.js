@@ -84,6 +84,31 @@ const getShotSeasonsFromPlayerId = async(request, response, next) => {
     })
 }
 
+const getCareerSeasonsByPlayerId = async(request, response, next) => {
+    let { playerid } = request.params;
+    console.log(playerid);
+    db.query(`SELECT SUM(CAST(min AS FLOAT))
+                FROM "boxscorestraditional2015-2016" AS 2015-2016
+                SELECT SUM(CAST(min AS FLOAT))
+                FROM "boxscorestraditional2016-2017" AS 2016-2017
+                WHERE player_id = $1`, [playerid], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+
+
+const getCareerLinesByPlayerId =(request, response, next) => {
+    let { player_id } = request.params;
+    db.query(`SELECT distinct`)
+}
+
 module.exports = {
     seasonRegularPlayerStatsLoad,
     createSeasonRegularPlayerStatsTotals,

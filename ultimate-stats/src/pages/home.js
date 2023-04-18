@@ -8,13 +8,7 @@ import LeadersStatTable from '../components/LeadersStatTable';
 
 const Home = () => {
 
-    const [selectedSeason, setSelectedSeason] = useState('2022-2023');
-    const [seasonsData, setSeasonsData] = useState([]);
-    const [tableChoice, setTableChoice] = useState(<Table selectedSeason={selectedSeason}/>);
-    const [tables, setTables] = useState([]);
-    const [stats, setStats] = useState([]);
-    
-    const statLabels = [
+    const traditionalLabels = [
         {label: "POINTS PER GAME", accessor: "pts"},
         {label: "REBOUNDS PER GAME", accessor: "reb"},
         {label: "ASSISTS PER GAME", accessor: "ast"},
@@ -26,9 +20,43 @@ const Home = () => {
         {label: "PLUS-MINUS", accessor: "plus_minus"}
     ]
 
+    const miscStatLabels = [
+        {label: "POINTS OFF TURNOVERS", accessor: "pts_off_tov"},
+        {label: "2ND CHANCE POINTS", accessor: "pts_2nd_chance"},
+        {label: "FAST BREAK POINTS", accessor: "pts_fb"},
+        {label: "PAINT POINTS", accessor: "pts_paint"},
+        {label: "OPPONENT POINTS OFF TURNOVERS", accessor: "opp_pts_off_tov"},
+        {label: "OPPONENT 2ND CHANCE POINTS", accessor: "opp_pts_2nd_chance"},
+        {label: "OPPONENT FAST BREAK POINTS", accessor: "opp_pts_fb"},
+        {label: "OPPONENT PAINT POINTS", accessor: "opp_pts_paint"},
+        {label: "PERSONAL FOULS", accessor: "pf"}
+    ]
+
+    const hustleStatLabels = [
+        {label: "CONTESTED SHOTS", accessor: "contested_shots"},
+        {label: "DEFLECTIONS", accessor: "deflections"},
+        {label: "CHARGES DRAWN", accessor: "charges_drawn"},
+        {label: "SCREEN ASSISTS", accessor: "screen_assists"},
+        {label: "SCREEN AST POINTS", accessor: "screen_ast_pts"},
+        {label: "LOOSE BALLS RECOVERED", accessor: "loose_balls_recovered"},
+        {label: "BOX OUT PLAYER REBOUNDS", accessor: "box_out_player_rebs"},
+        {label: "BOX OUTS", accessor: "box_outs"},
+        {label: "% BOX OUTS REBOUND", accessor: "pct_box_outs_reb"}
+    ]
+
+    const [selectedSeason, setSelectedSeason] = useState('2022-2023');
+    const [seasonsData, setSeasonsData] = useState([]);
+    const [tableChoice, setTableChoice] = useState(<Table selectedSeason={selectedSeason}/>);
+    const [tableName, setTableName] = useState('traditional');
+    const [tables, setTables] = useState([]);
+    const [stats, setStats] = useState([]);
+    const [miscStats, setMiscStats] = useState([]);
+    const [hustleStats, setHustleStats] = useState([]);
+    const [statLabels, setStatLabels] = useState(traditionalLabels);
+
     useEffect(() => {
 
-        const getAllQualified = async() => {
+        const getTraditionalLeaders = async() => {
             let pts = await hoop.get(`/api/statranked/ptsLeaders/${selectedSeason}`);
             console.log(pts.data)
             let reb = await hoop.get(`/api/statranked/rebLeaders/${selectedSeason}`);
@@ -48,37 +76,128 @@ const Home = () => {
             let plus_minus = await hoop.get(`/api/statranked/plusMinusLeaders/${selectedSeason}`);
             console.log(plus_minus.data)
             setStats([pts.data, reb.data, ast.data, stl.data, blk.data, fg_pct.data, fg3m.data, fg3_pct.data, plus_minus.data])
+            setStatLabels(traditionalLabels);
         }
-        getAllQualified();
-    }, [selectedSeason])
+        const getMiscLeaders = async() => {
+            let tempStats = [];
+            let category = 'boxscoremisc';
+            for (let i = 0; i < miscStatLabels.length; i++) {
+                console.log(`${miscStatLabels[i].accessor}/${selectedSeason}/${category}`)
+                let results = await hoop.get(`/api/statranked/sumStat/${miscStatLabels[i].accessor}/${selectedSeason}/${category}`);
+                console.log(results.data)
+                tempStats = [...tempStats, results.data];
+            }
+/*
+            let pts_off_tov = await hoop.get(`/api/statranked/ptsOffTovLeaders/${selectedSeason}`);
+            console.log(pts_off_tov.data)
+            let pts_2nd_chance = await hoop.get(`/api/statranked/pts2ndChance/${selectedSeason}`)
+            console.log(pts_2nd_chance.data)
+            let pts_fb = await hoop.get(`/api/statranked/ptsFbLeaders/${selectedSeason}`);
+            console.log(pts_fb.data)
+            let pts_paint = await hoop.get(`/api/statranked/ptsPaintLeaders/${selectedSeason}`);
+            console.log(pts_paint.data)
+            let opp_pts_off_tov = await hoop.get(`/api/statranked/oppPtsOffTov/Leaders/${selectedSeason}`);
+            console.log(opp_pts_off_tov.data)
+            let opp_pts_2nd_chance = await hoop.get(`/api/statranked/oppPts2ndChanceLeaders/${selectedSeason}`);
+            console.log(opp_pts_2nd_chance.data)
+            let opp_pts_fb = await hoop.get(`/api/statranked/oppPtsFbLeaders/${selectedSeason}`);
+            console.log(opp_pts_fb.data)
+            let opp_pts_paint = await hoop.get(`/api/statranked/oppPtsPaintLeaders/${selectedSeason}`);
+            console.log(opp_pts_paint.data)
+            let blk = await hoop.get(`/api/statranked/blkLeaders/${selectedSeason}`);
+            console.log(blk.data)
+            let blka = await hoop.get(`/api/statranked/blkaLeaders/${selectedSeason}`);
+            console.log(blka.data)
+            let pf = await hoop.get(`/api/statranked/pfLeaders/${selectedSeason}`);
+            console.log(pf.data)
+            let pfd = await hoop.get(`/api/statranked/pfdLeaders/${selectedSeason}`);
+            console.log(pfd.data)*/
+            //setStats([pts_off_tov.data, pts_2nd_chance.data, pts_fb.data, pts_paint.data, opp_pts_off_tov.data, opp_pts_2nd_chance.data, opp_pts_fb.data, opp_pts_paint.data, blk.data, blka.data, pf.data, pfd.data])
+            setStats(tempStats);
+            setStatLabels(miscStatLabels);
+        }
 
+        const getHustleLeaders = async() => {
+
+            let tempStats = [];
+            let category = 'leagueHustleStatsPlayer';
+            for (let i = 0; i < hustleStatLabels.length; i++) {
+                console.log(`${hustleStatLabels[i].accessor}/${selectedSeason}/${category}`)
+                let results = await hoop.get(`/api/statranked/sumStat/${hustleStatLabels[i].accessor}/${selectedSeason}/${category}`);
+                console.log(results.data)
+                tempStats = [...tempStats, results.data];
+            }
+            /*
+            let contested_shots = await hoop.get(`/api/statranked/contestedShotsLeaders/${selectedSeason}`);
+            console.log(contested_shots.data)
+            let deflections = await hoop.get(`/api/statranked/deflectionsLeaders/${selectedSeason}`);
+            console.log(deflections.data)
+            let charges_drawn = await hoop.get(`/api/statranked/chargesDrawnLeaders/${selectedSeason}`);
+            console.log(charges_drawn.data)
+            let screen_assists = await hoop.get(`/api/statranked/screenAssistsLeaders/${selectedSeason}`);
+            console.log(screen_assists.data)
+            let screen_ast_pts = await hoop.get(`/api/statranked/screenAstPtsLeaders/${selectedSeason}`);
+            console.log(screen_ast_pts.data)
+            let loose_balls_recovered = await hoop.get(`/api/statranked/looseBallsRecoveredLeaders/${selectedSeason}`);
+            console.log(loose_balls_recovered.data)
+            let box_out_player_rebs = await hoop.get(`/api/statranked/boxOutPlayerRebsLeaders/${selectedSeason}`);
+            console.log(box_out_player_rebs.data)
+            let box_outs = await hoop.get(`/api/statranked/boxOutsLeaders/${selectedSeason}`);
+            console.log(box_outs.data)
+            let pct_box_outs_reb = await hoop.get(`/api/statranked/pctBoxOutsRebLeaders/${selectedSeason}`);
+            console.log(pct_box_outs_reb.data)
+            */
+            //setStats([contested_shots.data, deflections.data, charges_drawn.data, screen_assists.data, screen_ast_pts.data, loose_balls_recovered.data, box_out_player_rebs.data, box_outs.data, pct_box_outs_reb.data])
+            setStats(tempStats);
+            setStatLabels(hustleStatLabels);
+        }
+        if (tableName === 'traditional') {
+            getTraditionalLeaders();
+        } else if (tableName === 'misc') {
+            getMiscLeaders();
+        } else {
+            getHustleLeaders();
+        }
+    }, [selectedSeason, tableName])
 
 
     return (
         <div>
-      
-          <div className="leaders-grid">
-            {stats.length > 0 ? stats.map((stat, index) => (
-                <div key={index} className="leaders-stat">
-                    <LeadersStatTable stat={stat} index={index} statLabels={statLabels} />
-                </div>
-            )) : 'loading'}
-          </div>
-          <div className="table-container">
+            <div className='statistics-title'>
+                NBA Advanced Statistics
+            </div>
+            <div className='yellow-line'>
+            </div>
+            <div className='dropDownFlex'>
               <SeasonsDropdown seasonsData={seasonsData} 
                                   setSeasonsData={setSeasonsData} 
                                   selectedSeason={selectedSeason} 
                                   setSelectedSeason={setSelectedSeason} />
-              <TableDropdown tables={tables} 
+              <TableDropdown tableName={tableName}
+                                  setTableName={setTableName}     
+                                  tables={tables} 
                                   setTables={setTables} 
                                   tableChoice={tableChoice} 
                                   setTableChoice={setTableChoice} 
                                   selectedSeason={selectedSeason} 
                                   setSelectedSeason={setSelectedSeason} />
-              <br></br>
-              <div>
-                  {selectedSeason ? tableChoice : 'loading'}
-              </div>
+            </div>
+            <div className="table-container">
+
+            <div className="leaders-grid">
+              {stats.length > 0 ? stats.map((stat, index) => (
+                <div key={index} className="leaders-stat">
+                  <LeadersStatTable stat={stat} index={index} statLabels={statLabels} />
+                </div>
+              )) : 'loading'}
+            </div>
+            <br></br>
+            <h1>
+                All Players
+            </h1>
+            <div>
+                {selectedSeason ? tableChoice : 'loading'}
+            </div>
           </div>
         </div>
     )

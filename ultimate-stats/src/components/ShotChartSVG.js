@@ -40,12 +40,12 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
                 }
             }
 
-            const xSize = 600; 
+            const xSize = 620; 
             const ySize = 570;
             const xHalf = -350;
-            const xPosHalf = 350;
-            const xMargin = 100;
-            const yMargin = 100;
+            const xPosHalf = 380;
+            const xMargin = 120;
+            const yMargin = 60;
             const width = xSize - xMargin
             const height = ySize - yMargin
             const halfWidth = xHalf + xMargin;
@@ -53,165 +53,161 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
             const svg = d3.select(`#${myPlot}`)
               .append("svg")
               .append("g")
-              .attr("transform","translate(" + halfPosWidth + ", " + yMargin + ")", "class", "graph-svg-component");
+              .attr("transform","translate(" + halfPosWidth + ", " + yMargin + ")", "class", "graph-svg-component")
+              .style('color', 'white');
+
             d3.select(`#${myPlot}`).selectAll("text").remove()
               // X Axis
             const x = d3.scaleLinear()
               .domain([-250, 250])
-              .range([0, width]);
+              .range([0, width])
+
         
             svg.append("g")
               .attr("transform", "translate(-250, -52.5)")
-              .call(d3.axisBottom(x));
-        
-            svg.append("text")
-              .attr("x", 0)
-              .attr("y", -65)
-              .text(`${chartTitle}`)
-              .style("text-anchor", "middle")
-              .style("font-size", "35px")
-              .style('fill', 'black')
+              .call(d3.axisBottom(x))
+              .style('color', 'white');
 
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 70)
-              .text(`pts: ${parseFloat(boxData[0].pts).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-        
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 90)
-              .text(`min: ${parseFloat(boxData[0].min).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-        
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 110)
-              .text(`fga: ${parseFloat(boxData[0].fga).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-        
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 130)
-              .text(`fgm: ${parseFloat(boxData[0].fgm).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')  
-        
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 150)
-              .text(`fgp: ${parseFloat(boxData[0].fg_pct).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 170)
-              .text(`fta: ${parseFloat(boxData[0].fta).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 190)
-              .text(`ftm: ${parseFloat(boxData[0].ftm).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')    
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 210)
-              .text(`ftp: ${parseFloat(boxData[0].ft_pct).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 230)
-              .text(`fg3a: ${parseFloat(boxData[0].fg3m).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-        
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 250)
-              .text(`fg3m: ${parseFloat(boxData[0].fg3a).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-        
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 270)
-              .text(`fg3p: ${parseFloat(boxData[0].fg3_pct).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
+            /*
+            if (shotsData !== 'No shots attempted') {
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 70)
+                  .text(`pts: ${parseFloat(boxData[0].pts).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
 
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 290)
-              .text(`reb: ${parseFloat(boxData[0].reb).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
-            
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 310)
-              .text(`ast: ${parseFloat(boxData[0].ast).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 90)
+                  .text(`min: ${parseFloat(boxData[0].min).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
 
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 330)
-              .text(`stl: ${parseFloat(boxData[0].stl).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 110)
+                  .text(`fga: ${parseFloat(boxData[0].fga).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
 
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 350)
-              .text(`tov: ${parseFloat(boxData[0].to).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 130)
+                  .text(`fgm: ${parseFloat(boxData[0].fgm).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')  
 
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 370)
-              .text(`blk: ${parseFloat(boxData[0].blk).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 150)
+                  .text(`fgp: ${parseFloat(boxData[0].fg_pct).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 170)
+                  .text(`fta: ${parseFloat(boxData[0].fta).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 190)
+                  .text(`ftm: ${parseFloat(boxData[0].ftm).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')    
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 210)
+                  .text(`ftp: ${parseFloat(boxData[0].ft_pct).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 230)
+                  .text(`fg3a: ${parseFloat(boxData[0].fg3m).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
 
-            svg.append("text")
-              .attr("x", 260)
-              .attr("y", 390)
-              .text(`+/-: ${parseFloat(boxData[0]['+/-']).toFixed(2)}`)
-              .style("text-anchor", "left")
-              .style("font-size", "15px")
-              .style('fill', 'black')
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 250)
+                  .text(`fg3m: ${parseFloat(boxData[0].fg3a).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
 
-            svg.append("text")
-              .attr("x", 0)
-              .attr("y", -65)
-              .text(`${chartTitle}`)
-              .style("text-anchor", "middle")
-              .style("font-size", "35px")
-              .style('fill', 'black')
-        
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 270)
+                  .text(`fg3p: ${parseFloat(boxData[0].fg3_pct).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 290)
+                  .text(`reb: ${parseFloat(boxData[0].reb).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 310)
+                  .text(`ast: ${parseFloat(boxData[0].ast).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 330)
+                  .text(`stl: ${parseFloat(boxData[0].stl).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 350)
+                  .text(`tov: ${parseFloat(boxData[0].to).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 370)
+                  .text(`blk: ${parseFloat(boxData[0].blk).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+
+                svg.append("text")
+                  .attr("x", 260)
+                  .attr("y", 390)
+                  .text(`+/-: ${parseFloat(boxData[0]['+/-']).toFixed(2)}`)
+                  .style("text-anchor", "left")
+                  .style("font-size", "15px")
+                  .style('fill', 'white')
+            } else {
+              svg.append("text")
+              .attr("x", 260)
+              .attr("y", 50)
+              .text(`No shots attempted`)
+            }    
+            */
             svg.append("line")
               .attr("x1", 60)
               .attr("x2", 60)
@@ -349,9 +345,7 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
               .attr("x2", -250)
               .attr("y1", -52)
               .attr("y2", 418)
-              .attr("stroke", "black")
-              .attr("stroke-width", "2")
-        
+              .attr("stroke", "white")        
             // Y Axis
             const y = d3.scaleLinear()
               .domain([-52.5, 418])
@@ -378,14 +372,14 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
               .attr("r", 60)
               .style("opacity", .2)
               .attr("stroke", "white")
-              .style("fill", "#f79c26");
+              .style("fill", "rgb(65,65,65)");
             svg.append("circle")
               .attr("cx", 0)
               .attr("cy", 418)
               .attr("r", 60)
-              .style("opacity", .1)
+              .style("opacity", .2)
               .attr("stroke", "white")
-              .style("fill", "#f79c26");
+              .style("fill", "rgb(65,65,65)");
         
             svg.append("circle")
               .attr("cx", 0)
@@ -432,7 +426,7 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
               .attr("cy", function (d) { return d[1] } )
               .attr("r", 2)
               .style("opacity", .7)
-              .style("fill", "green");
+              .style("fill", "rgba(64, 154, 244, 0.5)");
         
             svg.append('g')
               .selectAll("dot")
@@ -442,9 +436,9 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
               .attr("cy", function (d) { return d[1] } )
               .style("opacity", .8)
               .attr("r", 2)
-              .style("fill", "red");
+              .style("fill", "rgb(191, 255, 0)");
         }
-        if (shotsData.length > 0 && boxData.length > 0) {
+        if (shotsData && boxData) {
             console.log(shotsData)
             console.log(boxData)
             getSVG();
@@ -455,9 +449,11 @@ function ShotChartSVG({ shotsData, playerid, boxData, season }) {
         <div>
             <svg id={myPlot}
               style={{
-                height: 580,
-                width: 600,
+                height: 470,
+                width: 520,
                 margin: "auto",
+                display: "block",
+                backgroundColor: "black",
               }}
             >
             </svg>

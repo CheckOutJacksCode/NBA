@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ShotChartSVG from "./ShotChartSVG";
 import ShotChartGameSVG from "./ShotChartGameSVG";
 import hoop from "../apis/hoop";
+import CareerStats from './CareerStats';
 
 
 const Dropdown = (props) => {
@@ -25,7 +26,8 @@ const Dropdown = (props) => {
     let [selectedSeason, setSelectedSeason] = useState('');
     let [selectedPlayer, setSelectedPlayer] = useState('');
     let [selectedGame, setSelectedGame] = useState('');
-
+    let [selectedGameDate, setSelectedGameDate] = useState('');
+    
 
     let options = null;
     let optionsGames = null;
@@ -71,6 +73,10 @@ const Dropdown = (props) => {
         
       let isSubscribed = true;
         const getRoster = async() => {
+            if (selectedTeam === '0' || selectedSeason === '0') {
+                setRosterData([]);
+                return;
+            }
             let teamid = await hoop.get(`/api/leagueGames/teamid/${selectedTeam}`)
             let response = await hoop.get(`/api/boxPlayers/getroster/${selectedSeason}/${teamid.data[0].team_id}`)
             if (isSubscribed) {
@@ -89,6 +95,7 @@ const Dropdown = (props) => {
         const getGames = async() => {
             let games = await hoop.get(`/api/leagueGames/gameidgamedatematchup/${selectedPlayer}/${selectedSeason}`)
             if (isSubscribed) {
+                console.log(games.data)
                 setGameData(games.data);
             }
         }
@@ -102,12 +109,14 @@ const Dropdown = (props) => {
   
     useEffect(() => {
         
-      let isSubscribed = true;
         const getShots = async() => {
             let shots = await hoop.get(`/api/shots/${selectedPlayer}/${selectedSeason}`)
             console.log(shots.data);
-            if (isSubscribed) {
-                setShotsData(shots.data);
+            if (shots.data.length < 1) {
+                console.log('no shots')
+                setShotsData(['No shots attempted']);
+            } else {
+                setShotsData(shots.data);                
             }
         }
         if (selectedPlayer) {
@@ -115,13 +124,16 @@ const Dropdown = (props) => {
         } else {
             setShotsData([])
         }
-        return () => isSubscribed = false;
     }, [selectedSeason, selectedTeam, selectedPlayer])
 
     useEffect(() => {
         
       let isSubscribed = true;
         const getShotsGame = async() => {
+            if (selectedGame === '0') {
+                setShotsGameData([]);
+                return;
+            }
             let shots = await hoop.get(`/api/shots/${selectedPlayer}/${selectedSeason}/${selectedGame.substring(0,10)}`)
             if (isSubscribed) {
                 setShotsGameData(shots.data);
@@ -140,11 +152,12 @@ const Dropdown = (props) => {
         let isSubscribed = true;
             const getPlayerId = async() => {
             
-                let playerid = await hoop.get(`/api/playersNBA/${selectedSeason}/${selectedPlayer}`)
+                let playerid = await hoop.get(`/api/boxPlayers/${selectedSeason}/${selectedPlayer}`)
                 console.log(playerid.data);
                 if (isSubscribed) {
                     setPlayerId(playerid.data[0]);
                 }
+
           }
           if (selectedPlayer) {
               getPlayerId();
@@ -173,7 +186,10 @@ const Dropdown = (props) => {
         
       let isSubscribed = true;
           const getGameStats = async() => {
-          
+              if (selectedGame === '0') {
+                setGameBox([]);
+                return;
+              }
               let boxScore = await hoop.get(`/api/boxScoresTraditional/${selectedSeason}/${selectedGame.substring(0,10)}/${playerid.player_id}`);
               if (isSubscribed) {
                   setGameBox(boxScore.data);
@@ -187,25 +203,44 @@ const Dropdown = (props) => {
 
 
     function handleTeamChange(event) {
-        setSelectedPlayer('')
-        setSelectedGame('')
+        if (event.target.value === 'Select Team') {
+            return;
+        }
+        setSelectedPlayer('');
+        setSelectedGame('');
+        setSelectedGameDate('');
         setSelectedTeam(event.target.value);
         console.log(selectedTeam);
     }
 
     function handleSeasonChange(event) {
-        setSelectedPlayer('')
-        setSelectedGame('')
+        if (event.target.value === 'Select Season') {
+            return;
+        }
+        setSelectedPlayer('');
+        setSelectedGame('');
+        setSelectedGameDate('');
         setSelectedSeason(event.target.value);
     }
 
     function handlePlayerChange(event) {
-        setSelectedGame('')
+        if (event.target.value === 'Select Player') {
+            return;
+        }
+        setSelectedGame('');
+        setSelectedGameDate('');
         setSelectedPlayer(event.target.value);
     }
 
     function handleGameChange(event) {
+        if (event.target.value === '0') {
+            setSelectedGame(event.target.value);
+            setSelectedGameDate('');
+            return;
+        }
+        let split = event.target.value.split(',')
         setSelectedGame(event.target.value);
+        setSelectedGameDate(split[1] + ' ' + split[2]);
     }
     
     if (roster) {
@@ -215,7 +250,7 @@ const Dropdown = (props) => {
 
     if (gameData) {
         let idGameCount = 0;
-        optionsGames = gameData.map((option) => <option key={idGameCount++} value={Object.values(option)}>{Object.values(option)}</option>);
+        optionsGames = gameData.map((option) => <option key={idGameCount++} value={Object.values(option)}>{option.game_date + ' ' + option.matchup}</option>);
     }
 /*
     if (shotsData.length > 0 && boxScore.length > 0) {
@@ -231,38 +266,121 @@ const Dropdown = (props) => {
     }*/
 
     return (
-      <label>
-        {props.label}
+      <div>
+        <div className='statistics-title'>
+                NBA Shot Charts
+        </div>
+        <div className='yellow-line'>
+        </div>
+        <div className='dropDownFlex'>
+            <div className='flex-shot-child'>
+                <div className="drop-title">
+                  SEASON
+                </div>
+                <select className='season-select' value={selectedSeason} onChange={handleSeasonChange}>
+                  <option value="0">Select Season</option>
 
-        <select value={selectedSeason} onChange={handleSeasonChange}>
-          <option value="0">Select Season</option>
+                  {seasonsData.map((option) => (
+                    <option key={idSeasonCount++} value={Object.values(option)}>{Object.values(option)}</option>
+                  ))}
 
-          {seasonsData.map((option) => (
-            <option key={idSeasonCount++} value={Object.values(option)}>{Object.values(option)}</option>
-          ))}
-          
-        </select>
-        <select value={selectedTeam} onChange={handleTeamChange}>
-          <option value="0">Select Team</option>
+                </select>
+            </div>
+            <div className='flex-shot-child'>
+                <div className="drop-title">
+                  TEAM
+                </div>
+                <select className='season-select' value={selectedTeam} onChange={handleTeamChange}>
+                  <option value="0">Select Team</option>
 
-          {teamsData.map((option) => (
-            <option key={idTeamCount++} value={Object.values(option)}>{Object.values(option)}</option>
-          ))}
-          
-        </select>
-        <select value={selectedPlayer} onChange={handlePlayerChange}>
-          <option value="0">Select Player</option>
-        {options}
-        </select>
-        <select value={selectedGame} onChange={handleGameChange}>
-          <option value="0">Select Game</option>
-          {optionsGames}
-        </select>
+                  {teamsData.map((option) => (
+                    <option key={idTeamCount++} value={Object.values(option)}>{Object.values(option)}</option>
+                  ))}
+
+                </select>
+            </div>
+            <div className='flex-shot-child'>
+                <div className="drop-title">
+                  PLAYER
+                </div>
+                <select className='season-select' value={selectedPlayer} onChange={handlePlayerChange}>
+                  <option value="0">Select Player</option>
+                {options}
+                </select>
+            </div>
+            <div className='flex-shot-child'>
+                <div className="drop-title">
+                  GAME
+                </div>
+                <select className='season-select' value={selectedGame} onChange={handleGameChange}>
+                  <option value="0">Select Game</option>
+                  {optionsGames}
+                </select>
+            </div>
+        </div>
         <br></br>
         <br></br>
-        <div className="graph-svg-component">{shotsData.length > 0 ? <ShotChartSVG shotsData={shotsData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>: 'select season, team, and player to display season shot chart'}</div>
-        <div className="graph-svg-component">{shotsGameData.length > 0 && gameBox.length > 0 ? <ShotChartGameSVG shotsData={shotsGameData} playerid={playerid} boxData={gameBox} season={selectedSeason}/> : 'once season and player are selected, select individual game shot chart'}</div>
-      </label>
+        <div className='career-container'>
+            <CareerStats player_id={playerid} selectedPlayer={selectedPlayer} />
+        </div>
+        <div className='svg-container'>
+            <div className="graph-svg-component">
+                <div className="shot-colors">
+                    <h1>
+                        {shotsData.length > 0 ? `${selectedSeason} Regular Season` : ''}
+                    </h1>
+                    <div className='margin-left'>
+                        <div className='shot-colors'>
+                            <div className='green-block'>
+                            </div>
+
+                            <div>
+                                 - Made Shot
+                            </div>
+                        </div>
+                        <div className='shot-colors'>
+                            <div className='blue-block'>
+                            </div>
+                            <div>
+                                 - Missed Shot
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {<ShotChartSVG shotsData={shotsData} playerid={playerid} boxData={boxScore} season={selectedSeason}/>}
+                </div>
+            </div>
+            <div className="graph-svg-component">
+                <div className="shot-colors">
+                    <h1>
+                        {shotsData.length > 0 ? selectedGameDate : ''}
+                    </h1>
+                    <div className='margin-left'>
+                        <div className='shot-colors'>
+                            <div className='green-block'>
+                            </div>
+
+                            <div>
+                                 - Made Shot
+                            </div>
+                        </div>
+                        <div className='shot-colors'>
+                            <div className='blue-block'>
+                            </div>
+                            <div>
+                                 - Missed Shot
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {<ShotChartGameSVG shotsData={shotsGameData} playerid={playerid} boxData={gameBox} season={selectedSeason}/>}
+                </div>
+            </div>            
+        </div>
+
+      </div>
     );
         
 };

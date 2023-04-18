@@ -4,6 +4,7 @@ const { parse } = require("csv-parse");
 const createCsvWriter = require('csv-writer');
 const errors = require('../middleware/errors.js');
 
+
 const getBoxScorePlayer = async(request, response, next) => {
     let {playerid, season} = request.params;
   
