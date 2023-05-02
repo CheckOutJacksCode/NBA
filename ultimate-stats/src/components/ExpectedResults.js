@@ -5,6 +5,8 @@ import GetRosterFromPreviousGame from "./GetRosterFromPreviousGame";
 import ActualResults from "./ActualResults";
 import Odds from "./Odds";
 import hoop from "../apis/hoop";
+import {TOR, DEN, HOU, IND, CHI, GSW, BOS, LAC, POR, ATL, CLE, DAL, NOP, SAC, MIL, WAS, BKN, LAL,
+        SAS, OKC, CHA, MIN, PHX, MEM, NYK, PHI, ORL, MIA, UTA, DET } from 'react-nba-logos';
 
 
 const ExpectedResults = ({ homeExpectedResults, 
@@ -28,6 +30,45 @@ const ExpectedResults = ({ homeExpectedResults,
     
     const [averageScore, setAverageScore] = useState(0);
     const [previousSeason, setPreviousSeason] = useState('');
+    //const [HomeLogo, setHomeLogo] = useState('');
+    //const [VisitorLogo, setVisitorLogo] = useState('');
+
+
+    const components = {
+        TOR: TOR,
+        DEN: DEN,
+        HOU: HOU,
+        DET: DET,
+        UTA: UTA,
+        MIA: MIA,
+        ORL: ORL,
+        PHI: PHI,
+        NYK: NYK,
+        MEM: MEM,
+        PHX: PHX,
+        MIN: MIN,
+        CHA: CHA,
+        OKC: OKC,
+        SAS: SAS,
+        LAL: LAL,
+        BKN: BKN,
+        WAS: WAS,
+        MIL: MIL,
+        SAC: SAC,
+        NOP: NOP,
+        DAL: DAL,
+        CLE: CLE,
+        ATL: ATL,
+        POR: POR,
+        LAC: LAC,
+        BOS: BOS,
+        GSW: GSW,
+        CHI: CHI,
+        IND: IND
+    };
+
+    let HomeLogo;
+    let VisitorLogo;
 
     useEffect(() => {
         const getPreviousSeason = async() => {
@@ -107,7 +148,8 @@ const ExpectedResults = ({ homeExpectedResults,
                 setGameDate(game.commence_time.substring(0, 10));
                 let results3 = await hoop.get(`/api/leagueGames/teamabbreviation/${game.home_team}`)
                 let results4 = await hoop.get(`/api/leagueGames/teamabbreviation/${game.away_team}`)
-                setMatchup(results3.data[0].team_abbreviation + ' vs. ' + results4.data[0].team_abbreviation)
+                setMatchup(results3.data[0].team_abbreviation + ' vs. ' + results4.data[0].team_abbreviation);
+
             } else {
                 setHomeTeamId(game.home_team_id);
                 setVisitorTeamId(game.visitor_team_id);
@@ -127,7 +169,9 @@ const ExpectedResults = ({ homeExpectedResults,
         }
     }, [game])
     
-
+    console.log(matchup.substring(0,3))
+    HomeLogo = components[matchup.substring(0,3)]
+    VisitorLogo = components[matchup.substring(8,11)]
     //FOR UPCOMING P8REDICTIONS, PASS IN SOME STRING AS GAME TO GETROSTERFROMPREVIOUSGAME AND SET HOMEPREVIOUSGAMEID = LAST GAME_ID IN THE TABLE
     return (
         <div>{game.game_id !== 'upcoming' ? 
@@ -137,7 +181,7 @@ const ExpectedResults = ({ homeExpectedResults,
                 <div>
                     <div className="column25predictions">
                     <p>H vs. V</p>
-                    {matchup ? matchup.substring(0,4) : 'loading'}
+                    {matchup ? matchup.substring(0,3)  : 'loading'}
                     <br></br>
                     vs.
                     <br></br>
@@ -200,21 +244,35 @@ const ExpectedResults = ({ homeExpectedResults,
                 </div>
             </div>
             :
-            <div className='upcoming'>
-                <p className="upcomingGamedate">{game.commence_time.substring(0,10)}</p>                
-                <div className="column33predictions">
-                    H vs. V
-                    <br></br>
-                    {matchup ? matchup.substring(0,4) : 'loading'}
-                    <br></br>
-                    vs.
-                    <br></br>
-                    {matchup ? matchup.substring(8, 11) : 'loading'}
+            <div className='upcoming-grid'>
+                <div className='upcoming-game-date'>{game.commence_time.charAt(5) === '0' ?
+                                                        <>
+                                                        {game.commence_time.substring(6,10)}
+                                                        <br></br>
+                                                        {game.commence_time.substring(0,4)}
+                                                        </>
+                                                        :
+                                                        <>
+                                                        {game.commence_time.substring(5,10)}
+                                                        <br></br>
+                                                        {game.commence_time.substring(0,4)}
+                                                        </>}                                                        
+                </div>                
+                <div></div>
+                <div className='upcoming-headers'>EXPECTED SCORE</div>
+                <div className='upcoming-headers'>MONEYLINE</div>
+                <div className='inner-upcoming-flex'>
+                    {matchup && HomeLogo ? 
+                    <div className='logo-flex'>
+                        <HomeLogo size={50} /> 
+                        <div>
+                            {' ' + matchup.substring(0,3)}
+                        </div>
+                    </div>
+                
+                     : 'loading'}
                 </div>
-                <div className="column33predictions">
-                    Exp.
-                    <br></br>
-                    {homePreviousGameId && averageScore > 0? <GetRosterFromPreviousGame averageScore={averageScore} 
+                {homePreviousGameId && averageScore > 0? <GetRosterFromPreviousGame averageScore={averageScore} 
                                                                                      previousSeason={previousSeason} 
                                                                                      homeExpectedResults={homeExpectedResults} 
                                                                                      setHomeExpectedResults={setHomeExpectedResults} 
@@ -233,6 +291,66 @@ const ExpectedResults = ({ homeExpectedResults,
                                                                                      setSelectedSeason={setSelectedSeason} 
                                                                                      H_or_V={'home'} 
                                                                                      setH_or_V={setH_or_V}/> : 'loading'}
+                <div>
+                    {game.home_odds}
+                </div>
+                <div className='inner-upcoming-flex'>
+                    {matchup && HomeLogo ? 
+                    <div className='logo-flex'>
+                        <VisitorLogo size={50} /> 
+                        <div>
+                            {' ' + matchup.substring(8,11)}
+                        </div>
+                    </div>
+                
+                     : 'loading'}
+                </div>
+                {visitorPreviousGameId && averageScore > 0 ? <GetRosterFromPreviousGame averageScore={averageScore}
+                                                                                        previousSeason={previousSeason} 
+                                                                                        homeExpectedResults={homeExpectedResults} 
+                                                                                        setHomeExpectedResults={setHomeExpectedResults} 
+                                                                                        visitorExpectedResults={visitorExpectedResults} 
+                                                                                        setVisitorExpectedResults={setVisitorExpectedResults} 
+                                                                                        matchup={matchup} 
+                                                                                        game={game} 
+                                                                                        previousGameId={visitorPreviousGameId} 
+                                                                                        roster={visitorRoster} 
+                                                                                        setRoster={setVisitorRoster} 
+                                                                                        teamId={visitorTeamId} 
+                                                                                        setTeamId={setTeamId} 
+                                                                                        gameDate={gameDate} 
+                                                                                        setGameDate={setGameDate} 
+                                                                                        selectedSeason={selectedSeason} 
+                                                                                        setSelectedSeason={setSelectedSeason} 
+                                                                                        H_or_V={'visitor'} 
+                                                                                        setH_or_V={setH_or_V}/> : 'loading'}
+                <div>
+                    {game.away_odds}
+                </div>
+
+        </div>}
+    </div>
+    )
+}
+
+export default ExpectedResults;
+
+/*
+
+
+                    {matchup && VisitorLogo ? 
+                    <div className='logo-flex'>
+                        <VisitorLogo size={50} /> 
+                        <div>
+                            {' ' + matchup.substring(8,11)}
+                        </div>
+                    </div>
+                     : 'loading'}
+                </div>
+                <div className='inner-upcoming-flex' style={{textAlign: 'center'}}>
+                    Expected Score
+                    <br></br>
+                    
                     <br></br>
                     {visitorPreviousGameId && averageScore > 0 ? <GetRosterFromPreviousGame averageScore={averageScore}
                                                                                         previousSeason={previousSeason} 
@@ -254,16 +372,10 @@ const ExpectedResults = ({ homeExpectedResults,
                                                                                         H_or_V={'visitor'} 
                                                                                         setH_or_V={setH_or_V}/> : 'loading'}
                 </div>
-                <div className="column33predictions">
+                <div className='inner-upcoming-flex'>
                     Odds
                     <br></br>
-                    {game.home_odds}
+                    
                     <br></br>
                     {game.away_odds}
-                </div> 
-        </div>}
-    </div>
-    )
-}
-
-export default ExpectedResults;
+                </div> */

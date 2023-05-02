@@ -382,7 +382,7 @@ const loadUpLeagueGamesBySeason = async() => {
     for (let i = 0; i < years.length; i++) {
         let gamesArray = await getJsonResponseStartup(`/api/leagueGames/${years[i]}`);
         for (let j = 0; j < gamesArray.resultSets.length; j++) {
-            for (let m = tableLength - 1; m < gamesArray.resultSets[j].rowSet.length; m++) {
+            for (let m = 0; m < gamesArray.resultSets[j].rowSet.length; m++) {
                 
                 //ACTIVATE CODE IF YOU NEED TO LOAD SHOTS INTO YOUR DATABASE
                 let results = await postLeagueGamesBySeason(gamesArray.resultSets[j].rowSet[m], years[i]);

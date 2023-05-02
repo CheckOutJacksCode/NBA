@@ -31,7 +31,8 @@ body {
 .matchupResults {
   text-align: center;
   font-size: xx-large;
-  font-family:fantasy;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 div.jack-o-rithm {
@@ -80,25 +81,18 @@ div.predictionsHistorical {
 }
 
 .upcomingContainer {
-  display: grid;
-  gap: 10px;
-  max-height: 100vh;
-/*  Change the values     👇 to experiment */
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
+  padding: 10px;
 }
 
 
 .upcoming {
-  text-align: center;
-  color:black;
-  background-color: rgb(85, 149, 213);
-  font-weight: 600;
-  border-radius: 5px;
-  display: grid;
-  place-items: center;
-  grid-template-columns: repeat(3, 1fr);
-  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+  display: flex
+
+}
+
+.inner-upcoming-flex {
+  align-items: center;
+  display: grid
 
 }
 
@@ -261,7 +255,7 @@ div.table_container {
 }
 
 nav {
-  text-align: center;
+  text-align: right;
 }
 
 h1 {
@@ -286,28 +280,31 @@ h1 {
 
 .starterRoster {
   text-align: center;
-  font-size: small;
-  margin: 12px;
-  display: block;
-  background-color: rgb(180, 253, 120);
-  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 3px 3px 5px black;
 
 }
 
 .benchRoster {
   text-align: center;
-  font-size: small;
-  margin: 12px;
-  display: block;
-  background-color: rgb(213, 196, 176);
-  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+  border-radius: 5px;
+  margin-bottom: 10px;
+
+  background-color: rgb(238,238,238);
+  box-shadow: 3px 3px 5px rgb(0, 0, 0);
 
 }
 
 .centered {
   text-align: center;
-  font-size: small;
-  display: block;
+  font-size: medium;
+  padding: 10px;
+  border-radius: 5px;
+
+
 }
 
 
@@ -387,19 +384,27 @@ h1 {
 
 .link {
   text-decoration: none;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size: medium;
+  font-size: large;
   color: rgb(255, 255, 255);
 }
 
+.link:hover {
+  color: rgb(252, 255, 65);
+
+}
+
 .teamNameLabel {
-  font-weight: 500;
+  color: white;
+  font-size:medium;
+  font-weight: 600;
+  text-align: center;
+
 }
 
 .errorMessage {
   text-align: center;
   font-size: x-small;
-  color: red;
+  color: rgb(255, 247, 0);
 }
 
 .column25Salary {
@@ -418,22 +423,38 @@ h1 {
 }
 
 button.lockButton {
-  font-size: 20px;
-  background-color: orangered;
-  color: rgb(249, 222, 188);
+  margin-top: 10px;
+  border: none;
+  font-size: medium;
+  padding: 10px;
+  background-color: rgb(238, 238, 238);
   border-radius: 5px;
+  width: 100%
+}
+
+button.submitButton {
+  border: none;
+  font-size: medium;
+  padding: 10px;
+  background-color: rgb(238, 238, 238);
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 button.lockButton:hover {
-  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+button.submitButton:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
 }
 
 span {
   font-size: small;
 }
 .teamSalary {
-  font-size: xx-large;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: large;
 }
 
 .teamName {
@@ -475,15 +496,13 @@ table.cumTable th {
   background-color: rgb(238, 204, 159);
 }
 
-table.center {
+.center {
   text-align: center;
-  margin-left:auto; 
-  margin-right:auto;
-  width: auto;
-  padding: 8;
-  background-color: rgb(249, 222, 188);
-  border-radius: 5px;
-  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+  padding: 10px;
+  padding-bottom: 0.1px;
+  background-color: rgb(98,98,98);
+  margin-left: 20px;
+  margin-right: 20px;
 
 }
 
@@ -510,61 +529,103 @@ table.body {
 }
 
 .priceMenus {
-  text-align: center;
+  text-align: left;
 }
 
 select.priceSelect {
+  margin-top: 10px;
   text-align: center;
-}
-
-table.resultsTable {
-  text-align: center;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  background-color: rgb(249, 222, 188);
+  width: 250px;
+  height: 40px;
   border-radius: 5px;
-  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+  background-color: rgb(238, 238, 238);
+  padding: 5px;
+  border: solid transparent;
+  border-right: 12px solid transparent;
+  font-size: medium;
 
 }
 
-table.ballers {
+.resultsTable {
+  display: flex;
+  justify-content: space-evenly;
+  white-space: nowrap;
+}
+
+.results-div {
+  padding: 10px;
+}
+
+.results-style {
+  padding-top: 10px;
+  background-color: rgb(248, 248, 248);
+}
+
+.box-team-name {
+  text-align: center;
+  font-size: large;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+
+.ballers {
   text-align: center;
   margin-left:auto; 
   margin-right:auto; 
-  overflow-x: auto;
-  overflow-y: auto;
-  max-height: 100vh;
-  display: block;
-  background-color: rgb(249, 222, 188);
   border-radius: 5px;
-  box-shadow: 3px 3px 5px rgb(56, 29, 0);
+  
+}
 
+.ballers-table {
+  max-height: 100vh;
 }
 
 table.ballers tr:nth-child(even){
-  background-color: rgb(238, 204, 159);
+  background-color: rgb(238, 238, 238);
 }
 
 table.ballers th {
-  background-color: rgb(238, 204, 159);
+  background-color: rgb(193, 193, 193);
 }
 
 .navdiv {
   display: flex;
+  position: relative;
+
   align-items: center;
-  background-color: rgb(0, 0, 0);
+  background-image: linear-gradient(rgb(55,55,55), black 50%);
 }
 
 .nav-item {
-  display: flex;
   padding: 10px;
   width: 100%;
   text-align: center;
-  justify-content: center; 
+  justify-content: center;
 }
 
+.nav-ball {
+  display: flex;
+  padding: 10px;
+  text-align: center;
+  width: max(200px);
+}
+
+.nav-burger {
+  display: none;
+  padding: 10px;
+  width: 100%;
+  
+}
+
+
 .ball {
-  height: 120px;
-  width: 122px;
+  height: 65px;
+  width: 66px;
+}
+
+.nav {
+  width: 100%;
 }
 
 .court {  
@@ -700,6 +761,13 @@ table.ballers th {
 .shots-player {
   margin-left: 10%;
   text-align: left;
+
+}
+
+.search-icon {
+  height: 10px;
+  width: 10px;
+  padding-bottom: 25px;
 }
 
 .career-contaner {
@@ -708,6 +776,8 @@ table.ballers th {
 
 .career-table {
   margin-left: 10%; 
+  margin-bottom: 10px;
+
 }
 
 .box-shadow {
@@ -734,10 +804,382 @@ table.ballers th {
   background-color: rgb(191, 255, 0);
 }
 
+.light-green-block {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(204, 255, 200);
+}
+
+.red-block {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(255, 208, 208);
+}
+
 .margin-left {
   margin-left: 20px;
 }
 
 table.career-table tr:nth-child(even){
   background-color: rgb(238, 238, 238);
+}
+
+.search-container {
+  margin-left: 10%;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.fantasy-background {
+  background-color: white;
+}
+
+.baller-title {
+ color: black;
+}
+
+.team-name {
+  text-align: center;
+  font-size: x-large;
+  background-color: rgb(98,98,98);
+  color: white;
+  padding: 10px;
+
+}
+
+.cpu-team-name {
+  text-align: center;
+  font-size: x-large;
+  background-color: rgb(98,98,98);
+  color: white;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+}
+
+.team-name-label {
+  font-size: x-large;
+
+}
+
+.roster-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  
+
+}
+
+.user-cap-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.team-name-home {
+  padding: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  border-radius: 5px;
+}
+
+.team-name-input {
+  height: 40px;
+  min-width: 250px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: rgb(153, 153, 153);
+}
+
+.team-name-submit {
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
+  width: 300px;
+}
+.team-name-submit:hover {
+  background-color: rgb(131, 131, 131);
+}
+
+.fantasy-container {
+  margin-left: 10%;
+  margin-right: 10%;
+
+  display: flex;
+}
+
+.inner-fantasy-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.price-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-drop-title {
+  color: rgb(98,98,98);
+  font-size:small;
+  font-weight: 600;
+  text-align: left;
+  max-width: 500px;
+}
+
+.predictions-info {
+  color: rgb(98,98,98);
+  font-size:small;
+  font-weight: 600;
+  text-align: left;
+}
+
+.textfield-div {
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+
+.high-scores {
+  text-align: center;
+  font-size: x-large;
+  font-weight: 600;
+}
+
+.top-right {
+  background-color: rgb(98, 98, 98);
+  padding: 10px;
+  text-align: center;
+  color: white;
+  max-width: 400px;
+}
+
+.results-flex {
+  display: flex;
+  font-size: large;
+  justify-content: space-between;
+
+}
+
+.inner-results {
+  margin-right: 10px;
+}
+
+.vs {
+  font-size: xxx-large;
+  margin-top: 250px;
+  font-family: fantasy;
+}
+
+.predictions-drop-flex {
+  display: flex;
+  max-width: 500px;
+}
+
+.predictions-box-flex {
+  display: flex;
+}
+
+.inner-predictions {
+  padding: 10px;
+}
+
+.logo-flex {
+  display: flex;
+  align-items: center;
+}
+
+.upcoming-grid {
+  display: grid;
+  grid-template-columns: fit-content(100px) fit-content(100px) minmax(auto, 250px) minmax(auto, 100px);
+  align-items: center;
+  font-size: large;
+  text-align: center;
+  background-color: rgb(238, 238, 238);
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+.historical-grid {
+  display: grid;
+  grid-template-columns: fit-content(100px) fit-content(100px) minmax(auto, 250px) minmax(auto, 100px) minmax(auto, 100px);
+  align-items: center;
+  font-size: medium;
+  text-align: center;
+  background-color: rgb(238, 238, 238);
+  max-width: 500px;
+  margin-bottom: 10px;
+}
+
+.upcoming-game-date {
+  display: grid;
+  grid-column: 1/1;
+  grid-row: 1/4;
+  font-size: large;
+  padding: 20px
+}
+
+.upcoming-headers {
+  font-size: small;
+  font-weight: 600;
+  color: rgb(98, 98, 98);
+}
+
+.historical-headers {
+  font-size: x-small;
+  font-weight: 600;
+  color: rgb(98, 98, 98);
+}
+
+.historical-flex {
+  margin-left: 10%;
+}
+
+.historical-container {
+  margin-right: 20px;
+  max-height: 1500px;
+  overflow: auto
+}
+
+.overall-w-l {
+  font-weight: 600;
+  font-size: small;
+  color:rgb(98,98,98);
+  margin-right: 5px;
+}
+
+.overall-pct {
+  font-weight: 600;
+  font-size: medium;
+  padding-right: 15px;
+}
+
+.overall-flex {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 20px;
+
+}
+
+.main-predictions-flex {
+  display: flex;
+}
+
+.team-abbreviation {
+  color: rgb(180,180,180);
+  font-size:x-small;
+  font-weight: 600;
+  text-align: left;
+}
+
+.fantasy-home-flex {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+.copyright-line {
+  height: 5px;
+  background-color: rgb(98,98,98);
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.copyright {
+  color: white;
+  text-align: center;
+  font-size: medium;
+}
+
+.logo-nav-container {
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  animation: fadeIn 5s;
+  -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
+}
+
+.footer {
+  background-image: linear-gradient(white, rgb(98,98,98));
+  padding-bottom: 20px;
+}
+
+.hamburger {
+  border: 0;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: rgb(98, 98, 98); 
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.hamburger:hover {
+  background-color: rgb(212, 88, 0); 
+}
+
+.navigation-menu {
+  display: flex;
+  width: 100%;
+  animation: fadeIn 5s;
+  -webkit-animation: fadeIn 5s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
+}
+
+@media screen and (max-width: 768px) {
+  .logo-nav-container {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nav-burger {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navigation-menu {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .navigation-menu.expanded {
+    display: flex;
+    position: absolute;
+    top: 89px;
+    height: 100vh;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0);
+    z-index: 500;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nav-item {
+    padding: 50px;
+    background-color: black;
+    outline-style: ridge;
+    outline-color: rgb(55,55,55, .2);
+    outline-width: 10px;
+
+
+  }
 }

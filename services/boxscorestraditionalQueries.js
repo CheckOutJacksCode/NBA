@@ -82,11 +82,13 @@ const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
                 AVG(COALESCE(CAST(turnovers AS NUMERIC), 0.0)) AS TO, 
                 AVG(COALESCE(CAST(pf AS NUMERIC), 0.0)) AS PF, 
                 AVG(COALESCE(CAST(pts AS NUMERIC), 0.0)) AS PTS, 
-                AVG(COALESCE(CAST(plus_minus AS NUMERIC), 0.0)) AS "+/-"
+                AVG(COALESCE(CAST(plus_minus AS NUMERIC), 0.0)) AS "+/-",
+                COUNT(DISTINCT "boxscorestraditional${season}".game_id)
                 FROM "boxscorestraditional${season}"
-                INNER JOIN "boxscoresummary${season}"
-                ON "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
+                inner join "boxscoresummary2022-2023"
+                on "boxscorestraditional2022-2023".game_id = "boxscoresummary2022-2023".game_id
                 WHERE player_id = $1
+                AND "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
                 AND "boxscorestraditional${season}".game_id < $2
                 GROUP BY player_id, player_name, team_id, team_abbreviation`, [playerid, gameId], (error, results) => {
         if (error) {
@@ -121,9 +123,10 @@ const getBoxScoreTraditional82GameAveragesWholeSeason = async(request, response,
                 AVG(COALESCE(CAST(pts AS NUMERIC), 0.0)) AS PTS, 
                 AVG(COALESCE(CAST(plus_minus AS NUMERIC), 0.0)) AS "+/-"
                 FROM "boxscorestraditional${season}"
-                INNER JOIN "boxscoresummary${season}"
-                ON "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
+                inner join "boxscoresummary${season}"
+                on "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
                 WHERE player_id = $1
+                AND "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
                 GROUP BY player_id, player_name, team_id, team_abbreviation`, [playerid], (error, results) => {
         if (error) {
             return next(error);

@@ -18,6 +18,7 @@ import Table from '../components/Table';
 import ResultsTableBody from '../components/ResultsTableBody';
 import ResultsTableHead from '../components/ResultsTableHead';
 import $35Ballers from '../components/$35Ballers';
+import UserSalary from '../components/UserSalary';
 
 const Fantasy = () => {
 
@@ -79,44 +80,214 @@ const Fantasy = () => {
     }
 
     return (
-        <div>
-
-            <h4 className='caption'>Draft your team from the drop down menus, then click 'Lock in Roster' to
-                face off against the computer. Must draft 10 players, with a total salary
-                of $35 or less.
-            </h4>
-            <div className='priceMenus'>
-                <Price selectedSeason={selectedSeason} 
-                        roster={roster} setRoster={setRoster} 
-                        teamSalary={teamSalary} 
-                        setTeamSalary={setTeamSalary}
-                        errorMessage={errorMessage}
-                        setErrorMessage={setErrorMessage}
-                        usedPlayers={usedPlayers}
-                        setUsedPlayers={setUsedPlayers}
-                        selectedPlayer={selectedPlayer}
-                        setSelectedPlayer={setSelectedPlayer}
-                        oneDollarPlayers={oneDollarPlayers}
-                        setOneDollarPlayers={setOneDollarPlayers}
-                        twoDollarPlayers={twoDollarPlayers}
-                        setTwoDollarPlayers={setTwoDollarPlayers}
-                        threeDollarPlayers={threeDollarPlayers}
-                        setThreeDollarPlayers={setThreeDollarPlayers}
-                        fourDollarPlayers={fourDollarPlayers}
-                        setFourDollarPlayers={setFourDollarPlayers}
-                        fiveDollarPlayers={fiveDollarPlayers}
-                        setFiveDollarPlayers={setFiveDollarPlayers}
-                        sixDollarPlayers={sixDollarPlayers}
-                        setSixDollarPlayers={setSixDollarPlayers}
-                        sevenDollarPlayers={sevenDollarPlayers}
-                        setSevenDollarPlayers={setSevenDollarPlayers}
-                         />
+        <div className='fantasy-background'>
+            <br></br>
+            <div className='statistics-title'>
+                Fantasy Draft Mini Game
             </div>
-            <br>
+            <div className='yellow-line'>
+            </div>
+
+            {!lockFlag ?
+            <>
+            <div className='fantasy-container'>
+                { submitFlag ?
+                <div className='inner-fantasy-container'>
+                    <h4 className='price-drop-title'>- DRAFT YOUR TEAM FROM THE DROP-DOWN MENUS<br></br>
+                                                - MUST DRAFT 10 PLAYERS WITHOUT EXCEEDING THE $35 CAP<br></br>
+                                                - TOP 5 ROSTER SLOTS MAKE UP STARTING LINEUP, BOTTOM 5 ARE BENCH PLAYERS<br></br>
+                                                - STARTERS' STATS WORTH TWICE AS MUCH AS BENCH PLAYERS<br></br>
+                                                - DRAG AND DROP PLAYERS TO MOVE ROSTER POSITIONS, 'X' TO WAIVE PLAYER<br></br>
+                                                - CLICK 'LOCK IN ROSTER' TO FACE OFF AGAINST THE COMPUTER
+                    </h4>
+                    <div className='priceMenus'>
+                        <Price selectedSeason={selectedSeason} 
+                                roster={roster} setRoster={setRoster} 
+                                teamSalary={teamSalary} 
+                                setTeamSalary={setTeamSalary}
+                                errorMessage={errorMessage}
+                                setErrorMessage={setErrorMessage}
+                                usedPlayers={usedPlayers}
+                                setUsedPlayers={setUsedPlayers}
+                                selectedPlayer={selectedPlayer}
+                                setSelectedPlayer={setSelectedPlayer}
+                                oneDollarPlayers={oneDollarPlayers}
+                                setOneDollarPlayers={setOneDollarPlayers}
+                                twoDollarPlayers={twoDollarPlayers}
+                                setTwoDollarPlayers={setTwoDollarPlayers}
+                                threeDollarPlayers={threeDollarPlayers}
+                                setThreeDollarPlayers={setThreeDollarPlayers}
+                                fourDollarPlayers={fourDollarPlayers}
+                                setFourDollarPlayers={setFourDollarPlayers}
+                                fiveDollarPlayers={fiveDollarPlayers}
+                                setFiveDollarPlayers={setFiveDollarPlayers}
+                                sixDollarPlayers={sixDollarPlayers}
+                                setSixDollarPlayers={setSixDollarPlayers}
+                                sevenDollarPlayers={sevenDollarPlayers}
+                                setSevenDollarPlayers={setSevenDollarPlayers}
+                                 />
+                    </div>
+                </div>
+                :
+                ''}
+                <div className='roster-container'>
+                    <div>
+                        {submitFlag ?
+                        <div className='team-name'>
+                            {teamName.value}
+                        </div>
+                        :
+                        ''}
+                    </div>
+                    <div>
+                        {roster.length > 0 ? <Dnd dragRoster={dragRoster} setDragRoster={setDragRoster} roster={roster} setRoster={setRoster} deletePlayer={deletePlayer} /> : ''}
+                    </div>
+                </div>
+                {submitFlag ?
+                <div className='user-cap-container'>
+                    <div className='top-right'>
+                        <ErrorMessages errorMessage={errorMessage} setErrorMessage={setErrorMessage} roster={roster} />
+                        <UserSalary teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
+                        <UserCapSpace teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
+                        <LockButton lockFlag={lockFlag} setLockFlag={setLockFlag} roster={roster} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
+                    </div>
+                    <br></br>
+                    <$35Ballers teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
+                </div>
+                :
+                ''}
+            </div>
+            <br></br>
+            {submitFlag ?
+            <>
+                <h1>
+                    All Players
+                </h1>
+                <div>
+                    {selectedSeason ? tableChoice : 'loading'}
+                </div>
+            </>
+            :
+            ""}
+            </>
+            :
+            <>
+                <div className='fantasy-container'>
+                    <div className='roster-container'>
+                        <div>
+                            {submitFlag ?
+                            <div className='team-name'>
+                                {teamName.value}
+                            </div>
+                            :
+                            ''}
+                        </div>
+                        <div>
+                            {roster.length > 0 ? <Dnd dragRoster={dragRoster} setDragRoster={setDragRoster} roster={roster} setRoster={setRoster} deletePlayer={deletePlayer} /> : ''}
+                        </div>
+                    </div>
+                    <div className='vs'>
+                        VS.
+                    </div>
+                    <div>
+                        <ComputerTeamName cpuRoster={cpuRoster} cpuName={cpuName} setCpuName={setCpuName} />
+                            <ComputerRoster selectedSeason={selectedSeason}
+                                            usedPlayers={usedPlayers}
+                                            setUsedPlayers={setUsedPlayers}
+                                            selectedPlayer={selectedPlayer}
+                                            setSelectedPlayer={setSelectedPlayer}
+                                            oneDollarPlayers={oneDollarPlayers}
+                                            setOneDollarPlayers={setOneDollarPlayers}
+                                            twoDollarPlayers={twoDollarPlayers}
+                                            setTwoDollarPlayers={setTwoDollarPlayers}
+                                            threeDollarPlayers={threeDollarPlayers}
+                                            setThreeDollarPlayers={setThreeDollarPlayers}
+                                            fourDollarPlayers={fourDollarPlayers}
+                                            setFourDollarPlayers={setFourDollarPlayers}
+                                            fiveDollarPlayers={fiveDollarPlayers}
+                                            setFiveDollarPlayers={setFiveDollarPlayers}
+                                            sixDollarPlayers={sixDollarPlayers}
+                                            setSixDollarPlayers={setSixDollarPlayers}
+                                            sevenDollarPlayers={sevenDollarPlayers}
+                                            setSevenDollarPlayers={setSevenDollarPlayers}
+                                            roster={roster}
+                                            cpuRoster={cpuRoster}
+                                            setCpuRoster={setCpuRoster}
+                                            lockFlag={lockFlag}
+                                            setLockFlag={setLockFlag} />
+                    </div>
+                    <div>
+                        <div className='results-style'>
+                            <MatchupResults lockFlag={lockFlag} 
+                                    setLockFlag={setLockFlag}
+                                    dragRoster={dragRoster} 
+                                    selectedSeason={selectedSeason} 
+                                    roster={roster} 
+                                    cpuRoster={cpuRoster} 
+                                    setCpuRoster={setCpuRoster}
+                                    gameResultsUser={gameResultsUser}
+                                    setGameResultsUser={setGameResultsUser}
+                                    gameResultsCpu={gameResultsCpu}
+                                    setGameResultsCpu={setGameResultsCpu}
+                                    totalRatingUser={totalRatingUser}
+                                    setTotalRatingUser={setTotalRatingUser}
+                                    totalRatingCpu={totalRatingCpu}
+                                    setTotalRatingCpu={setTotalRatingCpu} />
+                            <div className='resultsTable'>
+                                <div className='results-div'>
+                                    <div className='box-team-name'>
+                                        {teamName.value}
+                                    </div>
+                                    { gameResultsUser.length > 0 ? <ResultsTableBody columns={columns} tableData={gameResultsUser} /> : null }
+                                </div>
+                                <div className='results-div'>
+                                    <div className='box-team-name'>
+                                        {cpuName}
+                                    </div>
+                                    { gameResultsCpu.length > 0 ? <ResultsTableBody columns={columns} tableData={gameResultsCpu} /> : null }
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <$35Ballers lockflag={lockFlag} teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
+                        </div>
+                    </div>
+                </div>
+                <h1>
+                    All Players
+                </h1>
+                <div>
+                    {selectedSeason ? tableChoice : 'loading'}
+                </div>
+            </>
+            }
+    
+            {!submitFlag ?
+            <div className='fantasy-home-flex'> 
+                <div className='team-name-home'>
+                    <TeamName submitFlag={submitFlag} setSubmitFlag={setSubmitFlag} teamName={teamName} setTeamName={setTeamName} />
+                </div>
+                <div style={{maxWidth: '300px'}}>
+                    <$35Ballers lockflag={lockFlag} teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
+                </div>
+            </div>
+            :
+            ""}
+        </div>
+    );
+};
+
+
+
+export default Fantasy;
+
+/*
+<br>
+
+            
             </br>
             <div className="fantasyGrid">
                 <div className="col25">
-                    <TeamName submitFlag={submitFlag} setSubmitFlag={setSubmitFlag} teamName={teamName} setTeamName={setTeamName} />
                     {roster.length > 0 ? <Dnd dragRoster={dragRoster} setDragRoster={setDragRoster} roster={roster} setRoster={setRoster} deletePlayer={deletePlayer} /> : ''}
                 </div>
                 <div className="col25">
@@ -208,8 +379,4 @@ const Fantasy = () => {
                     <$35Ballers teamName={teamName} teamSalary={teamSalary} totalRatingUser={totalRatingUser} />
                 </div>
             </div>
-        </div>
-    );
-};
-
-export default Fantasy;
+            */

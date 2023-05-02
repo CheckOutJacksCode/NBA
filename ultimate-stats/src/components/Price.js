@@ -143,7 +143,7 @@ const Price = ({ selectedSeason,
         } else {
             if (selectedPlayer) {
                 console.log("Release a player to sign another. Team must have 10 players with a combined salary under $36");
-                setErrorMessage("Release a player to sign another. Team must have 10 players with a combined salary under $36");
+                setErrorMessage("RELEASE A PLAYER TO SIGN ANOTHER. TEAM MUST HAVE 10 PLAYERS WITH A COMBINED SALARY OF $35 OR LESS");
             }
         }
     }, [selectedPlayer])
@@ -215,7 +215,7 @@ const Price = ({ selectedSeason,
     }
 
     return (
-     <>
+     <div className="price-flex">
         <select className="priceSelect" value="0" onChange={handlePlayerChange}>
           <option value="0">$7 Players</option>
 
@@ -272,7 +272,7 @@ const Price = ({ selectedSeason,
           ))}
           
         </select>
-     </>
+     </div>
     );
 };
 

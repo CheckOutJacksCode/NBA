@@ -5,6 +5,8 @@ import SeasonsDropdown from '../components/SeasonsDropdown';
 import TableDropdown from '../components/TableDropDown';
 import hoop from '../apis/hoop';
 import LeadersStatTable from '../components/LeadersStatTable';
+import SearchBar from '../components/SearchBar';
+import CareerStats from '../components/CareerStats';
 
 const Home = () => {
 
@@ -53,6 +55,9 @@ const Home = () => {
     const [miscStats, setMiscStats] = useState([]);
     const [hustleStats, setHustleStats] = useState([]);
     const [statLabels, setStatLabels] = useState(traditionalLabels);
+    const [allPlayers, setAllPlayers] = useState([]);
+    const [inputText, setInputText] = useState('');
+    const [selectedPlayer, setSelectedPlayer] = useState('');
 
     useEffect(() => {
 
@@ -161,12 +166,25 @@ const Home = () => {
     }, [selectedSeason, tableName])
 
 
+    useEffect(() => {
+        const getAllPlayers = async() => {
+            let results = await hoop.get(`/api/playersNBA/allPlayers`);
+            setAllPlayers(results.data);
+        }
+        getAllPlayers();
+    }, [])
+
     return (
+        <>
+        <br></br>
         <div>
             <div className='statistics-title'>
                 NBA Advanced Statistics
             </div>
             <div className='yellow-line'>
+            </div>
+            <div className="search-container">
+                <SearchBar allPlayers={allPlayers} inputText={inputText} setInputText={setInputText} selectedPlayer={selectedPlayer} setSelectedPlayer={setSelectedPlayer} />
             </div>
             <div className='dropDownFlex'>
               <SeasonsDropdown seasonsData={seasonsData} 
@@ -183,23 +201,33 @@ const Home = () => {
                                   setSelectedSeason={setSelectedSeason} />
             </div>
             <div className="table-container">
-
-            <div className="leaders-grid">
-              {stats.length > 0 ? stats.map((stat, index) => (
-                <div key={index} className="leaders-stat">
-                  <LeadersStatTable stat={stat} index={index} statLabels={statLabels} />
+                <div>
+                {
+                  selectedPlayer ? <CareerStats player_id={selectedPlayer.playerid} selectedPlayer={selectedPlayer.full_name} />
+                  :
+                  ''
+                }
                 </div>
-              )) : 'loading'}
-            </div>
-            <br></br>
-            <h1>
-                All Players
-            </h1>
-            <div>
-                {selectedSeason ? tableChoice : 'loading'}
-            </div>
+                <h2 className="shots-player">
+                    {selectedSeason + ' League Leaders'}
+                </h2>
+                <div className="leaders-grid">
+                  {stats.length > 0 ? stats.map((stat, index) => (
+                    <div key={index} className="leaders-stat">
+                      <LeadersStatTable stat={stat} index={index} statLabels={statLabels} selectedSeason={selectedSeason} />
+                    </div>
+                  )) : 'loading'}
+                </div>
+                <br></br>
+                <h1>
+                    All Players
+                </h1>
+                <div>
+                    {selectedSeason ? tableChoice : 'loading'}
+                </div>
           </div>
         </div>
+    </>
     )
 }
 

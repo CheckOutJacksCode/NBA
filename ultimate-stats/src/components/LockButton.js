@@ -9,7 +9,7 @@ const LockButton = ({ lockFlag, setLockFlag, roster, errorMessage, setErrorMessa
     }
 
     function sendError() {
-        setErrorMessage('Must draft 10 players')
+        setErrorMessage('MUST DRAFT 10 PLAYERS')
     }
 
     return (

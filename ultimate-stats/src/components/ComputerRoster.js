@@ -64,7 +64,7 @@ const ComputerRoster = ({ selectedSeason,
                     break;
                 }
             }
-            setLockFlag(false)
+            //setLockFlag(false)
         }
         if (lockFlag) {
             console.log(lockFlag)
@@ -179,9 +179,9 @@ const ComputerRoster = ({ selectedSeason,
     
     return (
         <>
-            <table className="center">
+            <div className="center">
                 <CpuTableBody columns={columns} tableData={cpuRoster} />
-            </table>
+            </div>
         </>
     )
 }

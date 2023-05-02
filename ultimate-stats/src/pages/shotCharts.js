@@ -7,9 +7,12 @@ const ShotCharts = () => {
 
 
     return (
+        <>
+        <br></br>
         <div className="priceMenus">
             <Dropdown label="" />
         </div>
+        </>
     )
 };
 

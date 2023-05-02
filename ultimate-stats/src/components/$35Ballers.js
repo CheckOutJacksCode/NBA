@@ -4,7 +4,7 @@ import BallerTableBody from "./BallerTableBody";
 import TableHead from "./TableHead";
 import hoop from "../apis/hoop";
 
-const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
+const $35Ballers = ({ lockflag, teamName, teamSalary, totalRatingUser }) => {
     
     const [baller, setBaller] = useState([]);
     const [postBaller, setPostBaller] = useState(false);
@@ -58,18 +58,25 @@ const $35Ballers = ({ teamName, teamSalary, totalRatingUser }) => {
         { label: 'SCORE', accessor: 'score' },
         { label: 'SALARY', accessor: 'salary' }
     ]
+    //<button onClick={handleClick}>Submit High Score</button>
 
     return (
-        <div>
-            <div className="centerText">
-                <button onClick={handleClick}>Submit High Score</button>
+        <>
+            {lockflag ? <button className="submitButton" onClick={handleClick}>Submit High Score</button>
+            :
+            ''}
+            <div className="high-scores">
+                High Scores
             </div>
             { ballers.length > 0 ? 
-            <table className="ballers">
-                <TableHead columns={columns}/>
-                <BallerTableBody columns={columns} tableData={ballers} />
-            </table> : null }
-        </div>
+            <div style={{maxHeight: '300px', overflow: 'auto'}}>
+                <table className="ballers">
+                    <TableHead columns={columns}/>
+                    <BallerTableBody columns={columns} tableData={ballers} />
+                </table>
+            </div> : null }
+            
+        </>
     )
 }
 

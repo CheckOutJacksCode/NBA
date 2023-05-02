@@ -1,31 +1,62 @@
 import '../App.css';
 import React, { useEffect, useState } from "react";
-
 import hoop from "../apis/hoop";
+import HistoricalGrid from './HistoricalGrid';
 
-
-const HistoricalResults = ({selectedSeason, setSelectedSeason}) => {
+const HistoricalResults = ({selectedSeason, setSelectedSeason, selectedTeam, setSelectedTeam}) => {
 
     const [historicalResults, setHistoricalResults] = useState([]);
+    const [historicalResultsByTeam, setHistoricalResultsByTeam] = useState([]);
 
+ 
     useEffect(() => {
 
         const getHistoricalResults = async() => {
-
-            let results = await hoop.get(`/api/gambling/historicalResults/${selectedSeason}`);
-            console.log(results.data);
-            setHistoricalResults(results.data);
+            let results;
+            if (selectedTeam === '0' || selectedTeam === '') {
+                results = await hoop.get(`/api/gambling/historicalResults/${selectedSeason}`);
+                console.log(results.data);
+                setHistoricalResults(results.data);
+            } else {
+                results = await hoop.get(`/api/gambling/historicalResults/ByTeam/${selectedTeam}/${selectedSeason}`);
+                console.log(results.data);
+                setHistoricalResults(results.data);
+            }
         }
         if (selectedSeason) {
             getHistoricalResults();
         }
-    }, [selectedSeason])
+    }, [selectedSeason, selectedTeam])
+/*
+    useEffect(() => {
+
+        const getHistoricalResultsByTeam = async() => {
+
+            let results = await hoop.get(`/api/gambling/historicalResults/ByTeam/${selectedTeam}/${selectedSeason}`);
+            console.log(results.data);
+            setHistoricalResultsByTeam(results.data);
+        }
+        if (selectedSeason && selectedTeam) {
+            getHistoricalResultsByTeam();
+        }
+    }, [selectedSeason, selectedTeam])
+*/
 
     return (
-        <div className='gridContainer'>
+        <div className="historical-container">
             {historicalResults.map((game, index) => (
-                
-                game.green_red === 'green' ? 
+                <div key={index}>
+                    <HistoricalGrid game={game} />
+                </div>
+            ))}
+        </div>
+    )
+}
+
+export default HistoricalResults;
+
+/*
+ game.green_red === 'green' ? 
                 <div className="historicalGreen" key={index}>
                     <p className='gamedate'>{game.game_date}</p>
                     <div className="column25predictions">
@@ -91,7 +122,4 @@ const HistoricalResults = ({selectedSeason, setSelectedSeason}) => {
                 </div>
             ))}
         </div>
-    )
-}
-
-export default HistoricalResults;
+        */

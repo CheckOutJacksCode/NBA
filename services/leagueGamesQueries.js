@@ -6,7 +6,7 @@ const createCsvWriter = require('csv-writer');
 const getGamesBySeason = async(request, response, next) => {
     let season = request.params;
     try {
-        let games = await require(`../juicystats/leaguegames${season['season']}.json`);
+        let games = await require(`../juicystats/leaguegamesTEST${season['season']}.json`);
         response.status(200).send(games);  
     } catch (error) {
         return next(error);
@@ -29,7 +29,9 @@ const getGamesBySeasonLocal = async(request, response, next) => {
 const getGamesBySeasonJackarithm = async(request, response, next) => {
     let season = request.params;
     season = season["season"];
-    db.query(`SELECT "leagueGames${season}".*, "boxscoresummary${season}".home_team_id, "boxscoresummary${season}".visitor_team_id
+    db.query(`SELECT "leagueGames${season}".*,
+                "boxscoresummary${season}".home_team_id, 
+                "boxscoresummary${season}".visitor_team_id
                 FROM "leagueGames${season}"
                 INNER JOIN "boxscoresummary${season}"
                 ON "boxscoresummary${season}".game_id = "leagueGames${season}".game_id

@@ -75,6 +75,8 @@ const { checkAuthenticated } = require('./userRouter');
  */
 router.post('/', checkAuthenticated, playersNBA.createPlayersNBA);
 
+
+router.get('/allPlayers', playersNBA.getAllIdsNames);
 /**
  * @swagger
  * /api/playersNBA:

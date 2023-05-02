@@ -237,7 +237,7 @@ def leaguegames():
 
 	content = json.loads(response.get_json())
 	jsonContent = json.dumps(content)
-	with open("./juicystats/leaguegames2022-2023.json", "w") as outfile:
+	with open("./juicystats/leaguegamesTEST2022-2023.json", "w") as outfile:
 	    outfile.write(jsonContent)
 
 def leaguehustlestats():
@@ -767,7 +767,7 @@ def getOdds():
             print(i)
             rowSet = [
                 'upcoming',
-                data[i]['commence_time'][0:10] + ' ' + data[i]['home_team'],
+                data[i]['commence_time'][0:10],
                 data[i]['home_team'],
                 data[i]['away_team'],
                 str(data[i]['bookmakers'][0]['markets'][0]['outcomes'][0]['price']),
@@ -777,7 +777,7 @@ def getOdds():
         else:
             rowSet = [
                 'upcoming',
-                data[i]['commence_time'][0:10] + ' ' + data[i]['home_team'],
+                data[i]['commence_time'][0:10],
                 data[i]['home_team'],
                 data[i]['away_team'],
                 'no odds available',
@@ -866,5 +866,5 @@ def boxScoreMiscFunction(gameid):
 ##getPlayerIds()
 ##readBoxScoreSummary()
 ##writeNBAplayers()
-##getOdds()
+getOdds()
 ##readLeagueMisc()

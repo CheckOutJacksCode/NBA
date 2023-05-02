@@ -33,9 +33,9 @@ const ComputerTeamName = ({ cpuRoster, cpuName, setCpuName }) => {
 
     return (
         <>
-            <h4 className="teamName">
+            <div className="cpu-team-name">
                 {cpuName ? cpuName : ''}
-            </h4>
+            </div>
         </>
     )
 }

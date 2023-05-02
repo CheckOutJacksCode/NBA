@@ -182,8 +182,13 @@ const getPostObject = async(game, season, previousSeason) => {
 const getExpected = async(game, season, previousSeason) => {
     let stat = "+/-";
     let homeTeamId = game.home_team_id;
+    console.log(homeTeamId)
+    console.log(game)
+    console.log(season)
+    console.log(previousSeason)
 
     let homePrevious = await getJsonResponseJackorithm(`/api/boxScoresTraditional/previousgameid/${game.game_id}/${season}/${homeTeamId}`)
+    console.log(homePrevious)
     if (homePrevious.length < 1) {
         homePrevious = '1';
     } else {
@@ -191,6 +196,7 @@ const getExpected = async(game, season, previousSeason) => {
     }
 
     let homeRoster = await getRoster(season, homeTeamId, homePrevious);
+    console.log(homeRoster)
     let visitorTeamId = game.visitor_team_id;
     let visitorPrevious = await getJsonResponseJackorithm(`/api/boxScoresTraditional/previousgameid/${game.game_id}/${season}/${visitorTeamId}`)
     
@@ -201,12 +207,12 @@ const getExpected = async(game, season, previousSeason) => {
     }
 
     let visitorRoster = await getRoster(season, visitorTeamId, visitorPrevious);
-
+    console.log(visitorRoster)
     let homeExpected = await getExpectedFromRoster(season, 'home', homeRoster, homePrevious, stat, previousSeason);
-
+    console.log(homeExpected)
 
     let visitorExpected = await getExpectedFromRoster(season, 'visitor', visitorRoster, visitorPrevious, stat, previousSeason);
-
+    console.log(visitorExpected)
     return [ homeTeamId, homeExpected, visitorTeamId, visitorExpected];
 }
 
@@ -219,12 +225,14 @@ const getExpectedFromRoster = async(season, H_or_V, roster, previousGameId, stat
         let averages;
         if (previousGameId !== '1') {
             averages = await getJsonResponseJackorithm(`/api/boxScoresTraditional/averages/82games/${previousGameId}/${roster[i].player_id}/${season}/${H_or_V}`)
+            console.log(averages)
             if (averages.length > 0) {
                 totalMins += parseFloat(averages[0].min);
                 totalStat += parseFloat(averages[0][stat]);
 
             } else {
                 averages = await getJsonResponseJackorithm(`/api/boxScoresTraditional/averages/82games/${roster[i].player_id}/${previousSeason}/${H_or_V}`)
+                console.log(averages)
                 if (averages.length > 0) {
                     totalMins += parseFloat(averages[0].min);
                     totalStat += parseFloat(averages[0][stat]);
@@ -303,7 +311,8 @@ const getExpectedFromRoster = async(season, H_or_V, roster, previousGameId, stat
 const getGames = async(season) => {
     let previousSeason = await getPreviousYear(season);
     let games = await getJsonResponseJackorithm(`/api/leagueGames/withboxscoresummary/${season}`)
-    for (let i = 884; i < games.length; i++) {
+    console.log(games.length)
+    for (let i = 0; i < games.length; i++) {
         console.log(i)
         await getPostObject(games[i], season, previousSeason)
     }

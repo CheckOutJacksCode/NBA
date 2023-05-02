@@ -11,14 +11,14 @@ const ErrorMessages = ({ errorMessage, setErrorMessage, roster }) => {
         const resetError = async() => {
             setErrorMessage('');
         }
-        if (errorMessage === 'Must draft 10 players' && roster.length === 10) {
-            resetError();
-        }
+        //if (errorMessage === 'MUST DRAFT 10 PLAYERS' && roster.length === 10) {
+        resetError();
+        //}
     }, [roster])
 
     return (
         <div className="errorMessage">
-            { roster.length > 0 ? errorMessage : '' }
+            { roster ? errorMessage : '' }
         </div>
     )
 

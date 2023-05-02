@@ -108,6 +108,18 @@ const getPriceAllPlayers = (request, response, next) => {
     })
 }
 
+const getAllIdsNames = (request, response, next) => {
+    db.query(`SELECT playerid, full_name FROM "playersNBA"`, (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        response.status(200).json(results.rows)
+
+    })
+}
+
+
+
 module.exports = {
     createPlayersNBA,
     getOfficialPlayerIdWithLastFirst,
@@ -116,4 +128,5 @@ module.exports = {
     getOfficialPlayerIdWithFullName,
     getPlayerIdWithShotTable,
     getPriceAllPlayers,
+    getAllIdsNames,
 }

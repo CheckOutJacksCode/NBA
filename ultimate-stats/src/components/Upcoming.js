@@ -24,7 +24,7 @@ const Upcoming = ({homeExpectedResults,
         }
     }, [selectedSeason])
     return (
-        <div className='upcomingContainer'>
+        <div>
         {upcomingGames.map((game, index) => (
             <div key={index}>{<ExpectedResults homeExpectedResults={homeExpectedResults}
                                                                     setHomeExpectedResults={setHomeExpectedResults}

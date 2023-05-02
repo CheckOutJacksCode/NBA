@@ -17,20 +17,23 @@ const TeamsDropdown = ({teamsData, setTeamsData, selectedTeam, setSelectedTeam, 
     }, [])
 
     function handleTeamChange(event) {
-        setSelectedTeam(event.target.value);
+        setSelectedTeam(() => event.target.value);
         console.log(selectedTeam)
     }
 
     return (
-        <div>
-        <select value={selectedTeam} onChange={handleTeamChange}>
-          <option value="0">Select {H_or_V}</option>
-
-          {teamsData.map((option, index) => (
-            <option key={index} value={Object.values(option)}>{Object.values(option)}</option>
-          ))}
-          
-        </select>
+        <div className="season-flex">
+          <div className="drop-title">
+              TEAM
+          </div>
+          <select className='season-select' value={selectedTeam} onChange={handleTeamChange}>
+            <option value="0">All Teams</option>
+      
+            {teamsData.map((option, index) => (
+              <option key={index} value={Object.values(option)}>{Object.values(option)}</option>
+            ))}
+            
+          </select>
         </div>
     );
         

@@ -7,7 +7,7 @@ const BallerTableBody = ({ columns, tableData }) => {
             {columns.map(({ accessor }) => {
                 let tData;
                 tData = data[accessor] ? data[accessor] : "——";
-                return <td key={accessor}>{tData}</td>;
+                return <td style={{minWidth: 'fit-content'}} key={accessor}>{tData}</td>;
             })}
            </tr>
           );

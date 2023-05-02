@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import '../App.css';
-
-import hoop from "../apis/hoop";
+import { TextField } from "@mui/material";
 
 const TeamName = ({ submitFlag, setSubmitFlag, teamName, setTeamName }) => {
 
-    useEffect(() => {
-      const getUsers = async() => {
-        let results = await hoop.get('/api/users/fakedb')
-      }
-      getUsers();
-    }, [])
     function handleChange(e) {
         setTeamName({ value: e.target.value });
     }
@@ -19,18 +12,33 @@ const TeamName = ({ submitFlag, setSubmitFlag, teamName, setTeamName }) => {
         setSubmitFlag(true);
     }
 
+    function handleEnter(e) {
+      setSubmitFlag(true);
+  }
+
     return (
         <>
           {submitFlag ? '' : 
             <>
-              <div className="teamNameLabel">Enter Team Name:</div>
-              <input type="text" value={teamName.value} onChange={handleChange} maxLength="50"/>
-              <input type="submit" value="Submit" onClick={handleSubmit} />
+              <div className="team-name-label">
+                Enter team name to begin:
+              </div>
+              <div className="textfield-div">
+              <TextField 
+                  fullWidth
+                  id="outlined-basic"
+                  onChange={handleChange}
+                  variant="outlined"
+                  placeholder="'Newark Prairie Dogs'"
+                  size="small"
+                  style={{backgroundColor: 'white', borderRadius: '5px'}}
+                  value={teamName.value}
+                
+                />
+              </div>
+              <input className="team-name-submit" type="submit" value="Submit" onClick={handleSubmit} />
             </>
           }
-          <h4 className="teamName">
-            {teamName.value ? teamName.value : ''}
-          </h4>
         </>
       );
 }

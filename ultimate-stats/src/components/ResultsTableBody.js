@@ -1,20 +1,20 @@
 const ResultsTableBody = ({ columns, tableData, deletePlayer }) => {
 
   return (
-    <tbody>
+    <>
       {tableData.map((data, index) => (
 
-        <tr key={index}>
-          <td>
+        <div className="results-flex" key={index}>
+          <div className="inner-results">
             {columns[index]}
-          </td>
-          <td>
+          </div>
+          <div>
             {data}
-          </td>
-        </tr>
+          </div>
+        </div>
         
       ))}
-    </tbody>
+    </>
   )
 }
 

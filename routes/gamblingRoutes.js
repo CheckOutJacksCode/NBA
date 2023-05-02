@@ -54,6 +54,7 @@ const { checkAuthenticated } = require('./userRouter');
  *       '404':
  *         description: Invalid Path
  */
+
 router.get('/odds/:season', checkAuthenticated, gambling.getOddsFromCSV);
 
 router.post('/odds/:season', gambling.createOddsBySeason);
@@ -64,11 +65,15 @@ router.post('/newOdds/:season', gambling.createNewOddsBySeason);
 
 router.get('/upcominggames/:season', gambling.getUpcomingGames);
 
-router.post('/matchupResults/:season', gambling.createMatchupResults)
+router.post('/matchupResults/:season', gambling.createMatchupResults);
 
 router.post(`/jackorithm/:season`, gambling.createExpected);
 
 router.get('/winPct/:season', gambling.getWinPercentage);
+
+router.get('/winPctByTeam/:team/:season', gambling.getWinPercentageByTeam);
+
+router.get('/winPctOverall', gambling.getWinPercentageOverall)
 
 /**
  * @swagger
@@ -114,6 +119,8 @@ router.get(`/moneyline/home/:season/:homeTeam/:gamedate`, gambling.getHomeMoneyl
 router.get(`/newOdds/:season/:team/:gamedate/:H_or_V`, gambling.getNewOddsByGameByTeam);
 
 router.get(`/historicalResults/:season`, gambling.getHistoricalResults);
+
+router.get(`/historicalResults/ByTeam/:team/:season`, gambling.getHistoricalResultsByTeam);
 
 /**
  * @swagger

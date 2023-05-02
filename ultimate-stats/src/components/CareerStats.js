@@ -7,7 +7,7 @@ const CareerStats = ({player_id, selectedPlayer}) => {
     const [statlines, setStatlines] = useState([]);
     const [thisSeasonLine, setThisSeasonLine] = useState([]);
 
-
+    console.log(player_id)
     let columns = [
         { label: "SEASON", accessor: "season_id" },
         { label: "TEAM", accessor: "team_abbreviation" },
@@ -54,11 +54,11 @@ const CareerStats = ({player_id, selectedPlayer}) => {
                 return results.data;
             })
            */ 
-            let results = await hoop.get(`/api/regularSeasonStats/getregularseasonstatlines/${player_id.player_id}`)
+            let results = await hoop.get(`/api/regularSeasonStats/getregularseasonstatlines/${typeof player_id === 'string' ? player_id : player_id.player_id}`)
             console.log(results.data)
             setStatlines(results.data)
             let season = '2022-2023';
-            let results2 = await hoop.get(`/api/statranked/career/${season}/${player_id.player_id}`)
+            let results2 = await hoop.get(`/api/statranked/career/${season}/${typeof player_id === 'string' ? player_id : player_id.player_id}`)
             console.log(results2.data)
 
             setThisSeasonLine(results2.data.map((element, index) => {

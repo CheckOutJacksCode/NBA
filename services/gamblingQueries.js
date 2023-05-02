@@ -126,9 +126,18 @@ const getNewOddsByGameByTeam = (request, response, next) => {
 
 const getUpcomingGames = (request, response, next) => {
     const {season} = request.params;
-    db.query(`SELECT * from "newOdds${season}"
-                WHERE commence_time != $1
-                ORDER BY id DESC LIMIT 10`, ['commence_time'], (error, results) => {
+    db.query(`SELECT
+                distinct on(commence_time, home_team) 
+                id,
+                commence_time,
+                home_team,
+                away_team, 
+                home_odds, 
+                away_odds, 
+                game_id
+                from "newOdds${season}"
+                WHERE commence_time != 'commence_time'
+                order by commence_time desc limit 10`, (error, results) => {
         if (error) {
             return next(error);
         }
@@ -179,12 +188,92 @@ const getHistoricalResults = (request, response, next) => {
     })
 }
 
+const getHistoricalResultsByTeam = (request, response, next) => {
+
+    const {team, season} = request.params;
+    console.log(team)
+    console.log(season)
+    db.query(`SELECT * FROM "matchupresults${season}"
+                WHERE home_team = $1
+                OR visitor_team = $1
+                ORDER BY id DESC`, [team], (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 const getWinPercentage = (request, response, next) => {
     let { season } = request.params;
     console.log(season)
     db.query(`SELECT green_red, COUNT(*)
                 FROM "matchupresults${season}"
                 GROUP BY green_red`,
+                (error, results) => {
+        if (error) {
+            return next(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        console.log(results.rows)
+        response.status(200).json(results.rows)
+    })
+}
+
+const getWinPercentageOverall = (request, response, next) => {
+    db.query(`SELECT green_red, COUNT(*)
+                FROM "matchupresults2016-2017"
+                GROUP BY green_red
+                UNION ALL
+                SELECT green_red, COUNT(*)
+                FROM "matchupresults2017-2018"
+                GROUP BY green_red
+                UNION ALL
+                SELECT green_red, COUNT(*)
+                FROM "matchupresults2018-2019"
+                GROUP BY green_red
+                UNION ALL
+                SELECT green_red, COUNT(*)
+                FROM "matchupresults2019-2020"
+                GROUP BY green_red
+                UNION ALL
+                SELECT green_red, COUNT(*)
+                FROM "matchupresults2020-2021"
+                GROUP BY green_red
+                UNION ALL
+                SELECT green_red, COUNT(*)
+                FROM "matchupresults2021-2022"
+                GROUP BY green_red
+                UNION ALL
+                SELECT green_red, COUNT(*)
+                FROM "matchupresults2022-2023"
+                GROUP BY green_red`,
+                (error, results) => {
+        if (error) {
+            console.log(error);
+        }
+        if (results.rows.length === 0 || results.rows[0].count === '0') {
+            return next(new Error( 'Stats Do Not Exist' ));
+        }
+        console.log(results.rows)
+        response.status(200).json(results.rows)
+    })
+}
+
+
+const getWinPercentageByTeam = (request, response, next) => {
+    let { team, season } = request.params;
+    console.log(season)
+    db.query(`SELECT green_red, COUNT(*)
+                FROM "matchupresults${season}"
+                WHERE home_team = $1
+                OR visitor_team = $1
+                GROUP BY green_red`, [team],
                 (error, results) => {
         if (error) {
             return next(error);
@@ -209,4 +298,7 @@ module.exports = {
     getNewOddsByGameByTeam,
     getHistoricalResults,
     getWinPercentage,
+    getHistoricalResultsByTeam,
+    getWinPercentageByTeam,
+    getWinPercentageOverall,
 }

@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from "react";
 import '../App.css';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import styled from "styled-components";
 
+const Xbutton = styled.button`
+border: none;
+padding: 5px;
+color: white;
+background-color: black;
+border-radius: 5px;
+opacity: .5
+` 
 
+const StyledSpan = styled.span`
+  font-size: medium;
+`
 const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => {
     /*
     useState([
@@ -46,14 +58,13 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
     }
 
     const getListStyle = (isDraggingOver) => ({
-      background: isDraggingOver ? 'lightblue' : 'rgb(249, 222, 188)',
-      padding: 8,
+      background: isDraggingOver ? 'lightblue' : 'rgb(98,98,98)',
+      padding: 10,
+      paddingBottom: 0.1,
       width: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',
-      borderRadius: '5px',
       maxWidth: '100%',
-      boxShadow: '3px 3px 5px rgb(56, 29, 0)'
     })
 
     const onDragEnd = (result) => {
@@ -114,27 +125,33 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
 */
     const getStarterStyle = (isDragging, draggableStyle) => ({
       userSelect: 'none',
-      padding: 0,
+      padding: 10,
       marginLeft: 'auto',
       marginRight: 'auto',
       maxWidth: '100%',
       marginBottom: '10px',
-      marginTop: '10px',
-      background: isDragging ? 'lightgreen' : 'rgb(180, 253, 120)',
-      boxShadow: '3px 3px 5px rgb(56, 29, 0)',
+      borderRadius: '5px',
+      background: isDragging ? 'lightgreen' : 'rgb(255,255,255)',
+      boxShadow: '3px 3px 5px black',
+      display: 'flex',
+      justifyContent: 'space-between',
+      
       ...draggableStyle
     })
 
     const getBenchStyle = (isDragging, draggableStyle) => ({
       userSelect: 'none',
-      padding: 0,
+      padding: 10,
       maxWidth: '100%',
       marginLeft: 'auto',
       marginRight: 'auto',
       marginBottom: '10px',
-      marginTop: '10px',
-      background: isDragging ? 'lightblue' : 'rgb(213, 196, 176)',
-      boxShadow: '3px 3px 5px rgb(56, 29, 0)',
+      borderRadius: '5px',
+      background: isDragging ? 'lightblue' : 'rgb(238,238,238)',
+      boxShadow: '3px 3px 5px black',
+      display: 'flex',
+      justifyContent: 'space-between',
+      
       ...draggableStyle
     })
 
@@ -154,11 +171,11 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           style={index < 5 ? getStarterStyle(snapshot.isDragging, provided.draggableProps.style) : getBenchStyle(snapshot.isDragging, provided.draggableProps.style)}>
-                          <span>
-                            {'$' + player.salary + ' - ' + player.player}
-                          </span>
+                          <StyledSpan>
+                            {`$${player.salary} - ${player.player} `}&nbsp;
+                          </StyledSpan>
                           <span className="deletePlayer">
-                            <button onClick={()=>(deletePlayer(player))}>x</button>
+                            <Xbutton onClick={()=>(deletePlayer(player))}>x</Xbutton>
                           </span>
                         </div>
                          )}

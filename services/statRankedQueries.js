@@ -404,7 +404,7 @@ const getFg3PctLeaders = (request, response, next) => {
                 AND player_id != 'PLAYER_ID'
                 GROUP BY player_id, player_name, team_id, team_abbreviation
                 HAVING SUM(CAST(fg3m AS FLOAT)) > 81
-                ORDER BY sum(cast(fgm as float)) / NULLIF(sum(cast(fga as float)), 0) DESC LIMIT 5`, (error, results) => {
+                ORDER BY sum(cast(fg3m as float)) / NULLIF(sum(cast(fg3a as float)), 0) DESC LIMIT 5`, (error, results) => {
 
     if (error) {
         throw error;
