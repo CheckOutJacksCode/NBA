@@ -3,11 +3,11 @@ const url = require('url');
 require('dotenv').config();
 
 const config = {
-  user: PG_USER,
+  user: PG_USERNAME,
   host: PG_HOST,
   database: PG_DATABASE,
   password: PG_PASSWORD,
-  port: 5432
+  port: PG_PORT
 };
 
 const pool = new Pool(config);
