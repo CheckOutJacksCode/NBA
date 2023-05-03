@@ -51,7 +51,7 @@ const WinPct = ({ selectedSeason, selectedTeam }) => {
 
 
     return (
-        <div style={{marginBottom: '20px'}}>
+        <div className='win-pct-div'>
             {greenOverall > 0 && redOverall > 0 ?
             <div className='overall-flex' >
                 <div className='overall-w-l'>

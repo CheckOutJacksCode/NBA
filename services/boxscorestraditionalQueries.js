@@ -85,8 +85,8 @@ const getBoxScoreTraditional82GameAverages = async(request, response, next) => {
                 AVG(COALESCE(CAST(plus_minus AS NUMERIC), 0.0)) AS "+/-",
                 COUNT(DISTINCT "boxscorestraditional${season}".game_id)
                 FROM "boxscorestraditional${season}"
-                inner join "boxscoresummary2022-2023"
-                on "boxscorestraditional2022-2023".game_id = "boxscoresummary2022-2023".game_id
+                inner join "boxscoresummary${season}"
+                on "boxscorestraditional${season}".game_id = "boxscoresummary${season}".game_id
                 WHERE player_id = $1
                 AND "boxscorestraditional${season}".team_id = "boxscoresummary${season}".${H_or_V}_team_id
                 AND "boxscorestraditional${season}".game_id < $2

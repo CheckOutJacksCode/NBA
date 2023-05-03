@@ -58,7 +58,7 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
     }
 
     const getListStyle = (isDraggingOver) => ({
-      background: isDraggingOver ? 'lightblue' : 'rgb(98,98,98)',
+      background: isDraggingOver ? 'lightblue' : 'white',
       padding: 10,
       paddingBottom: 0.1,
       width: 'auto',
@@ -131,8 +131,10 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       maxWidth: '100%',
       marginBottom: '10px',
       borderRadius: '5px',
-      background: isDragging ? 'lightgreen' : 'rgb(255,255,255)',
-      boxShadow: '3px 3px 5px black',
+      background: isDragging ? 'lightgreen' : 'rgb(204, 255, 200)',
+      outline: 'outset',
+      outlineWidth: '4px',
+      outlineColor: 'lightgreen',
       display: 'flex',
       justifyContent: 'space-between',
       
@@ -148,7 +150,9 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
       marginBottom: '10px',
       borderRadius: '5px',
       background: isDragging ? 'lightblue' : 'rgb(238,238,238)',
-      boxShadow: '3px 3px 5px black',
+      outline: 'outset',
+      outlineWidth: '4px',
+      outlineColor: 'rgb(210,210,210)',      
       display: 'flex',
       justifyContent: 'space-between',
       

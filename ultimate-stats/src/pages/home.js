@@ -222,7 +222,7 @@ const Home = () => {
                 <h1>
                     All Players
                 </h1>
-                <div>
+                <div className="ultimate-div">
                     {selectedSeason ? tableChoice : 'loading'}
                 </div>
           </div>

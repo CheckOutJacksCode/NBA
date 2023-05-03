@@ -319,7 +319,7 @@ const getGames = async(season) => {
 }
 
 loadUpExpectedBySeasonButton.onclick = async() => {
-    await loadExpectedBySeason('2022-2023');
+    await loadExpectedBySeason('2021-2022');
 }
 
 const loadExpectedBySeason = async(season) => {

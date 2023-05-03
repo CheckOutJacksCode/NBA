@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import '../App.css';
 
 
-const LockButton = ({ lockFlag, setLockFlag, roster, errorMessage, setErrorMessage }) => {
+const LockButton = ({ runItBack, lockFlag, setLockFlag, roster, errorMessage, setErrorMessage }) => {
 
     function toggleLockFlag(event) {
         setLockFlag(true);
@@ -13,7 +13,7 @@ const LockButton = ({ lockFlag, setLockFlag, roster, errorMessage, setErrorMessa
     }
 
     return (
-        <button className="lockButton" onClick={roster.length === 10 ? toggleLockFlag : sendError}>LOCK IN ROSTER</button>
+        <button className="lockButton" onClick={roster.length === 10 ? toggleLockFlag : sendError}>{runItBack ? "Run It Back" : "Lock In Roster"}</button>
     )
 }
 

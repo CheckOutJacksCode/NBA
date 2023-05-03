@@ -251,7 +251,7 @@ li {
 }
 
 div.table_container {
-  max-width: '100%'
+  max-width: '100%';
 }
 
 nav {
@@ -279,23 +279,23 @@ h1 {
 }
 
 .starterRoster {
-  text-align: center;
-
+  min-width: 250px;
   margin-bottom: 10px;
   border-radius: 5px;
-  background-color: white;
-  box-shadow: 3px 3px 5px black;
-
+  background-color: rgb(204, 255, 200);
+  outline: outset;
+  outline-width: 4px;
+  outline-color: lightgreen;
 }
 
 .benchRoster {
-  text-align: center;
+  min-width: 250px;
   border-radius: 5px;
   margin-bottom: 10px;
-
-  background-color: rgb(238,238,238);
-  box-shadow: 3px 3px 5px rgb(0, 0, 0);
-
+  background-color: rgb(238, 238, 238);
+  outline: outset;
+  outline-width: 4px;
+  outline-color: rgb(210,210,210);
 }
 
 .centered {
@@ -423,31 +423,41 @@ h1 {
 }
 
 button.lockButton {
-  margin-top: 10px;
-  border: none;
+  border: outset;
+  border-color: rgb(210,210,210);
+  color: white;
   font-size: medium;
   padding: 10px;
-  background-color: rgb(238, 238, 238);
-  border-radius: 5px;
+  background-image: linear-gradient(rgb(30, 30, 30), black);
+  border-radius: 20px;
   width: 100%
 }
 
 button.submitButton {
-  border: none;
+  border: outset;
+  border-color: rgb(210,210,210);
+  color: white;
   font-size: medium;
   padding: 10px;
-  background-color: rgb(238, 238, 238);
-  width: 100%;
-  margin-bottom: 10px;
+  background-image: linear-gradient(rgb(30, 30, 30), black);
+  border-radius: 20px;
+  width: 100%
 }
 
 button.lockButton:hover {
+  border-color: rgb(111, 255, 0);
   background-color: rgb(0, 0, 0);
-  color: white;
+  color: rgb(111, 255, 0);
 }
 button.submitButton:hover {
+  border-color: rgb(111, 255, 0);
   background-color: rgb(0, 0, 0);
-  color: white;
+  color: rgb(111, 255, 0);
+}
+.team-name-submit:hover {
+  border-color: rgb(111, 255, 0);
+  background-color: rgb(0, 0, 0);
+  color: rgb(111, 255, 0);
 }
 
 span {
@@ -471,13 +481,10 @@ span {
   max-width: 100%;
 }
 
-.cumTable {
-  text-align: center;
-  background-color: rgb(249, 222, 188);
-  border-radius: 5px;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+.ultimate-div {
+  margin-left: 10%;
+  margin-right: 10%;
+  overflow: auto;
 }
 
 table.ultimateTable tr:nth-child(even){
@@ -485,22 +492,13 @@ table.ultimateTable tr:nth-child(even){
 }
 
 table.ultimateTable th {
-  background-color: rgb(47, 47, 47);
-}
-
-table.cumTable tr:nth-child(even){
-  background-color: rgb(238, 204, 159);
-}
-
-table.cumTable th {
-  background-color: rgb(238, 204, 159);
+  background-image: linear-gradient(rgb(30, 30, 30), black);
 }
 
 .center {
   text-align: center;
   padding: 10px;
   padding-bottom: 0.1px;
-  background-color: rgb(98,98,98);
   margin-left: 20px;
   margin-right: 20px;
 
@@ -556,9 +554,8 @@ select.priceSelect {
   padding: 10px;
 }
 
-.results-style {
+.fireworks-container {
   padding-top: 10px;
-  background-color: rgb(248, 248, 248);
 }
 
 .box-team-name {
@@ -586,7 +583,7 @@ table.ballers tr:nth-child(even){
 }
 
 table.ballers th {
-  background-color: rgb(193, 193, 193);
+  background-image: linear-gradient(rgb(30, 30, 30), black);
 }
 
 .navdiv {
@@ -657,10 +654,12 @@ table.ballers th {
 .dropDownFlex {
   display: flex;
   margin-left: 10%;
+  margin-right: 10%;
 }
 
 .flex-shot-child {
   padding-right: 10px;
+
 }
 
 .grid20 {
@@ -759,9 +758,8 @@ table.ballers th {
 }
 
 .shots-player {
-  margin-left: 10%;
   text-align: left;
-
+  margin-left: 10%;
 }
 
 .search-icon {
@@ -775,9 +773,13 @@ table.ballers th {
 }
 
 .career-table {
-  margin-left: 10%; 
   margin-bottom: 10px;
+}
 
+.career-div {
+  margin-left: 10%;
+  margin-right: 10%;
+  overflow: auto;
 }
 
 .box-shadow {
@@ -841,17 +843,14 @@ table.career-table tr:nth-child(even){
 .team-name {
   text-align: center;
   font-size: x-large;
-  background-color: rgb(98,98,98);
-  color: white;
   padding: 10px;
+  min-width: 270px;
 
 }
 
 .cpu-team-name {
   text-align: center;
   font-size: x-large;
-  background-color: rgb(98,98,98);
-  color: white;
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
@@ -898,16 +897,14 @@ table.career-table tr:nth-child(even){
 }
 
 .team-name-submit {
-  height: 40px;
-  border-radius: 5px;
-  border: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 10px;
-  width: 300px;
-}
-.team-name-submit:hover {
-  background-color: rgb(131, 131, 131);
+  border: outset;
+  border-color: rgb(210,210,210);
+  color: white;
+  font-size: medium;
+  padding: 10px;
+  background-image: linear-gradient(rgb(30, 30, 30), black);
+  border-radius: 20px;
+  width: 100%
 }
 
 .fantasy-container {
@@ -915,6 +912,19 @@ table.career-table tr:nth-child(even){
   margin-right: 10%;
 
   display: flex;
+}
+
+.fantasy-flex {
+  margin-left: 10%;
+  margin-right: 10%;
+
+  display: flex;
+}
+.fantasy-flex-col {
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  flex-direction: column;
 }
 
 .inner-fantasy-container {
@@ -956,10 +966,8 @@ table.career-table tr:nth-child(even){
 }
 
 .top-right {
-  background-color: rgb(98, 98, 98);
   padding: 10px;
   text-align: center;
-  color: white;
   max-width: 400px;
 }
 
@@ -1040,10 +1048,6 @@ table.career-table tr:nth-child(even){
   color: rgb(98, 98, 98);
 }
 
-.historical-flex {
-  margin-left: 10%;
-}
-
 .historical-container {
   margin-right: 20px;
   max-height: 1500px;
@@ -1072,6 +1076,8 @@ table.career-table tr:nth-child(even){
 
 .main-predictions-flex {
   display: flex;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .team-abbreviation {
@@ -1105,7 +1111,7 @@ table.career-table tr:nth-child(even){
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 40px;
   animation: fadeIn 5s;
   -webkit-animation: fadeIn 5s;
   -moz-animation: fadeIn 5s;
@@ -1116,6 +1122,8 @@ table.career-table tr:nth-child(even){
 .footer {
   background-image: linear-gradient(white, rgb(98,98,98));
   padding-bottom: 20px;
+  padding-top: 20px;
+
 }
 
 .hamburger {
@@ -1139,6 +1147,22 @@ table.career-table tr:nth-child(even){
   -moz-animation: fadeIn 5s;
   -o-animation: fadeIn 5s;
   -ms-animation: fadeIn 5s;
+}
+
+.win-pct-div {
+  margin-bottom: 20px;
+}
+
+.buttons-div {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.money-span {
+  color: rgb(20, 201, 0);
+  font-size: large;
 }
 
 @media screen and (max-width: 768px) {
@@ -1165,21 +1189,66 @@ table.career-table tr:nth-child(even){
     display: flex;
     position: absolute;
     top: 89px;
-    height: 100vh;
     flex-direction: column;
     background-color: rgb(0, 0, 0);
     z-index: 500;
+    padding-bottom: 20px;
+    border-radius: 5px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .nav-item {
-    padding: 50px;
+    padding: 20px;
     background-color: black;
-    outline-style: ridge;
-    outline-color: rgb(55,55,55, .2);
-    outline-width: 10px;
+  }
+}
 
+@media screen and (max-width: 768px) {
+  .leaders-grid {
+    display: flex;
+    flex-direction: column;
+  }
+}
 
+@media screen and (max-width: 768px) {
+  .main-predictions-flex {
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .win-pct-div {
+    max-width: 535px;
+  }
+  .historical-container {
+    max-width: 510px;
+    margin-right: 0px;
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .fantasy-container {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dropDownFlex {
+    flex-direction: column;
+  }
+  .svg-container {
+    flex-direction: column; 
+  }
+  .flex-shot-child {
+    padding: 5px;
+  }
+  .season-select {
+    width: 100%;
+    font-size: large;
+  }
+  .drop-title {
+    font-size: medium;
   }
 }

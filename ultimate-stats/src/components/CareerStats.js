@@ -72,8 +72,8 @@ const CareerStats = ({player_id, selectedPlayer}) => {
     }, [player_id])
 
     return (
-        <div>
-            <h2 className="shots-player">
+        <div className="career-div">
+            <h2 style={{textAlign: 'left'}}>
                 {selectedPlayer !== '0' ? selectedPlayer : ''}
             </h2>
             {player_id && selectedPlayer ?

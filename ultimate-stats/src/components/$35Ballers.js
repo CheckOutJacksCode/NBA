@@ -4,54 +4,9 @@ import BallerTableBody from "./BallerTableBody";
 import TableHead from "./TableHead";
 import hoop from "../apis/hoop";
 
-const $35Ballers = ({ lockflag, teamName, teamSalary, totalRatingUser }) => {
+const $35Ballers = ({ ballers, setBallers, highscore, baller, setBaller, lockflag, teamName, teamSalary, totalRatingUser }) => {
     
-    const [baller, setBaller] = useState([]);
-    const [postBaller, setPostBaller] = useState(false);
-    const [ballers, setBallers] = useState([]);
-    
-    let highscore = { name: teamName.value, score: totalRatingUser, salary: teamSalary };
-    
-
-    useEffect(() => {
-        const postBaller = async() => {
-            try {
-                let response = await hoop.post(`/api/users/ballers`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    mode: 'cors',
-                    body: highscore,
-                })
-                if (response.ok) {
-                    
-                    const jsonResponse = response.json();
-                    setPostBaller(true);
-                    return jsonResponse;
-                }
-            } catch (error) {
-                console.log(error);
-            }
-            let results = await hoop.get('/api/users/ballers');
-            setBallers(results.data);
-        }
-        if (baller && totalRatingUser > 0) {
-            postBaller();
-        }
-    }, [baller])
-
-    const handleClick = () => {
-        setBaller(highscore);
-    }
-
-    useEffect(() => {
-        const getBallers = async() => {
-            let results = await hoop.get('/api/users/ballers');
-            setBallers(results.data);
-        }
-        getBallers();
-    }, [])
+    console.log(baller)
 
     let columns = [
         { label: 'TEAM', accessor: 'name' },
@@ -62,9 +17,6 @@ const $35Ballers = ({ lockflag, teamName, teamSalary, totalRatingUser }) => {
 
     return (
         <>
-            {lockflag ? <button className="submitButton" onClick={handleClick}>Submit High Score</button>
-            :
-            ''}
             <div className="high-scores">
                 High Scores
             </div>

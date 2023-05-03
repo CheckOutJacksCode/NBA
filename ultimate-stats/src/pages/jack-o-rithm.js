@@ -36,7 +36,7 @@ const Jackarithm = () => {
             <div className='yellow-line'>
             </div>
             <div className="main-predictions-flex">
-                <div className="historical-flex">
+                <div>
                     <div className="predictions-drop-flex">
                         <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} predictions={true} />
                         <TeamsDropdown teamsData={teamsData} setTeamsData={setTeamsData} selectedTeam={selectedTeam} setSelectedTeam={setSelectedTeam} H_or_V={H_or_V} />

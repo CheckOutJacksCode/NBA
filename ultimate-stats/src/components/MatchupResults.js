@@ -368,17 +368,18 @@ const MatchupResults = ({ lockFlag,
         }
         if (gameResultsUser.length > 0 && gameResultsCpu.length > 0) {
             getTotalResult();
+            setLockFlag(false);
         }
     }, [gameResultsCpu])
 
     
     return (
-      <div className="matchupResults">
+      <h2 className="matchupResults">
         {winLoss ? winLoss : ''}
         <br>
         </br>
         {winLoss ? totalRatingUser.toString() + ' - ' + totalRatingCpu.toString() : ''}
-      </div>
+      </h2>
     );
 }
 

@@ -6,7 +6,7 @@ const UserSalary = ({ roster, teamSalary, setTeamSalary, deletePlayer }) => {
 
     return (
         <div className="teamSalary">
-            Current roster salary:<span style={{color: "rgb(26,255,0)", fontSize: "large"}}>{" $" + teamSalary}</span>
+            Current roster salary:<span className="money-span">{" $" + teamSalary}</span>
         </div>
     )
 }
