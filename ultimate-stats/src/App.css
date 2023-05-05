@@ -115,13 +115,14 @@ div.predictionsHistorical {
   display: flex;
   margin-left: 10%;
   margin-right: 10%;
+  justify-content: space-evenly;
 }
 
 .graph-svg-component {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   overflow-x: auto;
-  border-radius: 10px;
-  padding: 10px;
 
 }
 
@@ -193,6 +194,10 @@ div.predictionsHistorical {
 .upcomingGamedate {
   grid-column: span 3;
   text-align: center;
+}
+
+.upcoming-div {
+  width: 100%;
 }
 
 .column25 {
@@ -279,7 +284,7 @@ h1 {
 }
 
 .starterRoster {
-  min-width: 250px;
+  width: 100%;
   margin-bottom: 10px;
   border-radius: 5px;
   background-color: rgb(204, 255, 200);
@@ -289,7 +294,7 @@ h1 {
 }
 
 .benchRoster {
-  min-width: 250px;
+  width: 100%;
   border-radius: 5px;
   margin-bottom: 10px;
   background-color: rgb(238, 238, 238);
@@ -404,7 +409,7 @@ h1 {
 .errorMessage {
   text-align: center;
   font-size: x-small;
-  color: rgb(255, 247, 0);
+  color: rgb(255, 0, 0);
 }
 
 .column25Salary {
@@ -497,11 +502,6 @@ table.ultimateTable th {
 
 .center {
   text-align: center;
-  padding: 10px;
-  padding-bottom: 0.1px;
-  margin-left: 20px;
-  margin-right: 20px;
-
 }
 
 
@@ -530,10 +530,10 @@ table.body {
   text-align: left;
 }
 
-select.priceSelect {
+.priceSelect {
   margin-top: 10px;
   text-align: center;
-  width: 250px;
+  width: 100%;
   height: 40px;
   border-radius: 5px;
   background-color: rgb(238, 238, 238);
@@ -655,11 +655,12 @@ table.ballers th {
   display: flex;
   margin-left: 10%;
   margin-right: 10%;
+  padding-bottom: 20px;
 }
 
 .flex-shot-child {
-  padding-right: 10px;
-
+  margin-right: 10px;
+  width: 100%;
 }
 
 .grid20 {
@@ -709,7 +710,7 @@ table.ballers th {
   margin-right: 10%;
   font-size: xx-large;
   font-weight: 200;
-  background-image: linear-gradient(to right, rgb(0, 0, 0) , rgb(255, 255, 255));
+  background-image: linear-gradient(rgb(40,40,40), rgb(0, 0, 0));
   color: whitesmoke;
   padding-left: 10px;
   text-align: left;
@@ -729,8 +730,7 @@ table.ballers th {
   border-right: 12px solid transparent;
   background-color: rgb(238, 238, 238);
   border-radius: 5px;
-  min-width: 200px;
-
+  width: 100%;
 }
 .season-option {
   padding: 10px;
@@ -750,11 +750,6 @@ table.ballers th {
 .season-flex {
   display: flex;
   flex-direction: column;
-}
-
-.select-wrapper {
-  padding-bottom: 20px;
-  padding-right: 20px;
 }
 
 .shots-player {
@@ -791,7 +786,13 @@ table.ballers th {
   display: flex;
   text-align: center;
   align-items: center;
-  
+  white-space: nowrap;
+}
+
+.shots-title-flex {
+  display: flex;
+  white-space: nowrap;
+  margin: auto;
 }
 
 .blue-block {
@@ -820,6 +821,7 @@ table.ballers th {
 
 .margin-left {
   margin-left: 20px;
+  width: 100%;
 }
 
 table.career-table tr:nth-child(even){
@@ -844,7 +846,6 @@ table.career-table tr:nth-child(even){
   text-align: center;
   font-size: x-large;
   padding: 10px;
-  min-width: 270px;
 
 }
 
@@ -852,8 +853,7 @@ table.career-table tr:nth-child(even){
   text-align: center;
   font-size: x-large;
   padding: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+
 
 }
 
@@ -865,16 +865,21 @@ table.career-table tr:nth-child(even){
 .roster-container {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
-  
+  width: 100%;
+}
 
+.roster-container-padding {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-right: 30px;
+  padding-left: 30px;
 }
 
 .user-cap-container {
   display: flex;
   flex-direction: column;
-  margin-left: 20px;
-  margin-right: 20px;
+  width: 100%;
 }
 
 .team-name-home {
@@ -910,15 +915,21 @@ table.career-table tr:nth-child(even){
 .fantasy-container {
   margin-left: 10%;
   margin-right: 10%;
-
   display: flex;
+  justify-content: space-evenly;
+}
+
+.matchup-flex {
+  display: flex;
+  justify-content: space-between;
 }
 
 .fantasy-flex {
   margin-left: 10%;
   margin-right: 10%;
-
+  
   display: flex;
+  justify-content: space-between;
 }
 .fantasy-flex-col {
   margin-left: 10%;
@@ -930,7 +941,7 @@ table.career-table tr:nth-child(even){
 .inner-fantasy-container {
   display: flex;
   flex-direction: column;
-  margin-right: 20px;
+  width: 100%;
 }
 
 .price-flex {
@@ -943,7 +954,6 @@ table.career-table tr:nth-child(even){
   font-size:small;
   font-weight: 600;
   text-align: left;
-  max-width: 500px;
 }
 
 .predictions-info {
@@ -986,15 +996,27 @@ table.career-table tr:nth-child(even){
   font-size: xxx-large;
   margin-top: 250px;
   font-family: fantasy;
+  padding: 10px;
+  padding-top: 0px;
+}
+
+.cpu-roster-div {
+  width: 100%;
 }
 
 .predictions-drop-flex {
   display: flex;
-  max-width: 500px;
+  padding-bottom: 20px;
+  width: 100%;
 }
 
 .predictions-box-flex {
   display: flex;
+}
+
+.predictions-season-flex {
+  width: 100%;
+  margin-right: 20px;
 }
 
 .inner-predictions {
@@ -1014,6 +1036,7 @@ table.career-table tr:nth-child(even){
   text-align: center;
   background-color: rgb(238, 238, 238);
   max-width: 500px;
+  min-width: fit-content;
   margin-bottom: 20px;
 }
 
@@ -1024,7 +1047,6 @@ table.career-table tr:nth-child(even){
   font-size: medium;
   text-align: center;
   background-color: rgb(238, 238, 238);
-  max-width: 500px;
   margin-bottom: 10px;
 }
 
@@ -1040,6 +1062,8 @@ table.career-table tr:nth-child(even){
   font-size: small;
   font-weight: 600;
   color: rgb(98, 98, 98);
+  padding: 5px;
+  padding-bottom: 0px;
 }
 
 .historical-headers {
@@ -1054,6 +1078,10 @@ table.career-table tr:nth-child(even){
   overflow: auto
 }
 
+.historical-div {
+  width: 100%;
+}
+
 .overall-w-l {
   font-weight: 600;
   font-size: small;
@@ -1065,6 +1093,8 @@ table.career-table tr:nth-child(even){
   font-weight: 600;
   font-size: medium;
   padding-right: 15px;
+  white-space: nowrap;
+
 }
 
 .overall-flex {
@@ -1123,6 +1153,8 @@ table.career-table tr:nth-child(even){
   background-image: linear-gradient(white, rgb(98,98,98));
   padding-bottom: 20px;
   padding-top: 20px;
+  
+  width: 100%;
 
 }
 
@@ -1163,6 +1195,22 @@ table.career-table tr:nth-child(even){
 .money-span {
   color: rgb(20, 201, 0);
   font-size: large;
+}
+
+.expected-info {
+  color: rgb(98,98,98);
+  font-size:small;
+  font-weight: 600;
+  text-align: left;
+}
+
+.home-season-div {
+  min-width: 250px;
+  margin-right: 20px;
+}
+
+.home-table-div {
+  min-width: 250px;
 }
 
 @media screen and (max-width: 768px) {
@@ -1209,11 +1257,30 @@ table.career-table tr:nth-child(even){
     display: flex;
     flex-direction: column;
   }
+  .home-season-div {
+    padding-bottom: 10px;
+    margin-right: 0px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .main-predictions-flex {
     flex-direction: column-reverse;
+  }
+  .predictions-drop-flex {
+    flex-direction: column;
+  }
+  .predictions-season-flex {
+    padding-bottom: 10px;
+  }
+  .select-wrapper {
+    padding-right: 0px;
+  }
+  .overall-pct {
+    padding-right: 0px;
+  }
+  .overall-flex {
+    margin-right: 0px;
   }
 }
 
@@ -1222,15 +1289,35 @@ table.career-table tr:nth-child(even){
     max-width: 535px;
   }
   .historical-container {
-    max-width: 510px;
     margin-right: 0px;
-
   }
 }
 
 @media screen and (max-width: 768px) {
   .fantasy-container {
     flex-direction: column;
+  }
+  .team-name {
+    min-width: 100%;
+  }
+  .priceSelect {
+    min-width: 100%;
+  }
+  .inner-fantasy-container {
+    margin-right: 0px;
+    padding: 5px;
+  }
+  .roster-container {
+    margin-right: 0px;
+    padding: 5px;
+  }
+  .price-drop-title {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  .roster-container-padding {
+    margin-right: 0px;
+    padding-left: 10px;
   }
 }
 
@@ -1243,6 +1330,7 @@ table.career-table tr:nth-child(even){
   }
   .flex-shot-child {
     padding: 5px;
+    margin-right: 0px;
   }
   .season-select {
     width: 100%;

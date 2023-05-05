@@ -59,8 +59,6 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
 
     const getListStyle = (isDraggingOver) => ({
       background: isDraggingOver ? 'lightblue' : 'white',
-      padding: 10,
-      paddingBottom: 0.1,
       width: 'auto',
       marginLeft: 'auto',
       marginRight: 'auto',

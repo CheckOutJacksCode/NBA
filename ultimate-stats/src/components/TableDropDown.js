@@ -28,19 +28,19 @@ const TableDropdown = ({ tableName, setTableName, setTables, tableChoice, setTab
       }, [])
 */
     const tables = [
-        {stats: 'traditional'},
-        {stats: 'misc'},
-        {stats: 'hustle'}
+        {stats: 'Traditional'},
+        {stats: 'Miscellaneous'},
+        {stats: 'Hustle'}
     ]
 
     useEffect(() => {
 
         const getTable = async() => {
-            if (tableName === 'traditional') {
+            if (tableName === 'Traditional') {
                 setTableChoice(<Table selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />);
-            } else if (tableName === 'misc') {
+            } else if (tableName === 'Miscellaneous') {
                 setTableChoice(<TableMisc selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />);
-            } else if (tableName === 'hustle') {
+            } else if (tableName === 'Hustle') {
                 setTableChoice(<HustleTable selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />);
             }
         }
@@ -54,15 +54,15 @@ const TableDropdown = ({ tableName, setTableName, setTables, tableChoice, setTab
         if (event.target.value === "0") {
             return;
         }
-        else if (event.target.value === 'traditional') {
+        else if (event.target.value === 'Traditional') {
             //setTableChoice(<Table selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />);
-            setTableName('traditional');
-        } else if (event.target.value === 'misc') {
+            setTableName('Traditional');
+        } else if (event.target.value === 'Miscellaneous') {
             //setTableChoice(<TableMisc selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />);
-            setTableName('misc');
-        } else if (event.target.value === 'hustle') {
+            setTableName('Miscellaneous');
+        } else if (event.target.value === 'Hustle') {
             //setTableChoice(<HustleTable selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} />);
-            setTableName('hustle');
+            setTableName('Hustle');
         }
         console.log(selectedSeason)
     }

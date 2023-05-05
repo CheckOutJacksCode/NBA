@@ -49,7 +49,7 @@ const Home = () => {
     const [selectedSeason, setSelectedSeason] = useState('2022-2023');
     const [seasonsData, setSeasonsData] = useState([]);
     const [tableChoice, setTableChoice] = useState(<Table selectedSeason={selectedSeason}/>);
-    const [tableName, setTableName] = useState('traditional');
+    const [tableName, setTableName] = useState('Traditional');
     const [tables, setTables] = useState([]);
     const [stats, setStats] = useState([]);
     const [miscStats, setMiscStats] = useState([]);
@@ -156,9 +156,9 @@ const Home = () => {
             setStats(tempStats);
             setStatLabels(hustleStatLabels);
         }
-        if (tableName === 'traditional') {
+        if (tableName === 'Traditional') {
             getTraditionalLeaders();
-        } else if (tableName === 'misc') {
+        } else if (tableName === 'Miscellaneous') {
             getMiscLeaders();
         } else {
             getHustleLeaders();
@@ -187,10 +187,13 @@ const Home = () => {
                 <SearchBar allPlayers={allPlayers} inputText={inputText} setInputText={setInputText} selectedPlayer={selectedPlayer} setSelectedPlayer={setSelectedPlayer} />
             </div>
             <div className='dropDownFlex'>
+              <div className='home-season-div'>
               <SeasonsDropdown seasonsData={seasonsData} 
                                   setSeasonsData={setSeasonsData} 
                                   selectedSeason={selectedSeason} 
                                   setSelectedSeason={setSelectedSeason} />
+              </div>
+              <div className='home-table-div'>
               <TableDropdown tableName={tableName}
                                   setTableName={setTableName}     
                                   tables={tables} 
@@ -199,6 +202,7 @@ const Home = () => {
                                   setTableChoice={setTableChoice} 
                                   selectedSeason={selectedSeason} 
                                   setSelectedSeason={setSelectedSeason} />
+              </div>
             </div>
             <div className="table-container">
                 <div>

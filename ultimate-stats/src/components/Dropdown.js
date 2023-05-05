@@ -308,7 +308,7 @@ const Dropdown = (props) => {
                 {options}
                 </select>
             </div>
-            <div className='flex-shot-child'>
+            <div className='flex-shot-child' style={{marginRight: '0px'}}>
                 <div className="drop-title">
                   GAME
                 </div>
@@ -318,15 +318,13 @@ const Dropdown = (props) => {
                 </select>
             </div>
         </div>
-        <br></br>
-        <br></br>
         <div className='career-container'>
             <CareerStats player_id={playerid} selectedPlayer={selectedPlayer} />
         </div>
         <div className='svg-container'>
             <div className="graph-svg-component">
-                <div className="shot-colors">
-                    <h1>
+                <div className='shots-title-flex'>
+                    <h1 style={{width: '100%'}}>
                         {shotsData.length > 0 ? `${selectedSeason} Regular Season` : ''}
                     </h1>
                     <div className='margin-left'>
@@ -352,7 +350,7 @@ const Dropdown = (props) => {
                 </div>
             </div>
             <div className="graph-svg-component">
-                <div className="shot-colors">
+                <div className='shots-title-flex'>
                     <h1>
                         {shotsData.length > 0 ? selectedGameDate : ''}
                     </h1>

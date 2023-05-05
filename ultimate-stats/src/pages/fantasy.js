@@ -147,8 +147,20 @@ const Fantasy = () => {
             {!lockFlag && !totalRatingUser ?
             <>
             { submitFlag ?
+            <>
+            <MediaQuery maxWidth={768}>
+                <h4 className='price-drop-title'>- DRAFT YOUR TEAM FROM THE DROP-DOWN MENUS<br></br>
+                                            - MUST DRAFT 10 PLAYERS WITHOUT EXCEEDING THE $35 CAP<br></br>
+                                            - TOP 5 ROSTER SLOTS MAKE UP STARTING LINEUP, BOTTOM 5 ARE BENCH PLAYERS<br></br>
+                                            - STARTERS' STATS WORTH TWICE AS MUCH AS BENCH PLAYERS<br></br>
+                                            - DRAG AND DROP PLAYERS TO MOVE ROSTER POSITIONS, 'X' TO WAIVE PLAYER<br></br>
+                                            - CLICK 'LOCK IN ROSTER' TO FACE OFF AGAINST THE COMPUTER
+                </h4>
+            </MediaQuery>
+            
             <div className='fantasy-flex'>
                 <div className='inner-fantasy-container'>
+                    <MediaQuery minWidth={769}>
                     <h4 className='price-drop-title'>- DRAFT YOUR TEAM FROM THE DROP-DOWN MENUS<br></br>
                                                 - MUST DRAFT 10 PLAYERS WITHOUT EXCEEDING THE $35 CAP<br></br>
                                                 - TOP 5 ROSTER SLOTS MAKE UP STARTING LINEUP, BOTTOM 5 ARE BENCH PLAYERS<br></br>
@@ -156,6 +168,15 @@ const Fantasy = () => {
                                                 - DRAG AND DROP PLAYERS TO MOVE ROSTER POSITIONS, 'X' TO WAIVE PLAYER<br></br>
                                                 - CLICK 'LOCK IN ROSTER' TO FACE OFF AGAINST THE COMPUTER
                     </h4>
+                    </MediaQuery>
+                    <MediaQuery maxWidth={768}>
+                    <div className='top-right'>
+                        <ErrorMessages errorMessage={errorMessage} setErrorMessage={setErrorMessage} roster={roster} />
+                        <UserSalary teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
+                        <UserCapSpace teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
+                        <LockButton lockFlag={lockFlag} setLockFlag={setLockFlag} roster={roster} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
+                    </div>
+                    </MediaQuery>
                     <div className='priceMenus'>
                         <Price selectedSeason={selectedSeason} 
                                 roster={roster} setRoster={setRoster} 
@@ -184,15 +205,7 @@ const Fantasy = () => {
                                  />
                     </div>
                 </div>
-                <div className='roster-container'>
-                    <MediaQuery maxWidth={768}>
-                    <div className='top-right'>
-                        <ErrorMessages errorMessage={errorMessage} setErrorMessage={setErrorMessage} roster={roster} />
-                        <UserSalary teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
-                        <UserCapSpace teamSalary={teamSalary} setTeamSalary={setTeamSalary} deletePlayer={deletePlayer} />
-                        <LockButton lockFlag={lockFlag} setLockFlag={setLockFlag} roster={roster} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
-                    </div>
-                    </MediaQuery>
+                <div className='roster-container-padding'>
                     <div>
                         {submitFlag ?
                         <h2 className='team-name'>
@@ -221,6 +234,7 @@ const Fantasy = () => {
                 </div>
                 </MediaQuery>
             </div>
+            </>
             :
             ''}
             
@@ -299,7 +313,7 @@ const Fantasy = () => {
                             ''}
                         </div>
                     </div>
-                    <div style={{display: 'flex'}}>
+                    <div className='matchup-flex'>
                         <div className='roster-container'>
                             <div>
                                 {submitFlag ?
@@ -316,7 +330,7 @@ const Fantasy = () => {
                         <div className='vs'>
                             VS.
                         </div>
-                        <div>
+                        <div className='cpu-roster-div'>
                             <ComputerTeamName cpuRoster={cpuRoster} cpuName={cpuName} setCpuName={setCpuName} />
                                 <ComputerRoster selectedSeason={selectedSeason}
                                                 usedPlayers={usedPlayers}
@@ -349,7 +363,7 @@ const Fantasy = () => {
 
                 <MediaQuery minWidth={769}>
                 <div className='fantasy-container'>
-                    <div style={{display: 'flex'}}>
+                    <div className='matchup-flex'>
                         <div className='roster-container'>
                             <div>
                                 {submitFlag ?
@@ -366,7 +380,7 @@ const Fantasy = () => {
                         <div className='vs'>
                             VS.
                         </div>
-                        <div>
+                        <div className='cpu-roster-div'>
                             <ComputerTeamName cpuRoster={cpuRoster} cpuName={cpuName} setCpuName={setCpuName} />
                                 <ComputerRoster selectedSeason={selectedSeason}
                                                 usedPlayers={usedPlayers}

@@ -7,7 +7,10 @@ const Layout = () => {
   return (
     <>
       <Navbar />
+      <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
       <Outlet />
+      </div>
+
       <Footer />
     </>
   );

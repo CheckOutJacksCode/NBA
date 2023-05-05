@@ -36,10 +36,15 @@ const Jackarithm = () => {
             <div className='yellow-line'>
             </div>
             <div className="main-predictions-flex">
-                <div>
+                <div className="historical-div">
                     <div className="predictions-drop-flex">
-                        <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} predictions={true} />
-                        <TeamsDropdown teamsData={teamsData} setTeamsData={setTeamsData} selectedTeam={selectedTeam} setSelectedTeam={setSelectedTeam} H_or_V={H_or_V} />
+                        <div className="predictions-season-flex">
+                            <SeasonsDropdown seasonsData={seasonsData} setSeasonsData={setSeasonsData} selectedSeason={selectedSeason} setSelectedSeason={setSelectedSeason} predictions={true} />
+                        </div>
+                        <div className="predictions-season-flex">
+                            <TeamsDropdown teamsData={teamsData} setTeamsData={setTeamsData} selectedTeam={selectedTeam} setSelectedTeam={setSelectedTeam} H_or_V={H_or_V} />
+                        </div>
+
                     </div>
                     <div>
                         <WinPct selectedSeason={selectedSeason} selectedTeam={selectedTeam} />
@@ -66,7 +71,7 @@ const Jackarithm = () => {
                     </div>
                 </div>
                 <div className="upcoming-div">
-                    <h4 className='price-drop-title'>EXPECTED SCORE:<br></br>
+                    <h4 className='expected-info'>EXPECTED SCORE:<br></br>
                                                 - HOME AND VISITOR ROSTERS ARE PULLED FROM EACH TEAM'S PREVIOUS GAME'S BOX SCORE<br></br>
                                                 - EACH PLAYER'S 82-GAME PLUS-MINUS AND MINUTES AVERAGES ARE TOTALLED <br></br>
                                                   (82-GAME AVERAGES ARE CALCULATED USING EVERY GAME'S BOX SCORE UP UNTIL THE GAME DATE IN QUESTION, EVEN IF PLAYER DID NOT PLAY)<br></br>
