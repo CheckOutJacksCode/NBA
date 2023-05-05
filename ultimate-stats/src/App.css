@@ -1213,6 +1213,13 @@ table.career-table tr:nth-child(even){
   min-width: 250px;
 }
 
+.roster-label {
+  font-style: italic;
+  font-size: small;
+  text-align: center;
+  margin-bottom: 10px;
+} 
+
 @media screen and (max-width: 768px) {
   .logo-nav-container {
     padding: 0;
@@ -1312,12 +1319,13 @@ table.career-table tr:nth-child(even){
     padding: 5px;
   }
   .price-drop-title {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 5%;
+    margin-right: 5%;
   }
   .roster-container-padding {
     margin-right: 0px;
     padding-left: 10px;
+    padding-right: 0px;
   }
 }
 
@@ -1338,5 +1346,55 @@ table.career-table tr:nth-child(even){
   }
   .drop-title {
     font-size: medium;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .svg-container {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .ultimate-div {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .dropDownFlex {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .leaders-grid {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .statistics-title {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .yellow-line {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .career-div {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .fantasy-container {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .fantasy-flex {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .fantasy-flex-col {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .main-predictions-flex {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .search-container {
+    margin-left: 5%;
   }
 }

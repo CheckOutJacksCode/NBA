@@ -160,6 +160,8 @@ const Dnd = ({ dragRoster, setDragRoster, roster, setRoster, deletePlayer }) => 
     return (
 
       <>
+        <div className="roster-label">Drag and drop players to change starting lineup (green)</div>
+        
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" >
             {(provided, snapshot) => (
